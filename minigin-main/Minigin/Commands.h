@@ -10,11 +10,16 @@ public:
 	virtual ~Command() = default;
 	virtual void Execute() = 0;
 
-protected:
-	GameObject* GetGameActor() const { return m_pGameObject; }
+	void SetKeyPressed(bool keyPressed) { m_KeyPressed = keyPressed; };
 
 protected:
+	GameObject* GetGameActor() const { return m_pGameObject; }
 	GameObject* m_pGameObject{};
+
+	bool GetKeyPressed() { return m_KeyPressed; };
+
+private:
+	bool m_KeyPressed{};
 
 };
 
@@ -42,4 +47,14 @@ public:
 	PointCommand(GameObject* gameObj);
 	virtual void Execute() override;
 
+};
+
+class ShootCommand final : public Command
+{
+public:
+	ShootCommand(GameObject* gameObj, const glm::vec3& direction);
+	virtual void Execute() override;
+
+private:
+	glm::vec3 m_Direction{};
 };

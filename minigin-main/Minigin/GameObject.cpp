@@ -40,11 +40,6 @@ void GameObject::NotifyObservers(Event event)
 	m_pSubject->NotifyObservers(event);
 }
 
-std::string GameObject::GetTag() const
-{
-	return m_Tag;
-}
-
 void GameObject::Update(float deltaTime)
 {
 	for (auto& component : m_pComponents)
@@ -52,6 +47,10 @@ void GameObject::Update(float deltaTime)
 		component->Update(deltaTime);
 	}
 
+	for (auto child : m_pChildren)
+	{
+		child->Update(deltaTime);
+	}
 }
 
 void GameObject::FixedUpdate(float deltaTime)
@@ -60,6 +59,11 @@ void GameObject::FixedUpdate(float deltaTime)
 	{
 		component->FixedUpdate(deltaTime);
 	}
+
+	for (auto child : m_pChildren)
+	{
+		child->FixedUpdate(deltaTime);
+	}
 }
 
 void GameObject::Render() const
@@ -67,6 +71,11 @@ void GameObject::Render() const
 	for (auto& component : m_pComponents)
 	{
 		component->Render();
+	}
+
+	for (auto child : m_pChildren)
+	{
+		child->Render();
 	}
 }
 
@@ -103,8 +112,20 @@ std::vector<GameObject*> GameObject::GetChildren() const
 	return m_pChildren;
 }
 
+void GameObject::SetScene(dae::Scene* scene)
+{
+	m_pScene = scene;
+}
+
+dae::Scene* GameObject::GetScene()
+{
+	return m_pScene;
+}
+
 void GameObject::MarkForDeletion()
 {
+	if (!m_pSubject) return;
+
 	m_pSubject->NotifyObservers(Event::ActorDied);
 	m_NeedsDeleting = true;
 }

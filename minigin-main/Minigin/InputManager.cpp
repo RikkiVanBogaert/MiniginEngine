@@ -72,6 +72,10 @@ void dae::InputManager::ProcessInputKeyboard()
 		{
 			keyCommand.second->Execute();
 		}
+		else
+		{
+			keyCommand.second->SetKeyPressed(false);
+		}
 	}
 
 }

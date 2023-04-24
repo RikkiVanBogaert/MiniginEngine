@@ -6,7 +6,12 @@
 
 class ComponentBase;
 
-class GameObject final
+namespace dae
+{
+	class Scene;
+}
+
+class GameObject
 {
 public:
 	virtual void Update(float deltaTime);
@@ -48,7 +53,11 @@ public:
 	//Observer/Subject
 	void MakeObserver(std::shared_ptr<Observer> observer);
 	void NotifyObservers(Event event);
-	std::string GetTag() const;
+	void SetTag(const std::string& tag) { m_Tag = tag; };
+	std::string GetTag() const { return m_Tag; };
+
+	void SetScene(dae::Scene* scene);
+	dae::Scene* GetScene();
 
 	GameObject(const std::string& tag = "noTag");
 	virtual ~GameObject();
@@ -62,10 +71,11 @@ protected:
 
 
 private:
+	dae::Scene* m_pScene{};
 
 	glm::vec3 m_WorldTransform{};
 	glm::vec3 m_RelativeTransform{};
-
+	
 	std::vector<std::shared_ptr<ComponentBase>> m_pComponents{};
 
 	GameObject* m_pParent{};
