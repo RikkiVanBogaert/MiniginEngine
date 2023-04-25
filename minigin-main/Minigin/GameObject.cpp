@@ -47,8 +47,9 @@ void GameObject::Update(float deltaTime)
 		component->Update(deltaTime);
 	}
 
-	for (auto child : m_pChildren)
+	for (auto& child : m_pChildren)
 	{
+		if (child->NeedsDeleting()) continue;
 		child->Update(deltaTime);
 	}
 }
@@ -60,8 +61,9 @@ void GameObject::FixedUpdate(float deltaTime)
 		component->FixedUpdate(deltaTime);
 	}
 
-	for (auto child : m_pChildren)
+	for (auto& child : m_pChildren)
 	{
+		if (child->NeedsDeleting()) continue;
 		child->FixedUpdate(deltaTime);
 	}
 }
@@ -73,8 +75,10 @@ void GameObject::Render() const
 		component->Render();
 	}
 
-	for (auto child : m_pChildren)
+	for (auto& child : m_pChildren)
 	{
+		if (child->NeedsDeleting()) continue;
+
 		child->Render();
 	}
 }
@@ -124,9 +128,8 @@ dae::Scene* GameObject::GetScene()
 
 void GameObject::MarkForDeletion()
 {
-	if (!m_pSubject) return;
-
-	m_pSubject->NotifyObservers(Event::ActorDied);
+	//if (!m_pSubject) return;
+	//m_pSubject->NotifyObservers(Event::ActorDied);
 	m_NeedsDeleting = true;
 }
 

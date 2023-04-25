@@ -14,11 +14,11 @@ public:
 
 	
 	void SetTexture(const std::string& filename);
+	glm::vec2 GetTextureSize() { return m_Texture->GetSize(); };
 
 	//virtual ~TextureComponent();
 
 private:
 	std::shared_ptr<dae::Texture2D> m_Texture{};
-
 };
 

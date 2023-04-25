@@ -56,6 +56,10 @@ void dae::InputManager::ProcessInputControllers()
             {
                 command.second->Execute();
             }
+			else if(controller->GetControllerIndex() == controllerId)
+			{
+				command.second->SetKeyPressed(false);
+			}
 
         }
 

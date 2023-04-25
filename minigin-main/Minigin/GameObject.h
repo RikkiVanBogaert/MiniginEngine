@@ -43,6 +43,8 @@ public:
 
 	glm::vec3 GetWorldTransform();
 	glm::vec3 GetRelativeTransform() const;
+	void SetSize(const glm::vec2& size) { m_Size = size; };
+	glm::vec2 GetSize() const { return m_Size; };
 
 	//Parent stuff
 	void SetParent(GameObject* parent);
@@ -73,8 +75,10 @@ protected:
 private:
 	dae::Scene* m_pScene{};
 
+	//Put all these in one Tranform struct
 	glm::vec3 m_WorldTransform{};
 	glm::vec3 m_RelativeTransform{};
+	glm::vec2 m_Size{};
 	
 	std::vector<std::shared_ptr<ComponentBase>> m_pComponents{};
 

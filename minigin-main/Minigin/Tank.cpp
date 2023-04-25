@@ -4,7 +4,7 @@
 #include "Scene.h"
 #include "Bullet.h"
 
-Tank::Tank()
+RedTank::RedTank()
 {
 	SetTag("redTank"); //make diff Tank prefabs
 
@@ -15,43 +15,73 @@ Tank::Tank()
 	m_pGun = std::make_shared<GameObject>();
 	auto gunTxt = std::make_shared<TextureComponent>(m_pGun.get());
 	gunTxt->SetTexture("Resources/Sprites/RedTankGun.png");
+	SetSize(gunTxt->GetTextureSize());
+
 	m_pGun->AddComponent(gunTxt);
 	m_pGun->SetRelativePos({ -10, -8, 0 });
 	AddChild(m_pGun.get());
 }
 
-void Tank::Update(float)
+void RedTank::Update(float)
 {
-	//RotateGun(deltaTime);
+	CheckOverlap();
 }
 
-void Tank::CheckOverlap()
+void RedTank::CheckOverlap()
 {
-	for (auto o : GetScene()->GetGameObjects())
+	for (auto& o : GetScene()->GetGameObjects())
 	{
-		if (typeid(o) != typeid(Bullet)) return;
+		//if (typeid(o) != typeid(Bullet)) continue;
+		if (o->GetTag() == GetTag()) continue;
 
-		//if(o->GetWorldTransform().x )
+		auto bulletPos = o->GetWorldTransform();
+
+		if (bulletPos.x > GetWorldTransform().x && bulletPos.x < GetWorldTransform().x + GetSize().x &&
+			bulletPos.y > GetWorldTransform().y && bulletPos.y < GetWorldTransform().y + GetSize().y)
+		{
+			//std::cout << "BULLET HIT\n";
+			o->MarkForDeletion();
+		}
 	}
 }
 
-void Tank::RotateGun(float deltaTime)
+BlueTank::BlueTank()
 {
-	float x{ m_pGun->GetRelativeTransform().x };
-	float y{ m_pGun->GetRelativeTransform().y };
+	SetTag("blueTank");
 
-	rotateObject(x, y, 10 * deltaTime);
+	auto blueTankTxt = std::make_shared<TextureComponent>(this);
+	blueTankTxt->SetTexture("Resources/Sprites/BlueTank.png");
+	AddComponent(blueTankTxt);
 
-	m_pGun->SetRelativePos({ x, y, 0 });
-	
+	m_pGun = std::make_shared<GameObject>();
+	auto gunTxt = std::make_shared<TextureComponent>(m_pGun.get());
+	gunTxt->SetTexture("Resources/Sprites/BlueTankGun.png");
+	SetSize(gunTxt->GetTextureSize());
+
+	m_pGun->AddComponent(gunTxt);
+	m_pGun->SetRelativePos({ -10, -8, 0 });
+	AddChild(m_pGun.get());
 }
 
-void Tank::rotateObject(float& x, float& y, float angle) 
+void BlueTank::Update(float)
 {
-	float s = sin(angle);
-	float c = cos(angle);
-	float newX = x * c - y * s;
-	float newY = x * s + y * c;
-	x = newX;
-	y = newY;
+	CheckOverlap();
+}
+
+void BlueTank::CheckOverlap()
+{
+	for (auto& o : GetScene()->GetGameObjects())
+	{
+		//if (typeid(o) != typeid(Bullet)) continue;
+		if (o->GetTag() == GetTag()) continue;
+
+		auto bulletPos = o->GetWorldTransform();
+
+		if (bulletPos.x > GetWorldTransform().x && bulletPos.x < GetWorldTransform().x + GetSize().x &&
+			bulletPos.y > GetWorldTransform().y && bulletPos.y < GetWorldTransform().y + GetSize().y)
+		{
+			//std::cout << "BULLET HIT\n";
+			o->MarkForDeletion();
+		}
+	}
 }

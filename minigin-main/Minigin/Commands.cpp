@@ -71,6 +71,7 @@ void ShootCommand::Execute()
 	glm::vec3 pos = m_pGameObject->GetRelativeTransform(); //put to the middle
 
 	auto bullet = std::make_shared<Bullet>(m_Direction);
+	bullet->SetTag(m_pGameObject->GetTag());
 	bullet->SetRelativePos(pos);
 
 	m_pGameObject->GetScene()->Add(bullet);

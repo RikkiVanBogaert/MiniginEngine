@@ -5,7 +5,7 @@
 Bullet::Bullet(glm::vec3 velocity):
 	m_Velocity{velocity}
 {
-	SetTag("blueTank");
+	//SetTag("bullet");
 
 	auto blueTankTxt = std::make_shared<TextureComponent>(this);
 	blueTankTxt->SetTexture("Resources/Sprites/BulletPlayer.png");
@@ -20,7 +20,7 @@ void Bullet::Update(float deltaTime)
 	if (abs(GetWorldTransform().x) > 1000 ||
 		abs(GetWorldTransform().y) > 1000)
 	{
-		//improve this
+		//improve this, use actual windowSize
 		MarkForDeletion();
 	}
 }

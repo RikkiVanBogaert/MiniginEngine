@@ -44,6 +44,13 @@ void dae::Scene::FixedUpdate(float deltaTime)
 {
 	for (auto& object : m_objects)
 	{
+		if (!object) return;
+
+		if (object->NeedsDeleting())
+		{
+			continue;
+		}
+
 		object->FixedUpdate(deltaTime);
 	}
 }
@@ -52,6 +59,13 @@ void Scene::Render() const
 {
 	for (const auto& object : m_objects)
 	{
+		if (!object) return;
+
+		if (object->NeedsDeleting())
+		{
+			continue;
+		}
+
 		object->Render();
 	}
 }
