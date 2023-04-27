@@ -68,11 +68,15 @@ void ShootCommand::Execute()
 {
 	if (GetKeyPressed()) return;
 
-	glm::vec3 pos = m_pGameObject->GetRelativeTransform(); //put to the middle
 
 	auto bullet = std::make_shared<Bullet>(m_Direction);
 	bullet->SetTag(m_pGameObject->GetTag());
-	bullet->SetRelativePos(pos);
+
+	const glm::vec2 offset{15, 12};
+	glm::vec3 middlePos = { m_pGameObject->GetRelativeTransform().x + m_pGameObject->GetSize().x / 2 - offset.x,
+		m_pGameObject->GetRelativeTransform().y + m_pGameObject->GetSize().y / 2 - offset.y,
+		m_pGameObject->GetRelativeTransform().z };
+	bullet->SetRelativePos(middlePos);
 
 	m_pGameObject->GetScene()->Add(bullet);
 

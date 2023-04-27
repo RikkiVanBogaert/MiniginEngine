@@ -4,9 +4,34 @@
 #include "Scene.h"
 #include "Bullet.h"
 
+
+void Tank::Update(float)
+{
+	CheckOverlap();
+}
+
+void Tank::CheckOverlap()
+{
+	for (auto& o : GetScene()->GetGameObjects())
+	{
+		if (!dynamic_cast<Bullet*>(o.get())) continue;
+		if (o->GetTag() == GetTag()) continue;
+
+		const auto bulletPos = o->GetWorldTransform();
+		const auto bulletSize = o->GetSize();
+
+		if (bulletPos.x + bulletSize.x > GetWorldTransform().x && bulletPos.x < GetWorldTransform().x + GetSize().x / 2 && //use / 2 otherwise hitbox too big
+			bulletPos.y + bulletSize.y > GetWorldTransform().y && bulletPos.y < GetWorldTransform().y + GetSize().y / 1.6f) //same here
+		{
+			o->MarkForDeletion();
+		}
+	}
+}
+
+
 RedTank::RedTank()
 {
-	SetTag("redTank"); //make diff Tank prefabs
+	SetTag("redTank");
 
 	auto blueTankTxt = std::make_shared<TextureComponent>(this);
 	blueTankTxt->SetTexture("Resources/Sprites/RedTank.png");
@@ -20,29 +45,6 @@ RedTank::RedTank()
 	m_pGun->AddComponent(gunTxt);
 	m_pGun->SetRelativePos({ -10, -8, 0 });
 	AddChild(m_pGun.get());
-}
-
-void RedTank::Update(float)
-{
-	CheckOverlap();
-}
-
-void RedTank::CheckOverlap()
-{
-	for (auto& o : GetScene()->GetGameObjects())
-	{
-		//if (typeid(o) != typeid(Bullet)) continue;
-		if (o->GetTag() == GetTag()) continue;
-
-		auto bulletPos = o->GetWorldTransform();
-
-		if (bulletPos.x > GetWorldTransform().x && bulletPos.x < GetWorldTransform().x + GetSize().x &&
-			bulletPos.y > GetWorldTransform().y && bulletPos.y < GetWorldTransform().y + GetSize().y)
-		{
-			//std::cout << "BULLET HIT\n";
-			o->MarkForDeletion();
-		}
-	}
 }
 
 BlueTank::BlueTank()
@@ -61,27 +63,4 @@ BlueTank::BlueTank()
 	m_pGun->AddComponent(gunTxt);
 	m_pGun->SetRelativePos({ -10, -8, 0 });
 	AddChild(m_pGun.get());
-}
-
-void BlueTank::Update(float)
-{
-	CheckOverlap();
-}
-
-void BlueTank::CheckOverlap()
-{
-	for (auto& o : GetScene()->GetGameObjects())
-	{
-		//if (typeid(o) != typeid(Bullet)) continue;
-		if (o->GetTag() == GetTag()) continue;
-
-		auto bulletPos = o->GetWorldTransform();
-
-		if (bulletPos.x > GetWorldTransform().x && bulletPos.x < GetWorldTransform().x + GetSize().x &&
-			bulletPos.y > GetWorldTransform().y && bulletPos.y < GetWorldTransform().y + GetSize().y)
-		{
-			//std::cout << "BULLET HIT\n";
-			o->MarkForDeletion();
-		}
-	}
 }

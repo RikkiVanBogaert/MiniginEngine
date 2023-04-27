@@ -10,6 +10,8 @@ Bullet::Bullet(glm::vec3 velocity):
 	auto blueTankTxt = std::make_shared<TextureComponent>(this);
 	blueTankTxt->SetTexture("Resources/Sprites/BulletPlayer.png");
 	AddComponent(blueTankTxt);
+
+	SetSize(blueTankTxt->GetTextureSize());
 }
 
 void Bullet::Update(float deltaTime)
