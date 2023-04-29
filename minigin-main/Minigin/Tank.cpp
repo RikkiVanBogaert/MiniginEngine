@@ -33,14 +33,14 @@ RedTank::RedTank()
 {
 	SetTag("redTank");
 
-	auto blueTankTxt = std::make_shared<TextureComponent>(this);
-	blueTankTxt->SetTexture("Resources/Sprites/RedTank.png");
-	AddComponent(blueTankTxt);
+	auto redTankTxt = std::make_shared<TextureComponent>(this);
+	redTankTxt->SetTexture("Resources/Sprites/RedTank.png");
+	AddComponent(redTankTxt);
+	SetSize(redTankTxt->GetTextureSize());
 
 	m_pGun = std::make_shared<GameObject>();
 	auto gunTxt = std::make_shared<TextureComponent>(m_pGun.get());
 	gunTxt->SetTexture("Resources/Sprites/RedTankGun.png");
-	SetSize(gunTxt->GetTextureSize());
 
 	m_pGun->AddComponent(gunTxt);
 	m_pGun->SetRelativePos({ -10, -8, 0 });
@@ -54,11 +54,11 @@ BlueTank::BlueTank()
 	auto blueTankTxt = std::make_shared<TextureComponent>(this);
 	blueTankTxt->SetTexture("Resources/Sprites/BlueTank.png");
 	AddComponent(blueTankTxt);
+	SetSize(blueTankTxt->GetTextureSize());
 
 	m_pGun = std::make_shared<GameObject>();
 	auto gunTxt = std::make_shared<TextureComponent>(m_pGun.get());
 	gunTxt->SetTexture("Resources/Sprites/BlueTankGun.png");
-	SetSize(gunTxt->GetTextureSize());
 
 	m_pGun->AddComponent(gunTxt);
 	m_pGun->SetRelativePos({ -10, -8, 0 });

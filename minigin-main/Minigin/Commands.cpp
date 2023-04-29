@@ -5,6 +5,7 @@
 
 #include "Bullet.h"
 #include "Scene.h"
+#include "Level.h"
 
 MoveCommand::MoveCommand(GameObject* gameObj, const glm::vec3& direction)
 {
@@ -16,6 +17,23 @@ void MoveCommand::Execute()
 {
 	if (!m_pGameObject || m_pGameObject->NeedsDeleting()) return;
 
+	//Rotate
+
+
+	//Check level for collision
+	auto sceneObjects = m_pGameObject->GetScene()->GetGameObjects();
+	for (auto& o : sceneObjects)
+	{
+		if (!dynamic_cast<Level*>(o.get())) continue;
+
+		auto pLevel = static_cast<Level*>(o.get());
+		if (!pLevel->CollisionHit(m_pGameObject, m_Direction))
+			return;
+		else
+			break;
+	}
+
+	//Movement
 	glm::vec3 pos = m_pGameObject->GetRelativeTransform();
 	pos.x += m_Direction.x;
 	pos.y += m_Direction.y;

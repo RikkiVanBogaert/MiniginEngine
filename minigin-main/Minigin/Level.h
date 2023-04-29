@@ -10,8 +10,11 @@ public:
 	Level(const std::string& mapFile);
 	virtual ~Level() {};
 
+	bool CollisionHit(GameObject* object, const glm::vec3& dir);
+
 private:
-	std::vector<std::unique_ptr<TextureComponent>> m_TextureVec{};
+	std::vector<std::unique_ptr<GameObject>> m_pBlocks{};
+
 
 	std::vector<int> parse_csv(const std::string& filename);
 };
