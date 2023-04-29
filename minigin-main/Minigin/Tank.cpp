@@ -14,6 +14,7 @@ void Tank::CheckOverlap()
 {
 	for (auto& o : GetScene()->GetGameObjects())
 	{
+		if (o->NeedsDeleting()) return;
 		if (!dynamic_cast<Bullet*>(o.get())) continue;
 		if (o->GetTag() == GetTag()) continue;
 
@@ -24,6 +25,7 @@ void Tank::CheckOverlap()
 			bulletPos.y + bulletSize.y > GetWorldTransform().y && bulletPos.y < GetWorldTransform().y + GetSize().y / 1.6f) //same here
 		{
 			o->MarkForDeletion();
+			GetHit();
 		}
 	}
 }
@@ -47,6 +49,12 @@ RedTank::RedTank()
 	AddChild(m_pGun.get());
 }
 
+void RedTank::GetHit()
+{
+	std::cout << "RED TANK DED\n";
+}
+
+
 BlueTank::BlueTank()
 {
 	SetTag("blueTank");
@@ -63,4 +71,12 @@ BlueTank::BlueTank()
 	m_pGun->AddComponent(gunTxt);
 	m_pGun->SetRelativePos({ -10, -8, 0 });
 	AddChild(m_pGun.get());
+
+	m_pHealth = std::make_shared<dae::HealthCp>(this, 3);
+	AddComponent(m_pHealth);
+}
+
+void BlueTank::GetHit()
+{
+	m_pHealth->ChangeAmount(-1);
 }

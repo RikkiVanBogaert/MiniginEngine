@@ -12,8 +12,11 @@ public:
 	virtual ~Bullet() {};
 
 	virtual void Update(float deltaTime) override;
+	void SetVelocity(glm::vec3 newVel);
+	glm::vec3 GetVelocity() const {	return m_Velocity; }
 
 private:
 	glm::vec3 m_Velocity{};
+	int m_NrBounces{};
 
 };

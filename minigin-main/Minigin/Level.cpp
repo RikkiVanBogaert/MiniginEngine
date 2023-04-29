@@ -1,54 +1,25 @@
 #include "Level.h"
+#include "Scene.h"
+#include "Bullet.h"
 
-using namespace std;
 #include <fstream>
 #include <sstream>
 
+using namespace std;
+
 Level::Level(const std::string& mapFile)
 {
-	auto map = parse_csv(mapFile);
+	CreateMap(mapFile);
+}
 
-	//const int rows{54};
-	const int cols{58};
-	const float size{ 8 };
-	const glm::vec2 startPos{100,10};
-	glm::vec2 pos{startPos};
-	for (int i{}; i < map.size(); ++i)
-	{
-		auto pBlock = std::make_unique<GameObject>();
-		auto pTexture = std::make_shared<TextureComponent>(pBlock.get());
-		switch (map[i])
-		{
-		case 0:
-			pTexture->SetTexture("Resources/Level/wall.png");
-			pBlock->SetTag("Wall");
-			break;
-		case 1:
-			pTexture->SetTexture("Resources/Level/void.png");
-			break;
-		default:
-			pTexture->SetTexture("Resources/Level/path.png");
-			break;
-		}
-		pBlock->AddComponent(pTexture);
-		
-		pBlock->SetRelativePos({ pos.x, pos.y, 0 });
-		pBlock->SetSize({size, size});
-		AddChild(pBlock.get());
-		m_pBlocks.push_back(std::move(pBlock));
-
-		pos.x += size;
-
-		if ((i + 1) % cols == 0)
-		{
-			pos.x = startPos.x;
-			pos.y += size;
-		}
-	}
+void Level::Update(float)
+{
+	UpdateBullets();
 }
 
 bool Level::CollisionHit(GameObject* object, const glm::vec3& dir)
 {
+	//make diff collisions for tank and bullet
 	const auto objectPos = object->GetWorldTransform();
 
 	//const std::vector<glm::vec2> cornerPoints = 
@@ -64,10 +35,11 @@ bool Level::CollisionHit(GameObject* object, const glm::vec3& dir)
 	//{
 	//	rayPoints.push_back({p.x + dir.x * rayLength, p.y + dir.y * rayLength});
 	//}
-
 	const glm::vec2 midPoint = {objectPos.x + object->GetSize().x / 2, objectPos.y + object->GetSize().y / 2};
 	const float rayLength = object->GetSize().x / 2;
-	const glm::vec2 rayPoint = { midPoint.x + dir.x * rayLength, midPoint.y + dir.y * rayLength };
+	const float dirLength = sqrtf(dir.x * dir.x + dir.y * dir.y);
+	const glm::vec3 normalizedDir = { dir.x / dirLength,  dir.y / dirLength, 0 };
+	const glm::vec2 rayPoint = { midPoint.x + normalizedDir.x * rayLength, midPoint.y + normalizedDir.y * rayLength };
 
 	for (const auto& wall : m_pBlocks)
 	{
@@ -86,13 +58,58 @@ bool Level::CollisionHit(GameObject* object, const glm::vec3& dir)
 		if (rayPoint.x > wall->GetWorldTransform().x && rayPoint.x < wall->GetWorldTransform().x + wall->GetSize().x &&
 			rayPoint.y > wall->GetWorldTransform().y && rayPoint.y < wall->GetWorldTransform().y + wall->GetSize().y)
 		{
-			return false;
+			return true;
 		}
 	}
 
-	return true;
+	return false;
 }
 
+
+void Level::CreateMap(const std::string& mapFile)
+{
+	auto map = parse_csv(mapFile);
+
+	//const int rows{54};
+	const int cols{ 58 };
+	const float size{ 8 };
+	const glm::vec2 startPos{ 100,10 };
+	glm::vec2 pos{ startPos };
+	for (int i{}; i < map.size(); ++i)
+	{
+		auto pBlock = std::make_unique<GameObject>();
+		auto pTexture = std::make_shared<TextureComponent>(pBlock.get());
+		AddChild(pBlock.get());
+		pBlock->SetRelativePos({ pos.x, pos.y, 0 });
+		pBlock->SetSize({ size, size });
+		pBlock->AddComponent(pTexture);
+		switch (map[i])
+		{
+		case 0:
+			pTexture->SetTexture("Resources/Level/wall.png");
+			pBlock->SetTag("Wall");
+			break;
+		case 1:
+			pTexture->SetTexture("Resources/Level/void.png");
+			break;
+		default:
+			pTexture->SetTexture("Resources/Level/path.png");
+			pBlock->SetTag("Path");
+			break;
+		}
+
+
+		m_pBlocks.push_back(std::move(pBlock));
+
+		pos.x += size;
+
+		if ((i + 1) % cols == 0)
+		{
+			pos.x = startPos.x;
+			pos.y += size;
+		}
+	}
+}
 
 std::vector<int> Level::parse_csv(const std::string& filename)
 {
@@ -130,4 +147,35 @@ std::vector<int> Level::parse_csv(const std::string& filename)
 
 	std::cout << "File succesfully opened\n";
 	return result;
+}
+
+glm::vec3 Level::GetRandomSpawnPos() const
+{
+	std::vector<int> pathIndexes{};
+	for (int i{}; i < m_pBlocks.size(); ++i)
+	{
+		if (m_pBlocks[i]->GetTag() != "Path") continue;
+
+		pathIndexes.push_back(i);
+	}
+
+	const int rndIndex = rand() % (pathIndexes.size() + 1);
+	const auto spawnPos = m_pBlocks[rndIndex]->GetWorldTransform();
+
+	return spawnPos;
+}
+
+void Level::UpdateBullets()
+{
+	for (auto& o : GetScene()->GetGameObjects())
+	{
+		if (!dynamic_cast<Bullet*>(o.get())) continue;
+
+		auto pBullet = static_cast<Bullet*>(o.get());
+
+		if (CollisionHit(pBullet, pBullet->GetVelocity()))
+		{
+			pBullet->SetVelocity(-pBullet->GetVelocity());
+		}
+	}
 }

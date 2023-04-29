@@ -1,5 +1,6 @@
 #pragma once
 #include "SceneManager.h"
+#include "Level.h"
 
 class GameObject;
 namespace dae
@@ -19,6 +20,8 @@ namespace dae
 		void Render() const;
 
 		std::vector<std::shared_ptr<GameObject>> GetGameObjects() {	return m_objects; }
+		Level* GetActiveLevel() { return m_pActiveLevel; }
+		void SetActiveLevel(Level* level) { m_pActiveLevel = level; }
 
 		~Scene();
 		Scene(const Scene& other) = delete;
@@ -31,6 +34,7 @@ namespace dae
 
 		std::string m_name;
 		std::vector < std::shared_ptr<GameObject>> m_objects{};
+		Level* m_pActiveLevel;
 
 		static unsigned int m_idCounter; 
 	};

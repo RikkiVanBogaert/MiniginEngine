@@ -1,6 +1,9 @@
 #pragma once
-#include <memory>
 #include "GameObject.h"
+#include "CounterCp.h"
+
+#include <memory>
+
 
 class Tank : public GameObject
 {
@@ -12,9 +15,11 @@ public:
 
 protected:
 	std::shared_ptr<GameObject> m_pGun;
+	std::shared_ptr<dae::HealthCp> m_pHealth;
 
 private:
 	void CheckOverlap();
+	virtual void GetHit() {};
 };
 
 class RedTank final : public Tank
@@ -22,6 +27,9 @@ class RedTank final : public Tank
 public:
 	RedTank();
 	virtual ~RedTank() {};
+
+private:
+	virtual void GetHit() override;
 };
 
 class BlueTank final : public Tank
@@ -29,6 +37,9 @@ class BlueTank final : public Tank
 public:
 	BlueTank();
 	virtual ~BlueTank() {};
+
+private:
+	virtual void GetHit() override;
 
 };
 

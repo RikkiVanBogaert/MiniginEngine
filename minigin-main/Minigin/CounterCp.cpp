@@ -20,9 +20,8 @@ void CounterCp::ChangeAmount(int difference)
 {
 	m_Counter += difference;
 
-	if (m_Counter < 0)
+	if (m_Counter <= 0)
 	{
-		m_Counter = 0;
 		m_pOwner->MarkForDeletion();
 	}
 }
@@ -34,7 +33,7 @@ void CounterCp::SetAmount(int newHealth)
 
 	m_Counter = newHealth;
 
-	if (m_Counter == 0)
+	if (m_Counter <= 0)
 		m_pOwner->MarkForDeletion();
 }
 

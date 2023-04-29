@@ -27,7 +27,7 @@ void MoveCommand::Execute()
 		if (!dynamic_cast<Level*>(o.get())) continue;
 
 		auto pLevel = static_cast<Level*>(o.get());
-		if (!pLevel->CollisionHit(m_pGameObject, m_Direction))
+		if (pLevel->CollisionHit(m_pGameObject, m_Direction))
 			return;
 		else
 			break;
@@ -94,10 +94,10 @@ void ShootCommand::Execute()
 	auto bullet = std::make_shared<Bullet>(m_Direction);
 	bullet->SetTag(m_pGameObject->GetTag());
 
-	const glm::vec2 offset{15, 12};
-	glm::vec3 middlePos = { m_pGameObject->GetRelativeTransform().x + m_pGameObject->GetSize().x / 2 - offset.x,
-		m_pGameObject->GetRelativeTransform().y + m_pGameObject->GetSize().y / 2 - offset.y,
-		m_pGameObject->GetRelativeTransform().z };
+
+	glm::vec3 middlePos = { m_pGameObject->GetWorldTransform().x + m_pGameObject->GetSize().x / 2 - bullet->GetSize().x / 2,
+		m_pGameObject->GetWorldTransform().y + m_pGameObject->GetSize().y / 2 - bullet->GetSize().y / 2,
+		0 };
 	bullet->SetRelativePos(middlePos);
 
 	m_pGameObject->GetScene()->Add(bullet);
