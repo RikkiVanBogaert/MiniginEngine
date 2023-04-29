@@ -132,6 +132,9 @@
     <ClInclude Include="Bullet.h">
       <Filter>Game Files\Prefabs</Filter>
     </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Game Files\Prefabs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseComponent.cpp">
@@ -234,6 +237,9 @@
       <Filter>Game Files\Component Files</Filter>
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
+      <Filter>Game Files\Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
       <Filter>Game Files\Prefabs</Filter>
     </ClCompile>
   </ItemGroup>

@@ -14,6 +14,8 @@ MoveCommand::MoveCommand(GameObject* gameObj, const glm::vec3& direction)
 
 void MoveCommand::Execute()
 {
+	if (!m_pGameObject || m_pGameObject->NeedsDeleting()) return;
+
 	glm::vec3 pos = m_pGameObject->GetRelativeTransform();
 	pos.x += m_Direction.x;
 	pos.y += m_Direction.y;
@@ -28,7 +30,7 @@ DieCommand::DieCommand(GameObject* gameObj)
 
 void DieCommand::Execute()
 {
-	if (!m_pGameObject) return;
+	if (!m_pGameObject || m_pGameObject->NeedsDeleting()) return;
 
 	if(auto health = m_pGameObject->GetComponent<dae::HealthCp>())
 	{
@@ -43,7 +45,7 @@ PointCommand::PointCommand(GameObject* gameObj)
 
 void PointCommand::Execute()
 {
-	if (!m_pGameObject) return;
+	if (!m_pGameObject || m_pGameObject->NeedsDeleting()) return;
 
 	if (GetKeyPressed()) return;
 
@@ -66,6 +68,8 @@ ShootCommand::ShootCommand(GameObject* gameObj, const glm::vec3& direction)
 
 void ShootCommand::Execute()
 {
+	if (!m_pGameObject || m_pGameObject->NeedsDeleting()) return;
+
 	if (GetKeyPressed()) return;
 
 
