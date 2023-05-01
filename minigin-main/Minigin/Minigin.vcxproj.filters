@@ -19,9 +19,6 @@
     <Filter Include="Game Files\Imgui">
       <UniqueIdentifier>{455d3cac-702a-49f9-8083-5cf81755ec89}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game Files\Prefabs">
-      <UniqueIdentifier>{be23e5c3-a128-489e-9d93-f2d3f33d48e6}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
@@ -123,18 +120,6 @@
     <ClInclude Include="UICp.h">
       <Filter>Game Files\Component Files</Filter>
     </ClInclude>
-    <ClInclude Include="Tank.h">
-      <Filter>Game Files\Prefabs</Filter>
-    </ClInclude>
-    <ClInclude Include="GunCp.h">
-      <Filter>Game Files\Component Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>Game Files\Prefabs</Filter>
-    </ClInclude>
-    <ClInclude Include="Level.h">
-      <Filter>Game Files\Prefabs</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseComponent.cpp">
@@ -212,9 +197,6 @@
     <ClCompile Include="Controller.cpp">
       <Filter>Scene Files</Filter>
     </ClCompile>
-    <ClCompile Include="Commands.cpp">
-      <Filter>Game Files</Filter>
-    </ClCompile>
     <ClCompile Include="CounterCp.cpp">
       <Filter>Game Files\Component Files</Filter>
     </ClCompile>
@@ -226,18 +208,6 @@
     </ClCompile>
     <ClCompile Include="UICp.cpp">
       <Filter>Game Files\Component Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Tank.cpp">
-      <Filter>Game Files\Prefabs</Filter>
-    </ClCompile>
-    <ClCompile Include="GunCp.cpp">
-      <Filter>Game Files\Component Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>Game Files\Prefabs</Filter>
-    </ClCompile>
-    <ClCompile Include="Level.cpp">
-      <Filter>Game Files\Prefabs</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

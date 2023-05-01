@@ -204,7 +204,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BaseComponent.h" />
-    <ClInclude Include="Bullet.h" />
     <ClInclude Include="Commands.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Event.h" />
@@ -212,7 +211,6 @@
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="CounterCp.h" />
-    <ClInclude Include="GunCp.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_impl_opengl2.h" />
@@ -223,7 +221,6 @@
     <ClInclude Include="imgui\imstb_textedit.h" />
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="InputManager.h" />
-    <ClInclude Include="Level.h" />
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="Observers.h" />
     <ClInclude Include="Renderer.h" />
@@ -233,7 +230,6 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="Singleton.h" />
     <ClInclude Include="Subject.h" />
-    <ClInclude Include="Tank.h" />
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="TextureComponent.h" />
@@ -243,14 +239,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseComponent.cpp" />
-    <ClCompile Include="Bullet.cpp" />
-    <ClCompile Include="Commands.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="CounterCp.cpp" />
-    <ClCompile Include="GunCp.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
@@ -260,7 +253,6 @@
     <ClCompile Include="imgui\imgui_tables.cpp" />
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="InputManager.cpp" />
-    <ClCompile Include="Level.cpp" />
     <ClCompile Include="Minigin.cpp" />
     <ClCompile Include="Observers.cpp" />
     <ClCompile Include="Renderer.cpp" />
@@ -269,7 +261,6 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Subject.cpp" />
-    <ClCompile Include="Tank.cpp" />
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="TextureComponent.cpp" />

@@ -1,11 +1,11 @@
-#include "Commands.h"
+#include "GameCommands.h"
 #include "GameObject.h"
 #include "BaseComponent.h"
 #include "CounterCp.h"
 
-#include "Bullet.h"
 #include "Scene.h"
 #include "Level.h"
+#include "Bullet.h"
 
 MoveCommand::MoveCommand(GameObject* gameObj, const glm::vec3& direction)
 {
@@ -50,7 +50,7 @@ void DieCommand::Execute()
 {
 	if (!m_pGameObject || m_pGameObject->NeedsDeleting()) return;
 
-	if(auto health = m_pGameObject->GetComponent<dae::HealthCp>())
+	if (auto health = m_pGameObject->GetComponent<dae::HealthCp>())
 	{
 		health->SetAmount(0);
 	}
@@ -72,7 +72,7 @@ void PointCommand::Execute()
 		points->ChangeAmount(1);
 
 		m_pGameObject->NotifyObservers(ScoredPoint);
-		
+
 	}
 
 	SetKeyPressed(true);

@@ -7,7 +7,7 @@
 class Level final : public GameObject
 {
 public:
-	Level(const std::string& mapFile);
+	Level(std::vector<int> map);
 	virtual ~Level() {};
 
 	virtual void Update(float deltaTime) override;
@@ -18,9 +18,8 @@ public:
 private:
 	std::vector<std::unique_ptr<GameObject>> m_pBlocks{};
 
-	void CreateMap(const std::string& mapFile);
-	std::vector<int> parse_csv(const std::string& filename);
-
+	void CreateMap(std::vector<int> map);
+	
 	void UpdateBullets();
 
 };
