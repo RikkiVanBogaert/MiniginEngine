@@ -146,9 +146,6 @@
     <ClCompile Include="InputManager.cpp">
       <Filter>Scene Files</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Scene Files</Filter>
-    </ClCompile>
     <ClCompile Include="Minigin.cpp">
       <Filter>Scene Files</Filter>
     </ClCompile>

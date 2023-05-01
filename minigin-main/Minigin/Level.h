@@ -22,5 +22,6 @@ private:
 	std::vector<int> parse_csv(const std::string& filename);
 
 	void UpdateBullets();
+
 };
 
