@@ -14,6 +14,7 @@ Scene::~Scene() = default;
 
 void Scene::Add(std::shared_ptr<GameObject> object)
 {
+	m_IsActive = true;
 	object->SetScene(this);
 	m_objects.emplace_back(std::move(object));
 }
@@ -26,6 +27,7 @@ void Scene::Remove(std::shared_ptr<GameObject> object)
 void Scene::RemoveAll()
 {
 	m_objects.clear();
+	m_IsActive = false;
 }
 
 void Scene::Update(float deltaTime)

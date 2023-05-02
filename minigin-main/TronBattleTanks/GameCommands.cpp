@@ -15,7 +15,7 @@ MoveCommand::MoveCommand(GameObject* gameObj, const glm::vec3& direction)
 
 void MoveCommand::Execute()
 {
-	if (!m_pGameObject || m_pGameObject->NeedsDeleting()) return;
+	if (!m_pGameObject || m_pGameObject->NeedsDeleting() || !m_pGameObject->GetScene()->IsActive()) return;
 
 	//Rotate
 
@@ -48,7 +48,7 @@ DieCommand::DieCommand(GameObject* gameObj)
 
 void DieCommand::Execute()
 {
-	if (!m_pGameObject || m_pGameObject->NeedsDeleting()) return;
+	if (!m_pGameObject || m_pGameObject->NeedsDeleting() || !m_pGameObject->GetScene()->IsActive()) return;
 
 	if (auto health = m_pGameObject->GetComponent<dae::HealthCp>())
 	{
@@ -63,7 +63,7 @@ PointCommand::PointCommand(GameObject* gameObj)
 
 void PointCommand::Execute()
 {
-	if (!m_pGameObject || m_pGameObject->NeedsDeleting()) return;
+	if (!m_pGameObject || m_pGameObject->NeedsDeleting() || !m_pGameObject->GetScene()->IsActive()) return;
 
 	if (GetKeyPressed()) return;
 
@@ -86,7 +86,7 @@ ShootCommand::ShootCommand(GameObject* gameObj, const glm::vec3& direction)
 
 void ShootCommand::Execute()
 {
-	if (!m_pGameObject || m_pGameObject->NeedsDeleting()) return;
+	if (!m_pGameObject || m_pGameObject->NeedsDeleting() || !m_pGameObject->GetScene()->IsActive()) return;
 
 	if (GetKeyPressed()) return;
 
@@ -102,5 +102,21 @@ void ShootCommand::Execute()
 
 	m_pGameObject->GetScene()->Add(bullet);
 
+	SetKeyPressed(true);
+}
+
+SkipLevelCommand::SkipLevelCommand(Level* level)
+{
+	m_pLevel = level;
+}
+
+void SkipLevelCommand::Execute()
+{
+	if (!m_pLevel) return;
+
+	if (GetKeyPressed()) return;
+
+	m_pLevel->SkipLevel();
+	
 	SetKeyPressed(true);
 }

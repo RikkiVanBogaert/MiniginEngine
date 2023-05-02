@@ -1,18 +1,71 @@
 #include "Level.h"
 #include "Scene.h"
 #include "Bullet.h"
-
+#include "Scene.h"
+#include "Tank.h"
 
 using namespace std;
 
 Level::Level(std::vector<int> map)
 {
-	CreateMap(map);
+	CreateMap(map, 58);
 }
 
 void Level::Update(float)
 {
 	UpdateBullets();
+}
+
+
+void Level::CreateMap(std::vector<int> map, int columns)
+{
+	
+	//const int rows{54};
+	//const int cols{ 58 };
+	const float size{ 8 };
+	const glm::vec2 startPos{ 100,10 };
+	glm::vec2 pos{ startPos };
+	for (int i{}; i < map.size(); ++i)
+	{
+		auto pBlock = std::make_shared<GameObject>();
+		auto pTexture = std::make_shared<TextureComponent>(pBlock.get());
+		AddChild(pBlock.get());
+		pBlock->SetRelativePos({ pos.x, pos.y, 0 });
+		pBlock->SetSize({ size, size });
+		pBlock->AddComponent(pTexture);
+		switch (map[i])
+		{
+		case 0:
+			pTexture->SetTexture("Resources/Level/wall.png");
+			pBlock->SetTag("Wall");
+			m_pWalls.push_back(pBlock.get());
+			break;
+		case 1:
+			pTexture->SetTexture("Resources/Level/void.png");
+			break;
+		case 3:
+			pTexture->SetTexture("Resources/Level/teleport.png");
+			pBlock->SetTag("Teleport");
+			m_pTeleport.push_back(pBlock.get());
+			break;
+		default:
+			pTexture->SetTexture("Resources/Level/path.png");
+			pBlock->SetTag("Path");
+			m_pPaths.push_back(pBlock.get());
+			break;
+		}
+
+
+		m_pBlocks.push_back(std::move(pBlock));
+
+		pos.x += size;
+
+		if ((i + 1) % columns == 0)
+		{
+			pos.x = startPos.x;
+			pos.y += size;
+		}
+	}
 }
 
 bool Level::CollisionHit(GameObject* object, const glm::vec3& dir)
@@ -39,9 +92,15 @@ bool Level::CollisionHit(GameObject* object, const glm::vec3& dir)
 	const glm::vec3 normalizedDir = { dir.x / dirLength,  dir.y / dirLength, 0 };
 	const glm::vec2 rayPoint = { midPoint.x + normalizedDir.x * rayLength, midPoint.y + normalizedDir.y * rayLength };
 
-	for (const auto& wall : m_pBlocks)
+	if (dynamic_cast<Tank*>(object) && CheckTeleportCollision(rayPoint))
 	{
-		if (wall->GetTag() != "Wall") continue;
+		object->SetRelativePos(GetRandomSpawnPos());
+		return false;
+	}
+
+	for (const auto& wall : m_pWalls)
+	{
+		//if (wall->GetTag() != "Wall") continue;
 
 		//possible improvement: not every corner needs to check every direction (bottomLeft doesnt need to check right/down, etc...
 		/*for (auto r : rayPoints)
@@ -63,66 +122,41 @@ bool Level::CollisionHit(GameObject* object, const glm::vec3& dir)
 	return false;
 }
 
-
-void Level::CreateMap(std::vector<int> map)
-{
-	//auto map = parse_csv(mapFile);
-
-	//const int rows{54};
-	const int cols{ 58 };
-	const float size{ 8 };
-	const glm::vec2 startPos{ 100,10 };
-	glm::vec2 pos{ startPos };
-	for (int i{}; i < map.size(); ++i)
-	{
-		auto pBlock = std::make_unique<GameObject>();
-		auto pTexture = std::make_shared<TextureComponent>(pBlock.get());
-		AddChild(pBlock.get());
-		pBlock->SetRelativePos({ pos.x, pos.y, 0 });
-		pBlock->SetSize({ size, size });
-		pBlock->AddComponent(pTexture);
-		switch (map[i])
-		{
-		case 0:
-			pTexture->SetTexture("Resources/Level/wall.png");
-			pBlock->SetTag("Wall");
-			break;
-		case 1:
-			pTexture->SetTexture("Resources/Level/void.png");
-			break;
-		default:
-			pTexture->SetTexture("Resources/Level/path.png");
-			pBlock->SetTag("Path");
-			break;
-		}
-
-
-		m_pBlocks.push_back(std::move(pBlock));
-
-		pos.x += size;
-
-		if ((i + 1) % cols == 0)
-		{
-			pos.x = startPos.x;
-			pos.y += size;
-		}
-	}
-}
-
 glm::vec3 Level::GetRandomSpawnPos() const
 {
-	std::vector<int> pathIndexes{};
-	for (int i{}; i < m_pBlocks.size(); ++i)
-	{
-		if (m_pBlocks[i]->GetTag() != "Path") continue;
-
-		pathIndexes.push_back(i);
-	}
-
-	const int rndIndex = rand() % (pathIndexes.size() + 1);
-	const auto spawnPos = m_pBlocks[rndIndex]->GetWorldTransform();
+	const int rndIndex = rand() % (m_pPaths.size() + 1);
+	const auto spawnPos = m_pPaths[rndIndex]->GetWorldTransform();
 
 	return spawnPos;
+}
+
+void Level::SkipLevel()
+{
+	/*GetScene()->RemoveAll();
+	m_pBlocks.clear();
+	m_pWalls.clear();
+	m_pPaths.clear();
+	m_pTeleport.clear();
+
+
+	++m_CurrentLevel;
+	if (m_CurrentLevel > 2)
+		m_CurrentLevel = 0;
+
+
+
+	switch (m_CurrentLevel)
+	{	
+	case 0:
+		CreateMap(GetScene()->parse_csv("../Data/Resources/LevelLayout0.csv"), 58);
+		break;
+	case 1:
+		CreateMap(GetScene()->parse_csv("../Data/Resources/LevelLayout1.csv"), 58);
+		break;
+	case 2:
+		CreateMap(GetScene()->parse_csv("../Data/Resources/LevelLayout2.csv"), 58);
+		break;
+	}*/
 }
 
 void Level::UpdateBullets()
@@ -138,4 +172,27 @@ void Level::UpdateBullets()
 			pBullet->SetVelocity(-pBullet->GetVelocity());
 		}
 	}
+}
+
+bool Level::CheckTeleportCollision(const glm::vec2& rayPoint)
+{
+	for (const auto& wall : m_pTeleport)
+	{
+		if (rayPoint.x > wall->GetWorldTransform().x && rayPoint.x < wall->GetWorldTransform().x + wall->GetSize().x &&
+			rayPoint.y > wall->GetWorldTransform().y && rayPoint.y < wall->GetWorldTransform().y + wall->GetSize().y)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+void Level::SetScene(dae::Scene* scene)
+{
+	m_pScene = scene;
+}
+
+dae::Scene* Level::GetScene()
+{
+	return m_pScene;
 }

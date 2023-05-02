@@ -1,6 +1,8 @@
 #pragma once
 #include "Commands.h"
 
+class Level;
+
 class MoveCommand final : public Command
 {
 public:
@@ -37,3 +39,12 @@ private:
 	glm::vec3 m_Direction{};
 };
 
+class SkipLevelCommand final : public Command
+{
+public:
+	SkipLevelCommand(Level* level);
+	virtual void Execute() override;
+
+private:
+	Level* m_pLevel;
+};
