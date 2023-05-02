@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "BaseComponent.h"
 #include "CounterCp.h"
+#include "SceneManager.h"
 
 #include "Scene.h"
 #include "Level.h"
@@ -116,7 +117,9 @@ void SkipLevelCommand::Execute()
 
 	if (GetKeyPressed()) return;
 
-	m_pLevel->SkipLevel();
+	//m_pLevel->SkipLevel();
+
+	dae::SceneManager::GetInstance().NextScene();
 	
 	SetKeyPressed(true);
 }

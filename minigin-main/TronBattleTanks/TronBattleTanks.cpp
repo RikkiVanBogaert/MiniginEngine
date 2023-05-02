@@ -229,13 +229,20 @@ void LoadGameScene()
 	auto levelObj = std::make_shared<Level>(scene.parse_csv("../Data/Resources/LevelLayout0.csv"));
 	scene.Add(levelObj);
 	levelObj->SetScene(&scene);
-
-	SkipLevelCommand* skipLevel = new SkipLevelCommand{ levelObj.get()};
-	dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_N, skipLevel);
-
 	InitControllableObjects(scene, levelObj.get());
 
-	//scene.RemoveAll();
+	auto& scene1 = SceneManager::GetInstance().CreateScene("Level1");
+
+	auto levelObj1 = std::make_shared<Level>(scene1.parse_csv("../Data/Resources/LevelLayout1.csv"));
+	scene1.Add(levelObj1);
+	levelObj1->SetScene(&scene1);
+
+	//levelObj1->SetRelativePos({ 200, 0, 0 });
+
+	scene.SetActive(true);
+
+	SkipLevelCommand* skipLevel = new SkipLevelCommand{};
+	dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_N, skipLevel);
 }
 
 void load()

@@ -130,34 +130,6 @@ glm::vec3 Level::GetRandomSpawnPos() const
 	return spawnPos;
 }
 
-void Level::SkipLevel()
-{
-	/*GetScene()->RemoveAll();
-	m_pBlocks.clear();
-	m_pWalls.clear();
-	m_pPaths.clear();
-	m_pTeleport.clear();
-
-
-	++m_CurrentLevel;
-	if (m_CurrentLevel > 2)
-		m_CurrentLevel = 0;
-
-
-
-	switch (m_CurrentLevel)
-	{	
-	case 0:
-		CreateMap(GetScene()->parse_csv("../Data/Resources/LevelLayout0.csv"), 58);
-		break;
-	case 1:
-		CreateMap(GetScene()->parse_csv("../Data/Resources/LevelLayout1.csv"), 58);
-		break;
-	case 2:
-		CreateMap(GetScene()->parse_csv("../Data/Resources/LevelLayout2.csv"), 58);
-		break;
-	}*/
-}
 
 void Level::UpdateBullets()
 {
