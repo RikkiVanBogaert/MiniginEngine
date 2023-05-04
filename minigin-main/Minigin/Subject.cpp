@@ -1,6 +1,8 @@
 #include "Subject.h"
 #include "Observers.h"
 
+using namespace dae;
+
 Subject::Subject(GameObject* owner)
 {
     m_pOwner = owner;

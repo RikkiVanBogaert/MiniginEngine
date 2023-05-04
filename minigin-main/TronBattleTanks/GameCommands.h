@@ -3,43 +3,43 @@
 
 class Level;
 
-class MoveCommand final : public Command
+class MoveCommand final : public dae::Command
 {
 public:
-	MoveCommand(GameObject* gameObj, const glm::vec3& direction);
+	MoveCommand(dae::GameObject* gameObj, const glm::vec3& direction);
 	virtual void Execute() override;
 
 private:
 	glm::vec3 m_Direction{};
 };
 
-class DieCommand final : public Command
+class DieCommand final : public dae::Command
 {
 public:
-	DieCommand(GameObject* gameObj);
+	DieCommand(dae::GameObject* gameObj);
 	virtual void Execute() override;
 
 };
 
-class PointCommand final : public Command
+class PointCommand final : public dae::Command
 {
 public:
-	PointCommand(GameObject* gameObj);
+	PointCommand(dae::GameObject* gameObj);
 	virtual void Execute() override;
 
 };
 
-class ShootCommand final : public Command
+class ShootCommand final : public dae::Command
 {
 public:
-	ShootCommand(GameObject* gameObj, const glm::vec3& direction);
+	ShootCommand(dae::GameObject* gameObj, const glm::vec3& direction);
 	virtual void Execute() override;
 
 private:
 	glm::vec3 m_Direction{};
 };
 
-class SkipLevelCommand final : public Command
+class SkipLevelCommand final : public dae::Command
 {
 public:
 	SkipLevelCommand() = default;

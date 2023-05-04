@@ -1,10 +1,11 @@
 #pragma once
-
-enum Event
+namespace dae
 {
-	ActorDied,
-	ScoredPoint
-};
-
+	enum Event
+	{
+		ActorDied,
+		ScoredPoint
+	};
+}
 
 

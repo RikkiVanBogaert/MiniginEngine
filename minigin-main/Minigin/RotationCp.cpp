@@ -1,6 +1,8 @@
 #include "RotationCp.h"
 #include "GameObject.h"
 
+using namespace dae;
+
 RotationCp::RotationCp(GameObject* owner, float rotSpeed, float radius) :
 	m_RotSpeed{rotSpeed},
 	m_Radius{ radius },

@@ -2,6 +2,8 @@
 
 #include "TextureComponent.h"
 
+using namespace dae;
+
 Bullet::Bullet(glm::vec3 velocity):
 	m_Velocity{velocity}
 {

@@ -4,6 +4,7 @@
 #include "Scene.h"
 #include "Bullet.h"
 
+using namespace dae;
 
 void Tank::Update(float)
 {

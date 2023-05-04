@@ -5,6 +5,8 @@
 #include "Texture2D.h"
 #include "GameObject.h"
 
+using namespace dae;
+
 dae::TextComponent::TextComponent(GameObject* owner, const std::string& text, const std::shared_ptr<Font>& font, 
 	const SDL_Color& color = {255, 255, 255})
 	:  m_Text(text), 

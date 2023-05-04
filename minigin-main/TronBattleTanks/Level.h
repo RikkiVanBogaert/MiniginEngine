@@ -4,12 +4,8 @@
 #include <vector>
 #include <memory>
 
-namespace dae
-{
-	class Scene;
-}
 
-class Level final : public GameObject
+class Level final : public dae::GameObject
 {
 public:
 	Level(std::vector<int> map, dae::Scene* scene);
@@ -36,7 +32,7 @@ private:
 
 
 	void CreateMap(std::vector<int> map, int columns);
-	
+
 	void UpdateBullets();
 	bool CheckTeleportCollision(const glm::vec2& rayPoint);
 

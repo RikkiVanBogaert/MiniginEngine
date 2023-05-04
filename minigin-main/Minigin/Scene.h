@@ -1,9 +1,10 @@
 #pragma once
 #include "SceneManager.h"
 
-class GameObject;
+
 namespace dae
 {
+	class GameObject;
 	class TextComponent;
 
 	class Scene final

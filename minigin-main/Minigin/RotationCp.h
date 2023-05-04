@@ -4,20 +4,22 @@
 #include "Transform.h"
 #include "BaseComponent.h"
 
-
-class RotationCp final : public ComponentBase
+namespace dae
 {
-public:
-	RotationCp(GameObject* owner, float rotSpeed, float radius);
+	class RotationCp final : public ComponentBase
+	{
+	public:
+		RotationCp(GameObject* owner, float rotSpeed, float radius);
 
-	virtual void Update(float deltaTime) override;
+		virtual void Update(float deltaTime) override;
 
-protected:
- 
+	protected:
 
-private:
-	float m_RotSpeed{};
-	float m_Radius{};
-	float m_Angle{};
-	glm::vec3 m_OffsetToParent{};
-};
+
+	private:
+		float m_RotSpeed{};
+		float m_Radius{};
+		float m_Angle{};
+		glm::vec3 m_OffsetToParent{};
+	};
+}

@@ -5,7 +5,7 @@
 #include <memory>
 
 
-class Tank : public GameObject
+class Tank : public dae::GameObject
 {
 public:
 	Tank() = default;

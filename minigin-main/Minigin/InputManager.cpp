@@ -5,7 +5,9 @@
 #include <map>
 #include <iostream>
 
-bool dae::InputManager::ProcessInput()
+using namespace dae;
+
+bool InputManager::ProcessInput()
 {
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) {
@@ -28,23 +30,23 @@ bool dae::InputManager::ProcessInput()
 	return true;
 }
 
-void dae::InputManager::AddController(unsigned int id)
+void InputManager::AddController(unsigned int id)
 {
     m_Controllers.emplace_back(std::make_unique<Controller>(id));
 }
 
-void dae::InputManager::BindControllerToCommand(unsigned int id, Controller::ControllerButton& button, Command* command)
+void InputManager::BindControllerToCommand(unsigned int id, Controller::ControllerButton& button, Command* command)
 {
 	ControllerKey key = ControllerKey(id, button);
 	m_Commands.insert({ key, std::unique_ptr<Command>(command) });
 }
 
-void dae::InputManager::BindKeyToCommand(const Uint8& key, Command* command)
+void InputManager::BindKeyToCommand(const Uint8& key, Command* command)
 {
 	m_KeyCommands.insert({ key, std::unique_ptr<Command>(command) });
 }
 
-void dae::InputManager::UnbindCommand(Command* command)
+void InputManager::UnbindCommand(Command* command)
 {
 	// `command` is the command object to be removed from the map
 	for (auto it = m_KeyCommands.begin(); it != m_KeyCommands.end(); ++it) 
@@ -58,7 +60,7 @@ void dae::InputManager::UnbindCommand(Command* command)
 
 }
 
-void dae::InputManager::ProcessInputControllers()
+void InputManager::ProcessInputControllers()
 {
     for (auto& controller : m_Controllers)
     {
@@ -80,7 +82,7 @@ void dae::InputManager::ProcessInputControllers()
     }
 }
 
-void dae::InputManager::ProcessInputKeyboard()
+void InputManager::ProcessInputKeyboard()
 {
 	const Uint8* pStates = SDL_GetKeyboardState(nullptr);
 
@@ -98,7 +100,7 @@ void dae::InputManager::ProcessInputKeyboard()
 
 }
 
-void dae::InputManager::UpdateControllers()
+void InputManager::UpdateControllers()
 {
     for (auto& controller : m_Controllers)
     {

@@ -8,6 +8,8 @@
 #include "Level.h"
 #include "Bullet.h"
 
+using namespace dae;
+
 MoveCommand::MoveCommand(GameObject* gameObj, const glm::vec3& direction)
 {
 	m_pGameObject = gameObj;
@@ -27,7 +29,7 @@ void MoveCommand::Execute()
 	{
 		if (!dynamic_cast<Level*>(o.get())) continue;
 
-		auto pLevel = static_cast<Level*>(o.get());
+		auto pLevel = dynamic_cast<Level*>(o.get());
 		if (pLevel->CollisionHit(m_pGameObject, m_Direction))
 			return;
 		else
@@ -115,7 +117,7 @@ void SkipLevelCommand::Execute()
 	{
 		if (!dynamic_cast<Level*>(o.get())) continue;
 
-		auto level = static_cast<Level*>(o.get());
+		auto level = dynamic_cast<Level*>(o.get());
 		level->ResetLevel();
 	}
 

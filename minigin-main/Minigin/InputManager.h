@@ -9,11 +9,12 @@
 #include <vector>
 #include <glm/vec3.hpp>
 
-class GameObject;
 
 
 namespace dae
 {
+	class GameObject;
+
 	class InputManager final : public Singleton<InputManager>
 	{
 	public:

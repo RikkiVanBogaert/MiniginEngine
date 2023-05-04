@@ -27,13 +27,12 @@
 #include "Tank.h"
 #include "Level.h"
 
-
 #include <string>
 #include <vector>
 
 using namespace dae;
 
-void InitControllableObjects(dae::Scene& scene, GameObject* parent)
+void InitControllableObjects(Scene& scene, GameObject* parent)
 {
 	glm::vec3 up = { 0.f,-1.f,0.f };
 	glm::vec3 down = { 0.f,1.f,0.f };
@@ -41,7 +40,7 @@ void InitControllableObjects(dae::Scene& scene, GameObject* parent)
 	glm::vec3 left = { -1.f,0.f,0.f };
 	int controllerIdx{ 0 };
 
-	auto fontTankUI = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 15);
+	auto fontTankUI = ResourceManager::GetInstance().LoadFont("Lingua.otf", 15);
 
 	//PREFAB RED TANK
 	{
@@ -257,8 +256,9 @@ void load()
 	LoadGameScene();
 }
 
-int main(int, char* []) {
-	dae::Minigin engine("../Data/");
+int main(int, char* []) 
+{
+	Minigin engine("../Data/");
 	engine.Run(load);
 	return 0;
 }

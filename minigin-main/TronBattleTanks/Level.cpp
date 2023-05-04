@@ -20,6 +20,8 @@
 #include "Bullet.h"
 
 
+using namespace dae;
+
 Level::Level(std::vector<int> map, dae::Scene* scene)
 {
 	m_pScene = scene;

@@ -2,25 +2,29 @@
 #include "Event.h"
 #include <string>
 
-class GameObject;
 
-
-class Observer
+namespace dae
 {
-public:
-	virtual ~Observer() {}
+	class GameObject;
 
-	virtual void OnNotify(Event event, GameObject* gameObject) = 0;
 
-};
+	class Observer
+	{
+	public:
+		virtual ~Observer() {}
 
-class UI final : public Observer
-{
-public:
-	virtual void OnNotify(Event event, GameObject* gameObject);
+		virtual void OnNotify(Event event, GameObject* gameObject) = 0;
 
-private:
-	
-	void UpdateUI(GameObject* owner, const std::string& type); //change this to enum maybe
-};
+	};
 
+	class UI final : public Observer
+	{
+	public:
+		virtual void OnNotify(Event event, GameObject* gameObject);
+
+	private:
+
+		void UpdateUI(GameObject* owner, const std::string& type); //change this to enum maybe
+	};
+
+}

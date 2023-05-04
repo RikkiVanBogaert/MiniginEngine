@@ -1,24 +1,26 @@
 #pragma once
 #include "glm/vec3.hpp"
 
-
-class GameObject;
-
-class Command
+namespace dae
 {
-public:
-	virtual ~Command() = default;
-	virtual void Execute() = 0;
+	class GameObject;
 
-	void SetKeyPressed(bool keyPressed) { m_KeyPressed = keyPressed; };
+	class Command
+	{
+	public:
+		virtual ~Command() = default;
+		virtual void Execute() = 0;
 
-protected:
-	GameObject* GetGameActor() const { return m_pGameObject; }
-	GameObject* m_pGameObject{};
+		void SetKeyPressed(bool keyPressed) { m_KeyPressed = keyPressed; };
 
-	bool GetKeyPressed() { return m_KeyPressed; };
+	protected:
+		GameObject* GetGameActor() const { return m_pGameObject; }
+		GameObject* m_pGameObject{};
 
-private:
-	bool m_KeyPressed{};
+		bool GetKeyPressed() { return m_KeyPressed; };
 
-};
+	private:
+		bool m_KeyPressed{};
+
+	};
+}

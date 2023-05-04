@@ -7,6 +7,8 @@
 
 #include <iostream>
 
+using namespace dae;
+
 void UI::OnNotify(Event event, GameObject* owner)
 {
 	switch (event)

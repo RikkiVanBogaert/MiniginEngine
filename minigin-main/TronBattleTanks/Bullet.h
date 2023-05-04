@@ -4,8 +4,7 @@
 
 #include <memory>
 
-
-class Bullet final : public GameObject
+class Bullet final : public dae::GameObject
 {
 public:
 	Bullet(glm::vec3 velocity);
@@ -13,7 +12,7 @@ public:
 
 	virtual void Update(float deltaTime) override;
 	void SetVelocity(glm::vec3 newVel);
-	glm::vec3 GetVelocity() const {	return m_Velocity; }
+	glm::vec3 GetVelocity() const { return m_Velocity; }
 
 private:
 	glm::vec3 m_Velocity{};

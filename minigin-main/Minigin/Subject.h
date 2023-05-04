@@ -4,24 +4,26 @@
 #include <vector>
 #include <iostream>
 
-
-class Observer;
-class GameObject;
-
-class Subject
+namespace dae
 {
-public:
-	Subject(GameObject* owner);
-	~Subject() = default;
+	class Observer;
+	class GameObject;
 
-	void AddObserver(std::shared_ptr<Observer> observer);
-	void RemoveObserver(std::shared_ptr<Observer> observer);
+	class Subject
+	{
+	public:
+		Subject(GameObject* owner);
+		~Subject() = default;
 
-	void NotifyObservers(Event event);
+		void AddObserver(std::shared_ptr<Observer> observer);
+		void RemoveObserver(std::shared_ptr<Observer> observer);
 
-private:
-	GameObject* m_pOwner;
-	std::vector<std::shared_ptr<Observer>> m_pObservers;
+		void NotifyObservers(Event event);
 
-};
+	private:
+		GameObject* m_pOwner;
+		std::vector<std::shared_ptr<Observer>> m_pObservers;
 
+	};
+
+}

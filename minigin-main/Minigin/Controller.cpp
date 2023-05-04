@@ -4,6 +4,7 @@
 #include <windows.h>
 #include <Xinput.h>
 
+using namespace dae;
 
 class Controller::ControllerImpl
 {
