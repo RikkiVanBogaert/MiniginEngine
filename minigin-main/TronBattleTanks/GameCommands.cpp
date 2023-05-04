@@ -106,20 +106,21 @@ void ShootCommand::Execute()
 	SetKeyPressed(true);
 }
 
-SkipLevelCommand::SkipLevelCommand(Level* level)
-{
-	m_pLevel = level;
-}
-
 void SkipLevelCommand::Execute()
 {
-	if (!m_pLevel) return;
-
 	if (GetKeyPressed()) return;
 
-	//m_pLevel->SkipLevel();
+	auto objects = dae::SceneManager::GetInstance().GetActiveScene()->GetGameObjects();
+	for (auto o : objects)
+	{
+		if (!dynamic_cast<Level*>(o.get())) continue;
+
+		auto level = static_cast<Level*>(o.get());
+		level->ResetLevel();
+	}
 
 	dae::SceneManager::GetInstance().NextScene();
+
 	
 	SetKeyPressed(true);
 }

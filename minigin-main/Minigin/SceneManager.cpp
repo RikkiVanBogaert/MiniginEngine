@@ -5,8 +5,11 @@ void dae::SceneManager::Update(float deltaTime)
 {
 	for (auto& scene : m_scenes)
 	{
-		if(scene->IsActive())
-			scene->Update(deltaTime);
+		if (!scene->IsActive())
+			continue;
+
+		scene->Update(deltaTime);
+		return; //only want to update 1 scene
 	}
 }
 
@@ -14,8 +17,11 @@ void dae::SceneManager::FixedUpdate(float deltaTime)
 {
 	for (auto& scene : m_scenes)
 	{
-		if (scene->IsActive())
-			scene->FixedUpdate(deltaTime);
+		if (!scene->IsActive())
+			continue;
+
+		scene->FixedUpdate(deltaTime);
+		return;
 	}
 }
 
@@ -23,8 +29,11 @@ void dae::SceneManager::Render()
 {
 	for (const auto& scene : m_scenes)
 	{
-		if (scene->IsActive())
-			scene->Render();
+		if (!scene->IsActive())
+			continue;
+
+		scene->Render();
+		return;
 	}
 }
 
@@ -38,6 +47,7 @@ dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
 void dae::SceneManager::NextScene()
 {
 	m_scenes[m_ActiveScene]->SetActive(false);
+	//m_scenes[m_ActiveScene]->RemoveAll();
 
 	++m_ActiveScene;
 	if (m_ActiveScene >= m_scenes.size())

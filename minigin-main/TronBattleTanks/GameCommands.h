@@ -42,9 +42,7 @@ private:
 class SkipLevelCommand final : public Command
 {
 public:
-	SkipLevelCommand(Level* level);
+	SkipLevelCommand() = default;
 	virtual void Execute() override;
 
-private:
-	Level* m_pLevel;
 };

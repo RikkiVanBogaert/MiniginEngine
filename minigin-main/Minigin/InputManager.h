@@ -21,7 +21,7 @@ namespace dae
 		void AddController(unsigned int id);
 		void BindControllerToCommand(unsigned int controllerId, Controller::ControllerButton& button, Command* command);
 		void BindKeyToCommand(const Uint8& key, Command* command);
-		//void UnbindCommand(Command* command);
+		void UnbindCommand(Command* command);
 		void UpdateControllers();
 
 	private:

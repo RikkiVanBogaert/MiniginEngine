@@ -27,10 +27,11 @@
 #include "Tank.h"
 #include "Level.h"
 
-using namespace dae;
 
 #include <string>
 #include <vector>
+
+using namespace dae;
 
 void InitControllableObjects(dae::Scene& scene, GameObject* parent)
 {
@@ -109,6 +110,10 @@ void InitControllableObjects(dae::Scene& scene, GameObject* parent)
 		redTankPointsObj->AddComponent(textBluePoints);
 		parent->AddChild(redTankPointsObj.get());
 		scene.Add(redTankPointsObj);
+
+
+
+
 	}
 
 	//BLUE TANK
@@ -226,14 +231,14 @@ void LoadGameScene()
 {
 	auto& scene = SceneManager::GetInstance().CreateScene("Level0");
 
-	auto levelObj = std::make_shared<Level>(scene.parse_csv("../Data/Resources/LevelLayout0.csv"));
+	auto levelObj = std::make_shared<Level>(scene.parse_csv("../Data/Resources/LevelLayout0.csv"), &scene);
 	scene.Add(levelObj);
-	levelObj->SetScene(&scene);
 	InitControllableObjects(scene, levelObj.get());
+
 
 	auto& scene1 = SceneManager::GetInstance().CreateScene("Level1");
 
-	auto levelObj1 = std::make_shared<Level>(scene1.parse_csv("../Data/Resources/LevelLayout1.csv"));
+	auto levelObj1 = std::make_shared<Level>(scene1.parse_csv("../Data/Resources/LevelLayout1.csv"), &scene1);
 	scene1.Add(levelObj1);
 	levelObj1->SetScene(&scene1);
 
@@ -243,6 +248,7 @@ void LoadGameScene()
 
 	SkipLevelCommand* skipLevel = new SkipLevelCommand{};
 	dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_N, skipLevel);
+
 }
 
 void load()

@@ -17,6 +17,7 @@ namespace dae
 		void Render();
 		
 		void NextScene();
+		Scene* GetActiveScene() { return m_scenes[m_ActiveScene].get(); }
 
 	private:
 		friend class Singleton<SceneManager>;

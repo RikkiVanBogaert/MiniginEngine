@@ -1,6 +1,5 @@
 #pragma once
 #include "SceneManager.h"
-//#include "Level.h"
 
 class GameObject;
 namespace dae
@@ -22,8 +21,7 @@ namespace dae
 		std::vector<std::shared_ptr<GameObject>> GetGameObjects() {	return m_objects; }
 		void SetActive(bool isActive) { m_IsActive = isActive; }
 		bool IsActive() { return m_IsActive; }
-		//Level* GetActiveLevel() { return m_pActiveLevel; }
-		//void SetActiveLevel(Level* level) { m_pActiveLevel = level; }
+
 		std::vector<int> parse_csv(const std::string& filename);
 
 		~Scene();

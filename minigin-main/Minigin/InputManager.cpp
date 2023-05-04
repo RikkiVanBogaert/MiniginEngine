@@ -44,6 +44,20 @@ void dae::InputManager::BindKeyToCommand(const Uint8& key, Command* command)
 	m_KeyCommands.insert({ key, std::unique_ptr<Command>(command) });
 }
 
+void dae::InputManager::UnbindCommand(Command* command)
+{
+	// `command` is the command object to be removed from the map
+	for (auto it = m_KeyCommands.begin(); it != m_KeyCommands.end(); ++it) 
+	{
+		if (it->second.get() == command) 
+		{
+			m_KeyCommands.erase(it);
+			break;  // we found the element, so we can stop iterating
+		}
+	}
+
+}
+
 void dae::InputManager::ProcessInputControllers()
 {
     for (auto& controller : m_Controllers)
