@@ -10,6 +10,7 @@
 #include "Minigin.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
+#include "PlayerManager.h"
 //Components
 #include "TextComponent.h"
 #include "TextureComponent.h"
@@ -32,7 +33,7 @@
 
 using namespace dae;
 
-void InitControllableObjects(Scene& scene, GameObject* parent)
+void InitControllableObjects(Scene& scene)
 {
 	glm::vec3 up = { 0.f,-1.f,0.f };
 	glm::vec3 down = { 0.f,1.f,0.f };
@@ -45,7 +46,7 @@ void InitControllableObjects(Scene& scene, GameObject* parent)
 	//PREFAB RED TANK
 	{
 		auto tankPrefab = std::make_shared<RedTank>();
-		tankPrefab->SetRelativePos({ 230, 355, 0 });
+		tankPrefab->SetRelativePos({ 230, 355 });
 		scene.Add(tankPrefab);
 
 
@@ -90,28 +91,28 @@ void InitControllableObjects(Scene& scene, GameObject* parent)
 		auto pUIObserver = std::make_shared<UI>();
 		tankPrefab->MakeObserver(pUIObserver);
 
-		parent->AddChild(tankPrefab.get());
+		//parent->AddChild(tankPrefab.get());
 
 		//Lives Display
 		auto redTankLivesObj = std::make_shared<GameObject>("redTank");
 		auto textRedLives = std::make_shared<UICp>(fontTankUI, "Lives: ", SDL_Color{ 255, 0, 0 },
 			"Lives", redTankLivesObj.get());
-		redTankLivesObj->SetRelativePos({ 5, 310, 0 });
+		redTankLivesObj->SetRelativePos({ 5, 310 });
 		redTankLivesObj->AddComponent(textRedLives);
-		parent->AddChild(redTankLivesObj.get());
+		//parent->AddChild(redTankLivesObj.get());
 		scene.Add(redTankLivesObj);
 
 		//Points Display
 		auto redTankPointsObj = std::make_shared<GameObject>("redTank");
 		auto textBluePoints = std::make_shared<UICp>(fontTankUI, "Points: ", SDL_Color{ 255, 0, 0 },
 			"Points", redTankPointsObj.get());
-		redTankPointsObj->SetRelativePos({ 5, 340, 0 });
+		redTankPointsObj->SetRelativePos({ 5, 340 });
 		redTankPointsObj->AddComponent(textBluePoints);
-		parent->AddChild(redTankPointsObj.get());
+		//parent->AddChild(redTankPointsObj.get());
 		scene.Add(redTankPointsObj);
 
 
-
+		PlayerManager::getInstance().AddPlayer(tankPrefab);
 
 	}
 
@@ -123,7 +124,7 @@ void InitControllableObjects(Scene& scene, GameObject* parent)
 		glm::vec3 rightBlue = { 2.f,0.f,0.f };
 
 		auto blueTank = std::make_shared<BlueTank>();
-		blueTank->SetRelativePos({ 330, 250, 0 });
+		blueTank->SetRelativePos({ 330, 250 });
 
 		MoveCommand* moveCommandDownBlue = new MoveCommand{ blueTank.get(), downBlue };
 		MoveCommand* moveCommandUpBlue = new MoveCommand{ blueTank.get(), upBlue };
@@ -162,25 +163,22 @@ void InitControllableObjects(Scene& scene, GameObject* parent)
 		auto pUIObserverBlue = std::make_shared<UI>();
 		blueTank->MakeObserver(pUIObserverBlue);
 
-		parent->AddChild(blueTank.get());
 		scene.Add(blueTank);
 
 		//Lives Display
 		auto blueTankLivesObj = std::make_shared<GameObject>("blueTank");
 		auto textBlueLives = std::make_shared<UICp>(fontTankUI, "Lives: ", SDL_Color{ 0, 0, 255 },
 			"Lives", blueTankLivesObj.get());
-		blueTankLivesObj->SetRelativePos({ 5, 380, 0 });
+		blueTankLivesObj->SetRelativePos({ 5, 380 });
 		blueTankLivesObj->AddComponent(textBlueLives);
-		parent->AddChild(blueTankLivesObj.get());
 		scene.Add(blueTankLivesObj);
 
 		//Points Display
 		auto blueTankPointsObj = std::make_shared<GameObject>("blueTank");
 		auto textBluePoints = std::make_shared<UICp>(fontTankUI, "Points: ", SDL_Color{ 0, 0, 255 },
 			"Points", blueTankPointsObj.get());
-		blueTankPointsObj->SetRelativePos({ 5, 410, 0 });
+		blueTankPointsObj->SetRelativePos({ 5, 410 });
 		blueTankPointsObj->AddComponent(textBluePoints);
-		parent->AddChild(blueTankPointsObj.get());
 		scene.Add(blueTankPointsObj);
 	}
 }
@@ -193,14 +191,14 @@ void LoadDaeScene()
 
 	auto background = std::make_shared<TextureComponent>(gameObj.get());
 	background->SetTexture("background.tga");
-	gameObj->SetRelativePos({ 0, 0, 0 });
+	gameObj->SetRelativePos({ 0, 0 });
 	gameObj->AddComponent(background);
 	scene.Add(gameObj);
 
 	auto logoObj = std::make_shared<GameObject>();
 	auto logo = std::make_shared<TextureComponent>(logoObj.get());
 	logo->SetTexture("logo.tga");
-	logoObj->SetRelativePos({ 216, 180, 0 });
+	logoObj->SetRelativePos({ 216, 180 });
 	logoObj->AddComponent(logo);
 	scene.Add(logoObj);
 	gameObj->AddChild(logoObj.get());
@@ -209,7 +207,7 @@ void LoadDaeScene()
 	auto textObj = std::make_shared<GameObject>();
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	auto to = std::make_shared<TextComponent>(textObj.get(), "Programming 4 Assignment", font, SDL_Color{ 255, 255, 255 });
-	textObj->SetRelativePos({ 80, 20, 0 });
+	textObj->SetRelativePos({ 80, 20 });
 	textObj->AddComponent(to);
 	scene.Add(textObj);
 	gameObj->AddChild(textObj.get());
@@ -218,21 +216,21 @@ void LoadDaeScene()
 	auto fpsObj = std::make_shared<GameObject>();
 	auto fontFPS = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 15);
 	auto fpsCounter = std::make_shared<FPSComponent>(fontFPS, fpsObj.get());
-	fpsObj->SetRelativePos({ 7, 10, 0 });
+	fpsObj->SetRelativePos({ 7, 10 });
 	fpsObj->AddComponent(fpsCounter);
 	scene.Add(fpsObj);
 	gameObj->AddChild(fpsObj.get());
 
-	InitControllableObjects(scene, gameObj.get());
+	InitControllableObjects(scene);
 }
 
 void LoadGameScene()
 {
 	auto& scene = SceneManager::GetInstance().CreateScene("Level0");
 
+
 	auto levelObj = std::make_shared<Level>(scene.parse_csv("../Data/Resources/LevelLayout0.csv"), &scene);
 	scene.Add(levelObj);
-	InitControllableObjects(scene, levelObj.get());
 
 
 	auto& scene1 = SceneManager::GetInstance().CreateScene("Level1");
@@ -241,6 +239,7 @@ void LoadGameScene()
 	scene1.Add(levelObj1);
 	levelObj1->SetScene(&scene1);
 
+	InitControllableObjects(scene);
 	//levelObj1->SetRelativePos({ 200, 0, 0 });
 
 	scene.SetActive(true);

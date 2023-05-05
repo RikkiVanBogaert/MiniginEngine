@@ -13,10 +13,11 @@ public:
 
 	virtual void Update(float deltaTime) override;
 
-	bool CollisionHit(GameObject* object, const glm::vec3& dir);
-	glm::vec3 GetRandomSpawnPos() const;
+	bool CollisionHit(GameObject* object, const glm::vec2& dir);
+	glm::vec2 GetRandomSpawnPos() const;
 
-	void ResetLevel();
+	void OnLevelLoad();
+	void OnLevelDestroy();
 
 	void SetScene(dae::Scene* scene);
 	dae::Scene* GetScene();
@@ -29,7 +30,7 @@ private:
 
 	dae::Scene* m_pScene{};
 
-
+	glm::vec2 m_SpawnPos{};
 
 	void CreateMap(std::vector<int> map, int columns);
 

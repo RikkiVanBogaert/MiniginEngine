@@ -74,6 +74,7 @@ void Scene::Render() const
 	}
 }
 
+
 std::vector<int> Scene::parse_csv(const std::string& filename)
 {
 	std::vector<int> result;

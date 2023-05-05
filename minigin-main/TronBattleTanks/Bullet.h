@@ -7,15 +7,15 @@
 class Bullet final : public dae::GameObject
 {
 public:
-	Bullet(glm::vec3 velocity);
+	Bullet(glm::vec2 velocity);
 	virtual ~Bullet() {};
 
 	virtual void Update(float deltaTime) override;
-	void SetVelocity(glm::vec3 newVel);
-	glm::vec3 GetVelocity() const { return m_Velocity; }
+	void SetVelocity(glm::vec2 newVel);
+	glm::vec2 GetVelocity() const { return m_Velocity; }
 
 private:
-	glm::vec3 m_Velocity{};
+	glm::vec2 m_Velocity{};
 	int m_NrBounces{};
 
 };

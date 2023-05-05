@@ -4,7 +4,7 @@
 
 using namespace dae;
 
-Bullet::Bullet(glm::vec3 velocity):
+Bullet::Bullet(glm::vec2 velocity):
 	m_Velocity{velocity}
 {
 	//SetTag("bullet");
@@ -31,7 +31,7 @@ void Bullet::Update(float deltaTime)
 	}
 }
 
-void Bullet::SetVelocity(glm::vec3 newVel)
+void Bullet::SetVelocity(glm::vec2 newVel)
 {
 	//if vel changed, that means we bounced
 	++m_NrBounces;

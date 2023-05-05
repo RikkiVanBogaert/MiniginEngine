@@ -4,6 +4,7 @@
 #include "TextComponent.h"
 #include "CounterCp.h"
 #include "UICp.h"
+#include "Scene.h"
 
 #include <iostream>
 
@@ -29,7 +30,7 @@ void UI::UpdateUI(GameObject* owner, const std::string& UIType)
 	dae::UICp* text{};
 
 	//ugly ah code man but idk
-	for (auto sibling : owner->GetParent()->GetChildren())
+	for (auto sibling : owner->GetScene()->GetGameObjects())
 	{
 		if (sibling->NeedsDeleting()) continue;
 

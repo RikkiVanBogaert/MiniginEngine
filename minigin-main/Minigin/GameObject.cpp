@@ -138,7 +138,7 @@ bool GameObject::NeedsDeleting()
 	return m_NeedsDeleting;
 }
 
-void GameObject::SetRelativePos(const glm::vec3& pos)
+void GameObject::SetRelativePos(const glm::vec2& pos)
 {
 	m_RelativeTransform = pos;
 	
@@ -168,7 +168,7 @@ void GameObject::SetFlag()
 	}
 }
 
-glm::vec3 GameObject::GetWorldTransform()
+glm::vec2 GameObject::GetWorldTransform()
 {
 	if (m_DirtyFlag)
 	{
@@ -178,7 +178,7 @@ glm::vec3 GameObject::GetWorldTransform()
 	return m_WorldTransform;
 }
 
-glm::vec3 GameObject::GetRelativeTransform() const
+glm::vec2 GameObject::GetRelativeTransform() const
 {
 	return m_RelativeTransform;
 }

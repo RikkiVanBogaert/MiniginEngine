@@ -37,7 +37,7 @@ void MoveCommand::Execute()
 	}
 
 	//Movement
-	glm::vec3 pos = m_pGameObject->GetRelativeTransform();
+	glm::vec2 pos = m_pGameObject->GetRelativeTransform();
 	pos.x += m_Direction.x;
 	pos.y += m_Direction.y;
 
@@ -118,10 +118,20 @@ void SkipLevelCommand::Execute()
 		if (!dynamic_cast<Level*>(o.get())) continue;
 
 		auto level = dynamic_cast<Level*>(o.get());
-		level->ResetLevel();
+		level->OnLevelDestroy();
+	}
+	
+	dae::SceneManager::GetInstance().NextScene();
+
+	objects = dae::SceneManager::GetInstance().GetActiveScene()->GetGameObjects();
+	for (auto o : objects)
+	{
+		if (!dynamic_cast<Level*>(o.get())) continue;
+
+		auto level = dynamic_cast<Level*>(o.get());
+		level->OnLevelLoad();
 	}
 
-	dae::SceneManager::GetInstance().NextScene();
 
 	
 	SetKeyPressed(true);

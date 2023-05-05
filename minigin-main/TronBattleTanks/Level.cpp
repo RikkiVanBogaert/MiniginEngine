@@ -19,6 +19,7 @@
 #include "Tank.h"
 #include "Bullet.h"
 
+#include "PlayerManager.h"
 
 using namespace dae;
 
@@ -26,7 +27,7 @@ Level::Level(std::vector<int> map, dae::Scene* scene)
 {
 	m_pScene = scene;
 	CreateMap(map, 58);
-	//LoadCharacters();
+	//ResetLevel();
 }
 
 void Level::Update(float)
@@ -37,7 +38,6 @@ void Level::Update(float)
 
 void Level::CreateMap(std::vector<int> map, int columns)
 {
-	
 	//const int rows{54};
 	//const int cols{ 58 };
 	const float size{ 8 };
@@ -48,7 +48,7 @@ void Level::CreateMap(std::vector<int> map, int columns)
 		auto pBlock = std::make_shared<GameObject>();
 		auto pTexture = std::make_shared<TextureComponent>(pBlock.get());
 		AddChild(pBlock.get());
-		pBlock->SetRelativePos({ pos.x, pos.y, 0 });
+		pBlock->SetRelativePos({ pos.x, pos.y });
 		pBlock->SetSize({ size, size });
 		pBlock->AddComponent(pTexture);
 		switch (map[i])
@@ -65,6 +65,12 @@ void Level::CreateMap(std::vector<int> map, int columns)
 			pTexture->SetTexture("Resources/Level/teleport.png");
 			pBlock->SetTag("Teleport");
 			m_pTeleport.push_back(pBlock.get());
+			break;
+		case 6:
+			if(m_SpawnPos.y == 0)
+				m_SpawnPos = { pos };
+			//intentional no break
+			pTexture->SetTexture("Resources/Level/teleport.png");
 			break;
 		default:
 			pTexture->SetTexture("Resources/Level/path.png");
@@ -86,7 +92,7 @@ void Level::CreateMap(std::vector<int> map, int columns)
 	}
 }
 
-glm::vec3 Level::GetRandomSpawnPos() const
+glm::vec2 Level::GetRandomSpawnPos() const
 {
 	const int rndIndex = rand() % (m_pPaths.size() + 1);
 	const auto spawnPos = m_pPaths[rndIndex]->GetWorldTransform();
@@ -108,7 +114,7 @@ void Level::LoadCharacters()
 	{
 		auto tankPrefab = std::make_shared<RedTank>();
 		AddChild(tankPrefab.get());
-		tankPrefab->SetRelativePos({ 230, 355, 0 });
+		tankPrefab->SetRelativePos({ 230, 355 });
 		tankPrefab->SetScene(GetScene());
 
 		MoveCommand* moveCommandUp = new MoveCommand{ tankPrefab.get(), up };
@@ -247,12 +253,28 @@ void Level::LoadCharacters()
 	//}
 }
 
-void Level::ResetLevel()
+void Level::OnLevelLoad()
+{	
+	auto player = PlayerManager::getInstance().GetPlayers()[0];
+	player->SetRelativePos(m_SpawnPos);
+
+	player->GetScene()->Remove(player);
+	GetScene()->Add(player);
+}
+
+void Level::OnLevelDestroy()
 {
+	for (auto& object : GetScene()->GetGameObjects())
+	{
+		if (dynamic_cast<Bullet*>(object.get()))
+		{
+			GetScene()->Remove(object);
+		}
+	}
 }
 
 
-bool Level::CollisionHit(GameObject* object, const glm::vec3& dir)
+bool Level::CollisionHit(GameObject* object, const glm::vec2& dir)
 {
 	//make diff collisions for tank and bullet
 	const auto objectPos = object->GetWorldTransform();

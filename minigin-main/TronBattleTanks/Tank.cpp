@@ -46,7 +46,7 @@ RedTank::RedTank()
 	gunTxt->SetTexture("Resources/Sprites/RedTankGun.png");
 
 	m_pGun->AddComponent(gunTxt);
-	m_pGun->SetRelativePos({ -10, -8, 0 });
+	m_pGun->SetRelativePos({ -10, -8 });
 	AddChild(m_pGun.get());
 }
 
@@ -70,7 +70,7 @@ BlueTank::BlueTank()
 	gunTxt->SetTexture("Resources/Sprites/BlueTankGun.png");
 
 	m_pGun->AddComponent(gunTxt);
-	m_pGun->SetRelativePos({ -10, -8, 0 });
+	m_pGun->SetRelativePos({ -10, -8 });
 	AddChild(m_pGun.get());
 
 	m_pHealth = std::make_shared<dae::HealthCp>(this, 3);

@@ -20,6 +20,6 @@ namespace dae
 		float m_RotSpeed{};
 		float m_Radius{};
 		float m_Angle{};
-		glm::vec3 m_OffsetToParent{};
+		glm::vec2 m_OffsetToParent{};
 	};
 }
