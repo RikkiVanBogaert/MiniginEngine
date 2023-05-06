@@ -31,6 +31,7 @@ private:
 	dae::Scene* m_pScene{};
 
 	glm::vec2 m_SpawnPos{};
+	std::vector<glm::vec2> m_SpawnPosBlueTanks{};
 
 	void CreateMap(std::vector<int> map, int columns);
 
@@ -39,6 +40,7 @@ private:
 
 
 	void LoadCharacters();
+	void LoadEnemies();
 
 };
 

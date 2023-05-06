@@ -27,7 +27,7 @@ Level::Level(std::vector<int> map, dae::Scene* scene)
 {
 	m_pScene = scene;
 	CreateMap(map, 58);
-	//ResetLevel();
+	//OnLevelLoad();
 }
 
 void Level::Update(float)
@@ -51,6 +51,8 @@ void Level::CreateMap(std::vector<int> map, int columns)
 		pBlock->SetRelativePos({ pos.x, pos.y });
 		pBlock->SetSize({ size, size });
 		pBlock->AddComponent(pTexture);
+			
+		const glm::vec2 offset{pBlock->GetSize()};
 		switch (map[i])
 		{
 		case 0:
@@ -66,10 +68,13 @@ void Level::CreateMap(std::vector<int> map, int columns)
 			pBlock->SetTag("Teleport");
 			m_pTeleport.push_back(pBlock.get());
 			break;
+		case 4:
+			m_SpawnPosBlueTanks.push_back({ pos.x - offset.x, pos.y - offset.y });
+			pTexture->SetTexture("Resources/Level/teleport.png");
+			break;
 		case 6:
-			if(m_SpawnPos.y == 0)
-				m_SpawnPos = { pos };
-			//intentional no break
+			if(m_SpawnPos.x == 0)
+				m_SpawnPos = { pos.x - offset.x, pos.y - offset.y };
 			pTexture->SetTexture("Resources/Level/teleport.png");
 			break;
 		default:
@@ -100,157 +105,14 @@ glm::vec2 Level::GetRandomSpawnPos() const
 	return spawnPos;
 }
 
-void Level::LoadCharacters()
+void Level::LoadEnemies()
 {
-	glm::vec3 up = { 0.f,-1.f,0.f };
-	glm::vec3 down = { 0.f,1.f,0.f };
-	glm::vec3 right = { 1.f,0.f,0.f };
-	glm::vec3 left = { -1.f,0.f,0.f };
-	//int controllerIdx{ 0 };
-
-	auto fontTankUI = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 15);
-
-	//PREFAB RED TANK
+	for (int i{}; i < m_SpawnPosBlueTanks.size(); i += 4)
 	{
-		auto tankPrefab = std::make_shared<RedTank>();
-		AddChild(tankPrefab.get());
-		tankPrefab->SetRelativePos({ 230, 355 });
-		tankPrefab->SetScene(GetScene());
-
-		MoveCommand* moveCommandUp = new MoveCommand{ tankPrefab.get(), up };
-		MoveCommand* moveCommandDown = new MoveCommand{ tankPrefab.get(), down };
-		MoveCommand* moveCommandLeft = new MoveCommand{ tankPrefab.get(), left };
-		MoveCommand* moveCommandRight = new MoveCommand{ tankPrefab.get(), right };
-
-		dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_S, moveCommandDown);
-		dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_W, moveCommandUp);
-		dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_A, moveCommandLeft);
-		dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_D, moveCommandRight);
-
-		//Shooting
-		const float shootSpeed{ 300.f };
-		up = { 0.f, -shootSpeed, 0.f };
-		down = { 0.f, shootSpeed, 0.f };
-		left = { -shootSpeed, 0.f, 0.f };
-		right = { shootSpeed, 0.f, 0.f };
-		ShootCommand* shootUp = new ShootCommand{ tankPrefab.get(), up };
-		ShootCommand* shootDown = new ShootCommand{ tankPrefab.get(), down };
-		ShootCommand* shootLeft = new ShootCommand{ tankPrefab.get(), left };
-		ShootCommand* shootRight = new ShootCommand{ tankPrefab.get(), right };
-
-		dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_UP, shootUp);
-		dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_DOWN, shootDown);
-		dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_LEFT, shootLeft);
-		dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_RIGHT, shootRight);
-
-		GetScene()->Add(tankPrefab);
-
-
-
-		////Dying/Points logic
-		//auto pHealth = std::make_shared<dae::HealthCp>(tankPrefab.get(), 1);
-		//tankPrefab->AddComponent(pHealth);
-
-		//auto pPoints = std::make_shared<dae::PointsCp>(tankPrefab.get(), 0);
-		//tankPrefab->AddComponent(pPoints);
-
-		//DieCommand* dieCommand = new DieCommand{ tankPrefab.get() };
-		//dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_O, dieCommand);
-		//PointCommand* pointCommand = new PointCommand{ tankPrefab.get() };
-		//dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_P, pointCommand);
-
-		//auto pUIObserver = std::make_shared<UI>();
-		//tankPrefab->MakeObserver(pUIObserver);
-
-		//
-		////Lives Display
-		//auto redTankLivesObj = std::make_shared<GameObject>("redTank");
-		//auto textRedLives = std::make_shared <dae::UICp> (fontTankUI, "Lives: ", SDL_Color{ 255, 0, 0 },
-		//	"Lives", redTankLivesObj.get());
-		//redTankLivesObj->SetRelativePos({ 5, 310, 0 });
-		//redTankLivesObj->AddComponent(textRedLives);
-		//AddChild(redTankLivesObj.get());
-		//GetScene()->Add(redTankLivesObj);
-
-		////Points Display
-		//auto redTankPointsObj = std::make_shared<GameObject>("redTank");
-		//auto textBluePoints = std::make_shared<dae::UICp>(fontTankUI, "Points: ", SDL_Color{ 255, 0, 0 },
-		//	"Points", redTankPointsObj.get());
-		//redTankPointsObj->SetRelativePos({ 5, 340, 0 });
-		//redTankPointsObj->AddComponent(textBluePoints);
-		//AddChild(redTankPointsObj.get());
-		//GetScene()->Add(redTankPointsObj);
-		//
+		auto blueTank = std::make_shared<BlueTank>();
+		blueTank->SetRelativePos(m_SpawnPosBlueTanks[i]);
+		GetScene()->Add(blueTank);
 	}
-
-	////BLUE TANK
-	//{
-	//	glm::vec3 downBlue = { 0.f,2.f,0.f };
-	//	glm::vec3 upBlue = { 0.f,-2.f,0.f };
-	//	glm::vec3 leftBlue = { -2.f,0.f,0.f };
-	//	glm::vec3 rightBlue = { 2.f,0.f,0.f };
-
-	//	auto blueTank = std::make_shared<BlueTank>();
-	//	blueTank->SetRelativePos({ 330, 250, 0 });
-
-	//	MoveCommand* moveCommandDownBlue = new MoveCommand{ blueTank.get(), downBlue };
-	//	MoveCommand* moveCommandUpBlue = new MoveCommand{ blueTank.get(), upBlue };
-	//	MoveCommand* moveCommandLeftBlue = new MoveCommand{ blueTank.get(), leftBlue };
-	//	MoveCommand* moveCommandRightBlue = new MoveCommand{ blueTank.get(), rightBlue };
-
-	//	dae::InputManager::GetInstance().AddController(controllerIdx);
-
-	//	Controller::ControllerButton button{};
-
-	//	button = Controller::ControllerButton::DpadDown;
-	//	dae::InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandDownBlue);
-	//	button = Controller::ControllerButton::DpadUp;
-	//	dae::InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandUpBlue);
-	//	button = Controller::ControllerButton::DpadLeft;
-	//	dae::InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandLeftBlue);
-	//	button = Controller::ControllerButton::DpadRight;
-	//	dae::InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandRightBlue);
-
-	//	scene.Add(blueTank);
-
-	//	//Dying/Points logic
-	//	auto pHealthBlue = std::make_shared<HealthCp>(blueTank.get(), 1);
-	//	blueTank->AddComponent(pHealthBlue);
-
-	//	auto pPointsBlue = std::make_shared<PointsCp>(blueTank.get(), 0);
-	//	blueTank->AddComponent(pPointsBlue);
-
-	//	DieCommand* dieCommandBlue = new DieCommand{ blueTank.get() };
-	//	button = Controller::ControllerButton::ButtonY;
-	//	dae::InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, dieCommandBlue);
-	//	PointCommand* pointCommandBlue = new PointCommand{ blueTank.get() };
-	//	button = Controller::ControllerButton::ButtonA;
-	//	dae::InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, pointCommandBlue);
-
-	//	auto pUIObserverBlue = std::make_shared<UI>();
-	//	blueTank->MakeObserver(pUIObserverBlue);
-
-	//	parent->AddChild(blueTank.get());
-	//	scene.Add(blueTank);
-
-	//	//Lives Display
-	//	auto blueTankLivesObj = std::make_shared<GameObject>("blueTank");
-	//	auto textBlueLives = std::make_shared<UICp>(fontTankUI, "Lives: ", SDL_Color{ 0, 0, 255 },
-	//		"Lives", blueTankLivesObj.get());
-	//	blueTankLivesObj->SetRelativePos({ 5, 380, 0 });
-	//	blueTankLivesObj->AddComponent(textBlueLives);
-	//	parent->AddChild(blueTankLivesObj.get());
-	//	scene.Add(blueTankLivesObj);
-
-	//	//Points Display
-	//	auto blueTankPointsObj = std::make_shared<GameObject>("blueTank");
-	//	auto textBluePoints = std::make_shared<UICp>(fontTankUI, "Points: ", SDL_Color{ 0, 0, 255 },
-	//		"Points", blueTankPointsObj.get());
-	//	blueTankPointsObj->SetRelativePos({ 5, 410, 0 });
-	//	blueTankPointsObj->AddComponent(textBluePoints);
-	//	parent->AddChild(blueTankPointsObj.get());
-	//	scene.Add(blueTankPointsObj);
-	//}
 }
 
 void Level::OnLevelLoad()
@@ -260,13 +122,16 @@ void Level::OnLevelLoad()
 
 	player->GetScene()->Remove(player);
 	GetScene()->Add(player);
+
+	LoadEnemies();
 }
 
 void Level::OnLevelDestroy()
 {
 	for (auto& object : GetScene()->GetGameObjects())
 	{
-		if (dynamic_cast<Bullet*>(object.get()))
+		if (dynamic_cast<Bullet*>(object.get()) ||
+			dynamic_cast<BlueTank*>(object.get()))
 		{
 			GetScene()->Remove(object);
 		}

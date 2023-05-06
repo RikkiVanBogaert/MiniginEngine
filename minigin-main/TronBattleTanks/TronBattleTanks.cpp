@@ -39,7 +39,7 @@ void InitControllableObjects(Scene& scene)
 	glm::vec3 down = { 0.f,1.f,0.f };
 	glm::vec3 right = { 1.f,0.f,0.f };
 	glm::vec3 left = { -1.f,0.f,0.f };
-	int controllerIdx{ 0 };
+	//int controllerIdx{ 0 };
 
 	auto fontTankUI = ResourceManager::GetInstance().LoadFont("Lingua.otf", 15);
 
@@ -118,7 +118,7 @@ void InitControllableObjects(Scene& scene)
 
 	//BLUE TANK
 	{
-		glm::vec3 downBlue = { 0.f,2.f,0.f };
+		/*glm::vec3 downBlue = { 0.f,2.f,0.f };
 		glm::vec3 upBlue = { 0.f,-2.f,0.f };
 		glm::vec3 leftBlue = { -2.f,0.f,0.f };
 		glm::vec3 rightBlue = { 2.f,0.f,0.f };
@@ -144,42 +144,42 @@ void InitControllableObjects(Scene& scene)
 		button = Controller::ControllerButton::DpadRight;
 		dae::InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandRightBlue);
 
-		scene.Add(blueTank);
+		scene.Add(blueTank);*/
 
-		//Dying/Points logic
-		auto pHealthBlue = std::make_shared<HealthCp>(blueTank.get(), 1);
-		blueTank->AddComponent(pHealthBlue);
+		////Dying/Points logic
+		//auto pHealthBlue = std::make_shared<HealthCp>(blueTank.get(), 1);
+		//blueTank->AddComponent(pHealthBlue);
 
-		auto pPointsBlue = std::make_shared<PointsCp>(blueTank.get(), 0);
-		blueTank->AddComponent(pPointsBlue);
+		//auto pPointsBlue = std::make_shared<PointsCp>(blueTank.get(), 0);
+		//blueTank->AddComponent(pPointsBlue);
 
-		DieCommand* dieCommandBlue = new DieCommand{ blueTank.get() };
-		button = Controller::ControllerButton::ButtonY;
-		dae::InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, dieCommandBlue);
-		PointCommand* pointCommandBlue = new PointCommand{ blueTank.get() };
-		button = Controller::ControllerButton::ButtonA;
-		dae::InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, pointCommandBlue);
+		//DieCommand* dieCommandBlue = new DieCommand{ blueTank.get() };
+		//button = Controller::ControllerButton::ButtonY;
+		//dae::InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, dieCommandBlue);
+		//PointCommand* pointCommandBlue = new PointCommand{ blueTank.get() };
+		//button = Controller::ControllerButton::ButtonA;
+		//dae::InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, pointCommandBlue);
 
-		auto pUIObserverBlue = std::make_shared<UI>();
-		blueTank->MakeObserver(pUIObserverBlue);
+		//auto pUIObserverBlue = std::make_shared<UI>();
+		//blueTank->MakeObserver(pUIObserverBlue);
 
-		scene.Add(blueTank);
+		//scene.Add(blueTank);
 
-		//Lives Display
-		auto blueTankLivesObj = std::make_shared<GameObject>("blueTank");
-		auto textBlueLives = std::make_shared<UICp>(fontTankUI, "Lives: ", SDL_Color{ 0, 0, 255 },
-			"Lives", blueTankLivesObj.get());
-		blueTankLivesObj->SetRelativePos({ 5, 380 });
-		blueTankLivesObj->AddComponent(textBlueLives);
-		scene.Add(blueTankLivesObj);
+		////Lives Display
+		//auto blueTankLivesObj = std::make_shared<GameObject>("blueTank");
+		//auto textBlueLives = std::make_shared<UICp>(fontTankUI, "Lives: ", SDL_Color{ 0, 0, 255 },
+		//	"Lives", blueTankLivesObj.get());
+		//blueTankLivesObj->SetRelativePos({ 5, 380 });
+		//blueTankLivesObj->AddComponent(textBlueLives);
+		//scene.Add(blueTankLivesObj);
 
-		//Points Display
-		auto blueTankPointsObj = std::make_shared<GameObject>("blueTank");
-		auto textBluePoints = std::make_shared<UICp>(fontTankUI, "Points: ", SDL_Color{ 0, 0, 255 },
-			"Points", blueTankPointsObj.get());
-		blueTankPointsObj->SetRelativePos({ 5, 410 });
-		blueTankPointsObj->AddComponent(textBluePoints);
-		scene.Add(blueTankPointsObj);
+		////Points Display
+		//auto blueTankPointsObj = std::make_shared<GameObject>("blueTank");
+		//auto textBluePoints = std::make_shared<UICp>(fontTankUI, "Points: ", SDL_Color{ 0, 0, 255 },
+		//	"Points", blueTankPointsObj.get());
+		//blueTankPointsObj->SetRelativePos({ 5, 410 });
+		//blueTankPointsObj->AddComponent(textBluePoints);
+		//scene.Add(blueTankPointsObj);
 	}
 }
 
@@ -243,6 +243,7 @@ void LoadGameScene()
 	//levelObj1->SetRelativePos({ 200, 0, 0 });
 
 	scene.SetActive(true);
+	levelObj->OnLevelLoad();
 
 	SkipLevelCommand* skipLevel = new SkipLevelCommand{};
 	dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_N, skipLevel);
