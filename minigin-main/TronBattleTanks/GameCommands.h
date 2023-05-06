@@ -46,3 +46,19 @@ public:
 	virtual void Execute() override;
 
 };
+
+class StartGameCommand final : public dae::Command
+{
+public:
+	StartGameCommand() = default; //gets gameMode as paramater
+	virtual void Execute() override;
+
+};
+
+class ExitGameCommand final : public dae::Command
+{
+public:
+	ExitGameCommand() = default;
+	virtual void Execute() override;
+
+};

@@ -19,6 +19,7 @@ namespace dae
 		void FixedUpdate(float deltaTime);
 		void Render() const;
 
+		std::string GetName() const { return m_name; }
 		std::vector<std::shared_ptr<GameObject>> GetGameObjects() {	return m_objects; }
 		
 		void SetActive(bool isActive) { m_IsActive = isActive; }

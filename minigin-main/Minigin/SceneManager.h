@@ -17,7 +17,9 @@ namespace dae
 		void Render();
 		
 		void NextScene();
+		void SetActiveScene(const std::string& sceneName);
 		Scene* GetActiveScene() { return m_scenes[m_ActiveScene].get(); }
+		std::string GetActiveSceneName() const;
 
 	private:
 		friend class Singleton<SceneManager>;

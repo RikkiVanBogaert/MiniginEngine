@@ -111,6 +111,11 @@ void ShootCommand::Execute()
 void SkipLevelCommand::Execute()
 {
 	if (GetKeyPressed()) return;
+	if (dae::SceneManager::GetInstance().GetActiveSceneName() == "MainMenu")
+	{
+		SetKeyPressed(true);
+		return;
+	}
 
 	auto objects = dae::SceneManager::GetInstance().GetActiveScene()->GetGameObjects();
 	for (auto o : objects)
@@ -119,6 +124,7 @@ void SkipLevelCommand::Execute()
 
 		auto level = dynamic_cast<Level*>(o.get());
 		level->OnLevelDestroy();
+		break;
 	}
 	
 	dae::SceneManager::GetInstance().NextScene();
@@ -130,9 +136,41 @@ void SkipLevelCommand::Execute()
 
 		auto level = dynamic_cast<Level*>(o.get());
 		level->OnLevelLoad();
+		break;
 	}
 
 
 	
 	SetKeyPressed(true);
+}
+
+void StartGameCommand::Execute()
+{
+	if (GetKeyPressed()) return;
+	if (dae::SceneManager::GetInstance().GetActiveSceneName() != "MainMenu")
+	{
+		SetKeyPressed(true);
+		return;
+	}
+
+	//Get curr gameMode +
+	std::string nameScene{"Level0"};
+	dae::SceneManager::GetInstance().SetActiveScene(nameScene);
+
+	auto objects = dae::SceneManager::GetInstance().GetActiveScene()->GetGameObjects();
+	for (auto o : objects)
+	{
+		if (!dynamic_cast<Level*>(o.get())) continue;
+
+		auto level = dynamic_cast<Level*>(o.get());
+		level->OnLevelLoad();
+		break;
+	}
+
+	SetKeyPressed(true);
+}
+
+void ExitGameCommand::Execute()
+{
+	exit(0);
 }

@@ -154,6 +154,7 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="GameCommands.cpp" />
     <ClCompile Include="Level.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="Tank.cpp" />
     <ClCompile Include="TronBattleTanks.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="GameCommands.h" />
     <ClInclude Include="Level.h" />
+    <ClInclude Include="Menu.h" />
     <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="Tank.h" />
   </ItemGroup>

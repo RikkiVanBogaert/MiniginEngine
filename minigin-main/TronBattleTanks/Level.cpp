@@ -25,9 +25,8 @@ using namespace dae;
 
 Level::Level(std::vector<int> map, dae::Scene* scene)
 {
-	m_pScene = scene;
+	SetScene(scene);
 	CreateMap(map, 58);
-	//OnLevelLoad();
 }
 
 void Level::Update(float)
@@ -211,8 +210,8 @@ bool Level::CheckTeleportCollision(const glm::vec2& rayPoint)
 {
 	for (const auto& wall : m_pTeleport)
 	{
-		if (rayPoint.x > wall->GetWorldTransform().x && rayPoint.x < wall->GetWorldTransform().x + wall->GetSize().x &&
-			rayPoint.y > wall->GetWorldTransform().y && rayPoint.y < wall->GetWorldTransform().y + wall->GetSize().y)
+		if (rayPoint.x >= wall->GetWorldTransform().x && rayPoint.x <= wall->GetWorldTransform().x + wall->GetSize().x &&
+			rayPoint.y >= wall->GetWorldTransform().y && rayPoint.y <= wall->GetWorldTransform().y + wall->GetSize().y)
 		{
 			return true;
 		}
@@ -221,13 +220,3 @@ bool Level::CheckTeleportCollision(const glm::vec2& rayPoint)
 }
 
 
-
-void Level::SetScene(dae::Scene* scene)
-{
-	m_pScene = scene;
-}
-
-dae::Scene* Level::GetScene()
-{
-	return m_pScene;
-}

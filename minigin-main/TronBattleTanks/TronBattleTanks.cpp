@@ -27,11 +27,18 @@
 #include "GameCommands.h"
 #include "Tank.h"
 #include "Level.h"
+#include "Menu.h"
 
 #include <string>
 #include <vector>
 
 using namespace dae;
+
+void InitMainMenu(Scene& scene)
+{
+	auto menuObj = std::make_shared<Menu>(&scene);
+	scene.Add(menuObj);
+}
 
 void InitControllableObjects(Scene& scene)
 {
@@ -226,27 +233,33 @@ void LoadDaeScene()
 
 void LoadGameScene()
 {
-	auto& scene = SceneManager::GetInstance().CreateScene("Level0");
+	auto&mainMenuScene = SceneManager::GetInstance().CreateScene("MainMenu");
+	InitMainMenu(mainMenuScene);
+
+	auto& sceneLevel0 = SceneManager::GetInstance().CreateScene("Level0");
+
+	auto levelObj = std::make_shared<Level>(sceneLevel0.parse_csv("../Data/Resources/LevelLayout0.csv"), &sceneLevel0);
+	sceneLevel0.Add(levelObj);
+
+	auto& sceneLevel1 = SceneManager::GetInstance().CreateScene("Level1");
+
+	auto levelObj1 = std::make_shared<Level>(sceneLevel1.parse_csv("../Data/Resources/LevelLayout1.csv"), &sceneLevel1);
+	sceneLevel1.Add(levelObj1);
+	levelObj1->SetScene(&sceneLevel1);
+
+	InitControllableObjects(sceneLevel0);
 
 
-	auto levelObj = std::make_shared<Level>(scene.parse_csv("../Data/Resources/LevelLayout0.csv"), &scene);
-	scene.Add(levelObj);
-
-
-	auto& scene1 = SceneManager::GetInstance().CreateScene("Level1");
-
-	auto levelObj1 = std::make_shared<Level>(scene1.parse_csv("../Data/Resources/LevelLayout1.csv"), &scene1);
-	scene1.Add(levelObj1);
-	levelObj1->SetScene(&scene1);
-
-	InitControllableObjects(scene);
-	//levelObj1->SetRelativePos({ 200, 0, 0 });
-
-	scene.SetActive(true);
-	levelObj->OnLevelLoad();
-
+	mainMenuScene.SetActive(true);
+	
 	SkipLevelCommand* skipLevel = new SkipLevelCommand{};
 	dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_N, skipLevel);
+
+	StartGameCommand* startGame = new StartGameCommand{};
+	dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_SPACE, startGame);
+
+	ExitGameCommand* exitGame = new ExitGameCommand{};
+	dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_ESCAPE, exitGame);
 
 }
 
