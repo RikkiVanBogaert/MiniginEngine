@@ -51,7 +51,9 @@ void Level::CreateMap(std::vector<int> map, int columns)
 		pBlock->SetRelativePos({ pos.x, pos.y });
 		pBlock->SetSize({ size, size });
 		pBlock->AddComponent(pTexture);
-			
+		pTexture->SetTexture("Resources/Level/path.png");
+		pBlock->SetTag("Path");
+
 		const glm::vec2 offset{pBlock->GetSize()};
 		switch (map[i])
 		{
@@ -70,16 +72,12 @@ void Level::CreateMap(std::vector<int> map, int columns)
 			break;
 		case 4:
 			m_SpawnPosBlueTanks.push_back({ pos.x - offset.x, pos.y - offset.y });
-			pTexture->SetTexture("Resources/Level/teleport.png");
 			break;
 		case 6:
 			if(m_SpawnPos.x == 0)
 				m_SpawnPos = { pos.x - offset.x, pos.y - offset.y };
-			pTexture->SetTexture("Resources/Level/teleport.png");
 			break;
 		default:
-			pTexture->SetTexture("Resources/Level/path.png");
-			pBlock->SetTag("Path");
 			m_pPaths.push_back(pBlock.get());
 			break;
 		}
@@ -183,8 +181,8 @@ bool Level::CollisionHit(GameObject* object, const glm::vec2& dir)
 			}
 		}*/
 
-		if (rayPoint.x > wall->GetWorldTransform().x && rayPoint.x < wall->GetWorldTransform().x + wall->GetSize().x &&
-			rayPoint.y > wall->GetWorldTransform().y && rayPoint.y < wall->GetWorldTransform().y + wall->GetSize().y)
+		if (rayPoint.x >= wall->GetWorldTransform().x && rayPoint.x <= wall->GetWorldTransform().x + wall->GetSize().x &&
+			rayPoint.y >= wall->GetWorldTransform().y && rayPoint.y <= wall->GetWorldTransform().y + wall->GetSize().y)
 		{
 			return true;
 		}
