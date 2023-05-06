@@ -2,6 +2,7 @@
 #include "ResourceManager.h"
 #include "TextComponent.h"
 #include "Scene.h"
+#include "PlayerManager.h"
 
 using namespace dae;
 
@@ -14,6 +15,7 @@ Menu::Menu(dae::Scene* scene)
 void Menu::InitMenu()
 {
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	auto smallFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
 
 	auto startObj = std::make_shared<GameObject>();
 	auto startText = std::make_shared<TextComponent>(startObj.get(), "START (Space)", font, SDL_Color{ 255, 255, 255 });
@@ -28,11 +30,43 @@ void Menu::InitMenu()
 	quitObj->AddComponent(quitText);
 	GetScene()->Add(quitObj);
 
-	auto gameModeObj = std::make_shared<GameObject>();
-	auto gameModeText = std::make_shared<TextComponent>(gameModeObj.get(), "Switch GameMode (Shift)", font, SDL_Color{ 255, 255, 255 });
-	gameModeObj->SetRelativePos({ 140, 280 });
-	gameModeObj->AddComponent(gameModeText);
-	GetScene()->Add(gameModeObj);
+	auto switchGameModeObj = std::make_shared<GameObject>();
+	auto switchGameModeText = std::make_shared<TextComponent>(switchGameModeObj.get(), "Switch GameMode (Shift)", font, SDL_Color{ 255, 255, 255 });
+	switchGameModeObj->SetRelativePos({ 140, 280 });
+	switchGameModeObj->AddComponent(switchGameModeText);
+	GetScene()->Add(switchGameModeObj);
+
+	m_pGameModeObject = std::make_shared<GameObject>();
+	m_pGameModeText = std::make_shared<TextComponent>(m_pGameModeObject.get(), "SinglePlayer", smallFont, SDL_Color{ 255, 255, 255 });
+	m_pGameModeObject->SetRelativePos({ 190, 320 });
+	m_pGameModeObject->AddComponent(m_pGameModeText);
+	GetScene()->Add(m_pGameModeObject);
 
 
+	auto nextLevelObj = std::make_shared<GameObject>();
+	auto nextLevelText = std::make_shared<TextComponent>(nextLevelObj.get(), "Next Level (N)", smallFont, SDL_Color{ 255, 255, 255 });
+	nextLevelObj->SetRelativePos({ 10, 430 });
+	nextLevelObj->AddComponent(nextLevelText);
+	GetScene()->Add(nextLevelObj);
+}
+
+void Menu::Update(float)
+{
+	SetGameModeText();
+}
+
+void Menu::SetGameModeText()
+{
+	switch (PlayerManager::GetInstance().GetGameMode())
+	{
+	case PlayerManager::SinglePlayer:
+		m_pGameModeText->SetText("SinglePlayer");
+		break;
+	case PlayerManager::Coop:
+		m_pGameModeText->SetText("Coop");
+		break;
+	case PlayerManager::Versus:
+		m_pGameModeText->SetText("Versus");
+		break;
+	}
 }

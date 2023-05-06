@@ -20,6 +20,7 @@
 #include "Bullet.h"
 
 #include "PlayerManager.h"
+#include "Menu.h"
 
 using namespace dae;
 
@@ -73,8 +74,7 @@ void Level::CreateMap(std::vector<int> map, int columns)
 			m_SpawnPosBlueTanks.push_back({ pos.x - offset.x, pos.y - offset.y });
 			break;
 		case 6:
-			if(m_SpawnPos.x == 0)
-				m_SpawnPos = { pos.x - offset.x, pos.y - offset.y };
+			m_SpawnPosPlayers.push_back({ pos.x - offset.x, pos.y - offset.y });
 			break;
 		default:
 			m_pPaths.push_back(pBlock.get());
@@ -102,8 +102,35 @@ glm::vec2 Level::GetRandomSpawnPos() const
 	return spawnPos;
 }
 
-void Level::LoadEnemies()
+void Level::OnLevelLoad()
+{	
+	switch (PlayerManager::GetInstance().GetGameMode())
+	{
+	case PlayerManager::SinglePlayer:
+		LoadSinglePlayer();
+		break;
+	case PlayerManager::Coop:
+		LoadCoop();
+		break;
+	}
+
+}
+
+void Level::LoadSinglePlayer()
 {
+	//Player----
+	auto player = PlayerManager::GetInstance().GetPlayers()[0];
+	for (int i{}; i < m_SpawnPosPlayers.size(); i += 4)
+	{
+		player->SetRelativePos(m_SpawnPosPlayers[i]);
+		GetScene()->Add(player);
+		break;
+	}
+
+	player->GetScene()->Remove(player);
+	GetScene()->Add(player);
+
+	//Enemies----
 	for (int i{}; i < m_SpawnPosBlueTanks.size(); i += 4)
 	{
 		auto blueTank = std::make_shared<BlueTank>();
@@ -112,15 +139,26 @@ void Level::LoadEnemies()
 	}
 }
 
-void Level::OnLevelLoad()
-{	
-	auto player = PlayerManager::getInstance().GetPlayers()[0];
-	player->SetRelativePos(m_SpawnPos);
+void Level::LoadCoop()
+{
+	//Players----
+	auto player = PlayerManager::GetInstance().GetPlayers()[0];
+	for (int i{}; i < m_SpawnPosPlayers.size(); i += 4)
+	{
+		player->SetRelativePos(m_SpawnPosPlayers[i]);
+		GetScene()->Add(player);
+	}
 
 	player->GetScene()->Remove(player);
 	GetScene()->Add(player);
 
-	LoadEnemies();
+	//Enemies----
+	for (int i{}; i < m_SpawnPosBlueTanks.size(); i += 4)
+	{
+		auto blueTank = std::make_shared<BlueTank>();
+		blueTank->SetRelativePos(m_SpawnPosBlueTanks[i]);
+		GetScene()->Add(blueTank);
+	}
 }
 
 void Level::OnLevelDestroy()

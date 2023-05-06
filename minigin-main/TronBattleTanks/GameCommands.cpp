@@ -3,9 +3,11 @@
 #include "BaseComponent.h"
 #include "CounterCp.h"
 #include "SceneManager.h"
+#include "PlayerManager.h"
 
 #include "Scene.h"
 #include "Level.h"
+#include "Menu.h"
 #include "Bullet.h"
 
 using namespace dae;
@@ -153,7 +155,7 @@ void StartGameCommand::Execute()
 		return;
 	}
 
-	//Get curr gameMode +
+
 	std::string nameScene{"Level0"};
 	dae::SceneManager::GetInstance().SetActiveScene(nameScene);
 
@@ -173,4 +175,18 @@ void StartGameCommand::Execute()
 void ExitGameCommand::Execute()
 {
 	exit(0);
+}
+
+void SwitchGameModeCommand::Execute()
+{
+	if (GetKeyPressed()) return;
+	if (dae::SceneManager::GetInstance().GetActiveSceneName() != "MainMenu")
+	{
+		SetKeyPressed(true);
+		return;
+	}
+
+	PlayerManager::GetInstance().SwitchGameMode();
+
+	SetKeyPressed(true);
 }

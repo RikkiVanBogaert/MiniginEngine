@@ -119,7 +119,7 @@ void InitControllableObjects(Scene& scene)
 		scene.Add(redTankPointsObj);
 
 
-		PlayerManager::getInstance().AddPlayer(tankPrefab);
+		PlayerManager::GetInstance().AddPlayer(tankPrefab);
 
 	}
 
@@ -261,12 +261,16 @@ void LoadGameScene()
 	ExitGameCommand* exitGame = new ExitGameCommand{};
 	dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_ESCAPE, exitGame);
 
+	SwitchGameModeCommand* switchGameMode = new SwitchGameModeCommand{};
+	dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_TAB, switchGameMode);
+
 }
 
 void load()
 {
 	//LoadDaeScene();
 	LoadGameScene();
+
 }
 
 int main(int, char* []) 

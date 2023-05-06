@@ -25,7 +25,7 @@ private:
 	std::vector<GameObject*> m_pPaths;
 	std::vector<GameObject*> m_pTeleport;
 
-	glm::vec2 m_SpawnPos{};
+	std::vector<glm::vec2> m_SpawnPosPlayers{};
 	std::vector<glm::vec2> m_SpawnPosBlueTanks{};
 
 	void CreateMap(std::vector<int> map, int columns);
@@ -33,8 +33,8 @@ private:
 	void UpdateBullets();
 	bool CheckTeleportCollision(const glm::vec2& rayPoint);
 
-
-	void LoadEnemies();
+	void LoadSinglePlayer();
+	void LoadCoop();
 
 };
 
