@@ -1,13 +1,9 @@
 #pragma once
 #include "FPSComponent.h"
 #include "Font.h"
-#include "Texture2D.h"
-#include "Renderer.h"
 #include "GameObject.h"
 #include "TextComponent.h"
 
-#include <iostream>
-#include <stdexcept>
 #include <SDL_ttf.h>
 #include <chrono>
 

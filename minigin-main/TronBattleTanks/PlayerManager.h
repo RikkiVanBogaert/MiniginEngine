@@ -10,6 +10,14 @@ namespace dae
 class PlayerManager
 {
 public:
+
+    ~PlayerManager() = default;
+    PlayerManager(const PlayerManager&) = delete;
+    PlayerManager& operator=(const PlayerManager&) = delete;
+    PlayerManager(PlayerManager&&) = default;
+    PlayerManager& operator=(PlayerManager&&) = default;
+
+
     static PlayerManager& GetInstance()
     {
         static PlayerManager instance;  // thread-safe singleton instance
@@ -18,8 +26,11 @@ public:
 
     // Add public methods for managing players here
 
-    void AddPlayer(std::shared_ptr<dae::GameObject> player) { m_Players.push_back(player); }
-    void RemovePlayer(std::shared_ptr<dae::GameObject> player)
+    void AddPlayer(const std::shared_ptr<dae::GameObject>& player)
+    {
+	    m_Players.push_back(player);
+    }
+    void RemovePlayer(const std::shared_ptr<dae::GameObject>& player)
     {
         m_Players.erase(std::remove(m_Players.begin(), m_Players.end(), player), m_Players.end());
     }
@@ -36,12 +47,10 @@ public:
     GameMode GetGameMode() const { return m_GameMode; }
 
 private:
-    PlayerManager() {}  // private constructor to prevent direct instantiation
-    PlayerManager(const PlayerManager&) = delete;  // delete copy constructor
-    PlayerManager& operator=(const PlayerManager&) = delete;  // delete copy assignment operator
+    PlayerManager() = default;
 
     std::vector<std::shared_ptr<dae::GameObject>> m_Players;
 
-    GameMode m_GameMode{ GameMode::SinglePlayer };
+    GameMode m_GameMode{ SinglePlayer };
 };
 

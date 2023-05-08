@@ -1,5 +1,9 @@
 #pragma once
+#include <glm/vec3.hpp>
+
 #include "BaseComponent.h"
+#include "Transform.h"
+
 namespace dae
 {
 	class TransformComponent final : public ComponentBase
@@ -16,14 +20,13 @@ namespace dae
 
 		virtual void Update(float deltaTime);
 		virtual void Render() const;
-		void SetTransform(const dae::Transform& transform);
+		void SetTransform(const Transform& transform);
 		void SetPosition(const glm::vec3& pos);
 
 
 	protected:
-		dae::Transform m_Transform{};
-		bool m_NeedsUpdate{ true };
-		//GameObject* m_pOwner;
+		Transform m_Transform{};
+
 	};
 
 }

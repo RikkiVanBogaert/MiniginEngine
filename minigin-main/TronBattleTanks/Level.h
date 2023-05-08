@@ -9,7 +9,7 @@ class Level final : public dae::GameObject
 {
 public:
 	Level(std::vector<int> map, dae::Scene* scene);
-	virtual ~Level() = default;
+	//virtual ~Level() = default;
 
 	virtual void Update(float deltaTime) override;
 
@@ -28,13 +28,14 @@ private:
 	std::vector<glm::vec2> m_SpawnPosPlayers{};
 	std::vector<glm::vec2> m_SpawnPosBlueTanks{};
 
-	void CreateMap(std::vector<int> map, int columns);
+	void CreateMap(const std::vector<int>& map, int columns);
 
 	void UpdateBullets();
 	bool CheckTeleportCollision(const glm::vec2& rayPoint);
 
 	void LoadSinglePlayer();
 	void LoadCoop();
+	void LoadVersus();
 
 };
 

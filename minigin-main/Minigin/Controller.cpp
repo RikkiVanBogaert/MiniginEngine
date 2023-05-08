@@ -35,15 +35,14 @@ private:
     XINPUT_STATE m_CurrentState{};
     XINPUT_STATE m_PreviousState{};
     int m_ButtonsPressedThisFrame{};
-    int m_ButtonsReleasedFrame{};
-
+    
     unsigned int m_ControllerIndex{};
 };
 
 
-Controller::Controller(unsigned int controllerIdx)
+Controller::Controller(unsigned int controllerIndex)
 {
-    m_pImpl = new ControllerImpl(controllerIdx);
+    m_pImpl = new ControllerImpl(controllerIndex);
 }
 
 Controller::~Controller()
@@ -51,7 +50,7 @@ Controller::~Controller()
     delete m_pImpl;
 }
 
-void Controller::Update()
+void Controller::Update() const
 {
     m_pImpl->Update();
 }

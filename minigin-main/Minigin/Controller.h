@@ -11,7 +11,8 @@ namespace dae
     public:
         Controller(unsigned int controllerIndex);
         ~Controller();
-        void Update();
+
+        void Update() const;
         bool IsButtonDown(unsigned int button) const;
         bool IsUpThisFrame(unsigned int button) const;
         bool IsPressed(unsigned int button) const;

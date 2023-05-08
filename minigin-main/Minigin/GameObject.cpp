@@ -3,7 +3,6 @@
 #include "ResourceManager.h"
 #include "Renderer.h"
 #include "BaseComponent.h"
-#include "imgui/imgui_plot.h"
 #include "Observers.h"
 
 using namespace dae;
@@ -12,28 +11,25 @@ GameObject::GameObject(const std::string& tag):
 	m_Tag{tag}
 {}
 
-GameObject::~GameObject()
-{}
 
-
-void GameObject::AddComponent(std::shared_ptr<ComponentBase> component)
+void GameObject::AddComponent(const std::shared_ptr<ComponentBase>& component)
 {
 	m_pComponents.push_back(component);
 }
 
 
-void GameObject::RemoveComponent(std::shared_ptr<ComponentBase> component)
+void GameObject::RemoveComponent(const std::shared_ptr<ComponentBase>& component)
 {
 	m_pComponents.erase(std::remove(m_pComponents.begin(), m_pComponents.end(), component), m_pComponents.end());
 }
 
-void GameObject::MakeObserver(std::shared_ptr<Observer> observer)
+void GameObject::MakeObserver(const std::shared_ptr<Observer>& observer)
 {
 	m_pSubject = std::make_unique<Subject>(this);
 	m_pSubject->AddObserver(observer);
 }
 
-void GameObject::NotifyObservers(Event event)
+void GameObject::NotifyObservers(const Event& event) const
 {
 	if (!m_pSubject) return;
 
@@ -42,12 +38,12 @@ void GameObject::NotifyObservers(Event event)
 
 void GameObject::Update(float deltaTime)
 {
-	for (auto& component : m_pComponents)
+	for (const auto& component : m_pComponents)
 	{
 		component->Update(deltaTime);
 	}
 
-	for (auto& child : m_pChildren)
+	for (const auto& child : m_pChildren)
 	{
 		if (child->NeedsDeleting()) continue;
 		child->Update(deltaTime);
@@ -56,12 +52,12 @@ void GameObject::Update(float deltaTime)
 
 void GameObject::FixedUpdate(float deltaTime)
 {
-	for (auto& component : m_pComponents)
+	for (const auto& component : m_pComponents)
 	{
 		component->FixedUpdate(deltaTime);
 	}
 
-	for (auto& child : m_pChildren)
+	for (const auto& child : m_pChildren)
 	{
 		if (child->NeedsDeleting()) continue;
 		child->FixedUpdate(deltaTime);
@@ -93,7 +89,7 @@ void GameObject::SetParent(GameObject* parent)
 	UpdateWorldPos();
 }
 
-GameObject* GameObject::GetParent()
+GameObject* GameObject::GetParent() const
 {
 	return m_pParent;
 }
@@ -121,7 +117,7 @@ void GameObject::SetScene(dae::Scene* scene)
 	m_pScene = scene;
 }
 
-dae::Scene* GameObject::GetScene()
+dae::Scene* GameObject::GetScene() const 
 {
 	return m_pScene;
 }
@@ -133,7 +129,7 @@ void GameObject::MarkForDeletion()
 	m_NeedsDeleting = true;
 }
 
-bool GameObject::NeedsDeleting()
+bool GameObject::NeedsDeleting() const
 {
 	return m_NeedsDeleting;
 }

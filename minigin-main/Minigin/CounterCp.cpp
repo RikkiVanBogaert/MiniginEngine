@@ -1,8 +1,4 @@
-#pragma once
 #include "CounterCp.h"
-#include "Font.h"
-#include "Texture2D.h"
-#include "Renderer.h"
 #include "GameObject.h"
 #include "TextComponent.h"
 

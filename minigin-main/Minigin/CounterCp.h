@@ -1,6 +1,5 @@
 #pragma once
 #include "BaseComponent.h"
-#include <string>
 
 namespace dae
 {
@@ -9,8 +8,7 @@ namespace dae
 	{
 	public:
 		CounterCp(GameObject* owner, int startAmount);
-		//virtual ~CounterCp();
-
+		
 		void ChangeAmount(int difference);
 		void SetAmount(int newHealth);
 		int GetAmount() const;
@@ -24,14 +22,14 @@ namespace dae
 	{
 	public:
 		HealthCp(GameObject* owner, int startAmount) : 
-			CounterCp(owner, startAmount) {};
-		//virtual ~HealthCp();
+			CounterCp(owner, startAmount) {}
+
 	};
 
 	class PointsCp final : public CounterCp
 	{
 	public:
 		PointsCp(GameObject* owner, int startAmount) :
-			CounterCp(owner, startAmount) {};
+			CounterCp(owner, startAmount) {}
 	};
 }

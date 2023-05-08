@@ -16,6 +16,6 @@ private:
 	std::shared_ptr<dae::TextComponent> m_pGameModeText;
 
 	void InitMenu();
-	void SetGameModeText();
+	void SetGameModeText() const;
 };
 

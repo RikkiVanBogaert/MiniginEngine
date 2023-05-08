@@ -18,13 +18,13 @@ namespace dae
 		virtual void FixedUpdate(float deltaTime);
 		virtual void Render() const;
 
-		void AddComponent(std::shared_ptr<ComponentBase> component);
-		void RemoveComponent(std::shared_ptr<ComponentBase> component);
+		void AddComponent(const std::shared_ptr<ComponentBase>& component);
+		void RemoveComponent(const std::shared_ptr<ComponentBase>& component);
 
 		template <typename T>
 		T* GetComponent()
 		{
-			for (auto component : m_pComponents)
+			for (const auto component : m_pComponents)
 			{
 				if (typeid(*component) == typeid(T))
 				{
@@ -35,7 +35,7 @@ namespace dae
 		}
 
 		void MarkForDeletion();
-		bool NeedsDeleting();
+		bool NeedsDeleting() const;
 
 		void SetRelativePos(const glm::vec2& pos);
 		void UpdateWorldPos();
@@ -43,26 +43,26 @@ namespace dae
 
 		glm::vec2 GetWorldTransform();
 		glm::vec2 GetRelativeTransform() const;
-		void SetSize(const glm::vec2& size) { m_Size = size; };
-		glm::vec2 GetSize() const { return m_Size; };
+		void SetSize(const glm::vec2& size) { m_Size = size; }
+		glm::vec2 GetSize() const { return m_Size; }
 
 		//Parent stuff
 		void SetParent(GameObject* parent);
-		GameObject* GetParent();
+		GameObject* GetParent() const;
 		void AddChild(GameObject* child);
 		std::vector<GameObject*> GetChildren() const;
 
 		//Observer/Subject
-		void MakeObserver(std::shared_ptr<Observer> observer);
-		void NotifyObservers(Event event);
-		void SetTag(const std::string& tag) { m_Tag = tag; };
-		std::string GetTag() const { return m_Tag; };
+		void MakeObserver(const std::shared_ptr<Observer>& observer);
+		void NotifyObservers(const Event& event) const;
+		void SetTag(const std::string& tag) { m_Tag = tag; }
+		std::string GetTag() const { return m_Tag; }
 
-		void SetScene(dae::Scene* scene);
-		dae::Scene* GetScene();
+		void SetScene(Scene* scene);
+		Scene* GetScene() const;
 
 		GameObject(const std::string& tag = "noTag");
-		virtual ~GameObject();
+		virtual ~GameObject() = default;
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
@@ -73,9 +73,9 @@ namespace dae
 
 
 	private:
-		dae::Scene* m_pScene{};
+		Scene* m_pScene{};
 
-		//Put all these in one Tranform struct
+		//Put all these in one Transform struct
 		glm::vec2 m_WorldTransform{};
 		glm::vec2 m_RelativeTransform{};
 		glm::vec2 m_Size{};

@@ -5,22 +5,15 @@
 //Components
 #include "TextComponent.h"
 #include "TextureComponent.h"
-#include "FPSComponent.h"
-#include "RotationCp.h"
-#include "CounterCp.h"
 #include "UICp.h"
 
 #include "GameObject.h"
-#include "Scene.h"
 #include "InputManager.h"
-#include "Observers.h"
 
-#include "GameCommands.h"
 #include "Tank.h"
 #include "Bullet.h"
 
 #include "PlayerManager.h"
-#include "Menu.h"
 
 using namespace dae;
 
@@ -36,14 +29,12 @@ void Level::Update(float)
 }
 
 
-void Level::CreateMap(std::vector<int> map, int columns)
+void Level::CreateMap(const std::vector<int>& map, int columns)
 {
-	//const int rows{54};
-	//const int cols{ 58 };
-	const float size{ 8 };
-	const glm::vec2 startPos{ 100,10 };
+	constexpr float size{ 8 };
+	constexpr glm::vec2 startPos{ 100,10 };
 	glm::vec2 pos{ startPos };
-	for (int i{}; i < map.size(); ++i)
+	for (size_t i{}; i < map.size(); ++i)
 	{
 		auto pBlock = std::make_shared<GameObject>();
 		auto pTexture = std::make_shared<TextureComponent>(pBlock.get());
@@ -96,7 +87,7 @@ void Level::CreateMap(std::vector<int> map, int columns)
 
 glm::vec2 Level::GetRandomSpawnPos() const
 {
-	const int rndIndex = rand() % (m_pPaths.size() + 1);
+	const auto rndIndex = rand() % (m_pPaths.size() + 1);
 	const auto spawnPos = m_pPaths[rndIndex]->GetWorldTransform();
 
 	return spawnPos;
@@ -104,6 +95,8 @@ glm::vec2 Level::GetRandomSpawnPos() const
 
 void Level::OnLevelLoad()
 {	
+	//OnLevelDestroy();
+
 	switch (PlayerManager::GetInstance().GetGameMode())
 	{
 	case PlayerManager::SinglePlayer:
@@ -112,6 +105,9 @@ void Level::OnLevelLoad()
 	case PlayerManager::Coop:
 		LoadCoop();
 		break;
+	case PlayerManager::Versus:
+		LoadVersus();
+		break;
 	}
 
 }
@@ -119,19 +115,18 @@ void Level::OnLevelLoad()
 void Level::LoadSinglePlayer()
 {
 	//Player----
-	auto player = PlayerManager::GetInstance().GetPlayers()[0];
-	for (int i{}; i < m_SpawnPosPlayers.size(); i += 4)
+	const auto player = PlayerManager::GetInstance().GetPlayers()[0];
+	for (size_t i{}; i < m_SpawnPosPlayers.size(); i += 4)
 	{
 		player->SetRelativePos(m_SpawnPosPlayers[i]);
 		GetScene()->Add(player);
-		break;
 	}
 
 	player->GetScene()->Remove(player);
 	GetScene()->Add(player);
 
 	//Enemies----
-	for (int i{}; i < m_SpawnPosBlueTanks.size(); i += 4)
+	for (size_t i{}; i < m_SpawnPosBlueTanks.size(); i += 4)
 	{
 		auto blueTank = std::make_shared<BlueTank>();
 		blueTank->SetRelativePos(m_SpawnPosBlueTanks[i]);
@@ -142,23 +137,70 @@ void Level::LoadSinglePlayer()
 void Level::LoadCoop()
 {
 	//Players----
-	auto player = PlayerManager::GetInstance().GetPlayers()[0];
-	for (int i{}; i < m_SpawnPosPlayers.size(); i += 4)
+	const auto player = PlayerManager::GetInstance().GetPlayers()[0];
+	const auto player2 = PlayerManager::GetInstance().GetPlayers()[1];
+	for (size_t i{}; i < m_SpawnPosPlayers.size(); i += 4)
 	{
-		player->SetRelativePos(m_SpawnPosPlayers[i]);
-		GetScene()->Add(player);
+		if (i == 0)
+		{
+			player->SetRelativePos(m_SpawnPosPlayers[i]);
+			GetScene()->Add(player);
+		}
+		else
+		{
+			player2->SetRelativePos(m_SpawnPosPlayers[i]);
+			GetScene()->Add(player2);
+		}
 	}
 
 	player->GetScene()->Remove(player);
 	GetScene()->Add(player);
 
+	player2->GetScene()->Remove(player2);
+	GetScene()->Add(player2);
+
+	player2->SetTag("RedTank");
+	const auto pTexture = player2->GetComponent<TextureComponent>();
+	pTexture->SetTexture("Resources/Sprites/RedTank.png");
+
+
 	//Enemies----
-	for (int i{}; i < m_SpawnPosBlueTanks.size(); i += 4)
+	for (size_t i{}; i < m_SpawnPosBlueTanks.size(); i += 4)
 	{
 		auto blueTank = std::make_shared<BlueTank>();
 		blueTank->SetRelativePos(m_SpawnPosBlueTanks[i]);
 		GetScene()->Add(blueTank);
 	}
+}
+
+void Level::LoadVersus()
+{
+	//Players----
+	const auto player = PlayerManager::GetInstance().GetPlayers()[0];
+	const auto player2 = PlayerManager::GetInstance().GetPlayers()[1];
+	for (size_t i{}; i < m_SpawnPosPlayers.size(); i += 4)
+	{
+		if (i == 0)
+		{
+			player->SetRelativePos(m_SpawnPosPlayers[i]);
+			GetScene()->Add(player);
+		}
+		else
+		{
+			player2->SetRelativePos(m_SpawnPosPlayers[i]);
+			GetScene()->Add(player2);
+		}
+	}
+
+	player->GetScene()->Remove(player);
+	GetScene()->Add(player);
+
+	player2->GetScene()->Remove(player2);
+	GetScene()->Add(player2);
+
+	player2->SetTag("BlueTank");
+	const auto pTexture = player2->GetComponent<TextureComponent>();
+	pTexture->SetTexture("Resources/Sprites/BlueTank.png");
 }
 
 void Level::OnLevelDestroy()
@@ -235,7 +277,7 @@ void Level::UpdateBullets()
 	{
 		if (!dynamic_cast<Bullet*>(o.get())) continue;
 
-		auto pBullet = static_cast<Bullet*>(o.get());
+		const auto pBullet = dynamic_cast<Bullet*>(o.get());
 
 		if (CollisionHit(pBullet, pBullet->GetVelocity()))
 		{

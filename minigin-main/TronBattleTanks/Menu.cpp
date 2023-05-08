@@ -6,7 +6,7 @@
 
 using namespace dae;
 
-Menu::Menu(dae::Scene* scene)
+Menu::Menu(Scene* scene)
 {
 	SetScene(scene);
 	InitMenu();
@@ -14,24 +14,24 @@ Menu::Menu(dae::Scene* scene)
 
 void Menu::InitMenu()
 {
-	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto smallFont = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
+	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	auto smallFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
 
-	auto startObj = std::make_shared<GameObject>();
-	auto startText = std::make_shared<TextComponent>(startObj.get(), "START (Space)", font, SDL_Color{ 255, 255, 255 });
+	const auto startObj = std::make_shared<GameObject>();
+	const auto startText = std::make_shared<TextComponent>(startObj.get(), "START (Space)", font, SDL_Color{ 255, 255, 255 });
 	startObj->SetRelativePos({ 200, 40 });
 	startObj->AddComponent(startText);
 	GetScene()->Add(startObj);
 
 
-	auto quitObj = std::make_shared<GameObject>();
-	auto quitText = std::make_shared<TextComponent>(quitObj.get(), "QUIT (Esc)", font, SDL_Color{ 255, 255, 255 });
+	const auto quitObj = std::make_shared<GameObject>();
+	const auto quitText = std::make_shared<TextComponent>(quitObj.get(), "QUIT (Esc)", font, SDL_Color{ 255, 255, 255 });
 	quitObj->SetRelativePos({ 230, 160 });
 	quitObj->AddComponent(quitText);
 	GetScene()->Add(quitObj);
 
-	auto switchGameModeObj = std::make_shared<GameObject>();
-	auto switchGameModeText = std::make_shared<TextComponent>(switchGameModeObj.get(), "Switch GameMode (Shift)", font, SDL_Color{ 255, 255, 255 });
+	const auto switchGameModeObj = std::make_shared<GameObject>();
+	const auto switchGameModeText = std::make_shared<TextComponent>(switchGameModeObj.get(), "Switch GameMode (Shift)", font, SDL_Color{ 255, 255, 255 });
 	switchGameModeObj->SetRelativePos({ 140, 280 });
 	switchGameModeObj->AddComponent(switchGameModeText);
 	GetScene()->Add(switchGameModeObj);
@@ -43,8 +43,8 @@ void Menu::InitMenu()
 	GetScene()->Add(m_pGameModeObject);
 
 
-	auto nextLevelObj = std::make_shared<GameObject>();
-	auto nextLevelText = std::make_shared<TextComponent>(nextLevelObj.get(), "Next Level (N)", smallFont, SDL_Color{ 255, 255, 255 });
+	const auto nextLevelObj = std::make_shared<GameObject>();
+	const auto nextLevelText = std::make_shared<TextComponent>(nextLevelObj.get(), "Next Level (N)", smallFont, SDL_Color{ 255, 255, 255 });
 	nextLevelObj->SetRelativePos({ 10, 430 });
 	nextLevelObj->AddComponent(nextLevelText);
 	GetScene()->Add(nextLevelObj);
@@ -55,7 +55,7 @@ void Menu::Update(float)
 	SetGameModeText();
 }
 
-void Menu::SetGameModeText()
+void Menu::SetGameModeText() const
 {
 	switch (PlayerManager::GetInstance().GetGameMode())
 	{

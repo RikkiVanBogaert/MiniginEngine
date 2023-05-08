@@ -1,6 +1,5 @@
 #include "GameCommands.h"
 #include "GameObject.h"
-#include "BaseComponent.h"
 #include "CounterCp.h"
 #include "SceneManager.h"
 #include "PlayerManager.h"
@@ -9,6 +8,7 @@
 #include "Level.h"
 #include "Menu.h"
 #include "Bullet.h"
+
 
 using namespace dae;
 
@@ -26,12 +26,12 @@ void MoveCommand::Execute()
 
 
 	//Check level for collision
-	auto sceneObjects = m_pGameObject->GetScene()->GetGameObjects();
+	const auto sceneObjects = m_pGameObject->GetScene()->GetGameObjects();
 	for (auto& o : sceneObjects)
 	{
 		if (!dynamic_cast<Level*>(o.get())) continue;
 
-		auto pLevel = dynamic_cast<Level*>(o.get());
+		const auto pLevel = dynamic_cast<Level*>(o.get());
 		if (pLevel->CollisionHit(m_pGameObject, m_Direction))
 			return;
 		else
@@ -55,7 +55,7 @@ void DieCommand::Execute()
 {
 	if (!m_pGameObject || m_pGameObject->NeedsDeleting() || !m_pGameObject->GetScene()->IsActive()) return;
 
-	if (auto health = m_pGameObject->GetComponent<dae::HealthCp>())
+	if (const auto health = m_pGameObject->GetComponent<dae::HealthCp>())
 	{
 		health->SetAmount(0);
 	}
@@ -72,7 +72,7 @@ void PointCommand::Execute()
 
 	if (GetKeyPressed()) return;
 
-	if (auto points = m_pGameObject->GetComponent<dae::PointsCp>())
+	if (const auto points = m_pGameObject->GetComponent<dae::PointsCp>())
 	{
 		points->ChangeAmount(1);
 
@@ -96,11 +96,11 @@ void ShootCommand::Execute()
 	if (GetKeyPressed()) return;
 
 
-	auto bullet = std::make_shared<Bullet>(m_Direction);
+	const auto bullet = std::make_shared<Bullet>(m_Direction);
 	bullet->SetTag(m_pGameObject->GetTag());
 
 
-	glm::vec3 middlePos = { m_pGameObject->GetWorldTransform().x + m_pGameObject->GetSize().x / 2 - bullet->GetSize().x / 2,
+	const glm::vec3 middlePos = { m_pGameObject->GetWorldTransform().x + m_pGameObject->GetSize().x / 2 - bullet->GetSize().x / 2,
 		m_pGameObject->GetWorldTransform().y + m_pGameObject->GetSize().y / 2 - bullet->GetSize().y / 2,
 		0 };
 	bullet->SetRelativePos(middlePos);
@@ -113,30 +113,36 @@ void ShootCommand::Execute()
 void SkipLevelCommand::Execute()
 {
 	if (GetKeyPressed()) return;
-	if (dae::SceneManager::GetInstance().GetActiveSceneName() == "MainMenu")
+
+	auto& sceneManager = dae::SceneManager::GetInstance();
+	if (sceneManager.GetActiveSceneName() == "MainMenu")
 	{
 		SetKeyPressed(true);
 		return;
 	}
 
-	auto objects = dae::SceneManager::GetInstance().GetActiveScene()->GetGameObjects();
-	for (auto o : objects)
+	auto objects = sceneManager.GetActiveScene()->GetGameObjects();
+	for (auto& o : objects)
 	{
 		if (!dynamic_cast<Level*>(o.get())) continue;
 
-		auto level = dynamic_cast<Level*>(o.get());
+		const auto level = dynamic_cast<Level*>(o.get());
 		level->OnLevelDestroy();
 		break;
 	}
 	
-	dae::SceneManager::GetInstance().NextScene();
+	sceneManager.NextScene();
+	if (sceneManager.GetActiveSceneName() == "WaitingScene")
+	{
+		sceneManager.NextScene();
+	}
 
-	objects = dae::SceneManager::GetInstance().GetActiveScene()->GetGameObjects();
-	for (auto o : objects)
+	objects = sceneManager.GetActiveScene()->GetGameObjects();
+	for (auto& o : objects)
 	{
 		if (!dynamic_cast<Level*>(o.get())) continue;
 
-		auto level = dynamic_cast<Level*>(o.get());
+		const auto level = dynamic_cast<Level*>(o.get());
 		level->OnLevelLoad();
 		break;
 	}
@@ -156,15 +162,15 @@ void StartGameCommand::Execute()
 	}
 
 
-	std::string nameScene{"Level0"};
+	const std::string nameScene{"Level0"};
 	dae::SceneManager::GetInstance().SetActiveScene(nameScene);
 
-	auto objects = dae::SceneManager::GetInstance().GetActiveScene()->GetGameObjects();
-	for (auto o : objects)
+	const auto objects = dae::SceneManager::GetInstance().GetActiveScene()->GetGameObjects();
+	for (auto& o : objects)
 	{
 		if (!dynamic_cast<Level*>(o.get())) continue;
 
-		auto level = dynamic_cast<Level*>(o.get());
+		const auto level = dynamic_cast<Level*>(o.get());
 		level->OnLevelLoad();
 		break;
 	}

@@ -9,7 +9,6 @@ class Tank : public dae::GameObject
 {
 public:
 	Tank() = default;
-	virtual ~Tank() {};
 
 	virtual void Update(float deltaTime) override;
 
@@ -19,14 +18,13 @@ protected:
 
 private:
 	void CheckOverlap();
-	virtual void GetHit() {};
+	virtual void GetHit() = 0;
 };
 
 class RedTank final : public Tank
 {
 public:
 	RedTank();
-	virtual ~RedTank() {};
 
 private:
 	virtual void GetHit() override;
@@ -36,7 +34,6 @@ class BlueTank final : public Tank
 {
 public:
 	BlueTank();
-	virtual ~BlueTank() {};
 
 private:
 	virtual void GetHit() override;

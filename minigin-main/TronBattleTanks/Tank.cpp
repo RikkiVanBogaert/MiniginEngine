@@ -34,7 +34,7 @@ void Tank::CheckOverlap()
 
 RedTank::RedTank()
 {
-	SetTag("redTank");
+	SetTag("RedTank");
 
 	auto redTankTxt = std::make_shared<TextureComponent>(this);
 	redTankTxt->SetTexture("Resources/Sprites/RedTank.png");
@@ -58,7 +58,7 @@ void RedTank::GetHit()
 
 BlueTank::BlueTank()
 {
-	SetTag("blueTank");
+	SetTag("BlueTank");
 
 	auto blueTankTxt = std::make_shared<TextureComponent>(this);
 	blueTankTxt->SetTexture("Resources/Sprites/BlueTank.png");

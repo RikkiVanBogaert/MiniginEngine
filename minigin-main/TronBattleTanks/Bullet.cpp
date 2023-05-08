@@ -7,9 +7,7 @@ using namespace dae;
 Bullet::Bullet(glm::vec2 velocity):
 	m_Velocity{velocity}
 {
-	//SetTag("bullet");
-
-	auto bulletTxt = std::make_shared<TextureComponent>(this);
+	const auto bulletTxt = std::make_shared<TextureComponent>(this);
 	bulletTxt->SetTexture("Resources/Sprites/BulletPlayer.png");
 	AddComponent(bulletTxt);
 
@@ -18,7 +16,7 @@ Bullet::Bullet(glm::vec2 velocity):
 
 void Bullet::Update(float deltaTime)
 {
-	auto newPos = GetRelativeTransform() + m_Velocity * deltaTime;
+	const auto newPos = GetRelativeTransform() + m_Velocity * deltaTime;
 	SetRelativePos(newPos);
 
 	

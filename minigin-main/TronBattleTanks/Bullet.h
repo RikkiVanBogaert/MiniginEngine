@@ -2,14 +2,11 @@
 #include "GameObject.h"
 #include "Transform.h"
 
-#include <memory>
-
 class Bullet final : public dae::GameObject
 {
 public:
 	Bullet(glm::vec2 velocity);
-	virtual ~Bullet() {};
-
+	
 	virtual void Update(float deltaTime) override;
 	void SetVelocity(glm::vec2 newVel);
 	glm::vec2 GetVelocity() const { return m_Velocity; }
