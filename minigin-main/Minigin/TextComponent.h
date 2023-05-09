@@ -2,7 +2,6 @@
 #include <string>
 #include <memory>
 #include <SDL_ttf.h>
-#include "Transform.h"
 #include "BaseComponent.h"
 
 namespace dae

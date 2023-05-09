@@ -1,7 +1,7 @@
 #pragma once
 
-#include <memory>
-#include "Transform.h"
+#include <glm/vec2.hpp>
+
 #include "BaseComponent.h"
 
 namespace dae

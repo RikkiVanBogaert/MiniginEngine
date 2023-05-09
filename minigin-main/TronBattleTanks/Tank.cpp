@@ -11,6 +11,18 @@ void Tank::Update(float)
 	CheckOverlap();
 }
 
+void Tank::ShootBullet(const glm::vec2& direction)
+{
+	const auto bullet = std::make_shared<Bullet>(direction);
+	bullet->SetTag(GetTag());
+
+	const glm::vec2 middlePos = { GetWorldTransform().x + GetSize().x / 2 - bullet->GetSize().x / 2,
+		GetWorldTransform().y + GetSize().y / 2 - bullet->GetSize().y / 2};
+	bullet->SetRelativePos(middlePos);
+
+	GetScene()->Add(bullet);
+}
+
 void Tank::CheckOverlap()
 {
 	for (auto& o : GetScene()->GetGameObjects())
@@ -48,11 +60,14 @@ RedTank::RedTank()
 	m_pGun->AddComponent(gunTxt);
 	m_pGun->SetRelativePos({ -10, -8 });
 	AddChild(m_pGun.get());
+
+	m_pHealth = std::make_shared<dae::HealthCp>(this, 3);
+	AddComponent(m_pHealth);
 }
 
 void RedTank::GetHit()
 {
-	std::cout << "RED TANK DED\n";
+	m_pHealth->ChangeAmount(-1);
 }
 
 
@@ -80,4 +95,5 @@ BlueTank::BlueTank()
 void BlueTank::GetHit()
 {
 	m_pHealth->ChangeAmount(-1);
+
 }

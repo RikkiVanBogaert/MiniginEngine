@@ -8,6 +8,7 @@
 #include "Level.h"
 #include "Menu.h"
 #include "Bullet.h"
+#include "Tank.h"
 
 
 using namespace dae;
@@ -83,29 +84,20 @@ void PointCommand::Execute()
 	SetKeyPressed(true);
 }
 
-ShootCommand::ShootCommand(GameObject* gameObj, const glm::vec3& direction)
+ShootCommand::ShootCommand(Tank* gameObj, const glm::vec3& direction)
 {
-	m_pGameObject = gameObj;
+	m_pTank = gameObj;
 	m_Direction = direction;
 }
 
 void ShootCommand::Execute()
 {
-	if (!m_pGameObject || m_pGameObject->NeedsDeleting() || !m_pGameObject->GetScene()->IsActive()) return;
+	if (!m_pTank || m_pTank->NeedsDeleting() || !m_pTank->GetScene()->IsActive()) return;
 
 	if (GetKeyPressed()) return;
 
-
-	const auto bullet = std::make_shared<Bullet>(m_Direction);
-	bullet->SetTag(m_pGameObject->GetTag());
-
-
-	const glm::vec3 middlePos = { m_pGameObject->GetWorldTransform().x + m_pGameObject->GetSize().x / 2 - bullet->GetSize().x / 2,
-		m_pGameObject->GetWorldTransform().y + m_pGameObject->GetSize().y / 2 - bullet->GetSize().y / 2,
-		0 };
-	bullet->SetRelativePos(middlePos);
-
-	m_pGameObject->GetScene()->Add(bullet);
+	m_pTank->ShootBullet(m_Direction);
+	
 
 	SetKeyPressed(true);
 }

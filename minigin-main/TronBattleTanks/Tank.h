@@ -9,8 +9,10 @@ class Tank : public dae::GameObject
 {
 public:
 	Tank() = default;
+	virtual ~Tank() override = default;
 
 	virtual void Update(float deltaTime) override;
+	void ShootBullet(const glm::vec2& direction);
 
 protected:
 	std::shared_ptr<GameObject> m_pGun;
@@ -25,6 +27,7 @@ class RedTank final : public Tank
 {
 public:
 	RedTank();
+	virtual ~RedTank() override = default;
 
 private:
 	virtual void GetHit() override;
@@ -34,6 +37,7 @@ class BlueTank final : public Tank
 {
 public:
 	BlueTank();
+	virtual ~BlueTank() override = default;
 
 private:
 	virtual void GetHit() override;

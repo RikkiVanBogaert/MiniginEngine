@@ -8,12 +8,14 @@
 class Level final : public dae::GameObject
 {
 public:
-	Level(std::vector<int> map, dae::Scene* scene);
+	Level(const std::vector<int>& map, dae::Scene* scene);
 	//virtual ~Level() = default;
 
 	virtual void Update(float deltaTime) override;
 
 	bool CollisionHit(GameObject* object, const glm::vec2& dir);
+	bool HitWall(const glm::vec2& start, const glm::vec2& end);
+
 	glm::vec2 GetRandomSpawnPos() const;
 
 	void OnLevelLoad();
@@ -33,9 +35,9 @@ private:
 	void UpdateBullets();
 	bool CheckTeleportCollision(const glm::vec2& rayPoint);
 
-	void LoadSinglePlayer();
-	void LoadCoop();
-	void LoadVersus();
+	void LoadSinglePlayer() const;
+	void LoadCoop() const;
+	void LoadVersus() const;
 
 };
 

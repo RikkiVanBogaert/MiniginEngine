@@ -9,9 +9,12 @@ namespace dae
 	public:
 		CounterCp(GameObject* owner, int startAmount);
 		
-		void ChangeAmount(int difference);
-		void SetAmount(int newHealth);
+		virtual void ChangeAmount(int difference);
+		virtual void SetAmount(int newHealth);
 		int GetAmount() const;
+
+	protected:
+		int& GetCounter() { return m_Counter; }
 
 	private:
 		int m_Counter{};
@@ -23,6 +26,9 @@ namespace dae
 	public:
 		HealthCp(GameObject* owner, int startAmount) : 
 			CounterCp(owner, startAmount) {}
+
+		virtual void ChangeAmount(int difference);
+		virtual void SetAmount(int newHealth);
 
 	};
 

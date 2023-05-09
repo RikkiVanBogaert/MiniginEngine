@@ -6,7 +6,8 @@ class Bullet final : public dae::GameObject
 {
 public:
 	Bullet(glm::vec2 velocity);
-	
+	virtual ~Bullet() override = default;
+
 	virtual void Update(float deltaTime) override;
 	void SetVelocity(glm::vec2 newVel);
 	glm::vec2 GetVelocity() const { return m_Velocity; }

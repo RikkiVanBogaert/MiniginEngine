@@ -41,6 +41,14 @@ void InitControllableObjects(Scene& scene)
 	glm::vec3 down = { 0.f,speed,0.f };
 	glm::vec3 right = { speed,0.f,0.f };
 	glm::vec3 left = { -speed,0.f,0.f };
+
+	//Shooting
+	const float shootSpeed{ 300 };
+	glm::vec3 shootUpSpeed = { 0.f, -shootSpeed, 0.f };
+	glm::vec3 shootDownSpeed = { 0.f, shootSpeed, 0.f };
+	glm::vec3 shootLeftSpeed = { -shootSpeed, 0.f, 0.f };
+	glm::vec3 shootRightSpeed = { shootSpeed, 0.f, 0.f };
+
 	int controllerIdx{ 0 };
 
 	auto fontTankUI = ResourceManager::GetInstance().LoadFont("Lingua.otf", 15);
@@ -48,7 +56,6 @@ void InitControllableObjects(Scene& scene)
 	//PREFAB RED TANK
 	{
 		auto tankPrefab = std::make_shared<RedTank>();
-		tankPrefab->SetRelativePos({ 10, 10 });
 		scene.Add(tankPrefab);
 
 
@@ -57,26 +64,21 @@ void InitControllableObjects(Scene& scene)
 		auto* moveCommandLeft = new MoveCommand{ tankPrefab.get(), left };
 		auto* moveCommandRight = new MoveCommand{ tankPrefab.get(), right };
 
-		dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_S, moveCommandDown);
-		dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_W, moveCommandUp);
-		dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_A, moveCommandLeft);
-		dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_D, moveCommandRight);
+		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_S, moveCommandDown);
+		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_W, moveCommandUp);
+		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_A, moveCommandLeft);
+		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_D, moveCommandRight);
 
 		//Shooting
-		const float shootSpeed{ 300 };
-		up = { 0.f, -shootSpeed, 0.f };
-		down = { 0.f, shootSpeed, 0.f };
-		left = { -shootSpeed, 0.f, 0.f };
-		right = { shootSpeed, 0.f, 0.f };
-		auto* shootUp = new ShootCommand{ tankPrefab.get(), up };
-		auto* shootDown = new ShootCommand{ tankPrefab.get(), down };
-		auto* shootLeft = new ShootCommand{ tankPrefab.get(), left };
-		auto* shootRight = new ShootCommand{ tankPrefab.get(), right };
+		auto* shootUp = new ShootCommand{ tankPrefab.get(), shootUpSpeed };
+		auto* shootDown = new ShootCommand{ tankPrefab.get(), shootDownSpeed };
+		auto* shootLeft = new ShootCommand{ tankPrefab.get(), shootLeftSpeed };
+		auto* shootRight = new ShootCommand{ tankPrefab.get(), shootRightSpeed };
 
-		dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_UP, shootUp);
-		dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_DOWN, shootDown);
-		dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_LEFT, shootLeft);
-		dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_RIGHT, shootRight);
+		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_UP, shootUp);
+		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_DOWN, shootDown);
+		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_LEFT, shootLeft);
+		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_RIGHT, shootRight);
 
 		PlayerManager::GetInstance().AddPlayer(tankPrefab);
 
@@ -114,56 +116,50 @@ void InitControllableObjects(Scene& scene)
 		//redTankPointsObj->AddComponent(textBluePoints);
 		////parent->AddChild(redTankPointsObj.get());
 		//scene.Add(redTankPointsObj);
-
-
-
 	}
 
 	//BLUE TANK
 	{
 		
 		auto blueTank = std::make_shared<BlueTank>();
-		blueTank->SetRelativePos({ 10, 50 });
+		scene.Add(blueTank);
+
+		dae::InputManager::GetInstance().AddController(controllerIdx);
+
+		Controller::ControllerButton button{};
+
 
 		auto* moveCommandDownBlue = new MoveCommand{ blueTank.get(), down };
 		auto* moveCommandUpBlue = new MoveCommand{ blueTank.get(), up };
 		auto* moveCommandLeftBlue = new MoveCommand{ blueTank.get(), left };
 		auto* moveCommandRightBlue = new MoveCommand{ blueTank.get(), right };
 
-		dae::InputManager::GetInstance().AddController(controllerIdx);
-
-		Controller::ControllerButton button{};
 
 		button = Controller::ControllerButton::DpadDown;
-		dae::InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandDownBlue);
+		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandDownBlue);
 		button = Controller::ControllerButton::DpadUp;
-		dae::InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandUpBlue);
+		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandUpBlue);
 		button = Controller::ControllerButton::DpadLeft;
-		dae::InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandLeftBlue);
+		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandLeftBlue);
 		button = Controller::ControllerButton::DpadRight;
-		dae::InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandRightBlue);
+		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandRightBlue);
 
-		scene.Add(blueTank);
 
 		//Shooting
-		constexpr float shootSpeed{ 300 };
-		up = { 0.f, -shootSpeed, 0.f };
-		down = { 0.f, shootSpeed, 0.f };
-		left = { -shootSpeed, 0.f, 0.f };
-		right = { shootSpeed, 0.f, 0.f };
-		auto* shootUp = new ShootCommand{ blueTank.get(), up };
-		auto* shootDown = new ShootCommand{ blueTank.get(), down };
-		auto* shootLeft = new ShootCommand{ blueTank.get(), left };
-		auto* shootRight = new ShootCommand{ blueTank.get(), right };
+		auto* shootUp = new ShootCommand{ blueTank.get(), shootUpSpeed };
+		auto* shootDown = new ShootCommand{ blueTank.get(), shootDownSpeed };
+		auto* shootLeft = new ShootCommand{ blueTank.get(), shootLeftSpeed };
+		auto* shootRight = new ShootCommand{ blueTank.get(), shootRightSpeed };
 
 		button = Controller::ControllerButton::ButtonY;
-		dae::InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, shootUp);
+		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, shootUp);
 		button = Controller::ControllerButton::ButtonA;
-		dae::InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, shootDown);
+		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, shootDown);
 		button = Controller::ControllerButton::ButtonX;
-		dae::InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, shootLeft);
-		button = Controller::ControllerButton::ButtonB;
-		dae::InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, shootRight);
+		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, shootLeft);
+		button = Controller::ControllerButton::RightShoulder;
+		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, shootRight);
+
 
 		PlayerManager::GetInstance().AddPlayer(blueTank);
 
@@ -247,22 +243,22 @@ void LoadDaeScene()
 
 void LoadGameScene()
 {
-	auto&mainMenuScene = SceneManager::GetInstance().CreateScene("MainMenu");
+	auto& mainMenuScene = SceneManager::GetInstance().CreateScene("MainMenu");
 	InitMainMenu(mainMenuScene);
 
 	auto& sceneLevel0 = SceneManager::GetInstance().CreateScene("Level0");
-	const auto levelObj = std::make_shared<Level>(sceneLevel0.parse_csv(
-		"../Data/Resources/LevelLayout0.csv"), &sceneLevel0);
+	const auto levelObj = std::make_shared<Level>(
+		ResourceManager::GetInstance().ParseCsv("../Data/Resources/LevelLayout0.csv"), &sceneLevel0);
 	sceneLevel0.Add(levelObj);
 
 	auto& sceneLevel1 = SceneManager::GetInstance().CreateScene("Level1");
-	const auto levelObj1 = std::make_shared<Level>(sceneLevel1.parse_csv(
-		"../Data/Resources/LevelLayout1.csv"), &sceneLevel1);
+	const auto levelObj1 = std::make_shared<Level>(
+		ResourceManager::GetInstance().ParseCsv("../Data/Resources/LevelLayout1.csv"), &sceneLevel1);
 	sceneLevel1.Add(levelObj1);
 
 	auto& sceneLevel2 = SceneManager::GetInstance().CreateScene("Level2");
-	const auto levelObj2 = std::make_shared<Level>(sceneLevel2.parse_csv(
-		"../Data/Resources/LevelLayout2.csv"), &sceneLevel2);
+	const auto levelObj2 = std::make_shared<Level>(
+		ResourceManager::GetInstance().ParseCsv("../Data/Resources/LevelLayout2.csv"), &sceneLevel2);
 	sceneLevel2.Add(levelObj2);
 
 	auto& waitingScene = SceneManager::GetInstance().CreateScene("WaitingScene");

@@ -17,7 +17,7 @@
 
 using namespace dae;
 
-Level::Level(std::vector<int> map, dae::Scene* scene)
+Level::Level(const std::vector<int>& map, dae::Scene* scene)
 {
 	SetScene(scene);
 	CreateMap(map, 58);
@@ -32,7 +32,7 @@ void Level::Update(float)
 void Level::CreateMap(const std::vector<int>& map, int columns)
 {
 	constexpr float size{ 8 };
-	constexpr glm::vec2 startPos{ 100,10 };
+	constexpr glm::vec2 startPos{ 100,20 };
 	glm::vec2 pos{ startPos };
 	for (size_t i{}; i < map.size(); ++i)
 	{
@@ -112,7 +112,7 @@ void Level::OnLevelLoad()
 
 }
 
-void Level::LoadSinglePlayer()
+void Level::LoadSinglePlayer() const
 {
 	//Player----
 	const auto player = PlayerManager::GetInstance().GetPlayers()[0];
@@ -134,7 +134,7 @@ void Level::LoadSinglePlayer()
 	}
 }
 
-void Level::LoadCoop()
+void Level::LoadCoop() const
 {
 	//Players----
 	const auto player = PlayerManager::GetInstance().GetPlayers()[0];
@@ -173,7 +173,7 @@ void Level::LoadCoop()
 	}
 }
 
-void Level::LoadVersus()
+void Level::LoadVersus() const
 {
 	//Players----
 	const auto player = PlayerManager::GetInstance().GetPlayers()[0];
@@ -267,6 +267,27 @@ bool Level::CollisionHit(GameObject* object, const glm::vec2& dir)
 		}
 	}
 
+	return false;
+}
+
+bool Level::HitWall(const glm::vec2& start, const glm::vec2& end)
+{
+	const glm::vec2 ray = start - end;
+	const float rayLength = sqrtf(ray.x * ray.x + ray.y * ray.y);
+	const float checkedRayLength = rayLength / 2.f;
+	const glm::vec2 normalizedDir = { ray.x / rayLength,  ray.y / rayLength };
+	const glm::vec2 rayPoint = { start.x + normalizedDir.x * checkedRayLength, start.y + normalizedDir.y * checkedRayLength };
+
+	const glm::vec2 wallSize{m_pWalls[0]->GetSize()};
+
+	for (const auto& wall : m_pWalls)
+	{
+		if (rayPoint.x >= wall->GetWorldTransform().x && rayPoint.x <= wall->GetWorldTransform().x + wallSize.x &&
+			rayPoint.y >= wall->GetWorldTransform().y && rayPoint.y <= wall->GetWorldTransform().y + wallSize.y)
+		{
+			return true;
+		}
+	}
 	return false;
 }
 

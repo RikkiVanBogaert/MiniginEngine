@@ -1,8 +1,6 @@
 #include "CounterCp.h"
-#include "GameObject.h"
 #include "TextComponent.h"
-
-
+#include "GameObject.h"
 
 using namespace dae;
 
@@ -15,11 +13,6 @@ CounterCp::CounterCp(GameObject* owner, int startAmount):
 void CounterCp::ChangeAmount(int difference)
 {
 	m_Counter += difference;
-
-	if (m_Counter <= 0)
-	{
-		m_pOwner->MarkForDeletion();
-	}
 }
 
 void CounterCp::SetAmount(int newHealth)
@@ -28,9 +21,6 @@ void CounterCp::SetAmount(int newHealth)
 		return;
 
 	m_Counter = newHealth;
-
-	if (m_Counter <= 0)
-		m_pOwner->MarkForDeletion();
 }
 
 int CounterCp::GetAmount() const
@@ -38,3 +28,22 @@ int CounterCp::GetAmount() const
 	return m_Counter;
 }
 
+void HealthCp::ChangeAmount(int difference)
+{
+	CounterCp::ChangeAmount(difference);
+
+	if (GetCounter() <= 0)
+	{
+		m_pOwner->MarkForDeletion();
+	}
+}
+
+void HealthCp::SetAmount(int newHealth)
+{
+	CounterCp::SetAmount(newHealth);
+
+	if (GetCounter() <= 0)
+	{
+		m_pOwner->MarkForDeletion();
+	}
+}

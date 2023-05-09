@@ -16,6 +16,9 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
+    <Filter Include="Game Files\Components">
+      <UniqueIdentifier>{528d10a9-afaf-478c-b982-3af1740ec720}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TronBattleTanks.cpp">
@@ -39,6 +42,9 @@
     <ClCompile Include="Menu.cpp">
       <Filter>Game Files\Prefabs</Filter>
     </ClCompile>
+    <ClCompile Include="AIComponent.cpp">
+      <Filter>Game Files\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Level.h">
@@ -58,6 +64,9 @@
     </ClInclude>
     <ClInclude Include="Menu.h">
       <Filter>Game Files\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="AIComponent.h">
+      <Filter>Game Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

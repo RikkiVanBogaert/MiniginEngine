@@ -2,7 +2,6 @@
 #include "GameObject.h"
 
 #include <fstream>
-#include <sstream>
 
 using namespace dae;
 
@@ -18,7 +17,7 @@ void Scene::Add(std::shared_ptr<GameObject> object)
 	m_objects.emplace_back(std::move(object));
 }
 
-void Scene::Remove(std::shared_ptr<GameObject> object)
+void Scene::Remove(const std::shared_ptr<GameObject>& object)
 {
 	m_objects.erase(std::remove(m_objects.begin(), m_objects.end(), object), m_objects.end());
 }
@@ -44,7 +43,7 @@ void Scene::Update(float deltaTime)
 	}
 }
 
-void dae::Scene::FixedUpdate(float deltaTime)
+void dae::Scene::FixedUpdate(float deltaTime) const
 {
 	for (auto& object : m_objects)
 	{
@@ -72,43 +71,4 @@ void Scene::Render() const
 
 		object->Render();
 	}
-}
-
-
-std::vector<int> Scene::parse_csv(const std::string& filename)
-{
-	std::vector<int> result;
-
-	// Open the file for reading
-	std::ifstream file(filename);
-	if (!file.is_open())
-	{
-		// Handle error
-		std::cout << "Couldnt open file\n";
-		return result;
-	}
-
-	// Read each line of the file
-	std::string line;
-	while (std::getline(file, line))
-	{
-		// Parse the line into integers
-		std::stringstream ss(line);
-		std::string field;
-		while (std::getline(ss, field, ','))
-		{
-			try
-			{
-				result.push_back(std::stoi(field));
-			}
-			catch (std::invalid_argument&)
-			{
-				// Handle invalid data
-				std::cout << "Invalid data in file\n";
-			}
-		}
-	}
-
-	std::cout << "File succesfully opened\n";
-	return result;
 }

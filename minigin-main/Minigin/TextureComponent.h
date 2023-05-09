@@ -10,6 +10,8 @@ namespace dae
 	{
 	public:
 		TextureComponent(GameObject* owner);
+		virtual ~TextureComponent() override = default;
+
 		virtual void Render() const override;
 
 

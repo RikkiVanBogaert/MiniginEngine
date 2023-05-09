@@ -1,7 +1,6 @@
 #include <string>
 #include "GameObject.h"
 #include "ResourceManager.h"
-#include "Renderer.h"
 #include "BaseComponent.h"
 #include "Observers.h"
 
