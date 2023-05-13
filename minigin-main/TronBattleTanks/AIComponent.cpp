@@ -4,41 +4,55 @@
 #include "Scene.h"
 #include "Tank.h"
 #include "Level.h"
+#include "PlayerManager.h"
 
-AIComponent::AIComponent(dae::GameObject* owner)
+AIComponent::AIComponent(dae::GameObject* owner):
+	m_ShootTime{3}
 {
 	m_pOwner = owner;
 
 	m_pAiOwner = dynamic_cast<BlueTank*>(owner);
-	FindPlayer();
-	FindLevel();
-	//if this doesnt work, do this in update if m_pLevel == nullptr
 }
 
-void AIComponent::Update(float)
+void AIComponent::Update(float deltaTime)
 {
-	if (!m_pPlayer || m_pPlayer->NeedsDeleting()) return;
+	Init();
 
-	auto playerDir = m_pPlayer->GetRelativeTransform() - m_pOwner->GetRelativeTransform();
-
-	//pas playerDir into a level function, which checks wether or not the dir goes through a wall.
-	//if it doesnt, shoot in that direction.
-	if(!m_pLevel->HitWall(m_pAiOwner->GetRelativeTransform(), m_pPlayer->GetRelativeTransform()))
+	if (m_HasShot)
 	{
-		m_pAiOwner->ShootBullet(playerDir);
+		ResetShootTimer(deltaTime);
+		return;
 	}
 
-	//else, find a way around it.
+	if (!m_pPlayer || m_pPlayer->NeedsDeleting()) return;
+
+	const auto playerPos = m_pPlayer->GetRelativeTransform();
+	const auto playerDir = playerPos - m_pOwner->GetRelativeTransform();
+	const float dirLength = sqrtf(playerDir.x * playerDir.x + playerDir.y * playerDir.y);
+	const glm::vec2 playerDirNormalized = { playerDir.x / dirLength, playerDir.y / dirLength };
+	constexpr float bulletSpeed{ 250 };
+	const glm::vec2 bulletDir{ playerDirNormalized.x * bulletSpeed, playerDirNormalized.y * bulletSpeed };
+
+	if(!m_pLevel->HitWall(m_pAiOwner->GetRelativeTransform(), playerPos))
+	{
+		m_pAiOwner->ShootBullet(bulletDir); //normalize and multiply with velocity
+		m_HasShot = true;
+	}
+
+	////else, find a way around it.
+}
+
+void AIComponent::Init()
+{
+	if (m_HasInit) return;
+	FindPlayer();
+	FindLevel();
+	m_HasInit = true;
 }
 
 void AIComponent::FindPlayer()
 {
-	for (auto& o : m_pOwner->GetScene()->GetGameObjects())
-	{
-		if (!dynamic_cast<RedTank*>(o.get())) continue;
-
-		m_pPlayer = dynamic_cast<RedTank*>(o.get());
-	}
+	m_pPlayer = dynamic_cast<RedTank*>(PlayerManager::GetInstance().GetPlayers()[0].get());
 }
 
 //Make helper function which finds an object of a certain type in the scene
@@ -50,5 +64,16 @@ void AIComponent::FindLevel()
 		if (!dynamic_cast<Level*>(o.get())) continue;
 
 		m_pLevel = dynamic_cast<Level*>(o.get());
+	}
+}
+
+void AIComponent::ResetShootTimer(float deltaTime)
+{
+	m_ShootTimer += deltaTime;
+
+	if(m_ShootTimer >= m_ShootTime)
+	{
+		m_ShootTimer = 0;
+		m_HasShot = false;
 	}
 }

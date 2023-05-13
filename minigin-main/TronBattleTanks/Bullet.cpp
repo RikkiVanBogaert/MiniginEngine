@@ -21,12 +21,12 @@ void Bullet::Update(float deltaTime)
 
 	
 
-	if (abs(GetWorldTransform().x) > 800 ||
-		abs(GetWorldTransform().y) > 800)
-	{
-		//improve this, use actual windowSize
-		MarkForDeletion();
-	}
+	//if (abs(GetWorldTransform().x) > 800 ||
+	//	abs(GetWorldTransform().y) > 800)
+	//{
+	//	//improve this, use actual windowSize
+	//	MarkForDeletion();
+	//}
 }
 
 void Bullet::SetVelocity(glm::vec2 newVel)

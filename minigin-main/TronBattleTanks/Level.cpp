@@ -272,22 +272,54 @@ bool Level::CollisionHit(GameObject* object, const glm::vec2& dir)
 
 bool Level::HitWall(const glm::vec2& start, const glm::vec2& end)
 {
-	const glm::vec2 ray = start - end;
-	const float rayLength = sqrtf(ray.x * ray.x + ray.y * ray.y);
-	const float checkedRayLength = rayLength / 2.f;
-	const glm::vec2 normalizedDir = { ray.x / rayLength,  ray.y / rayLength };
-	const glm::vec2 rayPoint = { start.x + normalizedDir.x * checkedRayLength, start.y + normalizedDir.y * checkedRayLength };
+	//First check if start is in a straight line with the end with a certain offset (size tank);
+	//if true => check if there are intersecting walls
 
-	const glm::vec2 wallSize{m_pWalls[0]->GetSize()};
+	const float playerSize{ 16 };
+	const glm::vec2 tankMidPos{ start.x + playerSize / 2, start.y + playerSize / 2 };
+
+	//Straight line
+	if (!(tankMidPos.x > end.x && tankMidPos.x < end.x + playerSize)
+		&& !(tankMidPos.y > end.y && tankMidPos.y < end.y + playerSize))
+		return true;
+
+
+	// Calculate vector L between start and end points
+	float Lx = end.x - start.x;
+	float Ly = end.y - start.y;
+	// Calculate length of vector L
+	float lengthL = std::sqrt(Lx * Lx + Ly * Ly);
+
+	// Normalize vector L
+	Lx /= lengthL;
+	Ly /= lengthL;
 
 	for (const auto& wall : m_pWalls)
 	{
-		if (rayPoint.x >= wall->GetWorldTransform().x && rayPoint.x <= wall->GetWorldTransform().x + wallSize.x &&
-			rayPoint.y >= wall->GetWorldTransform().y && rayPoint.y <= wall->GetWorldTransform().y + wallSize.y)
+		// Calculate vector S between start point and square center
+		float Sx = wall->GetRelativeTransform().x - start.x;
+		float Sy = wall->GetRelativeTransform().y - start.y;
+
+		// Calculate distance between start point and square center
+		//double distanceS = std::sqrt(Sx * Sx + Sy * Sy);
+
+		// Calculate projection of vector S onto vector L
+		float projectionSL = Sx * Lx + Sy * Ly;
+
+		// Check if square is on the line between start and end points
+		if (projectionSL < 0 || projectionSL > lengthL) 
 		{
-			return true;
+			continue;
 		}
+
+		// Check if square intersects with line segment
+		float distanceThreshold = wall->GetSize().x / 2; // adjust as needed
+		float distanceToLine = std::abs((Sx * Ly) - (Sy * Lx));
+
+		if (distanceToLine <= distanceThreshold)
+			return true;
 	}
+
 	return false;
 }
 

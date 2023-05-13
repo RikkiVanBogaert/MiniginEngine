@@ -4,6 +4,8 @@
 
 #include <memory>
 
+class AIComponent;
+
 
 class Tank : public dae::GameObject
 {
@@ -40,6 +42,8 @@ public:
 	virtual ~BlueTank() override = default;
 
 private:
+	std::shared_ptr<AIComponent> m_pAICp;
+
 	virtual void GetHit() override;
 
 };

@@ -1,14 +1,16 @@
 #include "Tank.h"
 
+#include "AIComponent.h"
 #include "TextureComponent.h"
 #include "Scene.h"
 #include "Bullet.h"
 
 using namespace dae;
 
-void Tank::Update(float)
+void Tank::Update(float deltaTime)
 {
 	CheckOverlap();
+	GameObject::Update(deltaTime);
 }
 
 void Tank::ShootBullet(const glm::vec2& direction)
@@ -90,6 +92,9 @@ BlueTank::BlueTank()
 
 	m_pHealth = std::make_shared<dae::HealthCp>(this, 3);
 	AddComponent(m_pHealth);
+
+	m_pAICp = std::make_shared<AIComponent>(this);
+	AddComponent(m_pAICp);
 }
 
 void BlueTank::GetHit()
