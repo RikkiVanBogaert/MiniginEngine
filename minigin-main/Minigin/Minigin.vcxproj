@@ -203,6 +203,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AudioService.h" />
     <ClInclude Include="BaseComponent.h" />
     <ClInclude Include="Commands.h" />
     <ClInclude Include="Controller.h" />
@@ -238,6 +239,7 @@
     <ClInclude Include="UICp.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AudioService.cpp" />
     <ClCompile Include="BaseComponent.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Font.cpp" />

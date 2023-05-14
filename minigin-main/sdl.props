@@ -14,6 +14,7 @@
 		  $(SolutionDir)3rdParty\SDL2_image\include;
 		  $(SolutionDir)3rdParty\glm;
 		  $(SolutionDir)3rdParty\SDL2\include;
+		  $(SolutionDir)3rdParty\SDL_mixer\include;
 		  %(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <PostBuildEvent>

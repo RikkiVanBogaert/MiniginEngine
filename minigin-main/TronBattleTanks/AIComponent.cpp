@@ -35,7 +35,7 @@ void AIComponent::Update(float deltaTime)
 
 	if(!m_pLevel->HitWall(m_pAiOwner->GetRelativeTransform(), playerPos))
 	{
-		m_pAiOwner->ShootBullet(bulletDir); //normalize and multiply with velocity
+		//m_pAiOwner->ShootBullet(bulletDir); //causes error on debug when second bullet of a tank gets shot
 		m_HasShot = true;
 	}
 

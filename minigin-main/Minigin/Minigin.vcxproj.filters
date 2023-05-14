@@ -120,6 +120,9 @@
     <ClInclude Include="UICp.h">
       <Filter>Game Files\Component Files</Filter>
     </ClInclude>
+    <ClInclude Include="AudioService.h">
+      <Filter>Scene Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseComponent.cpp">
@@ -208,6 +211,9 @@
     </ClCompile>
     <ClCompile Include="UICp.cpp">
       <Filter>Game Files\Component Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioService.cpp">
+      <Filter>Game Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
