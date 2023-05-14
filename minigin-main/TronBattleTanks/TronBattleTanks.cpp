@@ -244,6 +244,13 @@ void LoadDaeScene()
 	InitControllableObjects(scene);
 }
 
+
+void ExplainControls()
+{
+	std::cout << "-----TRON BATTLETANKS-----\nControls:\n" 
+	<<	"Moving - WASD\n" << "Shooting(has sound) - Arrow Keys\n";
+}
+
 void LoadGameScene()
 {
 	auto& mainMenuScene = SceneManager::GetInstance().CreateScene("MainMenu");
@@ -281,6 +288,7 @@ void LoadGameScene()
 	auto* switchGameMode = new SwitchGameModeCommand{};
 	dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_TAB, switchGameMode);
 
+	ExplainControls();
 }
 
 std::shared_ptr<Audio> Locator::service_;

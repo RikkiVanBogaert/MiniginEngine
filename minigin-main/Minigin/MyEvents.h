@@ -2,17 +2,17 @@
 #include <iostream>
 #include "AudioService.h"
 
-class MyEvent {
+class SoundEvent {
 public:
-    MyEvent(int value, int sound_id)
+    SoundEvent(int value, int sound_id)
         : value_(value), sound_id_(sound_id)
         {}
-    MyEvent() = default;
+    SoundEvent() = default;
 
     virtual void execute()
 	{
         Locator::getAudio().playSound(sound_id_);
-        std::cout << "MyEvent: " << value_ << std::endl;
+        //std::cout << "SoundEvent: " << value_ << std::endl;
     }
 
 private:
