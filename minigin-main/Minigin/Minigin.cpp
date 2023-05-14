@@ -10,6 +10,8 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
+#include "EventQueue.h"
+#include "MyEvents.h"
 
 SDL_Window* g_window{};
 
@@ -78,43 +80,59 @@ dae::Minigin::~Minigin()
 
 void dae::Minigin::Run(const std::function<void()>& load)
 {
-	load();
+    // create an instance of EventQueue
+    auto& event_queue = EventQueue<MyEvent, double>::GetInstance();
 
-	auto& renderer = Renderer::GetInstance();
-	auto& sceneManager = SceneManager::GetInstance();
-	auto& input = InputManager::GetInstance();
+    // schedule events in the load function
+    load();
 
-	const float fixedTimeStep{ 0.02f };
-	const float wantedFps{ 60.f };
-	const int frameTimeMs{ int(1000 / wantedFps)};
-
-
-	bool doContinue = true;
-	auto lastTime = std::chrono::high_resolution_clock::now();
-	float lag = 0.0f;
-	while (doContinue)
+    // create a thread for processing events
+    std::thread event_thread([&]() 
 	{
-		const auto currentTime = std::chrono::high_resolution_clock::now();
-		const float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
-		lastTime = currentTime;
-		lag += deltaTime;
-		doContinue = input.ProcessInput();
-		while (lag >= fixedTimeStep)
+		while (event_queue.has_events()) 
 		{
-			//should only need FixedUpdate (=>with fixed timestep) for physics or networking,
-			//for all the rest, just use normal Update
-			sceneManager.FixedUpdate(fixedTimeStep);
-			lag -= fixedTimeStep;
-
-			input.UpdateControllers();
+		    event_queue.process();
+		    std::this_thread::sleep_for(std::chrono::milliseconds(10)); // avoid spinning
 		}
+	});
 
-		sceneManager.Update(deltaTime);
-		renderer.Render();
+    auto& renderer = Renderer::GetInstance();
+    auto& sceneManager = SceneManager::GetInstance();
+    auto& input = InputManager::GetInstance();
 
-		const auto sleepTime = currentTime + std::chrono::milliseconds(frameTimeMs) - 
-			std::chrono::high_resolution_clock::now();
-		std::this_thread::sleep_for(sleepTime);
+    const float wantedFps{ 60.f };
+    const int frameTimeMs{ int(1000 / wantedFps) };
 
-	}
+    bool doContinue = true;
+    auto lastTime = std::chrono::high_resolution_clock::now();
+    while (doContinue)
+    {
+        const auto currentTime = std::chrono::high_resolution_clock::now();
+        const float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
+        lastTime = currentTime;
+
+        // process events
+        while (event_queue.has_events()) 
+		{
+            const auto event_time = event_queue.next_time();
+            if (event_time > deltaTime) 
+			{
+                // no events before the next frame
+                break;
+            }
+            event_queue.process_next();
+        }
+
+        doContinue = input.ProcessInput();
+        sceneManager.Update(deltaTime);
+        renderer.Render();
+
+        const auto sleepTime = currentTime + std::chrono::milliseconds(frameTimeMs) -
+            std::chrono::high_resolution_clock::now();
+        std::this_thread::sleep_for(sleepTime);
+    }
+
+    // wait for the event thread to finish
+    event_thread.join();
 }
+

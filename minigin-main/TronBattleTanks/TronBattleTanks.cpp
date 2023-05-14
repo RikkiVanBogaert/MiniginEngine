@@ -283,7 +283,7 @@ void LoadGameScene()
 
 }
 
-Audio* Locator::service_;
+std::shared_ptr<Audio> Locator::service_;
 NullAudio Locator::nullService_;
 
 void load()
@@ -291,10 +291,10 @@ void load()
 	//LoadDaeScene();
 	LoadGameScene();
 
-
 	// Initialize the audio service
 	Locator::initialize();
-	Locator::provide(new ConsoleAudio());
+	std::shared_ptr<ConsoleAudio> consoleAudio = std::make_shared<ConsoleAudio>();
+	Locator::provide(consoleAudio);
 
 	Locator::getAudio().addSound("../Data/Resources/Sounds/Shoot.wav");
 }

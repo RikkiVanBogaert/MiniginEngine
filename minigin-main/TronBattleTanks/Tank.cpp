@@ -6,6 +6,8 @@
 #include "Bullet.h"
 
 #include "AudioService.h"
+#include "EventQueue.h"
+#include "MyEvents.h"
 #include "Sounds.h"
 
 using namespace dae;
@@ -18,7 +20,8 @@ void Tank::Update(float deltaTime)
 
 void Tank::ShootBullet(const glm::vec2& direction)
 {
-	Locator::getAudio().playSound(Sounds::Shoot);
+	auto& event_queue = EventQueue<MyEvent, double>::GetInstance();
+	event_queue.schedule(MyEvent(1, 0), 0.0);
 
 
 	const auto bullet = std::make_shared<Bullet>(direction);

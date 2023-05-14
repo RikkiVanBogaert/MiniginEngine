@@ -33,7 +33,7 @@ public:
 
 	virtual void addSound(const std::string& soundName)
 	{
-		soundEffects_.emplace_back(Mix_LoadWAV(soundName.c_str()));
+		soundEffects_.emplace_back(std::shared_ptr<Mix_Chunk>(Mix_LoadWAV(soundName.c_str()), Mix_FreeChunk));
 
 		if(!soundEffects_[soundEffects_.size()-1])
 		{
@@ -43,7 +43,7 @@ public:
 
 	virtual void playSound(int soundID)
 	{
-		Mix_PlayChannel(-1, soundEffects_[soundID], 0);
+		Mix_PlayChannel(-1, soundEffects_[soundID].get(), 0);
 	}
 
 	virtual void stopSound(int soundID)
@@ -57,7 +57,7 @@ public:
 	}
 
 private:
-	std::vector<Mix_Chunk*> soundEffects_;
+	std::vector<std::shared_ptr<Mix_Chunk>> soundEffects_;
 };
 
 class NullAudio : public Audio
@@ -73,16 +73,16 @@ public:
 class Locator
 {
 public:
-	static void initialize() { service_ = &nullService_; }
+	static void initialize() { service_ = std::make_shared<NullAudio>(); }
 
 	static Audio& getAudio() { return *service_; }
 
-	static void provide(Audio* service)
+	static void provide(std::shared_ptr<Audio> service)
 	{
-		if (service == nullptr)
+		if (!service)
 		{
 			// Revert to null service.
-			service_ = &nullService_;
+			service_ = std::make_shared<NullAudio>();
 		}
 		else
 		{
@@ -91,6 +91,6 @@ public:
 	}
 
 private:
-	static Audio* service_;
+	static std::shared_ptr<Audio> service_;
 	static NullAudio nullService_;
 };
