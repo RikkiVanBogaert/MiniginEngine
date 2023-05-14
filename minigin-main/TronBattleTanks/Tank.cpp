@@ -5,6 +5,9 @@
 #include "Scene.h"
 #include "Bullet.h"
 
+#include "AudioService.h"
+#include "Sounds.h"
+
 using namespace dae;
 
 void Tank::Update(float deltaTime)
@@ -15,6 +18,9 @@ void Tank::Update(float deltaTime)
 
 void Tank::ShootBullet(const glm::vec2& direction)
 {
+	Locator::getAudio().playSound(Sounds::Shoot);
+
+
 	const auto bullet = std::make_shared<Bullet>(direction);
 	bullet->SetTag(GetTag());
 

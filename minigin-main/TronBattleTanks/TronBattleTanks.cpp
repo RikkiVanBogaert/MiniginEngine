@@ -283,6 +283,9 @@ void LoadGameScene()
 
 }
 
+Audio* Locator::service_;
+NullAudio Locator::nullService_;
+
 void load()
 {
 	//LoadDaeScene();
@@ -290,11 +293,10 @@ void load()
 
 
 	// Initialize the audio service
-	ConsoleAudio consoleAudio;
-	Locator::provide(&consoleAudio);
+	Locator::initialize();
+	Locator::provide(new ConsoleAudio());
 
 	Locator::getAudio().addSound("../Data/Resources/Sounds/Shoot.wav");
-	Locator::getAudio().playSound(0);
 }
 
 int main(int, char* []) 

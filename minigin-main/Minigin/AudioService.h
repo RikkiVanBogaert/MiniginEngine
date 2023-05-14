@@ -94,6 +94,3 @@ private:
 	static Audio* service_;
 	static NullAudio nullService_;
 };
-
-Audio* Locator::service_;
-NullAudio Locator::nullService_;

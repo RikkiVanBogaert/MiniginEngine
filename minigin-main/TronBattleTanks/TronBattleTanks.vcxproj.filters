@@ -68,5 +68,8 @@
     <ClInclude Include="AIComponent.h">
       <Filter>Game Files\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Sounds.h">
+      <Filter>Other Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
