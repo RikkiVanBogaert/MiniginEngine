@@ -7,11 +7,14 @@
 #endif
 #endif
 
+//#pragma comment(lib, "xinput.lib")
+
 #include "Minigin.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
 #include "PlayerManager.h"
 //Components
+#include "AudioService.h"
 #include "TextComponent.h"
 #include "TextureComponent.h"
 #include "FPSComponent.h"
@@ -285,6 +288,13 @@ void load()
 	//LoadDaeScene();
 	LoadGameScene();
 
+
+	// Initialize the audio service
+	ConsoleAudio consoleAudio;
+	Locator::provide(&consoleAudio);
+
+	Locator::getAudio().addSound("../Data/Resources/Sounds/Shoot.wav");
+	Locator::getAudio().playSound(0);
 }
 
 int main(int, char* []) 

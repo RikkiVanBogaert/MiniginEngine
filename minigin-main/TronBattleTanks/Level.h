@@ -57,7 +57,8 @@ private:
         // If the distance between the centers is less than the minimum required distance, the squares are colliding
         if (distance < minDistance) {
             // Calculate the distance between the center of the obstacle square and the line segment defined by the centers of the two squares
-            double segmentLength = std::sqrt(std::pow(s2.x - s1.x, 2) + std::pow(s2.y - s1.y, 2));
+            double segmentLength = std::sqrt
+        	(std::pow(s2.x - s1.x, 2) + std::pow(s2.y - s1.y, 2));
             double projection = ((obstacle.x - s1.x) * (s2.x - s1.x) + (obstacle.y - s1.y) * (s2.y - s1.y)) / std::pow(segmentLength, 2);
             double closestX = s1.x + projection * (s2.x - s1.x);
             double closestY = s1.y + projection * (s2.y - s1.y);

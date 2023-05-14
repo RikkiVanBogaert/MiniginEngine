@@ -51,7 +51,7 @@ void SceneManager::NextScene()
 	m_scenes[m_ActiveScene]->SetActive(false);
 
 	++m_ActiveScene;
-	if (m_ActiveScene >= m_scenes.size())
+	if (m_ActiveScene >= int(m_scenes.size()))
 		m_ActiveScene = 0;
 
 	m_scenes[m_ActiveScene]->SetActive(true);
@@ -61,7 +61,7 @@ void SceneManager::SetActiveScene(const std::string& sceneName)
 {
 	m_scenes[m_ActiveScene]->SetActive(false);
 
-	for (int i{}; i < m_scenes.size(); ++i)
+	for (int i{}; i < int(m_scenes.size()); ++i)
 	{
 		if (m_scenes[i]->GetName() != sceneName) continue;
 
