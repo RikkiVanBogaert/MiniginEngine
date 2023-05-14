@@ -12,12 +12,24 @@
 				$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\lib\$(PlatformTarget);
 				%(AdditionalLibraryDirectories)
 			</AdditionalLibraryDirectories>
-			<AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_ttf.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+			<AdditionalDependencies>
+				SDL2.lib;
+				SDL2main.lib;
+				SDL2_image.lib;
+				SDL2_ttf.lib;
+				SDL2_mixer.lib;
+				%(AdditionalDependencies)
+			</AdditionalDependencies>
 		</Link>
 		<ClCompile>
-			<AdditionalIncludeDirectories>$(SolutionDir)3rdParty\SDL2_ttf\include;$(SolutionDir)3rdParty\SDL2_image\include;
-				$(SolutionDir)3rdParty\glm;$(SolutionDir)3rdParty\SDL2\include;
-				$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+			<AdditionalIncludeDirectories>
+				$(SolutionDir)3rdParty\SDL2_ttf\include;
+				$(SolutionDir)3rdParty\SDL2_image\include;
+				$(SolutionDir)3rdParty\glm;
+				$(SolutionDir)3rdParty\SDL2\include;
+				$(SolutionDir)3rdParty\SDL2_mixer-2.0.4\include;
+				%(AdditionalIncludeDirectories)
+			</AdditionalIncludeDirectories>
 		</ClCompile>
 		<PostBuildEvent>
 			<Command>

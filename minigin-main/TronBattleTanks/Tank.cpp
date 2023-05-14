@@ -20,7 +20,7 @@ void Tank::Update(float deltaTime)
 
 void Tank::ShootBullet(const glm::vec2& direction)
 {
-	auto& event_queue = EventQueue<SoundEvent, double>::GetInstance();
+	auto& event_queue = EventQueue<SoundEvent, float>::GetInstance();
 	event_queue.schedule(SoundEvent(1, 0), 0.0);
 
 
