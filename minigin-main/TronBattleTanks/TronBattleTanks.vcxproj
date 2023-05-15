@@ -164,6 +164,7 @@
   <ItemGroup>
     <ClInclude Include="AIComponent.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="CreatePrefabs.h" />
     <ClInclude Include="GameCommands.h" />
     <ClInclude Include="GameEvents.h" />
     <ClInclude Include="Level.h" />

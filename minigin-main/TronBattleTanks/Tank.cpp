@@ -16,6 +16,42 @@
 
 using namespace dae;
 
+Tank::Tank(Type type):
+	m_Type(type)
+{
+	auto tankTxt = std::make_shared<TextureComponent>(this);
+
+	m_pGun = std::make_shared<GameObject>();
+	auto gunTxt = std::make_shared<TextureComponent>(m_pGun.get());
+
+	switch (m_Type)
+	{
+	case Red:
+		SetTag("Red");
+		tankTxt->SetTexture("Resources/Sprites/RedTank.png");
+		gunTxt->SetTexture("Resources/Sprites/RedTankGun.png");
+		break;
+
+	case Blue:
+		SetTag("Blue");
+		tankTxt->SetTexture("Resources/Sprites/BlueTank.png");
+		gunTxt->SetTexture("Resources/Sprites/BlueTankGun.png");
+		break;
+	}
+
+	AddComponent(tankTxt);
+	SetSize(tankTxt->GetTextureSize());
+
+	m_pGun->AddComponent(gunTxt);
+	m_pGun->SetRelativePos({ -10, -8 });
+	AddChild(m_pGun.get());
+}
+
+void Tank::InitType()
+{
+	//use this to switch from red to blue tank
+}
+
 void Tank::Update(float deltaTime)
 {
 	CheckOverlap();
@@ -26,8 +62,7 @@ void Tank::ShootBullet(const glm::vec2& direction)
 {
 	auto& event_queue = EventQueue<Event, float>::GetInstance();
 	event_queue.schedule(SoundEvent(1, Shoot), 0);
-	//event_queue.schedule(UpdateCounterEvent(1, this, 1), 0.0);
-
+	
 	const auto bullet = std::make_shared<Bullet>(this, direction);
 	bullet->SetTag(GetTag());
 
@@ -37,6 +72,7 @@ void Tank::ShootBullet(const glm::vec2& direction)
 
 	GetScene()->Add(bullet);
 }
+
 
 void Tank::CheckOverlap()
 {
@@ -66,9 +102,10 @@ void Tank::CheckOverlap()
 }
 
 
-RedTank::RedTank()
+PlayerTank::PlayerTank(Type type):
+	Tank(type)
 {
-	SetTag("RedTank");
+	/*SetTag("PlayerTank");
 
 	auto redTankTxt = std::make_shared<TextureComponent>(this);
 	redTankTxt->SetTexture("Resources/Sprites/RedTank.png");
@@ -81,37 +118,28 @@ RedTank::RedTank()
 
 	m_pGun->AddComponent(gunTxt);
 	m_pGun->SetRelativePos({ -10, -8 });
-	AddChild(m_pGun.get());
+	AddChild(m_pGun.get());*/
 
 	m_pHealth = std::make_shared<dae::HealthCp>(this, 3);
 	AddComponent(m_pHealth);
 
 	const auto pPoints = std::make_shared<PointsCp>(this, 0);
 	AddComponent(pPoints);
-
-	////HUD
-	//auto fontTankUI = ResourceManager::GetInstance().LoadFont("Lingua.otf", 60);
-	//m_pPointText = std::make_shared<GameObject>("blueTank");
-	////auto textBluePoints = std::make_shared<UICp>(fontTankUI, "Points: ", SDL_Color{ 0, 0, 255 },
-	////	"Points", m_pPointText.get());
-	//auto text = std::make_shared<TextComponent>(this, "TEXT", fontTankUI, SDL_Color{1,1,1,1});
-	//m_pPointText->SetRelativePos({ 0, 0 });
-	//m_pPointText->AddComponent(text);
-	//AddChild(m_pPointText.get());
 }
 
-void RedTank::GetHit()
+void PlayerTank::GetHit()
 {
 	m_pHealth->ChangeAmount(-1);
 }
 
 
-BlueTank::BlueTank()
+EnemyTank::EnemyTank():
+	Tank(Blue)
 {
-	SetTag("BlueTank");
+	/*SetTag("EnemyTank");
 
 	auto blueTankTxt = std::make_shared<TextureComponent>(this);
-	blueTankTxt->SetTexture("Resources/Sprites/BlueTank.png");
+	blueTankTxt->SetTexture("Resources/Sprites/EnemyTank.png");
 	AddComponent(blueTankTxt);
 	SetSize(blueTankTxt->GetTextureSize());
 
@@ -121,7 +149,7 @@ BlueTank::BlueTank()
 
 	m_pGun->AddComponent(gunTxt);
 	m_pGun->SetRelativePos({ -10, -8 });
-	AddChild(m_pGun.get());
+	AddChild(m_pGun.get());*/
 
 	m_pHealth = std::make_shared<dae::HealthCp>(this, 3);
 	AddComponent(m_pHealth);
@@ -130,7 +158,7 @@ BlueTank::BlueTank()
 	AddComponent(m_pAICp);
 }
 
-void BlueTank::GetHit()
+void EnemyTank::GetHit()
 {
 	m_pHealth->ChangeAmount(-1);
 }

@@ -29,6 +29,8 @@
 #include "Level.h"
 #include "Menu.h"
 
+#include "CreatePrefabs.h"
+
 using namespace dae;
 
 void InitMainMenu(Scene& scene)
@@ -58,7 +60,7 @@ void InitControllableObjects(Scene& scene)
 
 	//PREFAB RED TANK
 	{
-		auto tankPrefab = std::make_shared<RedTank>();
+		auto tankPrefab = std::make_shared<PlayerTank>(Tank::Type::Red);
 		scene.Add(tankPrefab);
 
 
@@ -84,47 +86,12 @@ void InitControllableObjects(Scene& scene)
 		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_RIGHT, shootRight);
 
 		PlayerManager::GetInstance().AddPlayer(tankPrefab);
-
-		////Dying/Points logic
-		//auto pHealth = std::make_shared<HealthCp>(tankPrefab.get(), 1);
-		//tankPrefab->AddComponent(pHealth);
-
-		//auto pPoints = std::make_shared<PointsCp>(tankPrefab.get(), 0);
-		//tankPrefab->AddComponent(pPoints);
-
-		//DieCommand* dieCommand = new DieCommand{ tankPrefab.get() };
-		//dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_O, dieCommand);
-		//PointCommand* pointCommand = new PointCommand{ tankPrefab.get() };
-		//dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_P, pointCommand);
-
-		//auto pUIObserver = std::make_shared<UI>();
-		//tankPrefab->MakeObserver(pUIObserver);
-
-		////parent->AddChild(tankPrefab.get());
-
-		////Lives Display
-		//auto redTankLivesObj = std::make_shared<GameObject>("redTank");
-		//auto textRedLives = std::make_shared<UICp>(fontTankUI, "Lives: ", SDL_Color{ 255, 0, 0 },
-		//	"Lives", redTankLivesObj.get());
-		//redTankLivesObj->SetRelativePos({ 5, 310 });
-		//redTankLivesObj->AddComponent(textRedLives);
-		////parent->AddChild(redTankLivesObj.get());
-		//scene.Add(redTankLivesObj);
-
-		////Points Display
-		//auto redTankPointsObj = std::make_shared<GameObject>("redTank");
-		//auto textBluePoints = std::make_shared<UICp>(fontTankUI, "Points: ", SDL_Color{ 255, 0, 0 },
-		//	"Points", redTankPointsObj.get());
-		//redTankPointsObj->SetRelativePos({ 5, 340 });
-		//redTankPointsObj->AddComponent(textBluePoints);
-		////parent->AddChild(redTankPointsObj.get());
-		//scene.Add(redTankPointsObj);
 	}
 
 	//BLUE TANK
 	{
 		
-		auto blueTank = std::make_shared<BlueTank>();
+		auto blueTank = std::make_shared<PlayerTank>(Tank::Type::Blue);
 		scene.Add(blueTank);
 
 		dae::InputManager::GetInstance().AddController(controllerIdx);
@@ -292,12 +259,23 @@ void LoadGameScene()
 	ExplainControls();
 }
 
+void LoadNewScene()
+{
+	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
+
+	scene.Add(CreateTank());
+
+	scene.SetActive(true);
+}
+
+
 std::shared_ptr<Audio> Locator::service_;
 
 void load()
 {
 	//LoadDaeScene();
-	LoadGameScene();
+	//LoadGameScene();
+	LoadNewScene();
 
 	// Initialize the audio service
 	Locator::initialize();

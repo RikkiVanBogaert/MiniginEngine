@@ -11,7 +11,7 @@ AIComponent::AIComponent(dae::GameObject* owner):
 {
 	m_pOwner = owner;
 
-	m_pAiOwner = dynamic_cast<BlueTank*>(owner);
+	m_pAiOwner = dynamic_cast<EnemyTank*>(owner);
 }
 
 void AIComponent::Update(float deltaTime)
@@ -52,7 +52,7 @@ void AIComponent::Init()
 
 void AIComponent::FindPlayer()
 {
-	m_pPlayer = dynamic_cast<RedTank*>(PlayerManager::GetInstance().GetPlayers()[0].get());
+	m_pPlayer = dynamic_cast<PlayerTank*>(PlayerManager::GetInstance().GetPlayers()[0].get());
 }
 
 //Make helper function which finds an object of a certain type in the scene

@@ -32,6 +32,7 @@ private:
 
 	void CreateMap(const std::vector<int>& map, int columns);
 	void InitHUDSinglePlayer();
+	void InitHUDVersus();
 
 	void UpdateBullets();
 	bool CheckTeleportCollision(const glm::vec2& rayPoint);

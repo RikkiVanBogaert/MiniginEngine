@@ -77,5 +77,8 @@
     <ClInclude Include="GameEvents.h">
       <Filter>Other Files</Filter>
     </ClInclude>
+    <ClInclude Include="CreatePrefabs.h">
+      <Filter>Game Files\Prefabs</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -106,6 +106,49 @@ void Level::InitHUDSinglePlayer()
 	GetScene()->Add(pLivesText);
 }
 
+void Level::InitHUDVersus()
+{
+	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
+
+	//Player 1
+	{
+		//Points
+		auto pPointText = std::make_shared<GameObject>("Red");
+		auto pPointsCounterPlayer = PlayerManager::GetInstance().GetPlayers()[0]->GetComponent<PointsCp>();
+		const auto text = std::make_shared<UICounterCp>(pPointText.get(), font, "Points: ", SDL_Color{ 255, 0, 0 }, pPointsCounterPlayer);
+		pPointText->AddComponent(text);
+		pPointText->SetRelativePos({ 5, 210 });
+		GetScene()->Add(pPointText);
+
+		//Lives
+		auto pLivesText = std::make_shared<GameObject>("Red");
+		auto pLivesCounterPlayer = PlayerManager::GetInstance().GetPlayers()[0]->GetComponent<HealthCp>();
+		const auto textLives = std::make_shared<UICounterCp>(pLivesText.get(), font, "Lives: ", SDL_Color{ 255, 0, 0 }, pLivesCounterPlayer);
+		pLivesText->AddComponent(textLives);
+		pLivesText->SetRelativePos({ 5, 260 });
+		GetScene()->Add(pLivesText);
+	}
+
+	//Player 2
+	{
+		//Points
+		auto pPointText = std::make_shared<GameObject>("Blue");
+		auto pPointsCounterPlayer = PlayerManager::GetInstance().GetPlayers()[0]->GetComponent<PointsCp>();
+		const auto text = std::make_shared<UICounterCp>(pPointText.get(), font, "Points: ", SDL_Color{ 0, 0, 255 }, pPointsCounterPlayer);
+		pPointText->AddComponent(text);
+		pPointText->SetRelativePos({ 5, 310 });
+		GetScene()->Add(pPointText);
+
+		//Lives
+		auto pLivesText = std::make_shared<GameObject>("Blue");
+		auto pLivesCounterPlayer = PlayerManager::GetInstance().GetPlayers()[1]->GetComponent<HealthCp>();
+		const auto textLives = std::make_shared<UICounterCp>(pLivesText.get(), font, "Lives: ", SDL_Color{ 0, 0, 255 }, pLivesCounterPlayer);
+		pLivesText->AddComponent(textLives);
+		pLivesText->SetRelativePos({ 5, 360 });
+		GetScene()->Add(pLivesText);
+	}
+}
+
 glm::vec2 Level::GetRandomSpawnPos() const
 {
 	const auto rndIndex = rand() % (m_pPaths.size() + 1);
@@ -128,6 +171,7 @@ void Level::OnLevelLoad()
 		break;
 	case PlayerManager::Versus:
 		LoadVersus();
+		InitHUDVersus();
 		break;
 	}
 
@@ -149,7 +193,7 @@ void Level::LoadSinglePlayer() const
 	//Enemies----
 	for (size_t i{}; i < m_SpawnPosBlueTanks.size(); i += 4)
 	{
-		auto blueTank = std::make_shared<BlueTank>();
+		auto blueTank = std::make_shared<EnemyTank>();
 		blueTank->SetRelativePos(m_SpawnPosBlueTanks[i]);
 		GetScene()->Add(blueTank);
 	}
@@ -180,7 +224,7 @@ void Level::LoadCoop() const
 	player2->GetScene()->Remove(player2);
 	GetScene()->Add(player2);
 
-	player2->SetTag("RedTank");
+	player2->SetTag("Red");
 	const auto pTexture = player2->GetComponent<TextureComponent>();
 	pTexture->SetTexture("Resources/Sprites/RedTank.png");
 
@@ -188,7 +232,7 @@ void Level::LoadCoop() const
 	//Enemies----
 	for (size_t i{}; i < m_SpawnPosBlueTanks.size(); i += 4)
 	{
-		auto blueTank = std::make_shared<BlueTank>();
+		auto blueTank = std::make_shared<EnemyTank>();
 		blueTank->SetRelativePos(m_SpawnPosBlueTanks[i]);
 		GetScene()->Add(blueTank);
 	}
@@ -219,7 +263,7 @@ void Level::LoadVersus() const
 	player2->GetScene()->Remove(player2);
 	GetScene()->Add(player2);
 
-	player2->SetTag("BlueTank");
+	player2->SetTag("Blue");
 	const auto pTexture = player2->GetComponent<TextureComponent>();
 	pTexture->SetTexture("Resources/Sprites/BlueTank.png");
 }
@@ -229,7 +273,7 @@ void Level::OnLevelDestroy()
 	for (auto& object : GetScene()->GetGameObjects())
 	{
 		if (dynamic_cast<Bullet*>(object.get()) ||
-			dynamic_cast<BlueTank*>(object.get()))
+			dynamic_cast<EnemyTank*>(object.get()))
 		{
 			GetScene()->Remove(object);
 		}
@@ -255,10 +299,11 @@ bool Level::CollisionHit(GameObject* object, const glm::vec2& dir)
 	//{
 	//	rayPoints.push_back({p.x + dir.x * rayLength, p.y + dir.y * rayLength});
 	//}
+
 	const glm::vec2 midPoint = { objectPos.x + object->GetSize().x / 2, objectPos.y + object->GetSize().y / 2 };
 	const float rayLength = object->GetSize().x / 2;
 	const float dirLength = sqrtf(dir.x * dir.x + dir.y * dir.y);
-	const glm::vec3 normalizedDir = { dir.x / dirLength,  dir.y / dirLength, 0 };
+	const glm::vec2 normalizedDir = { dir.x / dirLength,  dir.y / dirLength };
 	const glm::vec2 rayPoint = { midPoint.x + normalizedDir.x * rayLength, midPoint.y + normalizedDir.y * rayLength };
 
 	if (dynamic_cast<Tank*>(object) && CheckTeleportCollision(rayPoint))
@@ -269,10 +314,9 @@ bool Level::CollisionHit(GameObject* object, const glm::vec2& dir)
 
 	for (const auto& wall : m_pWalls)
 	{
-		//if (wall->GetTag() != "Wall") continue;
-
-		//possible improvement: not every corner needs to check every direction (bottomLeft doesnt need to check right/down, etc...
-		/*for (auto r : rayPoints)
+		/*if (wall->GetTag() != "Wall") continue;
+		possible improvement: not every corner needs to check every direction (bottomLeft doesnt need to check right/down, etc...
+		for (auto r : rayPoints)
 		{
 			if (r.x > wall->GetWorldTransform().x && r.x < wall->GetWorldTransform().x + wall->GetSize().x &&
 				r.y > wall->GetWorldTransform().y && r.y < wall->GetWorldTransform().y + wall->GetSize().y)
