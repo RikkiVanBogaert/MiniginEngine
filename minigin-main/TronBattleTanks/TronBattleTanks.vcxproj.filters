@@ -45,6 +45,9 @@
     <ClCompile Include="AIComponent.cpp">
       <Filter>Game Files\Components</Filter>
     </ClCompile>
+    <ClCompile Include="GameEvents.cpp">
+      <Filter>Other Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Level.h">
@@ -69,6 +72,9 @@
       <Filter>Game Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="Sounds.h">
+      <Filter>Other Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEvents.h">
       <Filter>Other Files</Filter>
     </ClInclude>
   </ItemGroup>

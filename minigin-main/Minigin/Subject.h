@@ -1,5 +1,5 @@
 #pragma once
-#include "Event.h"
+#include "ObserverEvent.h"
 
 #include <vector>
 #include <iostream>
@@ -18,7 +18,7 @@ namespace dae
 		void AddObserver(std::shared_ptr<Observer> observer);
 		void RemoveObserver(std::shared_ptr<Observer> observer);
 
-		void NotifyObservers(Event event);
+		void NotifyObservers(ObserverEvent event);
 
 	private:
 		GameObject* m_pOwner;

@@ -10,7 +10,7 @@
 
 using namespace dae;
 
-void UI::OnNotify(Event event, GameObject* owner)
+void UI::OnNotify(ObserverEvent event, GameObject* owner)
 {
 	switch (event)
 	{

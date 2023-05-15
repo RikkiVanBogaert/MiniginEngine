@@ -28,7 +28,7 @@ void GameObject::MakeObserver(const std::shared_ptr<Observer>& observer)
 	m_pSubject->AddObserver(observer);
 }
 
-void GameObject::NotifyObservers(const Event& event) const
+void GameObject::NotifyObservers(const ObserverEvent& event) const
 {
 	if (!m_pSubject) return;
 
@@ -124,7 +124,7 @@ dae::Scene* GameObject::GetScene() const
 void GameObject::MarkForDeletion()
 {
 	//if (!m_pSubject) return;
-	//m_pSubject->NotifyObservers(Event::ActorDied);
+	//m_pSubject->NotifyObservers(ObserverEvent::ActorDied);
 	m_NeedsDeleting = true;
 }
 

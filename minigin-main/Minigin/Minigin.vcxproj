@@ -207,7 +207,8 @@
     <ClInclude Include="BaseComponent.h" />
     <ClInclude Include="Commands.h" />
     <ClInclude Include="Controller.h" />
-    <ClInclude Include="Event.h" />
+    <ClInclude Include="EngineEvents.h" />
+    <ClInclude Include="ObserverEvent.h" />
     <ClInclude Include="EventQueue.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSComponent.h" />
@@ -224,7 +225,7 @@
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Minigin.h" />
-    <ClInclude Include="MyEvents.h" />
+    <ClInclude Include="Event.h" />
     <ClInclude Include="Observers.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />

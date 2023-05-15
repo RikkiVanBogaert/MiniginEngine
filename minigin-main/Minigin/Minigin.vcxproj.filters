@@ -114,7 +114,7 @@
     <ClInclude Include="Subject.h">
       <Filter>Game Files</Filter>
     </ClInclude>
-    <ClInclude Include="Event.h">
+    <ClInclude Include="ObserverEvent.h">
       <Filter>Game Files</Filter>
     </ClInclude>
     <ClInclude Include="UICp.h">
@@ -126,7 +126,10 @@
     <ClInclude Include="EventQueue.h">
       <Filter>Scene Files</Filter>
     </ClInclude>
-    <ClInclude Include="MyEvents.h">
+    <ClInclude Include="Event.h">
+      <Filter>Scene Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineEvents.h">
       <Filter>Scene Files</Filter>
     </ClInclude>
   </ItemGroup>

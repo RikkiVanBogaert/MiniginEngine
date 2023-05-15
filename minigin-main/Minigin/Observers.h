@@ -1,5 +1,5 @@
 #pragma once
-#include "Event.h"
+#include "ObserverEvent.h"
 #include <string>
 
 
@@ -13,14 +13,14 @@ namespace dae
 	public:
 		virtual ~Observer() {}
 
-		virtual void OnNotify(Event event, GameObject* gameObject) = 0;
+		virtual void OnNotify(ObserverEvent event, GameObject* gameObject) = 0;
 
 	};
 
 	class UI final : public Observer
 	{
 	public:
-		virtual void OnNotify(Event event, GameObject* gameObject);
+		virtual void OnNotify(ObserverEvent event, GameObject* gameObject);
 
 	private:
 

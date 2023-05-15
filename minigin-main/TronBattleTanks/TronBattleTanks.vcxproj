@@ -154,6 +154,7 @@
     <ClCompile Include="AIComponent.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="GameCommands.cpp" />
+    <ClCompile Include="GameEvents.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="PlayerManager.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="AIComponent.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="GameCommands.h" />
+    <ClInclude Include="GameEvents.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="PlayerManager.h" />

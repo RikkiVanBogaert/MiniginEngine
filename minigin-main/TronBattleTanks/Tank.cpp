@@ -7,8 +7,8 @@
 
 #include "AudioService.h"
 #include "EventQueue.h"
-#include "MyEvents.h"
-#include "Sounds.h"
+#include "EngineEvents.h"
+#include "GameEvents.h"
 
 using namespace dae;
 
@@ -21,8 +21,8 @@ void Tank::Update(float deltaTime)
 void Tank::ShootBullet(const glm::vec2& direction)
 {
 	auto& event_queue = EventQueue<SoundEvent, float>::GetInstance();
-	event_queue.schedule(SoundEvent(1, 0), 0.0);
-
+	event_queue.schedule(SoundEvent(1, 0), 0);
+	//event_queue.schedule(UpdateCounterEvent(1, this, 0), 0.0);
 
 	const auto bullet = std::make_shared<Bullet>(direction);
 	bullet->SetTag(GetTag());
@@ -109,5 +109,4 @@ BlueTank::BlueTank()
 void BlueTank::GetHit()
 {
 	m_pHealth->ChangeAmount(-1);
-
 }

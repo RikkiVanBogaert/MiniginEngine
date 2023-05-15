@@ -54,7 +54,7 @@ namespace dae
 
 		//Observer/Subject
 		void MakeObserver(const std::shared_ptr<Observer>& observer);
-		void NotifyObservers(const Event& event) const;
+		void NotifyObservers(const ObserverEvent& event) const;
 		void SetTag(const std::string& tag) { m_Tag = tag; }
 		std::string GetTag() const { return m_Tag; }
 

@@ -1,6 +1,5 @@
 #pragma once
 #include <iostream>
-#include <vector>
 
 class AudioImpl;
 
@@ -32,5 +31,4 @@ public:
 
 private:
 	static std::shared_ptr<Audio> service_;
-	//static NullAudio nullService_;
 };

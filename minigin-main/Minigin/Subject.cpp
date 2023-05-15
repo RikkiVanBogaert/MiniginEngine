@@ -18,7 +18,7 @@ void Subject::RemoveObserver(std::shared_ptr<Observer> observer)
     m_pObservers.erase(std::remove(m_pObservers.begin(), m_pObservers.end(), observer), m_pObservers.end());
 }
 
-void Subject::NotifyObservers(Event event)
+void Subject::NotifyObservers(ObserverEvent event)
 {
     for (const auto& observer : m_pObservers)
     {
