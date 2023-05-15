@@ -85,6 +85,27 @@ void Level::CreateMap(const std::vector<int>& map, int columns)
 	}
 }
 
+void Level::InitHUDSinglePlayer()
+{
+	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
+
+	//Points
+	auto pPointText = std::make_shared<GameObject>("redTank");
+	auto pPointsCounterPlayer = PlayerManager::GetInstance().GetPlayers()[0]->GetComponent<PointsCp>();
+	const auto text = std::make_shared<UICounterCp>(pPointText.get(), font, "Points: ", SDL_Color{ 255, 0, 0 }, pPointsCounterPlayer);
+	pPointText->AddComponent(text);
+	pPointText->SetRelativePos({ 5, 310 });
+	GetScene()->Add(pPointText);
+
+	//Lives
+	auto pLivesText = std::make_shared<GameObject>("redTank");
+	auto pLivesCounterPlayer = PlayerManager::GetInstance().GetPlayers()[0]->GetComponent<HealthCp>();
+	const auto textLives = std::make_shared<UICounterCp>(pLivesText.get(), font, "Lives: ", SDL_Color{ 255, 0, 0 }, pLivesCounterPlayer);
+	pLivesText->AddComponent(textLives);
+	pLivesText->SetRelativePos({ 5, 360 });
+	GetScene()->Add(pLivesText);
+}
+
 glm::vec2 Level::GetRandomSpawnPos() const
 {
 	const auto rndIndex = rand() % (m_pPaths.size() + 1);
@@ -95,12 +116,12 @@ glm::vec2 Level::GetRandomSpawnPos() const
 
 void Level::OnLevelLoad()
 {	
-	//OnLevelDestroy();
 
 	switch (PlayerManager::GetInstance().GetGameMode())
 	{
 	case PlayerManager::SinglePlayer:
 		LoadSinglePlayer();
+		InitHUDSinglePlayer();
 		break;
 	case PlayerManager::Coop:
 		LoadCoop();

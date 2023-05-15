@@ -149,7 +149,7 @@ void GameObject::UpdateWorldPos()
 {
 	m_DirtyFlag = false;
 
-	if (!m_pParent) return; //has no parent so doesnt need to update worldPos
+	if (!m_pParent) return; //has no parent so doesn't need to update worldPos
 
 	m_WorldTransform = m_pParent->GetWorldTransform() + m_RelativeTransform;
 }

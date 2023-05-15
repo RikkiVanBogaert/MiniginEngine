@@ -3,7 +3,7 @@
 
 class AudioImpl;
 
-class Audio
+class Audio final
 {
 public:
 	Audio();
@@ -17,7 +17,7 @@ private:
 	std::unique_ptr<AudioImpl> impl_;
 };
 
-class Locator
+class Locator final
 {
 public:
 	static void initialize() {}

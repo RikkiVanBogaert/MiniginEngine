@@ -81,7 +81,7 @@ dae::Minigin::~Minigin()
 void dae::Minigin::Run(const std::function<void()>& load)
 {
     // create an instance of EventQueue
-    auto& event_queue = EventQueue<SoundEvent, float>::GetInstance();
+    auto& event_queue = EventQueue<Event, float>::GetInstance();
 
     load();
 

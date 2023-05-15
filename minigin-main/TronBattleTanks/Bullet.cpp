@@ -4,8 +4,8 @@
 
 using namespace dae;
 
-Bullet::Bullet(glm::vec2 velocity):
-	m_Velocity{velocity}
+Bullet::Bullet(Tank* shooter, glm::vec2 velocity):
+	m_pShooter(shooter), m_Velocity{velocity}
 {
 	const auto bulletTxt = std::make_shared<TextureComponent>(this);
 	bulletTxt->SetTexture("Resources/Sprites/BulletPlayer.png");
@@ -19,14 +19,6 @@ void Bullet::Update(float deltaTime)
 	const auto newPos = GetRelativeTransform() + m_Velocity * deltaTime;
 	SetRelativePos(newPos);
 
-	
-
-	//if (abs(GetWorldTransform().x) > 800 ||
-	//	abs(GetWorldTransform().y) > 800)
-	//{
-	//	//improve this, use actual windowSize
-	//	MarkForDeletion();
-	//}
 }
 
 void Bullet::SetVelocity(glm::vec2 newVel)

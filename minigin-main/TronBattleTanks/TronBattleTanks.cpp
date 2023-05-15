@@ -226,7 +226,8 @@ void LoadDaeScene()
 
 	const auto textObj = std::make_shared<GameObject>();
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	const auto to = std::make_shared<TextComponent>(textObj.get(), "Programming 4 Assignment", font, SDL_Color{ 255, 255, 255 });
+	const auto to = std::make_shared<TextComponent>(textObj.get(), "Programming 4 Assignment", 
+		font, SDL_Color{ 255, 255, 255 });
 	textObj->SetRelativePos({ 80, 20 });
 	textObj->AddComponent(to);
 	scene.Add(textObj);

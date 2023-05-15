@@ -23,6 +23,8 @@ protected:
 private:
 	void CheckOverlap();
 	virtual void GetHit() = 0;
+
+
 };
 
 class RedTank final : public Tank
@@ -32,7 +34,9 @@ public:
 	virtual ~RedTank() override = default;
 
 private:
+
 	virtual void GetHit() override;
+
 };
 
 class BlueTank final : public Tank

@@ -6,14 +6,15 @@
 
 namespace dae
 {
-	//class TextComponent;
+	class CounterCp;
+	
 	class Font;
 
-	class UICp final : public ComponentBase
+	class UICp : public ComponentBase
 	{
 	public:
-		UICp(std::shared_ptr<Font> font, const std::string& text, const SDL_Color& color, 
-			const std::string& type, GameObject* owner);
+		UICp(GameObject* owner, std::shared_ptr<Font> font, const std::string& text, const SDL_Color& color,
+			const std::string& type);
 
 		virtual void Update(float deltaTime) override;
 		virtual void Render() const override;
@@ -26,5 +27,18 @@ namespace dae
 		std::unique_ptr<TextComponent> m_pTextCp{};
 		std::string m_Type{};
 	};
+
+
+	class UICounterCp final : public UICp
+	{
+	public:
+		UICounterCp(GameObject* owner, std::shared_ptr<Font> font, const std::string& text, const SDL_Color& color, CounterCp* counter);
+
+		virtual void Update(float deltaTime) override;
+
+	private:
+		CounterCp* m_pCounterCp;
+	};
+
 }
 

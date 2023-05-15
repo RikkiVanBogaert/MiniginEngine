@@ -2,6 +2,9 @@
 #include <queue>
 #include <functional>
 #include <type_traits>
+#include <memory>
+#include "Event.h"
+
 template<typename EventType, typename TimeType>
 class EventQueue {
 public:
@@ -12,18 +15,21 @@ public:
         return instance;
     }
 
-    void schedule(const EventType& event, TimeType time) {
-        queue.push(std::make_pair(time, event));
+    template<typename DerivedEventType>
+    void schedule(const DerivedEventType& event, TimeType time) {
+        static_assert(std::is_base_of_v<Event, DerivedEventType>, "DerivedEventType must derive from Event");
+        std::shared_ptr<Event> sharedEvent = std::make_shared<DerivedEventType>(event);
+        queue.push(std::make_pair(time, sharedEvent));
     }
 
     void process() {
         while (!queue.empty()) {
-            auto [time, event] = queue.top();
+            auto [time, sharedEvent] = queue.top();
             if (time > current_time) {
                 current_time = time;
             }
             queue.pop();
-            event.execute();
+            sharedEvent->execute();
         }
     }
 
@@ -44,10 +50,10 @@ public:
 
     void process_next() {
         if (!queue.empty()) {
-            auto [time, event] = queue.top();
+            auto [time, sharedEvent] = queue.top();
             current_time = time;
             queue.pop();
-            event.execute();
+            sharedEvent->execute();
         }
     }
 
@@ -61,13 +67,14 @@ private:
     TimeType current_time{};
 
     struct EventComparator {
-        bool operator()(const std::pair<TimeType, EventType>& lhs, const std::pair<TimeType, EventType>& rhs) const {
+        bool operator()(const std::pair<TimeType, std::shared_ptr<Event>>& lhs, const std::pair<TimeType, std::shared_ptr<Event>>& rhs) const {
             return lhs.first > rhs.first;
         }
     };
 
-    std::priority_queue<std::pair<TimeType, EventType>, std::vector<std::pair<TimeType, EventType>>, EventComparator> queue;
+    std::priority_queue<std::pair<TimeType, std::shared_ptr<Event>>, std::vector<std::pair<TimeType, std::shared_ptr<Event>>>, EventComparator> queue;
 };
+
 
 
 
