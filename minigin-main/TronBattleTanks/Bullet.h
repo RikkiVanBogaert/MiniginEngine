@@ -7,7 +7,7 @@ class Tank;
 class Bullet final : public dae::GameObject
 {
 public:
-	Bullet(Tank* shooter, glm::vec2 velocity);
+	//Bullet( glm::vec2 velocity);
 	virtual ~Bullet() = default;
 
 	Bullet(const Bullet& other) = delete;

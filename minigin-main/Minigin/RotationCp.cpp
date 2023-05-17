@@ -4,12 +4,11 @@
 using namespace dae;
 
 RotationCp::RotationCp(GameObject* owner, float rotSpeed, float radius) :
+ComponentBase(owner),
 	m_RotSpeed{rotSpeed},
 	m_Radius{ radius },
 	m_OffsetToParent{ owner->GetWorldTransform() }
-{
-	m_pOwner = owner;
-}
+{}
 
 void RotationCp::Update(float deltaTime)
 {

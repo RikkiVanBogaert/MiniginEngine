@@ -49,7 +49,7 @@ namespace dae
 		//Parent stuff
 		void SetParent(GameObject* parent);
 		GameObject* GetParent() const;
-		void AddChild(GameObject* child);
+		void AddChild(std::shared_ptr<GameObject> child);
 		std::vector<GameObject*> GetChildren() const;
 
 		//Observer/Subject

@@ -8,7 +8,10 @@
 #include "Level.h"
 #include "Menu.h"
 #include "Bullet.h"
+#include "CollisionCp.h"
+#include "SpawnPositionCp.h"
 #include "Tank.h"
+#include "GameHelpers.h"
 
 
 using namespace dae;
@@ -26,17 +29,16 @@ void MoveCommand::Execute()
 	//Rotate
 
 
-	//Check level for collision
 	const auto sceneObjects = m_pGameObject->GetScene()->GetGameObjects();
 	for (auto& o : sceneObjects)
 	{
-		if (!dynamic_cast<Level*>(o.get())) continue;
+		if (o->GetTag() != "Level") continue;
 
-		const auto pLevel = dynamic_cast<Level*>(o.get());
-		if (pLevel->CollisionHit(m_pGameObject, m_Direction))
+		auto collisionCp = o->GetComponent<CollisionCp>();
+		if (collisionCp->CollisionHit(m_pGameObject, m_Direction))
 			return;
-		else
-			break;
+		
+		break;
 	}
 
 	//Movement
@@ -84,19 +86,19 @@ void PointCommand::Execute()
 	SetKeyPressed(true);
 }
 
-ShootCommand::ShootCommand(Tank* gameObj, const glm::vec3& direction)
+ShootCommand::ShootCommand(dae::GameObject* gameObj, const glm::vec3& direction)
 {
-	m_pTank = gameObj;
+	m_pGameObject = gameObj;
 	m_Direction = direction;
 }
 
 void ShootCommand::Execute()
 {
-	if (!m_pTank || m_pTank->NeedsDeleting() || !m_pTank->GetScene()->IsActive()) return;
+	if (!m_pGameObject || m_pGameObject->NeedsDeleting() || !m_pGameObject->GetScene()->IsActive()) return;
 
 	if (GetKeyPressed()) return;
 
-	m_pTank->ShootBullet(m_Direction);
+	//CreateBullet(*m_pGameObject->GetScene());
 	
 
 	SetKeyPressed(true);
@@ -113,7 +115,7 @@ void SkipLevelCommand::Execute()
 		return;
 	}
 
-	auto objects = sceneManager.GetActiveScene()->GetGameObjects();
+	/*auto objects = sceneManager.GetActiveScene()->GetGameObjects();
 	for (auto& o : objects)
 	{
 		if (!dynamic_cast<Level*>(o.get())) continue;
@@ -121,10 +123,35 @@ void SkipLevelCommand::Execute()
 		const auto level = dynamic_cast<Level*>(o.get());
 		level->OnLevelDestroy();
 		break;
+	}*/
+	auto players = PlayerManager::GetInstance().GetPlayers();
+	for(auto p : players)
+	{
+		p->GetScene()->Remove(p);
 	}
-	
+
 	sceneManager.NextScene();
-	if (sceneManager.GetActiveSceneName() == "WaitingScene")
+
+	if (sceneManager.GetActiveScene()->GetName() == "MainMenu") return;
+
+	const auto sceneObjects = sceneManager.GetActiveScene()->GetGameObjects();
+	SpawnPositionCp* spawnPosCp{};
+	for (auto& o : sceneObjects)
+	{
+		if (o->GetTag() != "Level") continue;
+
+		spawnPosCp = o->GetComponent<SpawnPositionCp>();
+		break;
+	}
+
+	for (int i{}; i < players.size(); ++i)
+	{
+		sceneManager.GetActiveScene()->Add(players[i]);
+		players[i]->SetRelativePos(spawnPosCp->GetPos()[i]);
+	}
+
+
+	/*if (sceneManager.GetActiveSceneName() == "WaitingScene")
 	{
 		sceneManager.NextScene();
 	}
@@ -137,7 +164,7 @@ void SkipLevelCommand::Execute()
 		const auto level = dynamic_cast<Level*>(o.get());
 		level->OnLevelLoad();
 		break;
-	}
+	}*/
 
 
 	
@@ -155,16 +182,24 @@ void StartGameCommand::Execute()
 
 
 	const std::string nameScene{"Level0"};
-	dae::SceneManager::GetInstance().SetActiveScene(nameScene);
+	auto& sceneManager = dae::SceneManager::GetInstance();
+	sceneManager.SetActiveScene(nameScene);
 
-	const auto objects = dae::SceneManager::GetInstance().GetActiveScene()->GetGameObjects();
-	for (auto& o : objects)
+	const auto sceneObjects = sceneManager.GetActiveScene()->GetGameObjects();
+	SpawnPositionCp* spawnPosCp{};
+	for (auto& o : sceneObjects)
 	{
-		if (!dynamic_cast<Level*>(o.get())) continue;
+		if (o->GetTag() != "Level") continue;
 
-		const auto level = dynamic_cast<Level*>(o.get());
-		level->OnLevelLoad();
+		spawnPosCp = o->GetComponent<SpawnPositionCp>();
 		break;
+	}
+
+	auto players = PlayerManager::GetInstance().GetPlayers();
+	for (int i{}; i < players.size(); ++i)
+	{
+		sceneManager.GetActiveScene()->Add(players[i]);
+		players[i]->SetRelativePos(spawnPosCp->GetPos()[i]);
 	}
 
 	SetKeyPressed(true);
@@ -185,6 +220,21 @@ void SwitchGameModeCommand::Execute()
 	}
 
 	PlayerManager::GetInstance().SwitchGameMode();
+
+	auto gameModeText = GetGameObject(SceneManager::GetInstance().GetActiveScene(), "GameMode")->GetComponent<TextComponent>();
+
+	switch (PlayerManager::GetInstance().GetGameMode())
+	{
+	case PlayerManager::SinglePlayer:
+		gameModeText->SetText("SinglePlayer");
+		break;
+	case PlayerManager::Coop:
+		gameModeText->SetText("Coop");
+		break;
+	case PlayerManager::Versus:
+		gameModeText->SetText("Versus");
+		break;
+	}
 
 	SetKeyPressed(true);
 }

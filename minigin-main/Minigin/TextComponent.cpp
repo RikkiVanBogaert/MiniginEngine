@@ -7,16 +7,15 @@
 
 using namespace dae;
 
-dae::TextComponent::TextComponent(GameObject* owner, const std::string& text, const std::shared_ptr<Font>& font, 
-	const SDL_Color& color = {255, 255, 255})
-	:  m_Text(text), 
-	m_BeginText(text),
-	m_Font(std::move(font)), 
-	m_Color{color},
-	m_TextTexture(nullptr)
-{
-	m_pOwner = owner;
-}
+TextComponent::TextComponent(GameObject* owner, const std::string& text, const std::shared_ptr<Font>& font, 
+	const SDL_Color& color = {255, 255, 255}):
+ComponentBase(owner),
+m_Text(text), 
+m_BeginText(text),
+m_Font(std::move(font)), 
+m_Color{color},
+m_TextTexture(nullptr)
+{}
 
 void dae::TextComponent::Update(float)
 {

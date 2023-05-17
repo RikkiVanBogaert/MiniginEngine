@@ -188,7 +188,7 @@ void LoadDaeScene()
 	logoObj->SetRelativePos({ 216, 180 });
 	logoObj->AddComponent(logo);
 	scene.Add(logoObj);
-	gameObj->AddChild(logoObj.get());
+	gameObj->AddChild(logoObj);
 
 
 	const auto textObj = std::make_shared<GameObject>();
@@ -198,16 +198,16 @@ void LoadDaeScene()
 	textObj->SetRelativePos({ 80, 20 });
 	textObj->AddComponent(to);
 	scene.Add(textObj);
-	gameObj->AddChild(textObj.get());
+	gameObj->AddChild(textObj);
 
 
 	const auto fpsObj = std::make_shared<GameObject>();
 	auto fontFPS = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 15);
-	const auto fpsCounter = std::make_shared<FPSComponent>(fontFPS, fpsObj.get());
+	const auto fpsCounter = std::make_shared<FPSComponent>(fpsObj.get(), fontFPS);
 	fpsObj->SetRelativePos({ 7, 10 });
 	fpsObj->AddComponent(fpsCounter);
 	scene.Add(fpsObj);
-	gameObj->AddChild(fpsObj.get());
+	gameObj->AddChild(fpsObj);
 
 	InitControllableObjects(scene);
 }
@@ -261,11 +261,31 @@ void LoadGameScene()
 
 void LoadNewScene()
 {
-	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
+	auto& startScene = SceneManager::GetInstance().CreateScene("MainMenu");
+	CreateMainMenu(startScene);
+	startScene.SetActive(true);
 
-	scene.Add(CreateTank());
+	auto& scene = SceneManager::GetInstance().CreateScene("Level0");
+	CreateTank(scene);
+	CreateLevel(scene, "../Data/Resources/LevelLayout0.csv");
 
-	scene.SetActive(true);
+	auto& scene2 = SceneManager::GetInstance().CreateScene("Level1");
+	CreateLevel(scene2, "../Data/Resources/LevelLayout1.csv");
+
+	//Inputs-----
+	auto* startGame = new StartGameCommand{};
+	dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_SPACE, startGame);
+
+	auto* skipLevel = new SkipLevelCommand{};
+	InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_N, skipLevel);
+
+	auto* exitGame = new ExitGameCommand{};
+	dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_ESCAPE, exitGame);
+
+	auto* switchGameMode = new SwitchGameModeCommand{};
+	dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_TAB, switchGameMode);
+
+	ExplainControls();
 }
 
 

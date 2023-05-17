@@ -5,10 +5,9 @@
 
 using namespace dae;
 
-TextureComponent::TextureComponent(GameObject* owner)
-{
-	m_pOwner = owner;
-}
+TextureComponent::TextureComponent(GameObject* owner):
+ComponentBase(owner)
+{}
 
 void TextureComponent::Render() const
 {
@@ -18,5 +17,6 @@ void TextureComponent::Render() const
 void TextureComponent::SetTexture(const std::string& filename)
 {
 	m_Texture = ResourceManager::GetInstance().LoadTexture(filename);
+	m_pOwner->SetSize(m_Texture->GetSize());
 }
 

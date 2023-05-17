@@ -5,10 +5,9 @@
 using namespace dae;
 
 CounterCp::CounterCp(GameObject* owner, int startAmount):
+ComponentBase(owner),
 	m_Counter{ startAmount }
-{
-	m_pOwner = owner;
-}
+{}
 
 void CounterCp::ChangeAmount(int difference)
 {

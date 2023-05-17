@@ -4,15 +4,16 @@
 
 using namespace dae;
 
-Bullet::Bullet(Tank* shooter, glm::vec2 velocity):
-	m_pShooter(shooter), m_Velocity{velocity}
-{
-	const auto bulletTxt = std::make_shared<TextureComponent>(this);
-	bulletTxt->SetTexture("Resources/Sprites/BulletPlayer.png");
-	AddComponent(bulletTxt);
-
-	SetSize(bulletTxt->GetTextureSize());
-}
+//Bullet::Bullet( glm::vec2 velocity):
+//	m_Velocity{velocity}
+//{
+//
+//	const auto bulletTxt = std::make_shared<TextureComponent>(this);
+//	bulletTxt->SetTexture("Resources/Sprites/BulletPlayer.png");
+//	AddComponent(bulletTxt);
+//
+//	SetSize(bulletTxt->GetTextureSize());
+//}
 
 void Bullet::Update(float deltaTime)
 {

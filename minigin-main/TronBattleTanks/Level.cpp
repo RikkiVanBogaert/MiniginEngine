@@ -38,7 +38,7 @@ void Level::CreateMap(const std::vector<int>& map, int columns)
 	{
 		auto pBlock = std::make_shared<GameObject>();
 		auto pTexture = std::make_shared<TextureComponent>(pBlock.get());
-		AddChild(pBlock.get());
+		AddChild(pBlock);
 		pBlock->SetRelativePos({ pos.x, pos.y });
 		pBlock->SetSize({ size, size });
 		pBlock->AddComponent(pTexture);

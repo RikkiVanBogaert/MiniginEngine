@@ -8,11 +8,10 @@
 using namespace dae;
 
 
-FPSComponent::FPSComponent(std::shared_ptr<Font> font, GameObject* owner) :
-	m_pTextCp{ std::make_unique<TextComponent>(owner, "FPS: 00", font, SDL_Color{255, 255, 0}) }
-{
-	m_pOwner = owner;
-}
+FPSComponent::FPSComponent(GameObject* owner, std::shared_ptr<Font> font) :
+ComponentBase(owner),
+m_pTextCp( std::make_unique<TextComponent>(owner, "FPS: 00", font, SDL_Color{255, 255, 0}) )
+{}
 
 void FPSComponent::Update(float deltaTime)
 {

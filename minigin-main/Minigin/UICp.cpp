@@ -14,12 +14,11 @@
 
 using namespace dae;
 
-UICp::UICp(GameObject* owner, std::shared_ptr<Font> font, const std::string& text, const SDL_Color& color, const std::string& type):
+UICp::UICp(GameObject* owner, std::shared_ptr<Font> font, const std::string& text, const SDL_Color& color, const std::string& type) :
+	ComponentBase(owner),
 	m_pTextCp{ std::make_unique<TextComponent>(owner, text, font, color) },
 	m_Type{type}
-{
-	m_pOwner = owner;
-}
+{}
 
 
 void UICp::Update(float deltaTime)

@@ -7,10 +7,9 @@
 #include "PlayerManager.h"
 
 AIComponent::AIComponent(dae::GameObject* owner):
+	ComponentBase(owner),
 	m_ShootTime{3}
 {
-	m_pOwner = owner;
-
 	m_pAiOwner = dynamic_cast<EnemyTank*>(owner);
 }
 
@@ -52,7 +51,7 @@ void AIComponent::Init()
 
 void AIComponent::FindPlayer()
 {
-	m_pPlayer = dynamic_cast<PlayerTank*>(PlayerManager::GetInstance().GetPlayers()[0].get());
+	//m_pPlayer = dynamic_cast<PlayerTank*>(PlayerManager::GetInstance().GetPlayers()[0].get());
 }
 
 //Make helper function which finds an object of a certain type in the scene

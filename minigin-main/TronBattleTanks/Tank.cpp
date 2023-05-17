@@ -44,7 +44,7 @@ Tank::Tank(Type type):
 
 	m_pGun->AddComponent(gunTxt);
 	m_pGun->SetRelativePos({ -10, -8 });
-	AddChild(m_pGun.get());
+	AddChild(m_pGun);
 }
 
 void Tank::InitType()
@@ -58,9 +58,9 @@ void Tank::Update(float deltaTime)
 	GameObject::Update(deltaTime);
 }
 
-void Tank::ShootBullet(const glm::vec2& direction)
+void Tank::ShootBullet(const glm::vec2& )
 {
-	auto& event_queue = EventQueue<Event, float>::GetInstance();
+	/*auto& event_queue = EventQueue<Event, float>::GetInstance();
 	event_queue.schedule(SoundEvent(1, Shoot), 0);
 	
 	const auto bullet = std::make_shared<Bullet>(this, direction);
@@ -70,7 +70,7 @@ void Tank::ShootBullet(const glm::vec2& direction)
 		GetWorldTransform().y + GetSize().y / 2 - bullet->GetSize().y / 2};
 	bullet->SetRelativePos(middlePos);
 
-	GetScene()->Add(bullet);
+	GetScene()->Add(bullet);*/
 }
 
 

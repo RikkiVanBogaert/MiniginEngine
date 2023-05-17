@@ -7,7 +7,7 @@ namespace dae
 	class ComponentBase
 	{
 	public:
-		ComponentBase() = default;
+		ComponentBase(GameObject* owner);
 		virtual ~ComponentBase() = default;
 
 		ComponentBase(const ComponentBase& other) = delete;

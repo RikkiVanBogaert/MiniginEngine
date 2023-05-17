@@ -3,6 +3,7 @@
 #include "ResourceManager.h"
 #include "BaseComponent.h"
 #include "Observers.h"
+#include "Scene.h"
 
 using namespace dae;
 
@@ -93,16 +94,18 @@ GameObject* GameObject::GetParent() const
 	return m_pParent;
 }
 
-void GameObject::AddChild(GameObject* child)
+void GameObject::AddChild(std::shared_ptr<GameObject> child)
 {
-	m_pChildren.push_back(child);
+	m_pChildren.push_back(child.get());
 	child->SetParent(this);
+
+	this->GetScene()->Add(child);
 }
 
 void GameObject::RemoveChild(GameObject* child)
 {
 	//should remove the object from the scene aswell
-
+	
 	m_pChildren.erase(std::remove(m_pChildren.begin(), m_pChildren.end(), child), m_pChildren.end());
 }
 
