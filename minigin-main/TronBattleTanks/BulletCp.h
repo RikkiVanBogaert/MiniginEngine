@@ -11,6 +11,7 @@ public:
 	BulletCp(dae::GameObject* owner, const glm::vec2& vel);
 
 	void Update(float deltaTime) override;
+	glm::vec2 GetVelocity() const { return m_Velocity; }
 
 private:
 	glm::vec2 m_Velocity;

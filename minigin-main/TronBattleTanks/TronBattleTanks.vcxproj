@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClCompile Include="AIComponent.cpp" />
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="BulletCollisionCp.cpp" />
     <ClCompile Include="BulletCp.cpp" />
     <ClCompile Include="BulletManagerCp.cpp" />
     <ClCompile Include="CollisionCp.cpp" />
@@ -168,6 +169,7 @@
   <ItemGroup>
     <ClInclude Include="AIComponent.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="BulletCollisionCp.h" />
     <ClInclude Include="BulletCp.h" />
     <ClInclude Include="BulletManagerCp.h" />
     <ClInclude Include="CollisionCp.h" />

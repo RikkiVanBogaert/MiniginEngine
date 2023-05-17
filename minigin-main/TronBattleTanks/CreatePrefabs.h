@@ -14,6 +14,7 @@ static void CreateTank(Scene& scene)
 {
 	auto pTank = std::make_shared<dae::GameObject>();
 	scene.Add(pTank);
+	pTank->SetTag("Player");
 	PlayerManager::GetInstance().AddPlayer(pTank);
 
 	//Texture

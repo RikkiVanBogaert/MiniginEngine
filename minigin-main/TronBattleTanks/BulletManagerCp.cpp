@@ -21,6 +21,7 @@ void BulletManagerCp::Shoot(const glm::vec2& vel)
 
 
 	auto pBullet = CreateBullet(*m_pOwner->GetScene(), vel);
+	pBullet->SetTag(m_pOwner->GetTag());
 
 	const glm::vec2 middlePos = { m_pOwner->GetWorldTransform().x + m_pOwner->GetSize().x / 2 - pBullet->GetSize().x / 2,
 		m_pOwner->GetWorldTransform().y + m_pOwner->GetSize().y / 2 - pBullet->GetSize().y / 2 };
