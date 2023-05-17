@@ -8,6 +8,7 @@
 #include "Level.h"
 #include "Menu.h"
 #include "Bullet.h"
+#include "BulletManagerCp.h"
 #include "CollisionCp.h"
 #include "SpawnPositionCp.h"
 #include "Tank.h"
@@ -98,7 +99,8 @@ void ShootCommand::Execute()
 
 	if (GetKeyPressed()) return;
 
-	//CreateBullet(*m_pGameObject->GetScene());
+	auto bulletManager = m_pGameObject->GetComponent<BulletManagerCp>();
+	bulletManager->Shoot(m_Direction);
 	
 
 	SetKeyPressed(true);
@@ -140,7 +142,7 @@ void SkipLevelCommand::Execute()
 	{
 		if (o->GetTag() != "Level") continue;
 
-		spawnPosCp = o->GetComponent<SpawnPositionCp>();
+		spawnPosCp = o->GetComponent<PlayerSpawnPosCp>();
 		break;
 	}
 
@@ -191,7 +193,7 @@ void StartGameCommand::Execute()
 	{
 		if (o->GetTag() != "Level") continue;
 
-		spawnPosCp = o->GetComponent<SpawnPositionCp>();
+		spawnPosCp = o->GetComponent<PlayerSpawnPosCp>();
 		break;
 	}
 

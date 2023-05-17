@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClCompile Include="AIComponent.cpp" />
     <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="BulletCp.cpp" />
     <ClCompile Include="BulletManagerCp.cpp" />
     <ClCompile Include="CollisionCp.cpp" />
     <ClCompile Include="GameCommands.cpp" />
@@ -167,16 +168,18 @@
   <ItemGroup>
     <ClInclude Include="AIComponent.h" />
     <ClInclude Include="Bullet.h" />
+    <ClInclude Include="BulletCp.h" />
     <ClInclude Include="BulletManagerCp.h" />
     <ClInclude Include="CollisionCp.h" />
+    <ClInclude Include="BulletPrefab.h" />
     <ClInclude Include="CreatePrefabs.h" />
+    <ClInclude Include="EnemyPrefab.h" />
     <ClInclude Include="GameCommands.h" />
     <ClInclude Include="GameEvents.h" />
     <ClInclude Include="GameHelpers.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="PlayerManager.h" />
-    <ClInclude Include="ShootCp.h" />
     <ClInclude Include="Sounds.h" />
     <ClInclude Include="SpawnPositionCp.h" />
     <ClInclude Include="Tank.h" />

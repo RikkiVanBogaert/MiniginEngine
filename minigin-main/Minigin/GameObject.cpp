@@ -99,7 +99,7 @@ void GameObject::AddChild(std::shared_ptr<GameObject> child)
 	m_pChildren.push_back(child.get());
 	child->SetParent(this);
 
-	this->GetScene()->Add(child);
+	GetScene()->Add(child);
 }
 
 void GameObject::RemoveChild(GameObject* child)

@@ -4,7 +4,7 @@
 
 #include "BaseComponent.h"
 
-class SpawnPositionCp final : public dae::ComponentBase
+class SpawnPositionCp  : public dae::ComponentBase
 {
 public:
 	SpawnPositionCp(dae::GameObject* owner);
@@ -15,3 +15,14 @@ private:
 	std::vector<glm::vec2> m_SpawnPositions{};
 };
 
+class PlayerSpawnPosCp final : public SpawnPositionCp
+{
+public:
+	PlayerSpawnPosCp(dae::GameObject* owner);
+};
+
+class EnemySpawnPosCp final : public SpawnPositionCp
+{
+public:
+	EnemySpawnPosCp(dae::GameObject* owner);
+};

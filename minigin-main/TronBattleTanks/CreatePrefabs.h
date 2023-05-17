@@ -6,11 +6,9 @@
 #include "TextureComponent.h"
 #include "InputManager.h"
 #include "ResourceManager.h"
+#include "EnemyPrefab.h"
 
 using namespace dae;
-
-static GameObject* CreateBullet(Scene& scene);
-
 
 static void CreateTank(Scene& scene)
 {
@@ -26,10 +24,10 @@ static void CreateTank(Scene& scene)
 	//BulletManager
 	auto bulletManager = std::make_shared<BulletManagerCp>(pTank.get());
 	pTank->AddComponent(bulletManager);
-	for (int i{}; i < 3; ++i)
+	/*for (int i{}; i < 3; ++i)
 	{
 		bulletManager->AddBullet(CreateBullet(scene));
-	}
+	}*/
 
 	//Movement
 	constexpr float speed{ 1.5f };
@@ -49,7 +47,7 @@ static void CreateTank(Scene& scene)
 	dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_D, moveCommandRight);
 
 	//Shooting
-	const float shootSpeed{ 300 };
+	constexpr float shootSpeed{ 300 };
 	glm::vec3 shootUpSpeed = { 0.f, -shootSpeed, 0.f };
 	glm::vec3 shootDownSpeed = { 0.f, shootSpeed, 0.f };
 	glm::vec3 shootLeftSpeed = { -shootSpeed, 0.f, 0.f };
@@ -66,18 +64,6 @@ static void CreateTank(Scene& scene)
 	InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_RIGHT, shootRight);
 }
 
-static GameObject* CreateBullet(Scene& scene)
-{
-	auto pBullet = std::make_shared<dae::GameObject>();
-	scene.Add(pBullet);
-
-	const auto bulletTxt = std::make_shared<TextureComponent>(pBullet.get());
-	bulletTxt->SetTexture("Resources/Sprites/BulletPlayer.png");
-	pBullet->AddComponent(bulletTxt);
-
-	return pBullet.get();
-}
-
 static std::shared_ptr<GameObject> CreateLevel(Scene& scene, const std::string& levelPath)
 {
 	auto pLevelObject = std::make_shared<GameObject>();
@@ -87,15 +73,19 @@ static std::shared_ptr<GameObject> CreateLevel(Scene& scene, const std::string& 
 	auto collisionCp = std::make_shared<CollisionCp>(pLevelObject.get());
 	pLevelObject->AddComponent(collisionCp);
 
-	auto spawnPosCp = std::make_shared<SpawnPositionCp>(pLevelObject.get());
-	pLevelObject->AddComponent(spawnPosCp);
+	auto playerSpawnPosCp = std::make_shared<PlayerSpawnPosCp>(pLevelObject.get());
+	pLevelObject->AddComponent(playerSpawnPosCp);
+
+	auto enemySpawnPosCp = std::make_shared<EnemySpawnPosCp>(pLevelObject.get());
+	pLevelObject->AddComponent(enemySpawnPosCp);
 
 	constexpr int columns = 58;
 	auto map = ResourceManager::GetInstance().ParseCsv(levelPath);
 	constexpr float size{ 8 };
 	constexpr glm::vec2 startPos{ 100,20 };
 	glm::vec2 pos{ startPos };
-	int amountSpawnPos{};
+	int amountPlayerSpawns{};
+	int amountEnemySpawns{};
 	for (size_t i{}; i < map.size(); ++i)
 	{
 		auto pBlock = std::make_shared<GameObject>();
@@ -113,8 +103,6 @@ static std::shared_ptr<GameObject> CreateLevel(Scene& scene, const std::string& 
 		{
 		case 0:
 			pTexture->SetTexture("Resources/Level/wall.png");
-			pBlock->SetTag("Wall");
-
 			collisionCp->AddCollider(pBlock.get());
 			break;
 		case 1:
@@ -126,20 +114,21 @@ static std::shared_ptr<GameObject> CreateLevel(Scene& scene, const std::string& 
 			//m_pTeleport.push_back(pBlock.get());
 			break;
 		case 4:
-			++amountSpawnPos;
-			if(amountSpawnPos == 1 || amountSpawnPos == 5)
-				spawnPosCp->AddPos(pos);
+			if (amountEnemySpawns % 4 == 0)
+				enemySpawnPosCp->AddPos(pos);
+
+			++amountEnemySpawns;
 			break;
 		case 6:
-			//m_SpawnPosPlayers.push_back({ pos.x - offset.x, pos.y - offset.y });
+			if(amountPlayerSpawns % 4 == 0)
+				playerSpawnPosCp->AddPos(pos);
+
+			++amountPlayerSpawns;
 			break;
 		default:
 			//m_pPaths.push_back(pBlock.get());
 			break;
 		}
-
-
-		//m_pLevelObjects.push_back(std::move(pBlock));
 
 		pos.x += size;
 
@@ -149,6 +138,8 @@ static std::shared_ptr<GameObject> CreateLevel(Scene& scene, const std::string& 
 			pos.y += size;
 		}
 	}
+
+	CreateEnemies(scene, enemySpawnPosCp->GetPos());
 
 	return pLevelObject;
 }

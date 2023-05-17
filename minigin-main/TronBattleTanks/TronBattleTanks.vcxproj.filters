@@ -57,6 +57,9 @@
     <ClCompile Include="BulletManagerCp.cpp">
       <Filter>Game Files\Components</Filter>
     </ClCompile>
+    <ClCompile Include="BulletCp.cpp">
+      <Filter>Game Files\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Level.h">
@@ -98,11 +101,17 @@
     <ClInclude Include="GameHelpers.h">
       <Filter>Other Files</Filter>
     </ClInclude>
-    <ClInclude Include="ShootCp.h">
-      <Filter>Game Files\Components</Filter>
-    </ClInclude>
     <ClInclude Include="BulletManagerCp.h">
       <Filter>Game Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletPrefab.h">
+      <Filter>Game Files\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletCp.h">
+      <Filter>Game Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyPrefab.h">
+      <Filter>Game Files\Prefabs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
