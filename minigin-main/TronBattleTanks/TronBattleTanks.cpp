@@ -301,10 +301,8 @@ void load()
 #else
 	servicelocator::register_sound_system(std::make_unique<sdl_sound_system>());
 #endif
-	// ... code ...
 	auto& ss = servicelocator::get_sound_system();
 	ss.addSound("../Data/Resources/Sounds/Shoot.wav");
-	ss.play(0, 100);
 }
 
 int main(int, char* []) 

@@ -16,8 +16,8 @@ ComponentBase(owner)
 
 void BulletManagerCp::Shoot(const glm::vec2& vel)
 {
-	/*auto& event_queue = EventQueue<Event, float>::GetInstance();
-	event_queue.schedule(SoundEvent(1, 0), 0);*/
+	auto& ss = servicelocator::get_sound_system();
+	ss.play(0, 100);
 
 
 	auto pBullet = CreateBullet(*m_pOwner->GetScene(), vel);

@@ -6,7 +6,7 @@ class sound_system
 {
 public:
 	virtual ~sound_system() = default;
-	virtual void play(const sound_id id, const float volume) = 0;
+	virtual void play(const sound_id id, const int volume) = 0;
 	virtual void addSound(const std::string& soundName) = 0;
 };
 
@@ -36,13 +36,13 @@ public:
 		}
 	}
 
-	void play(const sound_id id, const float )
+	void play(const sound_id id, const int volume)
 	{
 		if (id >= audioClips.size()) return;
 
 		auto audioclip = audioClips[id];
-		//audioclip->set_volume(volume);
-		Mix_PlayChannel(-1, audioclip.get(), 0);
+		Mix_Volume(-1, volume);
+		Mix_PlayChannel(-1, audioclip.get(), 0); //third argument is amount of loops
 	}
 
 private:
@@ -56,7 +56,7 @@ public:
 	logging_sound_system(std::unique_ptr<sdl_sound_system>&& ss) : _real_ss(std::move(ss)) {}
 	virtual ~logging_sound_system() = default;
 
-	void play(const sound_id id, const float volume = 1) override
+	void play(const sound_id id, const int volume = 1) override
 	{
 		_real_ss->play(id, volume);
 		std::cout << "playing " << id << " at volume " << volume << std::endl;
@@ -71,7 +71,7 @@ public:
 
 class null_sound_system final : public sound_system
 {
-	void play(const sound_id, const float) override {}
+	void play(const sound_id, const int) override {}
 	void addSound(const std::string& ) override {}
 };
 
