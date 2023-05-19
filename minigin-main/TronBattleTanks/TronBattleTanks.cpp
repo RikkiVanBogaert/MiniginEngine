@@ -288,21 +288,23 @@ void LoadNewScene()
 	ExplainControls();
 }
 
-
-std::shared_ptr<Audio> Locator::service_;
-
+ std::unique_ptr<sound_system> servicelocator::_ss_instance{ std::make_unique<null_sound_system>() };
 void load()
 {
 	//LoadDaeScene();
 	//LoadGameScene();
 	LoadNewScene();
 
-	// Initialize the audio service
-	Locator::initialize();
-	std::shared_ptr<Audio> audio = std::make_shared<Audio>();
-	Locator::provide(audio);
-
-	Locator::getAudio().addSound("../Data/Resources/Sounds/Shoot.wav");
+#if _DEBUG
+	servicelocator::register_sound_system(
+		std::make_unique<logging_sound_system>(std::make_unique<sdl_sound_system>()));
+#else
+	servicelocator::register_sound_system(std::make_unique<sdl_sound_system>());
+#endif
+	// ... code ...
+	auto& ss = servicelocator::get_sound_system();
+	ss.addSound("../Data/Resources/Sounds/Shoot.wav");
+	ss.play(0, 100);
 }
 
 int main(int, char* []) 

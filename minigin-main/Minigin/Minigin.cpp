@@ -80,20 +80,20 @@ dae::Minigin::~Minigin()
 
 void dae::Minigin::Run(const std::function<void()>& load)
 {
-    // create an instance of EventQueue
-    auto& event_queue = EventQueue<Event, float>::GetInstance();
+    //// create an instance of EventQueue
+    //auto& event_queue = EventQueue<Event, float>::GetInstance();
 
     load();
 
-    // create a thread for processing events
-    std::thread event_thread([&]() 
-	{
-		while (event_queue.has_events()) 
-		{
-		    event_queue.process();
-		    std::this_thread::sleep_for(std::chrono::milliseconds(10)); // avoid spinning
-		}
-	});
+ //   // create a thread for processing events
+ //   std::thread event_thread([&]() 
+	//{
+	//	while (event_queue.has_events()) 
+	//	{
+	//	    event_queue.process();
+	//	    std::this_thread::sleep_for(std::chrono::milliseconds(10)); // avoid spinning
+	//	}
+	//});
 
     auto& renderer = Renderer::GetInstance();
     auto& sceneManager = SceneManager::GetInstance();
@@ -110,17 +110,17 @@ void dae::Minigin::Run(const std::function<void()>& load)
         const float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
         lastTime = currentTime;
 
-        // process events
-        while (event_queue.has_events()) 
-		{
-            const auto event_time = event_queue.next_time();
-            if (event_time > deltaTime) 
-			{
-                // no events before the next frame
-                break;
-            }
-            event_queue.process_next();
-        }
+  //      // process events
+  //      while (event_queue.has_events()) 
+		//{
+  //          const auto event_time = event_queue.next_time();
+  //          if (event_time > deltaTime) 
+		//	{
+  //              // no events before the next frame
+  //              break;
+  //          }
+  //          event_queue.process_next();
+  //      }
 
         doContinue = input.ProcessInput();
         sceneManager.Update(deltaTime);
@@ -131,7 +131,7 @@ void dae::Minigin::Run(const std::function<void()>& load)
         std::this_thread::sleep_for(sleepTime);
     }
 
-    // wait for the event thread to finish
-    event_thread.join();
+    //// wait for the event thread to finish
+    //event_thread.join();
 }
 
