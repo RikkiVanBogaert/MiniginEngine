@@ -16,7 +16,7 @@ void TextureComponent::Render() const
 
 void TextureComponent::SetTexture(const std::string& filename)
 {
-	m_Texture = ResourceManager::GetInstance().LoadTexture(filename);
+	m_Texture = ResourceManager::GetInstance().GetTexture(filename);
 	m_pOwner->SetSize(m_Texture->GetSize());
 }
 

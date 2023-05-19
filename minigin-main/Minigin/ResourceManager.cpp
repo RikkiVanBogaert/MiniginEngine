@@ -22,6 +22,23 @@ void ResourceManager::Init(const std::string& dataPath)
 	}
 }
 
+std::shared_ptr<Texture2D> ResourceManager::GetTexture(const std::string& file)
+{
+	auto it = m_texturesMap.find(file);
+	if (it != m_texturesMap.end())
+	{
+		return it->second;
+	}
+	else
+	{
+		auto texture = LoadTexture(file);
+		m_texturesMap.insert(std::make_pair(file, texture));
+		return texture;
+	}
+}
+
+
+
 std::shared_ptr<Texture2D> ResourceManager::LoadTexture(const std::string& file) const
 {
 	const auto fullPath = m_dataPath + file;
