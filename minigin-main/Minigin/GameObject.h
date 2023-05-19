@@ -34,6 +34,18 @@ namespace dae
 			return nullptr;
 		}
 
+		template <typename T>
+		T* GetComponentInChildren()
+		{
+			T cp{};
+			for(auto c : m_pChildren)
+			{
+				cp = c->GetComponent<T>();
+				if (cp) return cp;
+			}
+			return cp;
+		}
+
 		void MarkForDeletion();
 		bool NeedsDeleting() const;
 

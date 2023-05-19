@@ -3,6 +3,8 @@
 #include "Scene.h"
 #include "TextureComponent.h"
 #include "GameObject.h"
+#include "CollisionCp.h"
+#include "CounterCp.h"
 
 static dae::GameObject* CreateEnemy(dae::Scene& scene)
 {

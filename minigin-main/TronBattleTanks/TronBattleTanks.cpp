@@ -29,7 +29,8 @@
 #include "Level.h"
 #include "Menu.h"
 
-#include "CreatePrefabs.h"
+#include "MainMenuPrefab.h"
+#include "PlayerPrefabs.h"
 
 using namespace dae;
 
@@ -265,25 +266,18 @@ void LoadNewScene()
 	CreateMainMenu(startScene);
 	startScene.SetActive(true);
 
+	auto& waitingScene = SceneManager::GetInstance().CreateScene("WaitingScene");
+	CreateTankKeyboard(waitingScene);
+	CreateTankController(waitingScene);
+
 	auto& scene = SceneManager::GetInstance().CreateScene("Level0");
-	CreateTank(scene);
-	CreateLevel(scene, "../Data/Resources/LevelLayout0.csv");
+	scene; //i know this sucks but idk for now
+	
+	auto& scene1 = SceneManager::GetInstance().CreateScene("Level1");
+	scene1;
 
-	auto& scene2 = SceneManager::GetInstance().CreateScene("Level1");
-	CreateLevel(scene2, "../Data/Resources/LevelLayout1.csv");
-
-	//Inputs-----
-	auto* startGame = new StartGameCommand{};
-	dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_SPACE, startGame);
-
-	auto* skipLevel = new SkipLevelCommand{};
-	InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_N, skipLevel);
-
-	auto* exitGame = new ExitGameCommand{};
-	dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_ESCAPE, exitGame);
-
-	auto* switchGameMode = new SwitchGameModeCommand{};
-	dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_TAB, switchGameMode);
+	auto& scene2 = SceneManager::GetInstance().CreateScene("Level2");
+	scene2;
 
 	ExplainControls();
 }

@@ -92,7 +92,7 @@
     <ClInclude Include="GameEvents.h">
       <Filter>Other Files</Filter>
     </ClInclude>
-    <ClInclude Include="CreatePrefabs.h">
+    <ClInclude Include="LevelPrefab.h">
       <Filter>Game Files\Prefabs</Filter>
     </ClInclude>
     <ClInclude Include="CollisionCp.h">
@@ -118,6 +118,15 @@
     </ClInclude>
     <ClInclude Include="BulletCollisionCp.h">
       <Filter>Game Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerPrefabs.h">
+      <Filter>Game Files\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="CreatePlayers.h">
+      <Filter>Game Files\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenuPrefab.h">
+      <Filter>Game Files\Prefabs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

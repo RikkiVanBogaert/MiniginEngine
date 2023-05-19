@@ -5,13 +5,10 @@
 #include "PlayerManager.h"
 
 #include "Scene.h"
-#include "Level.h"
 #include "Menu.h"
 #include "Bullet.h"
 #include "BulletManagerCp.h"
 #include "CollisionCp.h"
-#include "SpawnPositionCp.h"
-#include "Tank.h"
 #include "GameHelpers.h"
 
 
@@ -110,65 +107,39 @@ void SkipLevelCommand::Execute()
 {
 	if (GetKeyPressed()) return;
 
-	auto& sceneManager = dae::SceneManager::GetInstance();
+	auto& sceneManager = SceneManager::GetInstance();
 	if (sceneManager.GetActiveSceneName() == "MainMenu")
 	{
 		SetKeyPressed(true);
 		return;
 	}
 
-	/*auto objects = sceneManager.GetActiveScene()->GetGameObjects();
-	for (auto& o : objects)
-	{
-		if (!dynamic_cast<Level*>(o.get())) continue;
-
-		const auto level = dynamic_cast<Level*>(o.get());
-		level->OnLevelDestroy();
-		break;
-	}*/
-	auto players = PlayerManager::GetInstance().GetPlayers();
+	sceneManager.GetActiveScene()->RemoveAll();
+	/*auto players = PlayerManager::GetInstance().GetPlayers();
 	for(auto p : players)
 	{
 		p->GetScene()->Remove(p);
-	}
+	}*/
 
 	sceneManager.NextScene();
 
-	if (sceneManager.GetActiveScene()->GetName() == "MainMenu") return;
-
-	const auto sceneObjects = sceneManager.GetActiveScene()->GetGameObjects();
-	SpawnPositionCp* spawnPosCp{};
-	for (auto& o : sceneObjects)
+	if(sceneManager.GetActiveScene()->GetName() == "WaitingScene")
 	{
-		if (o->GetTag() != "Level") continue;
-
-		spawnPosCp = o->GetComponent<PlayerSpawnPosCp>();
-		break;
-	}
-
-	for (int i{}; i < players.size(); ++i)
-	{
-		sceneManager.GetActiveScene()->Add(players[i]);
-		players[i]->SetRelativePos(spawnPosCp->GetPos()[i]);
-	}
-
-
-	/*if (sceneManager.GetActiveSceneName() == "WaitingScene")
-	{
+		/*for (int i{}; i < players.size(); ++i)
+		{
+			sceneManager.GetActiveScene()->Add(players[i]);
+		}*/
 		sceneManager.NextScene();
+		SetKeyPressed(true);
+		return;
+	}
+	if (sceneManager.GetActiveScene()->GetName() == "MainMenu")
+	{
+		SetKeyPressed(true);
+		return;
 	}
 
-	objects = sceneManager.GetActiveScene()->GetGameObjects();
-	for (auto& o : objects)
-	{
-		if (!dynamic_cast<Level*>(o.get())) continue;
-
-		const auto level = dynamic_cast<Level*>(o.get());
-		level->OnLevelLoad();
-		break;
-	}*/
-
-
+	PlayerManager::GetInstance().SpawnPlayers();
 	
 	SetKeyPressed(true);
 }
@@ -184,28 +155,14 @@ void StartGameCommand::Execute()
 
 
 	const std::string nameScene{"Level0"};
-	auto& sceneManager = dae::SceneManager::GetInstance();
+	auto& sceneManager = SceneManager::GetInstance();
 	sceneManager.SetActiveScene(nameScene);
 
-	const auto sceneObjects = sceneManager.GetActiveScene()->GetGameObjects();
-	SpawnPositionCp* spawnPosCp{};
-	for (auto& o : sceneObjects)
-	{
-		if (o->GetTag() != "Level") continue;
-
-		spawnPosCp = o->GetComponent<PlayerSpawnPosCp>();
-		break;
-	}
-
-	auto players = PlayerManager::GetInstance().GetPlayers();
-	for (int i{}; i < players.size(); ++i)
-	{
-		sceneManager.GetActiveScene()->Add(players[i]);
-		players[i]->SetRelativePos(spawnPosCp->GetPos()[i]);
-	}
+	PlayerManager::GetInstance().SpawnPlayers();
 
 	SetKeyPressed(true);
 }
+
 
 void ExitGameCommand::Execute()
 {
@@ -223,7 +180,8 @@ void SwitchGameModeCommand::Execute()
 
 	PlayerManager::GetInstance().SwitchGameMode();
 
-	auto gameModeText = GetGameObject(SceneManager::GetInstance().GetActiveScene(), "GameMode")->GetComponent<TextComponent>();
+	const auto gameModeObject = GetGameObject(SceneManager::GetInstance().GetActiveScene(), "GameMode");
+	const auto gameModeText = gameModeObject->GetComponent<TextComponent>();
 
 	switch (PlayerManager::GetInstance().GetGameMode())
 	{

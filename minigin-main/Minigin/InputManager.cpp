@@ -24,8 +24,8 @@ bool InputManager::ProcessInput()
 		// etc...
 	}
 
-    ProcessInputControllers();
 	ProcessInputKeyboard();
+	ProcessInputControllers();
 
 	return true;
 }
@@ -38,7 +38,7 @@ void InputManager::AddController(unsigned int id)
 void InputManager::BindControllerToCommand(unsigned int id, Controller::ControllerButton& button, Command* command)
 {
 	ControllerKey key = ControllerKey(id, button);
-	m_Commands.insert({ key, std::unique_ptr<Command>(command) });
+	m_ControllerCommands.insert({ key, std::unique_ptr<Command>(command) });
 }
 
 void InputManager::BindKeyToCommand(const Uint8& key, Command* command)
@@ -60,11 +60,18 @@ void InputManager::UnbindCommand(Command* command)
 
 }
 
+//void InputManager::UnbindAllCommands()
+//{
+//	m_KeyCommands.clear();
+//	m_ControllerCommands.clear();
+//	m_Controllers.clear();
+//}
+
 void InputManager::ProcessInputControllers()
 {
     for (auto& controller : m_Controllers)
     {
-        for (auto& command : m_Commands)
+        for (auto& command : m_ControllerCommands)
         {
             const auto controllerKey = command.first.second;
             const unsigned int controllerId = command.first.first;

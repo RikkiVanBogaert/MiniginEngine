@@ -35,6 +35,10 @@ public:
     {
         m_Players.erase(std::remove(m_Players.begin(), m_Players.end(), player), m_Players.end());
     }
+    void RemoveAllPlayers()
+    {
+        m_Players.clear();
+    }
     std::vector<std::shared_ptr<dae::GameObject>> GetPlayers() { return m_Players; }
 
     enum GameMode
@@ -48,6 +52,8 @@ public:
 
     void AddSpawnPos(const glm::vec2 spawnPos) { m_SpawnPositions.emplace_back(spawnPos); }
     std::vector<glm::vec2> GetSpawnPositions() const { return m_SpawnPositions; }
+
+    void SpawnPlayers();
 
 private:
     PlayerManager() = default;
