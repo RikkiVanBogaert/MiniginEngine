@@ -5,7 +5,7 @@
 #include "TextureComponent.h"
 #include "Scene.h"
 
-static dae::GameObject* CreateBullet(dae::Scene& scene, dae::GameObject* shooter, glm::vec2& vel)
+static dae::GameObject* CreateBullet(dae::Scene& scene, dae::GameObject* shooter, const glm::vec2& vel)
 {
 	auto pBullet = std::make_shared<dae::GameObject>();
 	scene.Add(pBullet);

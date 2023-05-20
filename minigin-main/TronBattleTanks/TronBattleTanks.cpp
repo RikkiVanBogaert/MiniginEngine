@@ -12,7 +12,7 @@
 #include "Minigin.h"
 #include "SceneManager.h"
 #include "ResourceManager.h"
-#include "PlayerManager.h"
+
 //Components
 #include "AudioService.h"
 #include "TextComponent.h"
@@ -22,10 +22,6 @@
 
 #include "GameObject.h"
 #include "Scene.h"
-#include "InputManager.h"
-
-#include "GameCommands.h"
-
 
 #include "MainMenuPrefab.h"
 #include "PlayerPrefabs.h"

@@ -1,9 +1,11 @@
 #pragma once
 #include "BulletCollisionCp.h"
+#include "BulletManagerCp.h"
 #include "Scene.h"
 #include "TextureComponent.h"
 #include "GameObject.h"
 #include "CollisionCp.h"
+#include "AIComponent.h"
 #include "CounterCp.h"
 
 static dae::GameObject* CreateEnemy(dae::Scene& scene)
@@ -25,6 +27,12 @@ static dae::GameObject* CreateEnemy(dae::Scene& scene)
 
 	auto bulletCollisionCp = std::make_shared<BulletCollisionCp>(pTank.get());
 	pTank->AddComponent(bulletCollisionCp);
+
+	auto bulletManagerCP = std::make_shared<BulletManagerCp>(pTank.get());
+	pTank->AddComponent(bulletManagerCP);
+
+	auto pAICp = std::make_shared<AIComponent>(pTank.get());
+	pTank->AddComponent(pAICp);
 
 	return pTank.get();
 }

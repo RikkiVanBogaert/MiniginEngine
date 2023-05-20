@@ -14,7 +14,7 @@ ComponentBase(owner)
 {}
 
 
-void BulletManagerCp::Shoot( glm::vec2& vel) const
+void BulletManagerCp::Shoot( const glm::vec2& vel) const
 {
 	auto& ss = servicelocator::get_sound_system();
 	ss.play(0, 100);
