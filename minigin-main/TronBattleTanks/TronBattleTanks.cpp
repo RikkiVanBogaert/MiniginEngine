@@ -79,11 +79,16 @@ void ExplainControls()
 	<<	"Moving - WASD\n" << "Shooting(has sound) - Arrow Keys\n";
 }
 
+void Test(Scene&)
+{
+	
+}
 
 void LoadNewScene()
 {
 	auto& startScene = SceneManager::GetInstance().CreateScene("MainMenu");
 	CreateMainMenu(startScene);
+	Test(startScene);
 	startScene.SetActive(true);
 
 	auto& waitingScene = SceneManager::GetInstance().CreateScene("WaitingScene");
@@ -98,6 +103,8 @@ void LoadNewScene()
 
 	auto& scene2 = SceneManager::GetInstance().CreateScene("Level2");
 	scene2;
+
+
 
 	ExplainControls();
 }

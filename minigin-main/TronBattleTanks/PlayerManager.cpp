@@ -132,7 +132,7 @@ void PlayerManager::ResetPlayerVars()
 	for(auto p : GetPlayers())
 	{
 		p->GetComponent<PointsCp>()->SetAmount(0);
-		p->GetComponent<LivesCp>()->SetAmount(3);
+		p->GetComponent<LivesCp>()->SetAmount(4);
 	}
 }
 
