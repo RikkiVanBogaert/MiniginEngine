@@ -3,9 +3,9 @@
 
 namespace dae
 {
-	class PointsCp;
 	class GameObject;
 }
+	class PointsCp;
 
 class UpdateCounterEvent final : public Event
 {
@@ -20,7 +20,7 @@ public:
     virtual void execute() override;
 
 private:
-    dae::PointsCp* m_pPointCounter{};
+    PointsCp* m_pPointCounter{};
 
     int m_AddedCounterValue{};
 

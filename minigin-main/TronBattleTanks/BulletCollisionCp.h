@@ -2,10 +2,7 @@
 #include "BaseComponent.h"
 
 
-namespace dae
-{
-	class HealthCp;
-}
+class HealthCp;
 
 class CollisionCp;
 

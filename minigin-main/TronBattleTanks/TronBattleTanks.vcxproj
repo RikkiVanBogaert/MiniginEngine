@@ -152,43 +152,39 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AIComponent.cpp" />
-    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletCollisionCp.cpp" />
     <ClCompile Include="BulletCp.cpp" />
     <ClCompile Include="BulletManagerCp.cpp" />
     <ClCompile Include="CollisionCp.cpp" />
+    <ClCompile Include="DerCounterCps.cpp" />
     <ClCompile Include="GameCommands.cpp" />
     <ClCompile Include="GameEvents.cpp" />
-    <ClCompile Include="Level.cpp" />
-    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="SpawnPositionCp.cpp" />
-    <ClCompile Include="Tank.cpp" />
     <ClCompile Include="TronBattleTanks.cpp" />
+    <ClCompile Include="UICp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIComponent.h" />
-    <ClInclude Include="Bullet.h" />
     <ClInclude Include="BulletCollisionCp.h" />
     <ClInclude Include="BulletCp.h" />
     <ClInclude Include="BulletManagerCp.h" />
     <ClInclude Include="CollisionCp.h" />
     <ClInclude Include="BulletPrefab.h" />
     <ClInclude Include="CreatePlayers.h" />
+    <ClInclude Include="DerCounterCps.h" />
     <ClInclude Include="LevelPrefab.h" />
     <ClInclude Include="EnemyPrefab.h" />
     <ClInclude Include="GameCommands.h" />
     <ClInclude Include="GameEvents.h" />
     <ClInclude Include="GameHelpers.h" />
-    <ClInclude Include="Level.h" />
     <ClInclude Include="MainMenuPrefab.h" />
-    <ClInclude Include="Menu.h" />
     <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="PlayerPrefabs.h" />
     <ClInclude Include="PlayerUIPrefab.h" />
     <ClInclude Include="Sounds.h" />
     <ClInclude Include="SpawnPositionCp.h" />
-    <ClInclude Include="Tank.h" />
+    <ClInclude Include="UICp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

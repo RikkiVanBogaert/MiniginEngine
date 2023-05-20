@@ -3,6 +3,7 @@
 #include "BulletCp.h"
 #include "CollisionCp.h"
 #include "CounterCp.h"
+#include "DerCounterCps.h"
 #include "GameHelpers.h"
 #include "GameObject.h"
 #include "Scene.h"
@@ -13,7 +14,6 @@ BulletCollisionCp::BulletCollisionCp(dae::GameObject* owner):
 ComponentBase(owner)
 {
 	m_pCollisionCp = m_pOwner->GetComponent<CollisionCp>();
-	//m_pHealthCp = m_pOwner->GetComponent<dae::HealthCp>();
 }
 
 void BulletCollisionCp::Update(float )
@@ -36,20 +36,25 @@ void BulletCollisionCp::Update(float )
 
 void BulletCollisionCp::GetHit(dae::GameObject* shooter)
 {
-	auto healthCp = m_pOwner->GetComponent<dae::HealthCp>();
+	//Victim lives
+	auto healthCp = m_pOwner->GetComponent<HealthCp>();
 	healthCp->ChangeAmount(-1);
-
-	if (!shooter->GetComponent<dae::PointsCp>()) return;
-
-	const auto shooterPoints = shooter->GetComponent<dae::PointsCp>();
-	shooterPoints->ChangeAmount(1);
-
-	if (auto shooterPointsText = GetGameObject(m_pOwner->GetScene(), shooter->GetTag()))
+	if (auto livesText = GetComponentInScene<dae::UILivesCp>(m_pOwner->GetScene(), m_pOwner->GetTag()))
 	{
-		if (auto pointsText = shooterPointsText->GetComponent<dae::UICp>())
-		{
-			const std::string text = pointsText->GetBeginText() + std::to_string(shooterPoints->GetAmount());
-			pointsText->SetText(text);
-		}
+		const std::string text = std::to_string(healthCp->GetAmount());
+		livesText->SetValueText(text);
 	}
+
+
+	//Shooter points
+	if (!shooter->GetComponent<PointsCp>()) return;
+
+	const auto shooterPoints = shooter->GetComponent<PointsCp>();
+	shooterPoints->ChangeAmount(1);
+	if (auto pointsText = GetComponentInScene<dae::UIPointsCp>(m_pOwner->GetScene(), shooter->GetTag()))
+	{
+		const std::string text = std::to_string(shooterPoints->GetAmount());
+		pointsText->SetValueText(text);
+	}
+	
 }

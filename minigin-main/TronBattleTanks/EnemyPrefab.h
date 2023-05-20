@@ -20,7 +20,7 @@ static dae::GameObject* CreateEnemy(dae::Scene& scene)
 	pTank->AddComponent(collisionCp);
 	collisionCp->AddCollider(pTank.get());
 
-	auto healthCp = std::make_shared<dae::HealthCp>(pTank.get(), 3);
+	auto healthCp = std::make_shared<HealthCp>(pTank.get(), 3);
 	pTank->AddComponent(healthCp);
 
 	auto bulletCollisionCp = std::make_shared<BulletCollisionCp>(pTank.get());

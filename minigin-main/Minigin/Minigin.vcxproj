@@ -239,7 +239,6 @@
     <ClInclude Include="TextureComponent.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="TransformComponent.h" />
-    <ClInclude Include="UICp.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AudioService.cpp" />
@@ -271,7 +270,6 @@
     <ClCompile Include="TextureComponent.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
-    <ClCompile Include="UICp.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

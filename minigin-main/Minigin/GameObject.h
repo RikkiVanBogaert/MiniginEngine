@@ -26,7 +26,9 @@ namespace dae
 		{
 			for (const auto component : m_pComponents)
 			{
-				if (typeid(*component) == typeid(T))
+				//cast so that it works for child/parent classes as well (see BulletCollisionCp.cpp)
+				T* castComponent = dynamic_cast<T*>(component.get());
+				if (castComponent != nullptr)
 				{
 					return static_cast<T*>(component.get());
 				}

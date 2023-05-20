@@ -1,8 +1,7 @@
 #include "GameEvents.h"
 
-#include "CounterCp.h"
+#include "DerCounterCps.h"
 #include "GameObject.h"
-#include "Scene.h"
 
 void UpdateCounterEvent::FindCounter(dae::GameObject* gameObject)
 {
@@ -15,7 +14,7 @@ void UpdateCounterEvent::FindCounter(dae::GameObject* gameObject)
 		m_pPointCounter = object->GetComponent<dae::PointsCp>();
 	}*/
 
-	m_pPointCounter = gameObject->GetComponent<dae::PointsCp>();
+	m_pPointCounter = gameObject->GetComponent<PointsCp>();
 }
 
 void UpdateCounterEvent::execute()

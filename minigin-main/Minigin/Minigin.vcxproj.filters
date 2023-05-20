@@ -117,9 +117,6 @@
     <ClInclude Include="ObserverEvent.h">
       <Filter>Game Files</Filter>
     </ClInclude>
-    <ClInclude Include="UICp.h">
-      <Filter>Game Files\Component Files</Filter>
-    </ClInclude>
     <ClInclude Include="AudioService.h">
       <Filter>Scene Files</Filter>
     </ClInclude>
@@ -217,9 +214,6 @@
     </ClCompile>
     <ClCompile Include="Subject.cpp">
       <Filter>Game Files</Filter>
-    </ClCompile>
-    <ClCompile Include="UICp.cpp">
-      <Filter>Game Files\Component Files</Filter>
     </ClCompile>
     <ClCompile Include="AudioService.cpp">
       <Filter>Game Files</Filter>

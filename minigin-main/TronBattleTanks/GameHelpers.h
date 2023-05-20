@@ -15,3 +15,18 @@ inline dae::GameObject* GetGameObject(dae::Scene* scene, const std::string& tag)
 	}
 	return nullptr;
 }
+
+template <typename T>
+T* GetComponentInScene(dae::Scene* scene, const std::string& tag)
+{
+	for (const auto o : scene->GetGameObjects())
+	{
+		if(!o->GetComponent<T>()) continue;
+
+		if (o->GetTag() != tag) continue;
+
+		return o->GetComponent<T>();
+	}
+
+	return nullptr;
+}

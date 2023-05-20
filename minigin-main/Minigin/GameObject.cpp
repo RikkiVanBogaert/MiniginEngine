@@ -104,8 +104,6 @@ void GameObject::AddChild(std::shared_ptr<GameObject> child)
 
 void GameObject::RemoveChild(GameObject* child)
 {
-	//should remove the object from the scene aswell
-	
 	m_pChildren.erase(std::remove(m_pChildren.begin(), m_pChildren.end(), child), m_pChildren.end());
 }
 

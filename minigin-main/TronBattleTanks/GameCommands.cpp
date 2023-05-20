@@ -5,11 +5,11 @@
 #include "PlayerManager.h"
 
 #include "Scene.h"
-#include "Menu.h"
-#include "Bullet.h"
 #include "BulletManagerCp.h"
 #include "CollisionCp.h"
+#include "DerCounterCps.h"
 #include "GameHelpers.h"
+#include "TextComponent.h"
 
 
 using namespace dae;
@@ -56,7 +56,7 @@ void DieCommand::Execute()
 {
 	if (!m_pGameObject || m_pGameObject->NeedsDeleting() || !m_pGameObject->GetScene()->IsActive()) return;
 
-	if (const auto health = m_pGameObject->GetComponent<dae::HealthCp>())
+	if (const auto health = m_pGameObject->GetComponent<HealthCp>())
 	{
 		health->SetAmount(0);
 	}
@@ -73,7 +73,7 @@ void PointCommand::Execute()
 
 	if (GetKeyPressed()) return;
 
-	if (const auto points = m_pGameObject->GetComponent<dae::PointsCp>())
+	if (const auto points = m_pGameObject->GetComponent<PointsCp>())
 	{
 		points->ChangeAmount(1);
 
@@ -125,10 +125,6 @@ void SkipLevelCommand::Execute()
 
 	if(sceneManager.GetActiveScene()->GetName() == "WaitingScene")
 	{
-		/*for (int i{}; i < players.size(); ++i)
-		{
-			sceneManager.GetActiveScene()->Add(players[i]);
-		}*/
 		sceneManager.NextScene();
 		SetKeyPressed(true);
 		return;
@@ -158,6 +154,7 @@ void StartGameCommand::Execute()
 	auto& sceneManager = SceneManager::GetInstance();
 	sceneManager.SetActiveScene(nameScene);
 
+	PlayerManager::GetInstance().ResetPlayerVars();
 	PlayerManager::GetInstance().SpawnPlayers();
 
 	SetKeyPressed(true);

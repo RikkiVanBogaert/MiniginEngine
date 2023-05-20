@@ -54,6 +54,8 @@ public:
     std::vector<glm::vec2> GetSpawnPositions() const { return m_SpawnPositions; }
 
     void SpawnPlayers();
+    void ResetPlayerVars();
+    void RemovePlayerFromScene(dae::GameObject* player);
 
 private:
     PlayerManager() = default;

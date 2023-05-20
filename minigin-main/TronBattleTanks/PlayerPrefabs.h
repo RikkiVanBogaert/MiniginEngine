@@ -5,6 +5,7 @@
 #include "BulletCollisionCp.h"
 #include "BulletManagerCp.h"
 #include "CollisionCp.h"
+#include "DerCounterCps.h"
 #include "GameCommands.h"
 #include "InputManager.h"
 #include "PlayerManager.h"
@@ -42,7 +43,7 @@ static void CreateTankKeyboard(Scene& scene)
 	pTank->AddComponent(points);
 
 	//Health
-	auto health = std::make_shared<HealthCp>(pTank.get(), 3);
+	auto health = std::make_shared<LivesCp>(pTank.get(), 3);
 	pTank->AddComponent(health);
 
 	//Movement
@@ -110,7 +111,7 @@ static void CreateTankController(Scene& scene)
 	pTank->AddComponent(points);
 
 	//Health
-	auto health = std::make_shared<HealthCp>(pTank.get(), 3);
+	auto health = std::make_shared<LivesCp>(pTank.get(), 3);
 	pTank->AddComponent(health);
 
 	//Controller
