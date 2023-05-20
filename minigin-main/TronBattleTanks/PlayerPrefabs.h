@@ -2,7 +2,9 @@
 #include <SDL_scancode.h>
 #include <glm/vec3.hpp>
 
+#include "BulletCollisionCp.h"
 #include "BulletManagerCp.h"
+#include "CollisionCp.h"
 #include "GameCommands.h"
 #include "InputManager.h"
 #include "PlayerManager.h"
@@ -23,9 +25,25 @@ static void CreateTankKeyboard(Scene& scene)
 	tankTxt->SetTexture("Resources/Sprites/RedTank.png");
 	pTank->AddComponent(tankTxt);
 
+	//Collision
+	auto collisionCp = std::make_shared<CollisionCp>(pTank.get());
+	pTank->AddComponent(collisionCp);
+	collisionCp->AddCollider(pTank.get());
+
+	auto bulletCollisionCp = std::make_shared<BulletCollisionCp>(pTank.get());
+	pTank->AddComponent(bulletCollisionCp);
+
 	//BulletManager
 	auto bulletManager = std::make_shared<BulletManagerCp>(pTank.get());
 	pTank->AddComponent(bulletManager);
+
+	//Points
+	auto points = std::make_shared<PointsCp>(pTank.get(), 0);
+	pTank->AddComponent(points);
+
+	//Health
+	auto health = std::make_shared<HealthCp>(pTank.get(), 3);
+	pTank->AddComponent(health);
 
 	//Movement
 	constexpr float speed{ 1.5f };
@@ -46,10 +64,10 @@ static void CreateTankKeyboard(Scene& scene)
 
 	//Shooting
 	constexpr float shootSpeed{ 300 };
-	glm::vec3 shootUpSpeed = { 0.f, -shootSpeed, 0.f };
-	glm::vec3 shootDownSpeed = { 0.f, shootSpeed, 0.f };
-	glm::vec3 shootLeftSpeed = { -shootSpeed, 0.f, 0.f };
-	glm::vec3 shootRightSpeed = { shootSpeed, 0.f, 0.f };
+	glm::vec2 shootUpSpeed = { 0.f, -shootSpeed };
+	glm::vec2 shootDownSpeed = { 0.f, shootSpeed };
+	glm::vec2 shootLeftSpeed = { -shootSpeed, 0.f};
+	glm::vec2 shootRightSpeed = { shootSpeed, 0.f };
 
 	auto* shootUp = new ShootCommand{ pTank.get(), shootUpSpeed };
 	auto* shootDown = new ShootCommand{ pTank.get(), shootDownSpeed };
@@ -77,6 +95,23 @@ static void CreateTankController(Scene& scene)
 	//BulletManager
 	auto bulletManager = std::make_shared<BulletManagerCp>(pTank.get());
 	pTank->AddComponent(bulletManager);
+
+
+	//Collision
+	auto collisionCp = std::make_shared<CollisionCp>(pTank.get());
+	pTank->AddComponent(collisionCp);
+	collisionCp->AddCollider(pTank.get());
+
+	auto bulletCollisionCp = std::make_shared<BulletCollisionCp>(pTank.get());
+	pTank->AddComponent(bulletCollisionCp);
+
+	//Points
+	auto points = std::make_shared<PointsCp>(pTank.get(), 0);
+	pTank->AddComponent(points);
+
+	//Health
+	auto health = std::make_shared<HealthCp>(pTank.get(), 3);
+	pTank->AddComponent(health);
 
 	//Controller
 	int controllerIdx{ 0 };
@@ -107,10 +142,10 @@ static void CreateTankController(Scene& scene)
 
 	//Shooting
 	constexpr float shootSpeed{ 300 };
-	glm::vec3 shootUpSpeed = { 0.f, -shootSpeed, 0.f };
-	glm::vec3 shootDownSpeed = { 0.f, shootSpeed, 0.f };
-	glm::vec3 shootLeftSpeed = { -shootSpeed, 0.f, 0.f };
-	glm::vec3 shootRightSpeed = { shootSpeed, 0.f, 0.f };
+	glm::vec2 shootUpSpeed = { 0.f, -shootSpeed };
+	glm::vec2 shootDownSpeed = { 0.f, shootSpeed};
+	glm::vec2 shootLeftSpeed = { -shootSpeed, 0.f };
+	glm::vec2 shootRightSpeed = { shootSpeed, 0.f };
 
 	auto* shootUp = new ShootCommand{ pTank.get(), shootUpSpeed };
 	auto* shootDown = new ShootCommand{ pTank.get(), shootDownSpeed };

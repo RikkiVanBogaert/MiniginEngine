@@ -14,13 +14,13 @@ ComponentBase(owner)
 {}
 
 
-void BulletManagerCp::Shoot(const glm::vec2& vel)
+void BulletManagerCp::Shoot( glm::vec2& vel) const
 {
 	auto& ss = servicelocator::get_sound_system();
 	ss.play(0, 100);
 
 
-	auto pBullet = CreateBullet(*m_pOwner->GetScene(), vel);
+	auto pBullet = CreateBullet(*m_pOwner->GetScene(), m_pOwner, vel);
 	pBullet->SetTag(m_pOwner->GetTag());
 
 	const glm::vec2 middlePos = { m_pOwner->GetWorldTransform().x + m_pOwner->GetSize().x / 2 - pBullet->GetSize().x / 2,

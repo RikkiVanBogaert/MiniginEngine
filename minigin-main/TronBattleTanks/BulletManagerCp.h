@@ -9,7 +9,7 @@ class BulletManagerCp final : public dae::ComponentBase
 public:
 	BulletManagerCp(dae::GameObject* owner);
 
-	void Shoot(const glm::vec2& vel);
+	void Shoot( glm::vec2& vel) const;
 
 private:
 

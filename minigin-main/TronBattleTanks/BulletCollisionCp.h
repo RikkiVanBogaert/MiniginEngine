@@ -18,8 +18,7 @@ public:
 
 private:
 	CollisionCp* m_pCollisionCp;
-	dae::HealthCp* m_pHealthCp;
 
-	void GetHit();
+	void GetHit(dae::GameObject* shooter);
 };
 

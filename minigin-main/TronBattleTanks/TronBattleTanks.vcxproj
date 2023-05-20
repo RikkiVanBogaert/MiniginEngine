@@ -185,6 +185,7 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="PlayerPrefabs.h" />
+    <ClInclude Include="PlayerUIPrefab.h" />
     <ClInclude Include="Sounds.h" />
     <ClInclude Include="SpawnPositionCp.h" />
     <ClInclude Include="Tank.h" />

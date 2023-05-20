@@ -39,11 +39,11 @@ class Tank;
 class ShootCommand final : public dae::Command
 {
 public:
-	ShootCommand(dae::GameObject* gameObj, const glm::vec3& direction);
+	ShootCommand(dae::GameObject* gameObj, const glm::vec2& direction);
 	virtual void Execute() override;
 
 private:
-	glm::vec3 m_Direction{};
+	glm::vec2 m_Direction{};
 };
 
 class SkipLevelCommand final : public dae::Command

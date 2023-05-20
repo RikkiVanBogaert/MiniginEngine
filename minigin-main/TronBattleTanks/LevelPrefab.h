@@ -23,6 +23,7 @@ static std::shared_ptr<GameObject> CreateLevel(Scene& scene, const std::string& 
 	auto enemySpawnPosCp = std::make_shared<EnemySpawnPosCp>(pLevelObject.get());
 	pLevelObject->AddComponent(enemySpawnPosCp);
 
+	//Create Map
 	constexpr int columns = 58;
 	auto map = ResourceManager::GetInstance().ParseCsv(levelPath);
 	constexpr float size{ 8 };

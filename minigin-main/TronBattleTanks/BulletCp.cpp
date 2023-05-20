@@ -3,8 +3,9 @@
 #include "CollisionCp.h"
 #include "GameHelpers.h"
 
-BulletCp::BulletCp(dae::GameObject* owner, const glm::vec2& vel):
+BulletCp::BulletCp(dae::GameObject* owner,dae::GameObject* shooter, const glm::vec2& vel):
 ComponentBase(owner),
+m_pShooter(shooter),
 m_Velocity(vel)
 {
 	m_pCollisionCp = GetGameObject(m_pOwner->GetScene(), "Level")->GetComponent<CollisionCp>();
@@ -22,4 +23,9 @@ void BulletCp::Update(float deltaTime)
 	++m_AmountBounces;
 
 	if (m_AmountBounces >= 5) m_pOwner->MarkForDeletion();
+}
+
+dae::GameObject* BulletCp::GetShooter() const
+{
+	return m_pShooter;
 }

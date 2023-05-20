@@ -84,7 +84,7 @@ void PointCommand::Execute()
 	SetKeyPressed(true);
 }
 
-ShootCommand::ShootCommand(dae::GameObject* gameObj, const glm::vec3& direction)
+ShootCommand::ShootCommand(dae::GameObject* gameObj, const glm::vec2& direction)
 {
 	m_pGameObject = gameObj;
 	m_Direction = direction;

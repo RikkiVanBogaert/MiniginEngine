@@ -19,25 +19,16 @@
     <Filter Include="Game Files\Components">
       <UniqueIdentifier>{528d10a9-afaf-478c-b982-3af1740ec720}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Files\OldFiles">
+      <UniqueIdentifier>{52136608-4f32-4493-8cb0-348bb5a73acd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>Game Files\Prefabs</Filter>
-    </ClCompile>
-    <ClCompile Include="Level.cpp">
-      <Filter>Game Files\Prefabs</Filter>
-    </ClCompile>
-    <ClCompile Include="Tank.cpp">
-      <Filter>Game Files\Prefabs</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerManager.cpp">
       <Filter>Other Files</Filter>
     </ClCompile>
     <ClCompile Include="GameCommands.cpp">
       <Filter>Other Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Menu.cpp">
-      <Filter>Game Files\Prefabs</Filter>
     </ClCompile>
     <ClCompile Include="AIComponent.cpp">
       <Filter>Game Files\Components</Filter>
@@ -63,25 +54,25 @@
     <ClCompile Include="TronBattleTanks.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Game Files\OldFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Game Files\OldFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu.cpp">
+      <Filter>Game Files\OldFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Tank.cpp">
+      <Filter>Game Files\OldFiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Level.h">
-      <Filter>Game Files\Prefabs</Filter>
-    </ClInclude>
-    <ClInclude Include="Tank.h">
-      <Filter>Game Files\Prefabs</Filter>
-    </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>Game Files\Prefabs</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerManager.h">
       <Filter>Other Files</Filter>
     </ClInclude>
     <ClInclude Include="GameCommands.h">
       <Filter>Other Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Menu.h">
-      <Filter>Game Files\Prefabs</Filter>
     </ClInclude>
     <ClInclude Include="AIComponent.h">
       <Filter>Game Files\Components</Filter>
@@ -127,6 +118,21 @@
     </ClInclude>
     <ClInclude Include="MainMenuPrefab.h">
       <Filter>Game Files\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerUIPrefab.h">
+      <Filter>Game Files\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Game Files\OldFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Game Files\OldFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu.h">
+      <Filter>Game Files\OldFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Tank.h">
+      <Filter>Game Files\OldFiles</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -6,7 +6,9 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "LevelPrefab.h"
+#include "TextComponent.h"
 #include "TextureComponent.h"
+#include "UICp.h"
 
 
 void PlayerManager::SwitchGameMode()
@@ -34,8 +36,8 @@ void PlayerManager::SpawnPlayers()
 
 
 	const auto sceneObjects = sceneManager.GetActiveScene()->GetGameObjects();
-	PlayerSpawnPosCp* playerSpawn{};
-	EnemySpawnPosCp* enemySpawn{};
+	const PlayerSpawnPosCp* playerSpawn{};
+	const EnemySpawnPosCp* enemySpawn{};
 	for (auto& o : sceneObjects)
 	{
 		if (o->GetTag() != "Level") continue;
@@ -45,24 +47,44 @@ void PlayerManager::SpawnPlayers()
 		break;
 	}
 
-	auto players = GetInstance().GetPlayers();
-
+	const auto players = GetInstance().GetPlayers();
+	auto scene = SceneManager::GetInstance().GetActiveScene();
 	int amountPlayers{ 1 };
+
+	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
+	//Player 1 UI
+	auto pPointObject = std::make_shared<GameObject>();
+	pPointObject->SetTag("RedPlayer");
+	pPointObject->SetRelativePos({5, 200});
+	auto pPointText = std::make_shared<UICp>(pPointObject.get(), font, "Points: ", SDL_Color{255, 0, 0, 255}, "Points");
+	pPointObject->AddComponent(pPointText);
+	//Player 2 UI
+	auto pPointObject2 = std::make_shared<GameObject>();
+	pPointObject2->SetTag("RedPlayer");
+	pPointObject2->SetRelativePos({ 5, 300 });
+	auto pPointText2 = std::make_shared<UICp>(pPointObject2.get(), font, "Points: ", SDL_Color{ 0, 0, 255, 255 }, "Points");
+	pPointObject2->AddComponent(pPointText2);
+
 	switch (GetInstance().GetGameMode())
 	{
 	case SinglePlayer:
-		CreateEnemies(*SceneManager::GetInstance().GetActiveScene(), enemySpawn->GetPos());
+		scene->Add(pPointObject);
+		CreateEnemies(*scene, enemySpawn->GetPos());
 		break;
 	case Coop:
 		amountPlayers = 2;
-
-		players[1]->SetTag("Red");
+		scene->Add(pPointObject);
+		scene->Add(pPointObject2);
+		players[1]->SetTag("RedPlayer");
 		players[1]->GetComponent<dae::TextureComponent>()->SetTexture("Resources/Sprites/RedTank.png");
-		CreateEnemies(*SceneManager::GetInstance().GetActiveScene(), enemySpawn->GetPos());
+		CreateEnemies(*scene, enemySpawn->GetPos());
 		break;
 	case Versus:
 		amountPlayers = 2;
-		players[1]->SetTag("Blue");
+		scene->Add(pPointObject);
+		pPointObject2->SetTag("BluePlayer");
+		scene->Add(pPointObject2);
+		players[1]->SetTag("BluePlayer");
 		players[1]->GetComponent<dae::TextureComponent>()->SetTexture("Resources/Sprites/BlueTank.png");
 		break;
 	}
