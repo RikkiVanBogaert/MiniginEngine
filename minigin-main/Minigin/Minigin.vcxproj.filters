@@ -129,6 +129,9 @@
     <ClInclude Include="EngineEvents.h">
       <Filter>Scene Files</Filter>
     </ClInclude>
+    <ClInclude Include="MathHelpers.h">
+      <Filter>Scene Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseComponent.cpp">

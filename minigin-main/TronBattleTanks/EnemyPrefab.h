@@ -7,6 +7,7 @@
 #include "CollisionCp.h"
 #include "AIComponent.h"
 #include "CounterCp.h"
+#include "MoveCp.h"
 
 static dae::GameObject* CreateEnemy(dae::Scene& scene)
 {
@@ -33,6 +34,9 @@ static dae::GameObject* CreateEnemy(dae::Scene& scene)
 
 	auto pAICp = std::make_shared<AIComponent>(pTank.get());
 	pTank->AddComponent(pAICp);
+
+	auto pMoveCp = std::make_shared<MoveCp>(pTank.get());
+	pTank->AddComponent(pMoveCp);
 
 	return pTank.get();
 }

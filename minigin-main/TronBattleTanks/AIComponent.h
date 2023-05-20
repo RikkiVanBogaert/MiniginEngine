@@ -33,9 +33,8 @@ private:
 	BulletManagerCp* m_pBulletManager;
 
 	void Init();
-	void FindPlayer();
-	void FindLevel();
 	void UpdateShootTimer(float deltaTime);
 	bool PlayerInSight(glm::vec2& bulletDir);
+	void GoToPlayer(float);
 };
 

@@ -208,6 +208,7 @@
     <ClInclude Include="Commands.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="EngineEvents.h" />
+    <ClInclude Include="MathHelpers.h" />
     <ClInclude Include="ObserverEvent.h" />
     <ClInclude Include="EventQueue.h" />
     <ClInclude Include="Font.h" />

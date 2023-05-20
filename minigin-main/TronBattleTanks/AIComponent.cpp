@@ -6,6 +6,7 @@
 #include "PlayerManager.h"
 #include "BulletManagerCp.h"
 #include "CollisionCp.h"
+#include "MoveCp.h"
 
 AIComponent::AIComponent(dae::GameObject* owner):
 	ComponentBase(owner),
@@ -17,20 +18,18 @@ void AIComponent::Update(float deltaTime)
 {
 	Init();
 
-	if (m_HasShot)
-	{
-		UpdateShootTimer(deltaTime);
-		return;
-	}
-
 	glm::vec2 bulletDir{};
-	if(PlayerInSight(bulletDir))
+	if(PlayerInSight(bulletDir) && !m_HasShot)
 	{
 		m_pBulletManager->Shoot(bulletDir); 
 		m_HasShot = true;
 	}
+	else
+	{
+		GoToPlayer(deltaTime);
+	}
 
-	////else, find a way around it.
+	UpdateShootTimer(deltaTime);
 }
 
 void AIComponent::Init()
@@ -45,6 +44,8 @@ void AIComponent::Init()
 
 void AIComponent::UpdateShootTimer(float deltaTime)
 {
+	if (!m_HasShot) return;
+
 	m_ShootTimer += deltaTime;
 
 	if(m_ShootTimer >= m_ShootTime)
@@ -82,4 +83,66 @@ bool AIComponent::PlayerInSight(glm::vec2& bulletDir)
 		//if(!m_pLevelCollision->CollisionHit(m_pOwner, playerPos))
 	}
 	return false;
+}
+
+void AIComponent::GoToPlayer(float deltaTime)
+{
+	//check closest player
+	dae::GameObject* pPlayer{};
+	float closestDistance{ INFINITY };
+	for(auto p :m_pPlayers)
+	{
+		float d = distance(p->GetWorldTransform(), m_pOwner->GetWorldTransform());
+		if (d < closestDistance)
+		{
+			closestDistance = d;
+			pPlayer = p.get();
+		}
+	}
+
+	
+	constexpr float speed{ 50 };
+	constexpr glm::vec2 up{ 0,-speed };
+	constexpr glm::vec2 down{ 0,speed };
+	constexpr glm::vec2 left{ -speed, 0 };
+	constexpr glm::vec2 right{ speed, 0 };
+
+	const glm::vec2 playerPos{ pPlayer->GetWorldTransform() };
+	const glm::vec2 ownerPos{ m_pOwner->GetWorldTransform() };
+
+	
+	if (abs(playerPos.y - ownerPos.y) < abs(playerPos.x - ownerPos.x))
+	{
+		if (playerPos.y < ownerPos.y)
+		{
+			if (!m_pLevelCollision->CollisionHit(m_pOwner, up))
+			{
+				m_pOwner->GetComponent<MoveCp>()->Move(deltaTime, up);
+			}
+		}
+		else
+		{
+			if (!m_pLevelCollision->CollisionHit(m_pOwner, up))
+			{
+				m_pOwner->GetComponent<MoveCp>()->Move(deltaTime, down);
+			}
+		}
+	}
+	else
+	{
+		if (playerPos.x < ownerPos.x)
+		{
+			if (!m_pLevelCollision->CollisionHit(m_pOwner, left))
+			{
+				m_pOwner->GetComponent<MoveCp>()->Move(deltaTime, left);
+			}
+		}
+		else
+		{
+			if (!m_pLevelCollision->CollisionHit(m_pOwner, right))
+			{
+				m_pOwner->GetComponent<MoveCp>()->Move(deltaTime, right);
+			}
+		}
+	}
 }

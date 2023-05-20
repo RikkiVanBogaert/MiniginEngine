@@ -159,6 +159,7 @@
     <ClCompile Include="DerCounterCps.cpp" />
     <ClCompile Include="GameCommands.cpp" />
     <ClCompile Include="GameEvents.cpp" />
+    <ClCompile Include="MoveCp.cpp" />
     <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="SpawnPositionCp.cpp" />
     <ClCompile Include="TronBattleTanks.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="GameEvents.h" />
     <ClInclude Include="GameHelpers.h" />
     <ClInclude Include="MainMenuPrefab.h" />
+    <ClInclude Include="MoveCp.h" />
     <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="PlayerPrefabs.h" />
     <ClInclude Include="PlayerUIPrefab.h" />
