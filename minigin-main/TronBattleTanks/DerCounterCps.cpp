@@ -1,6 +1,12 @@
 #include "DerCounterCps.h"
+
+#include "GameHelpers.h"
 #include "GameObject.h"
 #include "PlayerManager.h"
+#include "Scene.h"
+#include "SceneManager.h"
+#include "UICp.h"
+#include "GameOverPrefab.h"
 
 
 void HealthCp::ChangeAmount(int difference)
@@ -26,8 +32,19 @@ void HealthCp::SetAmount(int newHealth)
 void LivesCp::ChangeAmount(int difference)
 {
 	CounterCp::ChangeAmount(difference);
-	if (GetCounter() <= 0)
+	
+	if (GetCounter() < 3)
 	{
-		PlayerManager::GetInstance().RemovePlayerFromScene(m_pOwner);
+		//Game Over
+		dae::SceneManager::GetInstance().GetActiveScene()->RemoveAll();
+		dae::SceneManager::GetInstance().SetActiveScene("GameOver");
+		auto scene = dae::SceneManager::GetInstance().GetActiveScene();
+		CreateGameOver(*scene);
+		/*GetComponentInScene<dae::UIPointsCp>(scene, "P1Points")->SetValueText(
+			std::to_string(m_pOwner->GetComponent<PointsCp>()->GetAmount()));*/
+	}
+	else
+	{
+		PlayerManager::GetInstance().ResetScene();
 	}
 }

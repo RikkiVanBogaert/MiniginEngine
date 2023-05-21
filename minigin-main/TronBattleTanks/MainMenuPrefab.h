@@ -4,6 +4,7 @@
 
 #include "GameCommands.h"
 #include "InputManager.h"
+#include "NameCp.h"
 #include "ResourceManager.h"
 #include "Scene.h"
 
@@ -42,7 +43,6 @@ static void CreateMainMenu(Scene& scene)
 	m_pGameModeObject->SetRelativePos({ 190, 320 });
 	m_pGameModeObject->AddComponent(m_pGameModeText);
 	pMenuObj->AddChild(m_pGameModeObject);
-
 
 	const auto nextLevelObj = std::make_shared<GameObject>();
 	const auto nextLevelText = std::make_shared<TextComponent>(nextLevelObj.get(), "Next Level (N)", smallFont, SDL_Color{ 255, 255, 255 });

@@ -28,7 +28,7 @@ void PlayerManager::SwitchGameMode()
 	}
 }
 
-void PlayerManager::SpawnPlayers()
+void PlayerManager::LevelCreate()
 {
 	auto& sceneManager = dae::SceneManager::GetInstance();
 
@@ -86,7 +86,7 @@ void PlayerManager::SpawnPlayers()
 		scene->Add(pPointObject2);
 		scene->Add(pLivesObject2);
 		players[1]->SetTag("RedPlayer");
-		players[1]->GetComponent<dae::TextureComponent>()->SetTexture("Resources/Sprites/RedTank.png");
+		players[1]->GetComponent<dae::TextureComponent>()->SetTexture("Resources/Sprites/GreenTank.png");
 		CreateEnemies(*scene, enemySpawn->GetPos());
 		break;
 	case Versus:
@@ -103,28 +103,29 @@ void PlayerManager::SpawnPlayers()
 		break;
 	}
 
-	const auto pPointText = std::make_shared<UIPointsCp>(pPointObject.get(), font, "Points: ",
-		SDL_Color{ 255, 0, 0, 255 }, GetPlayers()[0]->GetComponent<PointsCp>());
-	pPointObject->AddComponent(pPointText);
-
-	const auto pPointText2 = std::make_shared<UIPointsCp>(pPointObject2.get(), font, "Points: ",
-		SDL_Color{ 0, 0, 255, 255 }, GetPlayers()[1]->GetComponent<PointsCp>());
-	pPointObject2->AddComponent(pPointText2);
-
-	const auto pLivesText = std::make_shared<UILivesCp>(pLivesObject.get(), font, "Lives: ",
-		SDL_Color{ 255, 0, 0, 255 }, GetPlayers()[0]->GetComponent<LivesCp>());
-	pLivesObject->AddComponent(pLivesText);
-
-	const auto pLivesText2 = std::make_shared<UILivesCp>(pLivesObject2.get(), font, "Lives: ",
-		SDL_Color{ 0, 0, 255, 255 }, GetPlayers()[1]->GetComponent<LivesCp>());
-	pLivesObject2->AddComponent(pLivesText2);
-
-
 	for (int i{}; i < amountPlayers; ++i)
 	{
 		sceneManager.GetActiveScene()->Add(players[i]);
 		players[i]->SetRelativePos(playerSpawn->GetPos()[i]);
 	}
+
+	const auto pPointText = std::make_shared<UIPointsCp>(pPointObject.get(), "Points: ", font,
+		SDL_Color{ 255, 0, 0, 255 }, GetPlayers()[0]->GetComponent<PointsCp>());
+	pPointObject->AddComponent(pPointText);
+
+	const auto pPointText2 = std::make_shared<UIPointsCp>(pPointObject2.get(),"Points: ", font,
+		SDL_Color{ 0, 0, 255, 255 }, GetPlayers()[1]->GetComponent<PointsCp>());
+	pPointObject2->AddComponent(pPointText2);
+
+	const auto pLivesText = std::make_shared<UILivesCp>(pLivesObject.get(), "Lives: ", font,
+		SDL_Color{ 255, 0, 0, 255 }, GetPlayers()[0]->GetComponent<LivesCp>());
+	pLivesObject->AddComponent(pLivesText);
+
+	const auto pLivesText2 = std::make_shared<UILivesCp>(pLivesObject2.get(), "Lives: ", font,
+		SDL_Color{ 0, 0, 255, 255 }, GetPlayers()[1]->GetComponent<LivesCp>());
+	pLivesObject2->AddComponent(pLivesText2);
+
+
 }
 
 void PlayerManager::ResetPlayerVars()
@@ -132,7 +133,7 @@ void PlayerManager::ResetPlayerVars()
 	for(auto p : GetPlayers())
 	{
 		p->GetComponent<PointsCp>()->SetAmount(0);
-		p->GetComponent<LivesCp>()->SetAmount(4);
+		p->GetComponent<LivesCp>()->SetAmount(3);
 	}
 }
 
@@ -145,4 +146,15 @@ void PlayerManager::RemovePlayerFromScene(GameObject* player)
 			p->GetScene()->Remove(p);
 		}
 	}
+}
+
+void PlayerManager::ResetScene()
+{
+	SceneManager::GetInstance().GetActiveScene()->RemoveAll();
+	LevelCreate();
+}
+
+void PlayerManager::ReloadPlayers()
+{
+
 }

@@ -25,7 +25,7 @@ void Scene::Remove(const std::shared_ptr<GameObject>& object)
 void Scene::RemoveAll()
 {
 	m_objects.clear();
-	m_IsActive = false;
+	//m_IsActive = false;
 }
 
 void Scene::Update(float deltaTime)

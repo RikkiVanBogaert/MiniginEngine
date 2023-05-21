@@ -45,12 +45,13 @@ void BulletCollisionCp::GetHit(dae::GameObject* shooter)
 		livesText->SetValueText(text);
 	}
 
+	if (healthCp->GetAmount() > 0) return;
 
 	//Shooter points
 	if (!shooter->GetComponent<PointsCp>()) return;
 
 	const auto shooterPoints = shooter->GetComponent<PointsCp>();
-	shooterPoints->ChangeAmount(1);
+	shooterPoints->ChangeAmount(100);
 	if (auto pointsText = GetComponentInScene<dae::UIPointsCp>(m_pOwner->GetScene(), shooter->GetTag()))
 	{
 		const std::string text = std::to_string(shooterPoints->GetAmount());

@@ -19,8 +19,7 @@ namespace dae
 	class UICp : public ComponentBase
 	{
 	public:
-		UICp(GameObject* owner, std::shared_ptr<Font> font, const std::string& text, 
-			const std::string& startValue = "0", const SDL_Color& color = {255, 255, 255, 255});
+		UICp(GameObject* owner, const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color = {255, 255, 255, 255});
 
 		virtual void Update(float deltaTime) override;
 		virtual void Render() const override;
@@ -37,9 +36,11 @@ namespace dae
 	class UICounterCp : public UICp
 	{
 	public:
-		UICounterCp(GameObject* owner, std::shared_ptr<Font> font, const std::string& text, const SDL_Color& color, CounterCp* counter);
+		UICounterCp(GameObject* owner, const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color, CounterCp* counter);
 
 		virtual void SetValueText(const std::string& text) override;
+
+		CounterCp* GetCounter() const { return m_pCounterCp; }
 
 	private:
 		CounterCp* m_pCounterCp;
@@ -48,14 +49,16 @@ namespace dae
 	class UIPointsCp final : public UICounterCp
 	{
 	public:
-		UIPointsCp(GameObject* owner, const std::shared_ptr<Font>& font, const std::string& text,
+		UIPointsCp(GameObject* owner, const std::string& text, std::shared_ptr<Font> font,
 			const SDL_Color& color, PointsCp* counter);
+
+		virtual void Update(float deltaTime) override;
 	};
 
 	class UILivesCp final : public UICounterCp
 	{
 	public:
-		UILivesCp(GameObject* owner, const std::shared_ptr<Font>& font, const std::string& text,
+		UILivesCp(GameObject* owner, const std::string& text, std::shared_ptr<Font> font,
 			const SDL_Color& color, LivesCp* counter);
 	};
 

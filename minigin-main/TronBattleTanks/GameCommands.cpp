@@ -115,29 +115,24 @@ void SkipLevelCommand::Execute()
 	}
 
 	sceneManager.GetActiveScene()->RemoveAll();
-	/*auto players = PlayerManager::GetInstance().GetPlayers();
-	for(auto p : players)
-	{
-		p->GetScene()->Remove(p);
-	}*/
-
 	sceneManager.NextScene();
 
-	if(sceneManager.GetActiveScene()->GetName() == "WaitingScene")
-	{
-		sceneManager.NextScene();
-		SetKeyPressed(true);
-		return;
-	}
-	if (sceneManager.GetActiveScene()->GetName() == "MainMenu")
-	{
-		SetKeyPressed(true);
-		return;
-	}
+	SkipNonLevels();
 
-	PlayerManager::GetInstance().SpawnPlayers();
+	PlayerManager::GetInstance().LevelCreate();
 	
 	SetKeyPressed(true);
+}
+
+void SkipLevelCommand::SkipNonLevels()
+{
+	const auto sceneName = SceneManager::GetInstance().GetActiveScene()->GetName();
+	if (sceneName == "WaitingScene" || sceneName == "MainMenu" || sceneName == "GameOver")
+	{
+		SceneManager::GetInstance().NextScene();
+		SetKeyPressed(true);
+		SkipNonLevels();
+	}
 }
 
 void StartGameCommand::Execute()
@@ -155,7 +150,7 @@ void StartGameCommand::Execute()
 	sceneManager.SetActiveScene(nameScene);
 
 	PlayerManager::GetInstance().ResetPlayerVars();
-	PlayerManager::GetInstance().SpawnPlayers();
+	PlayerManager::GetInstance().LevelCreate();
 
 	SetKeyPressed(true);
 }

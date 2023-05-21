@@ -2,7 +2,6 @@
 
 #include "GameHelpers.h"
 #include "GameObject.h"
-#include "Scene.h"
 #include "PlayerManager.h"
 #include "BulletManagerCp.h"
 #include "CollisionCp.h"

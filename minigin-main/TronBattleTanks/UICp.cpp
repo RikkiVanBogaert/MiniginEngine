@@ -11,12 +11,10 @@
 
 using namespace dae;
 
-UICp::UICp(GameObject* owner, std::shared_ptr<Font> font, const std::string& text, const std::string&, const SDL_Color& color) :
+UICp::UICp(GameObject* owner, const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color) :
 	ComponentBase(owner),
 	m_pTextCp{ std::make_unique<TextComponent>(owner, text, font, color) }
-{
-	//m_pTextCp->SetText(text + value);
-}
+{}
 
 
 void UICp::Update(float deltaTime)
@@ -40,9 +38,9 @@ void UICp::SetValueText(const std::string& text)
 }
 
 
-UICounterCp::UICounterCp(GameObject* owner, std::shared_ptr<Font> font, const std::string& text, const SDL_Color& color,
-                         CounterCp* counter):
-UICp(owner, font, text , "0", color),
+UICounterCp::UICounterCp(GameObject* owner, const std::string& text, std::shared_ptr<Font> font, 
+	const SDL_Color& color, CounterCp* counter):
+UICp(owner, text, font , color),
 m_pCounterCp(counter)
 {
 	SetText(text + std::to_string(counter->GetAmount()));
@@ -56,12 +54,18 @@ void UICounterCp::SetValueText(const std::string&)
 	UICp::SetValueText(std::to_string(m_pCounterCp->GetAmount()));
 }
 
-UIPointsCp::UIPointsCp(GameObject* owner, const std::shared_ptr<Font>& font, const std::string& text, const SDL_Color& color,
+UIPointsCp::UIPointsCp(GameObject* owner, const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color,
 	PointsCp* counter):
-UICounterCp(owner, font, text, color, counter)
+UICounterCp(owner, text, font, color, counter)
 {}
 
-UILivesCp::UILivesCp(GameObject* owner, const std::shared_ptr<Font>& font, const std::string& text, const SDL_Color& color,
-	LivesCp* counter):
-	UICounterCp(owner, font, text, color, counter)
+void UIPointsCp::Update(float deltaTime)
+{
+	UICounterCp::Update(deltaTime);
+	//SetValueText(std::to_string(GetCounter()->GetAmount()));
+}
+
+UILivesCp::UILivesCp(GameObject* owner, const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color,
+                     LivesCp* counter):
+	UICounterCp(owner, text, font, color, counter)
 {}

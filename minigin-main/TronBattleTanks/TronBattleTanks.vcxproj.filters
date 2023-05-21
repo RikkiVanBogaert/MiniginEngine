@@ -60,6 +60,9 @@
     <ClCompile Include="MoveCp.cpp">
       <Filter>Game Files\Components</Filter>
     </ClCompile>
+    <ClCompile Include="NameCp.cpp">
+      <Filter>Game Files\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerManager.h">
@@ -123,6 +126,12 @@
       <Filter>Game Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="MoveCp.h">
+      <Filter>Game Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverPrefab.h">
+      <Filter>Game Files\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="NameCp.h">
       <Filter>Game Files\Components</Filter>
     </ClInclude>
   </ItemGroup>

@@ -84,7 +84,6 @@ void LoadNewScene()
 {
 	auto& startScene = SceneManager::GetInstance().CreateScene("MainMenu");
 	CreateMainMenu(startScene);
-	Test(startScene);
 	startScene.SetActive(true);
 
 	auto& waitingScene = SceneManager::GetInstance().CreateScene("WaitingScene");
@@ -100,7 +99,9 @@ void LoadNewScene()
 	auto& scene2 = SceneManager::GetInstance().CreateScene("Level2");
 	scene2;
 
-
+	auto& gameOverScene = SceneManager::GetInstance().CreateScene("GameOver");
+	gameOverScene;
+	//CreateGameOver(gameOverScene);
 
 	ExplainControls();
 }
