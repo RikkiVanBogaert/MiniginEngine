@@ -52,7 +52,6 @@ void PlayerManager::LevelCreate()
 
 	const auto players = GetInstance().GetPlayers();
 	auto scene = SceneManager::GetInstance().GetActiveScene();
-	int amountPlayers{ 1 };
 
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
 	//Player 1 UI
@@ -86,7 +85,6 @@ void PlayerManager::LevelCreate()
 
 		break;
 	case Coop:
-		amountPlayers = 2;
 		scene->Add(pPointObject);
 		scene->Add(pLivesObject);
 
@@ -97,14 +95,16 @@ void PlayerManager::LevelCreate()
 		CreateBlueEnemies(*scene, blueEnemySpawn->GetPos());
 		CreateRecognizers(*scene, recognizerSpawn->GetPos());
 
-		for (int i{}; i < amountPlayers; ++i)
-		{
-			sceneManager.GetActiveScene()->Add(players[i]);
-			players[i]->SetRelativePos(playerSpawn->GetPos()[i]);
-		}
+		sceneManager.GetActiveScene()->Add(players[1]);
+		players[1]->SetRelativePos(playerSpawn->GetPos()[1]);
+
+		int playerNr{};
+		if (m_UsingKeyboard) playerNr = 2;
+		sceneManager.GetActiveScene()->Add(players[playerNr]);
+		players[playerNr]->SetRelativePos(playerSpawn->GetPos()[0]);
+
 		break;
 	case Versus:
-		amountPlayers = 2;
 		scene->Add(pPointObject);
 		scene->Add(pLivesObject);
 
@@ -114,12 +114,18 @@ void PlayerManager::LevelCreate()
 		pLivesObject2->SetTag("BluePlayer");
 		players[1]->SetTag("BluePlayer");
 		players[1]->GetComponent<dae::TextureComponent>()->SetTexture("Resources/Sprites/BlueTank.png");
+		
+		CreateBlueEnemies(*scene, blueEnemySpawn->GetPos());
+		CreateRecognizers(*scene, recognizerSpawn->GetPos());
 
-		for (int i{}; i < amountPlayers; ++i)
-		{
-			sceneManager.GetActiveScene()->Add(players[i]);
-			players[i]->SetRelativePos(playerSpawn->GetPos()[i]);
-		}
+		sceneManager.GetActiveScene()->Add(players[1]);
+		players[1]->SetRelativePos(playerSpawn->GetPos()[1]);
+
+		int playerNmbr{};
+		if (m_UsingKeyboard) playerNmbr = 2;
+		sceneManager.GetActiveScene()->Add(players[playerNmbr]);
+		players[playerNmbr]->SetRelativePos(playerSpawn->GetPos()[0]);
+
 		break;
 	}
 
