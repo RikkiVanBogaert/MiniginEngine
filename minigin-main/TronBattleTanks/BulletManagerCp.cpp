@@ -13,9 +13,23 @@ BulletManagerCp::BulletManagerCp(dae::GameObject* owner):
 ComponentBase(owner)
 {}
 
-
-void BulletManagerCp::Shoot( const glm::vec2& vel) const
+void BulletManagerCp::Update(float deltaTime)
 {
+	if (!m_HasShot) return;
+
+	m_Timer += deltaTime;
+	if (m_Timer > 1)
+	{
+		m_Timer = 0;
+		m_HasShot = false;
+	}
+}
+
+
+void BulletManagerCp::Shoot( const glm::vec2& vel)
+{
+	if (m_HasShot) return;
+
 	auto& ss = servicelocator::get_sound_system();
 	ss.play(0, 100);
 
@@ -28,5 +42,6 @@ void BulletManagerCp::Shoot( const glm::vec2& vel) const
 
 	pBullet->SetRelativePos(middlePos);
 
+	m_HasShot = true;
 }
 

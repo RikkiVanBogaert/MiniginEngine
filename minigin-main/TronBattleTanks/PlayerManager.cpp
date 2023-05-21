@@ -85,6 +85,7 @@ void PlayerManager::LevelCreate()
 
 		break;
 	case Coop:
+	{
 		scene->Add(pPointObject);
 		scene->Add(pLivesObject);
 
@@ -104,7 +105,9 @@ void PlayerManager::LevelCreate()
 		players[playerNr]->SetRelativePos(playerSpawn->GetPos()[0]);
 
 		break;
+	}
 	case Versus:
+	{
 		scene->Add(pPointObject);
 		scene->Add(pLivesObject);
 
@@ -114,7 +117,7 @@ void PlayerManager::LevelCreate()
 		pLivesObject2->SetTag("BluePlayer");
 		players[1]->SetTag("BluePlayer");
 		players[1]->GetComponent<dae::TextureComponent>()->SetTexture("Resources/Sprites/BlueTank.png");
-		
+
 		CreateBlueEnemies(*scene, blueEnemySpawn->GetPos());
 		CreateRecognizers(*scene, recognizerSpawn->GetPos());
 
@@ -125,7 +128,7 @@ void PlayerManager::LevelCreate()
 		if (m_UsingKeyboard) playerNmbr = 2;
 		sceneManager.GetActiveScene()->Add(players[playerNmbr]);
 		players[playerNmbr]->SetRelativePos(playerSpawn->GetPos()[0]);
-
+	}
 		break;
 	}
 
@@ -204,7 +207,7 @@ void PlayerManager::NextLevel()
 void PlayerManager::SwitchInput()
 {
 	m_UsingKeyboard = !m_UsingKeyboard;
-	std::cout << m_UsingKeyboard << '\n';
+	//std::cout << m_UsingKeyboard << '\n';
 }
 
 void PlayerManager::SkipNonLevels()

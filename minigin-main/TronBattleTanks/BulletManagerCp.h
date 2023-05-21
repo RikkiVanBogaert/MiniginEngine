@@ -9,10 +9,12 @@ class BulletManagerCp final : public dae::ComponentBase
 public:
 	BulletManagerCp(dae::GameObject* owner);
 
-	void Shoot( const glm::vec2& vel) const;
+	void Update(float deltaTime) override;
+	void Shoot( const glm::vec2& vel);
 
 private:
-
+	float m_Timer{};
+	bool m_HasShot{};
 
 };
 

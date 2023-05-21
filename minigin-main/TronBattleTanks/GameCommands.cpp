@@ -100,7 +100,6 @@ void ShootCommand::Execute()
 
 	auto bulletManager = m_pGameObject->GetComponent<BulletManagerCp>();
 	bulletManager->Shoot(m_Direction);
-	
 
 	SetKeyPressed(true);
 }
@@ -174,14 +173,47 @@ void SwitchGameModeCommand::Execute()
 		break;
 	}
 
+	UpdateInputText();
+
 	SetKeyPressed(true);
+}
+
+void SwitchGameModeCommand::UpdateInputText()
+{
+	const auto inputObject = GetGameObject(SceneManager::GetInstance().GetActiveScene(), "Input");
+	const auto inputText = inputObject->GetComponent<TextComponent>();
+
+	switch (PlayerManager::GetInstance().GetGameMode())
+	{
+	case PlayerManager::SinglePlayer:
+		if (PlayerManager::GetInstance().GetInput())
+		{
+			inputText->SetText("Controller");
+		}
+		else
+		{
+			inputText->SetText("Keyboard");
+		}
+		break;
+	case PlayerManager::Coop:
+	case PlayerManager::Versus:
+		if (PlayerManager::GetInstance().GetInput())
+		{
+			inputText->SetText("Controller / Controller");
+		}
+		else
+		{
+			inputText->SetText("Keyboard / Controller");
+		}
+		break;
+	}
 }
 
 void ResetGameCommand::Execute()
 {
 	if (GetKeyPressed()) return;
 
-	if (SceneManager::GetInstance().GetActiveSceneName() != "GameOver")
+	if (SceneManager::GetInstance().GetActiveSceneName() == "MainMenu")
 		return;
 	
 	auto& sceneManager = SceneManager::GetInstance();
@@ -189,12 +221,6 @@ void ResetGameCommand::Execute()
 	sceneManager.SetActiveScene("MainMenu");
 	SetKeyPressed(true);
 	
-}
-
-void MuteCommand::Execute()
-{
-	auto& ss = servicelocator::get_sound_system(); 
-	ss.MuteUnmuteSound();
 }
 
 void SwitchInputCommand::Execute()
@@ -209,16 +235,37 @@ void SwitchInputCommand::Execute()
 	const auto inputText = inputObject->GetComponent<TextComponent>();
 
 	PlayerManager::GetInstance().SwitchInput();
-
-	if(PlayerManager::GetInstance().GetInput())
+	switch (PlayerManager::GetInstance().GetGameMode())
 	{
-		inputText->SetText("Controller");
-	}
-	else
-	{
-		inputText->SetText("Keyboard");
+	case PlayerManager::SinglePlayer:
+		if (PlayerManager::GetInstance().GetInput())
+		{
+			inputText->SetText("Controller");
+		}
+		else
+		{
+			inputText->SetText("Keyboard");
+		}
+		break;
+	case PlayerManager::Coop:
+	case PlayerManager::Versus:
+		if (PlayerManager::GetInstance().GetInput())
+		{
+			inputText->SetText("Controller / Controller");
+		}
+		else
+		{
+			inputText->SetText("Keyboard / Controller");
+		}
+		break;
 	}
 
 
 	SetKeyPressed(true);
+}
+
+void MuteCommand::Execute()
+{
+	auto& ss = servicelocator::get_sound_system(); 
+	ss.MuteUnmuteSound();
 }

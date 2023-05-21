@@ -74,6 +74,9 @@ class SwitchGameModeCommand final : public dae::Command
 public:
 	SwitchGameModeCommand() = default;
 	virtual void Execute() override;
+
+private:
+	void UpdateInputText();
 };
 
 class ResetGameCommand final : public dae::Command

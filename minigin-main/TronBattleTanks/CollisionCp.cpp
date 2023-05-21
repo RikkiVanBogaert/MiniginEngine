@@ -21,8 +21,7 @@ bool CollisionCp::CollisionHit(dae::GameObject* object, const glm::vec2& dir)
 
 	const glm::vec2 midPoint = { objectPos.x + object->GetSize().x / 2, objectPos.y + object->GetSize().y / 2 };
 	const float rayLength = object->GetSize().x / 2;
-	const float dirLength = sqrtf(dir.x * dir.x + dir.y * dir.y);
-	const glm::vec2 normalizedDir = { dir.x / dirLength,  dir.y / dirLength };
+	const glm::vec2 normalizedDir = normalize(dir);
 	const glm::vec2 rayPoint = { midPoint.x + normalizedDir.x * rayLength, midPoint.y + normalizedDir.y * rayLength };
 
 	for (const auto& collider : m_pColliders)
