@@ -163,6 +163,7 @@
     <ClCompile Include="NameCp.cpp" />
     <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="SpawnPositionCp.cpp" />
+    <ClCompile Include="TeleportCp.cpp" />
     <ClCompile Include="TronBattleTanks.cpp" />
     <ClCompile Include="UICp.cpp" />
   </ItemGroup>
@@ -189,6 +190,8 @@
     <ClInclude Include="PlayerUIPrefab.h" />
     <ClInclude Include="Sounds.h" />
     <ClInclude Include="SpawnPositionCp.h" />
+    <ClInclude Include="TeleportCp.h" />
+    <ClInclude Include="TeleportPrefab.h" />
     <ClInclude Include="UICp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

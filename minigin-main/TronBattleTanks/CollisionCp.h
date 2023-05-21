@@ -13,6 +13,7 @@ public:
 	void AddCollider(dae::GameObject* collider);
 
 	bool CollisionHit(dae::GameObject* object, const glm::vec2& dir);
+	bool DoesOverlap(dae::GameObject* object);
 
 private:
 	std::vector<dae::GameObject*> m_pColliders;

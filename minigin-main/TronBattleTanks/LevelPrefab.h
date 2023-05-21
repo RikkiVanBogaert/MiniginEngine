@@ -5,6 +5,7 @@
 #include "SpawnPositionCp.h"
 #include "TextureComponent.h"
 #include "ResourceManager.h"
+#include "TeleportPrefab.h"
 
 using namespace dae;
 
@@ -53,13 +54,14 @@ static std::shared_ptr<GameObject> CreateLevel(Scene& scene, const std::string& 
 		case 0:
 			pTexture->SetTexture("Resources/Level/wall.png");
 			collisionCp->AddCollider(pBlock.get());
+			pBlock->SetTag("Wall");
 			break;
 		case 1:
 			pTexture->SetTexture("Resources/Level/void.png");
+			pBlock->SetTag("Teleport");
 			break;
 		case 3:
-			pTexture->SetTexture("Resources/Level/teleport.png");
-			pBlock->SetTag("Teleport");
+			CreateTeleport(scene)->SetRelativePos(pos);
 			break;
 		case 4:
 			if (amountBlueEnemySpawns % 4 == 0)

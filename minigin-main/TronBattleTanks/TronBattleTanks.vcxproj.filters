@@ -63,6 +63,9 @@
     <ClCompile Include="NameCp.cpp">
       <Filter>Game Files\Components</Filter>
     </ClCompile>
+    <ClCompile Include="TeleportCp.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerManager.h">
@@ -133,6 +136,12 @@
     </ClInclude>
     <ClInclude Include="NameCp.h">
       <Filter>Game Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="TeleportPrefab.h">
+      <Filter>Game Files\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="TeleportCp.h">
+      <Filter>Other Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
