@@ -4,6 +4,7 @@
 #include "BulletManagerCp.h"
 #include "CollisionCp.h"
 #include "GameObject.h"
+#include "LevelInfoCp.h"
 #include "SpawnPositionCp.h"
 #include "TextureComponent.h"
 #include "ResourceManager.h"
@@ -25,6 +26,9 @@ static std::shared_ptr<GameObject> CreateLevel(Scene& scene, const std::string& 
 	startObj->SetRelativePos({ 5, 400 });
 	startObj->AddComponent(startText);
 	pLevelObject->AddChild(startObj);
+
+	auto infoCp = std::make_shared<LevelInfoCp>(pLevelObject.get());
+	pLevelObject->AddComponent(infoCp);
 
 	auto collisionCp = std::make_shared<CollisionCp>(pLevelObject.get());
 	pLevelObject->AddComponent(collisionCp);

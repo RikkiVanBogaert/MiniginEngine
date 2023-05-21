@@ -66,6 +66,9 @@
     <ClCompile Include="TeleportCp.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
+    <ClCompile Include="LevelInfoCp.cpp">
+      <Filter>Game Files\Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerManager.h">
@@ -142,6 +145,9 @@
     </ClInclude>
     <ClInclude Include="TeleportCp.h">
       <Filter>Other Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelInfoCp.h">
+      <Filter>Game Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

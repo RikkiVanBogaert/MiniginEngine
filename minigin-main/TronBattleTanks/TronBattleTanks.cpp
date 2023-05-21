@@ -71,8 +71,8 @@ void LoadDaeScene()
 
 void ExplainControls()
 {
-	std::cout << "-----TRON BATTLETANKS-----\nControls:\n" 
-	<<	"Moving - WASD\n" << "Shooting(has sound) - Arrow Keys\n";
+	std::cout << "-----TRON BATTLETANKS-----\nControls:\n"
+		<< "Moving - WASD\n" << "Shooting(has sound) - Arrow Keys\n";
 }
 
 void Test(Scene&)
@@ -88,6 +88,7 @@ void LoadNewScene()
 
 	auto& waitingScene = SceneManager::GetInstance().CreateScene("WaitingScene");
 	CreateTankKeyboard(waitingScene);
+	CreateTankController(waitingScene);
 	CreateTankController(waitingScene);
 
 	auto& scene = SceneManager::GetInstance().CreateScene("Level0");
@@ -107,6 +108,9 @@ void LoadNewScene()
 
 	auto* muteUnmute = new MuteCommand{};
 	InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_M, muteUnmute);
+
+	auto* switchInput = new SwitchInputCommand{};
+	InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_I, switchInput);
 
 	ExplainControls();
 }

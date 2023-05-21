@@ -56,10 +56,15 @@ public:
     void LevelCreate();
     void ResetPlayerVars();
     void RemovePlayerFromScene(dae::GameObject* player);
+    void RemoveAllPlayersFromScene();
     void ResetScene();
-    void ReloadPlayers();
 
     void NextLevel();
+
+    void SwitchInput();
+    bool GetInput() const { return m_UsingKeyboard; }
+
+    int& GetControllerIdx() { return m_ControllerIdx; }
 
 private:
     PlayerManager() = default;
@@ -68,6 +73,9 @@ private:
 
     GameMode m_GameMode{ SinglePlayer };
     std::vector<glm::vec2> m_SpawnPositions;
+
+    int m_ControllerIdx{};
+    bool m_UsingKeyboard{};
 
     void SkipNonLevels();
 };

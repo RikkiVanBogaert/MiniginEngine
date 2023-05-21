@@ -45,7 +45,7 @@ static dae::GameObject* CreateBlueEnemy(dae::Scene& scene)
 static void CreateBlueEnemies(dae::Scene& scene, const std::vector<glm::vec2>& positions)
 {
 	constexpr glm::vec2 offset{ -8,-8 };
-	for(int i{}; i < positions.size(); ++i)
+	for(int i{}; i < 2; ++i)
 	{
 		auto enemy = CreateBlueEnemy(scene);
 		enemy->SetRelativePos(positions[i] + offset);

@@ -89,3 +89,10 @@ public:
 	MuteCommand() = default;
 	virtual void Execute() override;
 };
+
+class SwitchInputCommand final : public dae::Command
+{
+public:
+	SwitchInputCommand() = default;
+	virtual void Execute() override;
+};

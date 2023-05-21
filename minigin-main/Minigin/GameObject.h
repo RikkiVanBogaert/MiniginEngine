@@ -11,7 +11,7 @@ namespace dae
 	class ComponentBase;
 
 
-	class GameObject
+	class GameObject final
 	{
 	public:
 		virtual void Update(float deltaTime);

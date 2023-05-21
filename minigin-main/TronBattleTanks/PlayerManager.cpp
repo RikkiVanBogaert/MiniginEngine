@@ -80,6 +80,10 @@ void PlayerManager::LevelCreate()
 		scene->Add(pLivesObject);
 		CreateBlueEnemies(*scene, blueEnemySpawn->GetPos());
 		CreateRecognizers(*scene, recognizerSpawn->GetPos());
+
+		sceneManager.GetActiveScene()->Add(players[m_UsingKeyboard]);
+		players[m_UsingKeyboard]->SetRelativePos(playerSpawn->GetPos()[0]);
+
 		break;
 	case Coop:
 		amountPlayers = 2;
@@ -92,6 +96,12 @@ void PlayerManager::LevelCreate()
 		players[1]->GetComponent<dae::TextureComponent>()->SetTexture("Resources/Sprites/GreenTank.png");
 		CreateBlueEnemies(*scene, blueEnemySpawn->GetPos());
 		CreateRecognizers(*scene, recognizerSpawn->GetPos());
+
+		for (int i{}; i < amountPlayers; ++i)
+		{
+			sceneManager.GetActiveScene()->Add(players[i]);
+			players[i]->SetRelativePos(playerSpawn->GetPos()[i]);
+		}
 		break;
 	case Versus:
 		amountPlayers = 2;
@@ -104,14 +114,15 @@ void PlayerManager::LevelCreate()
 		pLivesObject2->SetTag("BluePlayer");
 		players[1]->SetTag("BluePlayer");
 		players[1]->GetComponent<dae::TextureComponent>()->SetTexture("Resources/Sprites/BlueTank.png");
+
+		for (int i{}; i < amountPlayers; ++i)
+		{
+			sceneManager.GetActiveScene()->Add(players[i]);
+			players[i]->SetRelativePos(playerSpawn->GetPos()[i]);
+		}
 		break;
 	}
 
-	for (int i{}; i < amountPlayers; ++i)
-	{
-		sceneManager.GetActiveScene()->Add(players[i]);
-		players[i]->SetRelativePos(playerSpawn->GetPos()[i]);
-	}
 
 	const auto pPointText = std::make_shared<UIPointsCp>(pPointObject.get(), "Points: ", font,
 		SDL_Color{ 255, 0, 0, 255 }, GetPlayers()[0]->GetComponent<PointsCp>());
@@ -152,6 +163,14 @@ void PlayerManager::RemovePlayerFromScene(GameObject* player)
 	}
 }
 
+void PlayerManager::RemoveAllPlayersFromScene()
+{
+	for(auto p : GetPlayers())
+	{
+		p->GetScene()->Remove(p);
+	}
+}
+
 void PlayerManager::ResetScene()
 {
 	SceneManager::GetInstance().GetActiveScene()->RemoveAll();
@@ -161,12 +180,25 @@ void PlayerManager::ResetScene()
 void PlayerManager::NextLevel()
 {
 	auto& sceneManager = SceneManager::GetInstance();
-	sceneManager.GetActiveScene()->RemoveAll();
+	const auto oldScene = sceneManager.GetActiveScene();
+	//sceneManager.GetActiveScene()->RemoveAll();
+	RemoveAllPlayersFromScene();
+	for(auto g : oldScene->GetGameObjects())
+	{
+		g->MarkForDeletion();
+	}
 	sceneManager.NextScene();
-
 	SkipNonLevels();
 
 	LevelCreate();
+
+
+}
+
+void PlayerManager::SwitchInput()
+{
+	m_UsingKeyboard = !m_UsingKeyboard;
+	std::cout << m_UsingKeyboard << '\n';
 }
 
 void PlayerManager::SkipNonLevels()

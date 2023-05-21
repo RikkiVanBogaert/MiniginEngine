@@ -42,3 +42,7 @@
 0, fff
 0, ff
 0, sdf
+0, bigboiygamer
+800, briannkkrdikzak
+100, moeder
+1100, aaaahh

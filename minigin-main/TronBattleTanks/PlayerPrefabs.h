@@ -115,8 +115,9 @@ static void CreateTankController(Scene& scene)
 	pTank->AddComponent(health);
 
 	//Controller
-	int controllerIdx{ 0 };
+	int controllerIdx{ PlayerManager::GetInstance().GetControllerIdx() };
 	dae::InputManager::GetInstance().AddController(controllerIdx);
+	++PlayerManager::GetInstance().GetControllerIdx();
 	Controller::ControllerButton button{};
 
 

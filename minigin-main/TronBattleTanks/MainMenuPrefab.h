@@ -31,24 +31,43 @@ static void CreateMainMenu(Scene& scene)
 	quitObj->AddComponent(quitText);
 	pMenuObj->AddChild(quitObj);
 
-	const auto switchGameModeObj = std::make_shared<GameObject>();
-	const auto switchGameModeText = std::make_shared<TextComponent>(switchGameModeObj.get(), "Switch GameMode (Shift)", font, SDL_Color{ 255, 255, 255 });
-	switchGameModeObj->SetRelativePos({ 140, 280 });
-	switchGameModeObj->AddComponent(switchGameModeText);
-	pMenuObj->AddChild(switchGameModeObj);
+	//GameMode
+	{
+		const auto switchGameModeObj = std::make_shared<GameObject>();
+		const auto switchGameModeText = std::make_shared<TextComponent>(switchGameModeObj.get(), "Switch GameMode (Shift)", font, SDL_Color{ 255, 255, 255 });
+		switchGameModeObj->SetRelativePos({ 150, 280 });
+		switchGameModeObj->AddComponent(switchGameModeText);
+		pMenuObj->AddChild(switchGameModeObj);
 
-	const auto m_pGameModeObject = std::make_shared<GameObject>();
-	m_pGameModeObject->SetTag("GameMode");
-	auto m_pGameModeText = std::make_shared<TextComponent>(m_pGameModeObject.get(), "SinglePlayer", smallFont, SDL_Color{ 255, 255, 255 });
-	m_pGameModeObject->SetRelativePos({ 190, 320 });
-	m_pGameModeObject->AddComponent(m_pGameModeText);
-	pMenuObj->AddChild(m_pGameModeObject);
+		const auto m_pGameModeObject = std::make_shared<GameObject>();
+		m_pGameModeObject->SetTag("GameMode");
+		auto m_pGameModeText = std::make_shared<TextComponent>(m_pGameModeObject.get(), "SinglePlayer", smallFont, SDL_Color{ 255, 255, 255 });
+		m_pGameModeObject->SetRelativePos({ 200, 320 });
+		m_pGameModeObject->AddComponent(m_pGameModeText);
+		pMenuObj->AddChild(m_pGameModeObject);
+	}
 
-	const auto nextLevelObj = std::make_shared<GameObject>();
+	//Input
+	{
+		const auto switchInputObj = std::make_shared<GameObject>();
+		const auto switchInputText = std::make_shared<TextComponent>(switchInputObj.get(), "Switch Input (I)", font, SDL_Color{ 255, 255, 255 });
+		switchInputObj->SetRelativePos({ 150, 350 });
+		switchInputObj->AddComponent(switchInputText);
+		pMenuObj->AddChild(switchInputObj);
+
+		const auto inputObj = std::make_shared<GameObject>();
+		inputObj->SetTag("Input");
+		auto inputText = std::make_shared<TextComponent>(inputObj.get(), "Keyboard", smallFont, SDL_Color{ 255, 255, 255 });
+		inputObj->SetRelativePos({ 200, 390 });
+		inputObj->AddComponent(inputText);
+		pMenuObj->AddChild(inputObj);
+	}
+
+	/*const auto nextLevelObj = std::make_shared<GameObject>();
 	const auto nextLevelText = std::make_shared<TextComponent>(nextLevelObj.get(), "Next Level (N)", smallFont, SDL_Color{ 255, 255, 255 });
 	nextLevelObj->SetRelativePos({ 10, 430 });
 	nextLevelObj->AddComponent(nextLevelText);
-	pMenuObj->AddChild(nextLevelObj);
+	pMenuObj->AddChild(nextLevelObj);*/
 
 	//INPUT
 	auto* skipLevel = new SkipLevelCommand{};

@@ -193,6 +193,32 @@ void ResetGameCommand::Execute()
 
 void MuteCommand::Execute()
 {
-	auto& ss = servicelocator::get_sound_system();
+	auto& ss = servicelocator::get_sound_system(); 
 	ss.MuteUnmuteSound();
+}
+
+void SwitchInputCommand::Execute()
+{
+	if (GetKeyPressed()) return;
+
+	if (SceneManager::GetInstance().GetActiveSceneName() != "MainMenu")
+		return;
+
+
+	const auto inputObject = GetGameObject(SceneManager::GetInstance().GetActiveScene(), "Input");
+	const auto inputText = inputObject->GetComponent<TextComponent>();
+
+	PlayerManager::GetInstance().SwitchInput();
+
+	if(PlayerManager::GetInstance().GetInput())
+	{
+		inputText->SetText("Controller");
+	}
+	else
+	{
+		inputText->SetText("Keyboard");
+	}
+
+
+	SetKeyPressed(true);
 }
