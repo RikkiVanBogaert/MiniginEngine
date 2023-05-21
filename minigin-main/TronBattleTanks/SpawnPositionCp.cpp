@@ -8,6 +8,11 @@ PlayerSpawnPosCp::PlayerSpawnPosCp(dae::GameObject* owner):
 SpawnPositionCp(owner)
 {}
 
-EnemySpawnPosCp::EnemySpawnPosCp(dae::GameObject* owner) :
+BlueEnemySpawnPosCp::BlueEnemySpawnPosCp(dae::GameObject* owner) :
 	SpawnPositionCp(owner)
 {}
+
+RecognizerSpawnPosCp::RecognizerSpawnPosCp(dae::GameObject* owner):
+SpawnPositionCp(owner)
+{
+}

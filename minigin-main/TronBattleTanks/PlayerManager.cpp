@@ -38,13 +38,15 @@ void PlayerManager::LevelCreate()
 
 	const auto sceneObjects = sceneManager.GetActiveScene()->GetGameObjects();
 	const PlayerSpawnPosCp* playerSpawn{};
-	const EnemySpawnPosCp* enemySpawn{};
+	const BlueEnemySpawnPosCp* blueEnemySpawn{};
+	const RecognizerSpawnPosCp* recognizerSpawn{};
 	for (auto& o : sceneObjects)
 	{
 		if (o->GetTag() != "Level") continue;
 
 		playerSpawn = o->GetComponent<PlayerSpawnPosCp>();
-		enemySpawn = o->GetComponent<EnemySpawnPosCp>();
+		blueEnemySpawn = o->GetComponent<BlueEnemySpawnPosCp>();
+		recognizerSpawn = o->GetComponent<RecognizerSpawnPosCp>();
 		break;
 	}
 
@@ -76,7 +78,8 @@ void PlayerManager::LevelCreate()
 	case SinglePlayer:
 		scene->Add(pPointObject);
 		scene->Add(pLivesObject);
-		CreateEnemies(*scene, enemySpawn->GetPos());
+		CreateBlueEnemies(*scene, blueEnemySpawn->GetPos());
+		CreateRecognizers(*scene, recognizerSpawn->GetPos());
 		break;
 	case Coop:
 		amountPlayers = 2;
@@ -87,7 +90,8 @@ void PlayerManager::LevelCreate()
 		scene->Add(pLivesObject2);
 		players[1]->SetTag("RedPlayer");
 		players[1]->GetComponent<dae::TextureComponent>()->SetTexture("Resources/Sprites/GreenTank.png");
-		CreateEnemies(*scene, enemySpawn->GetPos());
+		CreateBlueEnemies(*scene, blueEnemySpawn->GetPos());
+		CreateRecognizers(*scene, recognizerSpawn->GetPos());
 		break;
 	case Versus:
 		amountPlayers = 2;

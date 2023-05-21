@@ -10,8 +10,9 @@
 #include "TextComponent.h"
 #include "UICp.h"
 
-BulletCollisionCp::BulletCollisionCp(dae::GameObject* owner):
-ComponentBase(owner)
+BulletCollisionCp::BulletCollisionCp(dae::GameObject* owner, int pointsGivenOnKill):
+ComponentBase(owner),
+m_PointsGivenOnKill(pointsGivenOnKill)
 {
 	m_pCollisionCp = m_pOwner->GetComponent<CollisionCp>();
 }
@@ -51,7 +52,7 @@ void BulletCollisionCp::GetHit(dae::GameObject* shooter)
 	if (!shooter->GetComponent<PointsCp>()) return;
 
 	const auto shooterPoints = shooter->GetComponent<PointsCp>();
-	shooterPoints->ChangeAmount(100);
+	shooterPoints->ChangeAmount(m_PointsGivenOnKill);
 	if (auto pointsText = GetComponentInScene<dae::UIPointsCp>(m_pOwner->GetScene(), shooter->GetTag()))
 	{
 		const std::string text = std::to_string(shooterPoints->GetAmount());

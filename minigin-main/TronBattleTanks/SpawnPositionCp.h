@@ -21,8 +21,14 @@ public:
 	PlayerSpawnPosCp(dae::GameObject* owner);
 };
 
-class EnemySpawnPosCp final : public SpawnPositionCp
+class BlueEnemySpawnPosCp final : public SpawnPositionCp
 {
 public:
-	EnemySpawnPosCp(dae::GameObject* owner);
+	BlueEnemySpawnPosCp(dae::GameObject* owner);
+};
+
+class RecognizerSpawnPosCp final : public SpawnPositionCp
+{
+public:
+	RecognizerSpawnPosCp(dae::GameObject* owner);
 };

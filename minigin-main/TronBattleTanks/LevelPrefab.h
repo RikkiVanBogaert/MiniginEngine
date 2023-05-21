@@ -20,8 +20,11 @@ static std::shared_ptr<GameObject> CreateLevel(Scene& scene, const std::string& 
 	auto playerSpawnPosCp = std::make_shared<PlayerSpawnPosCp>(pLevelObject.get());
 	pLevelObject->AddComponent(playerSpawnPosCp);
 
-	auto enemySpawnPosCp = std::make_shared<EnemySpawnPosCp>(pLevelObject.get());
-	pLevelObject->AddComponent(enemySpawnPosCp);
+	auto blueEnemySpawnPosCp = std::make_shared<BlueEnemySpawnPosCp>(pLevelObject.get());
+	pLevelObject->AddComponent(blueEnemySpawnPosCp);
+
+	auto recognizerSpawnPosCp = std::make_shared<RecognizerSpawnPosCp>(pLevelObject.get());
+	pLevelObject->AddComponent(recognizerSpawnPosCp);
 
 	//Create Map
 	constexpr int columns = 58;
@@ -30,7 +33,8 @@ static std::shared_ptr<GameObject> CreateLevel(Scene& scene, const std::string& 
 	constexpr glm::vec2 startPos{ 100,20 };
 	glm::vec2 pos{ startPos };
 	int amountPlayerSpawns{};
-	int amountEnemySpawns{};
+	int amountBlueEnemySpawns{};
+	int amountRecognizerSpawns{};
 	for (size_t i{}; i < map.size(); ++i)
 	{
 		auto pBlock = std::make_shared<GameObject>();
@@ -56,13 +60,18 @@ static std::shared_ptr<GameObject> CreateLevel(Scene& scene, const std::string& 
 		case 3:
 			pTexture->SetTexture("Resources/Level/teleport.png");
 			pBlock->SetTag("Teleport");
-			//m_pTeleport.push_back(pBlock.get());
 			break;
 		case 4:
-			if (amountEnemySpawns % 4 == 0)
-				enemySpawnPosCp->AddPos(pos);
+			if (amountBlueEnemySpawns % 4 == 0)
+				blueEnemySpawnPosCp->AddPos(pos);
 
-			++amountEnemySpawns;
+			++amountBlueEnemySpawns;
+			break;
+		case 5:
+			if (amountRecognizerSpawns % 4 == 0)
+				recognizerSpawnPosCp->AddPos(pos);
+
+			++amountRecognizerSpawns;
 			break;
 		case 6:
 			if(amountPlayerSpawns % 4 == 0)
@@ -71,7 +80,6 @@ static std::shared_ptr<GameObject> CreateLevel(Scene& scene, const std::string& 
 			++amountPlayerSpawns;
 			break;
 		default:
-			//m_pPaths.push_back(pBlock.get());
 			break;
 		}
 

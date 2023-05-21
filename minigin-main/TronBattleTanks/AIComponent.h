@@ -12,7 +12,7 @@ class BulletManagerCp;
 class AIComponent final : public dae::ComponentBase
 {
 public:
-	AIComponent(dae::GameObject* owner);
+	AIComponent(dae::GameObject* owner, float speed = 30);
 	virtual ~AIComponent() = default;
 
 	AIComponent(const AIComponent& other) = delete;
@@ -28,9 +28,10 @@ private:
 	bool m_HasShot{};
 	float m_ShootTimer{};
 	float m_ShootTime{};
+	const float m_Speed;
 	std::vector<std::shared_ptr<dae::GameObject>> m_pPlayers;
-	CollisionCp* m_pLevelCollision;
-	BulletManagerCp* m_pBulletManager;
+	CollisionCp* m_pLevelCollision{};
+	BulletManagerCp* m_pBulletManager{};
 
 	void Init();
 	void UpdateShootTimer(float deltaTime);

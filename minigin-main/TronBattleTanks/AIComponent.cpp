@@ -7,9 +7,10 @@
 #include "CollisionCp.h"
 #include "MoveCp.h"
 
-AIComponent::AIComponent(dae::GameObject* owner):
+AIComponent::AIComponent(dae::GameObject* owner, float speed):
 	ComponentBase(owner),
-	m_ShootTime{3}
+	m_ShootTime{3},
+	m_Speed(speed)
 {
 }
 
@@ -99,12 +100,11 @@ void AIComponent::GoToPlayer(float deltaTime)
 		}
 	}
 
-	
-	constexpr float speed{ 50 };
-	constexpr glm::vec2 up{ 0,-speed };
-	constexpr glm::vec2 down{ 0,speed };
-	constexpr glm::vec2 left{ -speed, 0 };
-	constexpr glm::vec2 right{ speed, 0 };
+
+	const glm::vec2 up{ 0,-m_Speed };
+	const glm::vec2 down{ 0,m_Speed };
+	const glm::vec2 left{ -m_Speed, 0 };
+	const glm::vec2 right{ m_Speed, 0 };
 
 	const glm::vec2 playerPos{ pPlayer->GetWorldTransform() };
 	const glm::vec2 ownerPos{ m_pOwner->GetWorldTransform() };
