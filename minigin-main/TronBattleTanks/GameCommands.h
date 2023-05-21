@@ -78,3 +78,10 @@ public:
 	SwitchGameModeCommand() = default;
 	virtual void Execute() override;
 };
+
+class ResetGameCommand final : public dae::Command
+{
+public:
+	ResetGameCommand() = default;
+	virtual void Execute() override;
+};

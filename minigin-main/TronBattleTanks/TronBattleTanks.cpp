@@ -101,7 +101,9 @@ void LoadNewScene()
 
 	auto& gameOverScene = SceneManager::GetInstance().CreateScene("GameOver");
 	gameOverScene;
-	//CreateGameOver(gameOverScene);
+
+	auto* resetGame = new ResetGameCommand{};
+	InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_R, resetGame);
 
 	ExplainControls();
 }

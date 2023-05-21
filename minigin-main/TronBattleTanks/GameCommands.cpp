@@ -138,12 +138,12 @@ void SkipLevelCommand::SkipNonLevels()
 void StartGameCommand::Execute()
 {
 	if (GetKeyPressed()) return;
+
 	if (dae::SceneManager::GetInstance().GetActiveSceneName() != "MainMenu")
 	{
 		SetKeyPressed(true);
 		return;
 	}
-
 
 	const std::string nameScene{"Level0"};
 	auto& sceneManager = SceneManager::GetInstance();
@@ -189,4 +189,18 @@ void SwitchGameModeCommand::Execute()
 	}
 
 	SetKeyPressed(true);
+}
+
+void ResetGameCommand::Execute()
+{
+	if (GetKeyPressed()) return;
+
+	if (dae::SceneManager::GetInstance().GetActiveSceneName() != "GameOver")
+		return;
+	
+	auto& sceneManager = SceneManager::GetInstance();
+	sceneManager.GetActiveScene()->RemoveAll();
+	sceneManager.SetActiveScene("MainMenu");
+	SetKeyPressed(true);
+	
 }

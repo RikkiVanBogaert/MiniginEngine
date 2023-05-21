@@ -1,7 +1,11 @@
 #pragma once
 #include <memory>
 #include <SDL_pixels.h>
-#include <string>
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <algorithm>
+#include <sstream>
 
 #include "BaseComponent.h"
 
@@ -24,7 +28,19 @@ private:
 	std::unique_ptr<dae::TextComponent> m_pText;
 	std::string m_Name{};
 	float m_Timer{};
+	bool m_NameSet{};
+	struct Record
+	{
+		int score;
+		std::string name;
+	};
+	std::vector<Record> m_HighScores{};
 
 	void EnterName(float deltaTime);
+	void WriteToHighScores(const std::string& name);
+
+
+	void SortAndPrintNames(const std::string& filename);
+	void ShowHighScores();
 };
 
