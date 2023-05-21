@@ -37,3 +37,8 @@
 0, nice
 350, epicgamer
 100, piemel
+0, pien
+0, kak
+0, fff
+0, ff
+0, sdf

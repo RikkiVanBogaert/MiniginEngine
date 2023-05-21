@@ -158,7 +158,23 @@ void PlayerManager::ResetScene()
 	LevelCreate();
 }
 
-void PlayerManager::ReloadPlayers()
+void PlayerManager::NextLevel()
 {
+	auto& sceneManager = SceneManager::GetInstance();
+	sceneManager.GetActiveScene()->RemoveAll();
+	sceneManager.NextScene();
 
+	SkipNonLevels();
+
+	LevelCreate();
+}
+
+void PlayerManager::SkipNonLevels()
+{
+	const auto sceneName = SceneManager::GetInstance().GetActiveScene()->GetName();
+	if (sceneName == "WaitingScene" || sceneName == "MainMenu" || sceneName == "GameOver")
+	{
+		SceneManager::GetInstance().NextScene();
+		SkipNonLevels();
+	}
 }

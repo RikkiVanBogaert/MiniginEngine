@@ -59,6 +59,8 @@ public:
     void ResetScene();
     void ReloadPlayers();
 
+    void NextLevel();
+
 private:
     PlayerManager() = default;
 
@@ -66,5 +68,7 @@ private:
 
     GameMode m_GameMode{ SinglePlayer };
     std::vector<glm::vec2> m_SpawnPositions;
+
+    void SkipNonLevels();
 };
 

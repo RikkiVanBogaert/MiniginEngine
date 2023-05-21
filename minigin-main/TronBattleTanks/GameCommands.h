@@ -52,9 +52,6 @@ public:
 	SkipLevelCommand() = default;
 	virtual void Execute() override;
 
-private:
-	void SkipNonLevels();
-
 };
 
 class StartGameCommand final : public dae::Command
@@ -83,5 +80,12 @@ class ResetGameCommand final : public dae::Command
 {
 public:
 	ResetGameCommand() = default;
+	virtual void Execute() override;
+};
+
+class MuteCommand final : public dae::Command
+{
+public:
+	MuteCommand() = default;
 	virtual void Execute() override;
 };

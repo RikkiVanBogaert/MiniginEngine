@@ -12,6 +12,7 @@
 static dae::GameObject* CreateBlueEnemy(dae::Scene& scene)
 {
 	auto pTank = std::make_shared<dae::GameObject>();
+	pTank->SetTag("Enemy");
 	scene.Add(pTank);
 	
 	//Texture
@@ -55,6 +56,7 @@ static void CreateBlueEnemies(dae::Scene& scene, const std::vector<glm::vec2>& p
 static dae::GameObject* CreateRecognizer(dae::Scene& scene)
 {
 	auto pTank = std::make_shared<dae::GameObject>();
+	pTank->SetTag("Enemy");
 	scene.Add(pTank);
 
 	//Texture

@@ -1,4 +1,6 @@
 #pragma once
+#include <SDL_pixels.h>
+
 #include "BulletManagerCp.h"
 #include "CollisionCp.h"
 #include "GameObject.h"
@@ -6,6 +8,7 @@
 #include "TextureComponent.h"
 #include "ResourceManager.h"
 #include "TeleportPrefab.h"
+#include "TextComponent.h"
 
 using namespace dae;
 
@@ -14,6 +17,14 @@ static std::shared_ptr<GameObject> CreateLevel(Scene& scene, const std::string& 
 	auto pLevelObject = std::make_shared<GameObject>();
 	scene.Add(pLevelObject);
 	pLevelObject->SetTag("Level");
+
+	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 13);
+	
+	const auto startObj = std::make_shared<GameObject>();
+	const auto startText = std::make_shared<TextComponent>(startObj.get(), "Skip Level (N)", font, SDL_Color{ 255, 255, 255 });
+	startObj->SetRelativePos({ 5, 400 });
+	startObj->AddComponent(startText);
+	pLevelObject->AddChild(startObj);
 
 	auto collisionCp = std::make_shared<CollisionCp>(pLevelObject.get());
 	pLevelObject->AddComponent(collisionCp);

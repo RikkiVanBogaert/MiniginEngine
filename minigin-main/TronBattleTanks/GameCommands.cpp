@@ -1,4 +1,6 @@
 #include "GameCommands.h"
+
+#include "AudioService.h"
 #include "GameObject.h"
 #include "CounterCp.h"
 #include "SceneManager.h"
@@ -114,25 +116,9 @@ void SkipLevelCommand::Execute()
 		return;
 	}
 
-	sceneManager.GetActiveScene()->RemoveAll();
-	sceneManager.NextScene();
-
-	SkipNonLevels();
-
-	PlayerManager::GetInstance().LevelCreate();
+	PlayerManager::GetInstance().NextLevel();
 	
 	SetKeyPressed(true);
-}
-
-void SkipLevelCommand::SkipNonLevels()
-{
-	const auto sceneName = SceneManager::GetInstance().GetActiveScene()->GetName();
-	if (sceneName == "WaitingScene" || sceneName == "MainMenu" || sceneName == "GameOver")
-	{
-		SceneManager::GetInstance().NextScene();
-		SetKeyPressed(true);
-		SkipNonLevels();
-	}
 }
 
 void StartGameCommand::Execute()
@@ -195,7 +181,7 @@ void ResetGameCommand::Execute()
 {
 	if (GetKeyPressed()) return;
 
-	if (dae::SceneManager::GetInstance().GetActiveSceneName() != "GameOver")
+	if (SceneManager::GetInstance().GetActiveSceneName() != "GameOver")
 		return;
 	
 	auto& sceneManager = SceneManager::GetInstance();
@@ -203,4 +189,10 @@ void ResetGameCommand::Execute()
 	sceneManager.SetActiveScene("MainMenu");
 	SetKeyPressed(true);
 	
+}
+
+void MuteCommand::Execute()
+{
+	auto& ss = servicelocator::get_sound_system();
+	ss.MuteUnmuteSound();
 }

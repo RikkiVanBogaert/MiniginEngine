@@ -10,10 +10,11 @@ inline dae::GameObject* GetGameObject(dae::Scene* scene, const std::string& tag)
 {
 	for (const auto o : scene->GetGameObjects())
 	{
-		if (o->GetTag() == tag)
-		{
-			return o.get();
-		}
+        if(o->NeedsDeleting()) continue;
+        if (o->GetTag() != tag) continue;
+
+		return o.get();
+	
 	}
 	return nullptr;
 }

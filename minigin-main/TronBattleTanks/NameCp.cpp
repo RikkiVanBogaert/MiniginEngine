@@ -128,9 +128,9 @@ void NameCp::SortAndPrintNames(const std::string& filename)
 void NameCp::ShowHighScores()
 {
     auto mainObj = GetGameObject(m_pOwner->GetScene(), "Main");
-    auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
+    auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 16);
     glm::vec2 pos{ 350, 190 };
-    for(int i{}; i < 5; ++i)
+    for(int i{}; i < 10; ++i)
     {
         if (i >= m_HighScores.size()) return;
 
@@ -141,6 +141,6 @@ void NameCp::ShowHighScores()
         o->SetTag("Highscore");
         o->SetRelativePos(pos);
         mainObj->AddChild(o);
-        pos.y += 30;
+        pos.y += 25;
     }
 }

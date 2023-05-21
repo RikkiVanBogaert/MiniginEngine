@@ -8,6 +8,7 @@ public:
 	virtual ~sound_system() = default;
 	virtual void play(const sound_id id, const int volume) = 0;
 	virtual void addSound(const std::string& soundName) = 0;
+	virtual void MuteUnmuteSound() = 0;
 };
 
 class sdl_sound_system final : public sound_system
@@ -28,9 +29,9 @@ public:
 
 	void addSound(const std::string& soundName)
 	{
-		audioClips.emplace_back(std::shared_ptr<Mix_Chunk>(Mix_LoadWAV(soundName.c_str()), Mix_FreeChunk));
+		m_AudioClips.emplace_back(std::shared_ptr<Mix_Chunk>(Mix_LoadWAV(soundName.c_str()), Mix_FreeChunk));
 
-		if (!audioClips[audioClips.size() - 1]) 
+		if (!m_AudioClips[m_AudioClips.size() - 1]) 
 		{
 			std::cout << "Failed to load sound effect: " << soundName << '\n';
 		}
@@ -38,15 +39,23 @@ public:
 
 	void play(const sound_id id, const int volume)
 	{
-		if (id >= audioClips.size()) return;
+		if (m_IsMuted) return;
 
-		auto audioclip = audioClips[id];
+		if (id >= m_AudioClips.size()) return;
+
+		auto audioclip = m_AudioClips[id];
 		Mix_Volume(-1, volume);
 		Mix_PlayChannel(-1, audioclip.get(), 0); //third argument is amount of loops
 	}
 
+	void MuteUnmuteSound()
+	{
+		m_IsMuted = !m_IsMuted;
+	}
+
 private:
-	std::vector<std::shared_ptr<Mix_Chunk>> audioClips;
+	std::vector<std::shared_ptr<Mix_Chunk>> m_AudioClips;
+	bool m_IsMuted{};
 };
 
 class logging_sound_system final : public sound_system
@@ -67,12 +76,19 @@ public:
 		_real_ss->addSound(soundName);
 		std::cout << "adding sound: " << soundName << std::endl;
 	}
+
+	void MuteUnmuteSound() override
+	{
+		_real_ss->MuteUnmuteSound();
+		std::cout << "muting/unmuting sound\n";
+	}
 };
 
 class null_sound_system final : public sound_system
 {
 	void play(const sound_id, const int) override {}
 	void addSound(const std::string& ) override {}
+	void MuteUnmuteSound() override {};
 };
 
 class servicelocator final

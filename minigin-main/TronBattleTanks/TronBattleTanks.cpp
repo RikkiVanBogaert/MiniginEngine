@@ -105,6 +105,9 @@ void LoadNewScene()
 	auto* resetGame = new ResetGameCommand{};
 	InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_R, resetGame);
 
+	auto* muteUnmute = new MuteCommand{};
+	InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_M, muteUnmute);
+
 	ExplainControls();
 }
 
