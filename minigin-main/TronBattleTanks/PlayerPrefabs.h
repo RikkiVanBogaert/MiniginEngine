@@ -8,6 +8,7 @@
 #include "DerCounterCps.h"
 #include "GameCommands.h"
 #include "InputManager.h"
+#include "MoveCp.h"
 #include "PlayerManager.h"
 #include "Scene.h"
 #include "TextureComponent.h"
@@ -47,6 +48,9 @@ static void CreateTankKeyboard(Scene& scene)
 	pTank->AddComponent(health);
 
 	//Movement
+	auto moveCp = std::make_shared<MoveCp>(pTank.get(), 50.f);
+	pTank->AddComponent(moveCp);
+
 	constexpr float speed{ 1.5f };
 	glm::vec3 up = { 0.f,-speed,0.f };
 	glm::vec3 down = { 0.f,speed,0.f };
@@ -122,6 +126,9 @@ static void CreateTankController(Scene& scene)
 
 
 	//Movement
+	auto moveCp = std::make_shared<MoveCp>(pTank.get(), 50.f);
+	pTank->AddComponent(moveCp);
+
 	constexpr float speed{ 1.5f };
 	glm::vec3 up = { 0.f,-speed,0.f };
 	glm::vec3 down = { 0.f,speed,0.f };

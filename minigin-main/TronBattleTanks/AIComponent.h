@@ -30,12 +30,15 @@ private:
 	float m_ShootTime{};
 	const float m_Speed;
 	std::vector<std::shared_ptr<dae::GameObject>> m_pPlayers;
+	dae::GameObject* m_pClosestPlayer{};
 	CollisionCp* m_pLevelCollision{};
 	BulletManagerCp* m_pBulletManager{};
+
 
 	void Init();
 	void UpdateShootTimer(float deltaTime);
 	bool PlayerInSight(glm::vec2& bulletDir);
 	void GoToPlayer(float);
+	void GetClosestPlayer();
 };
 

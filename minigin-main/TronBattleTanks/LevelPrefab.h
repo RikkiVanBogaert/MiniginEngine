@@ -1,9 +1,9 @@
 #pragma once
 #include <SDL_pixels.h>
 
-#include "BulletManagerCp.h"
 #include "CollisionCp.h"
 #include "GameObject.h"
+#include "GridCp.h"
 #include "LevelInfoCp.h"
 #include "SpawnPositionCp.h"
 #include "TextureComponent.h"
@@ -41,6 +41,9 @@ static std::shared_ptr<GameObject> CreateLevel(Scene& scene, const std::string& 
 
 	auto recognizerSpawnPosCp = std::make_shared<RecognizerSpawnPosCp>(pLevelObject.get());
 	pLevelObject->AddComponent(recognizerSpawnPosCp);
+
+	auto gridCp = std::make_shared<GridCp>(pLevelObject.get());
+	pLevelObject->AddComponent(gridCp);
 
 	//Create Map
 	constexpr int columns = 58;
@@ -99,6 +102,7 @@ static std::shared_ptr<GameObject> CreateLevel(Scene& scene, const std::string& 
 		default:
 			break;
 		}
+		gridCp->AddCell({ pBlock->GetTag(), pos });
 
 		pos.x += size;
 

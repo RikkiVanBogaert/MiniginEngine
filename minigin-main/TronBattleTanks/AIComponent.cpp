@@ -18,6 +18,7 @@ void AIComponent::Update(float deltaTime)
 {
 	Init();
 
+	GetClosestPlayer();
 	glm::vec2 bulletDir{};
 	if(PlayerInSight(bulletDir) && !m_HasShot)
 	{
@@ -57,56 +58,37 @@ void AIComponent::UpdateShootTimer(float deltaTime)
 
 bool AIComponent::PlayerInSight(glm::vec2& bulletDir)
 {
-	for (auto p : m_pPlayers)
-	{
-		if (p->NeedsDeleting()) continue;
+	const glm::vec2 start{ m_pClosestPlayer->GetWorldTransform() };
+	glm::vec2 end{ m_pOwner->GetWorldTransform() };
+	const float playerSize{ m_pClosestPlayer->GetSize().x / 2 };
+	const glm::vec2 tankMidPos{ start.x + playerSize / 2, start.y + playerSize / 2 };
 
-		const glm::vec2 start{ p->GetWorldTransform() };
-		glm::vec2 end{ m_pOwner->GetWorldTransform() };
-		const float playerSize{ p->GetSize().x / 2 };
-		const glm::vec2 tankMidPos{ start.x + playerSize / 2, start.y + playerSize / 2 };
+	//Straight line
+	if (!(tankMidPos.x > end.x && tankMidPos.x < end.x + playerSize)
+		&& !(tankMidPos.y > end.y && tankMidPos.y < end.y + playerSize))
+		return false;
 
-		//Straight line
-		if (!(tankMidPos.x > end.x && tankMidPos.x < end.x + playerSize)
-			&& !(tankMidPos.y > end.y && tankMidPos.y < end.y + playerSize))
-			return false;
+	const auto playerPos = m_pClosestPlayer->GetRelativeTransform();
+	const auto playerDir = playerPos - m_pOwner->GetRelativeTransform();
+	const float dirLength = sqrtf(playerDir.x * playerDir.x + playerDir.y * playerDir.y);
+	const glm::vec2 playerDirNormalized = { playerDir.x / dirLength, playerDir.y / dirLength };
+	constexpr float bulletSpeed{ 250 };
+	bulletDir = { playerDirNormalized.x * bulletSpeed, playerDirNormalized.y * bulletSpeed };
+	return true;
 
-		const auto playerPos = p->GetRelativeTransform();
-		const auto playerDir = playerPos - m_pOwner->GetRelativeTransform();
-		const float dirLength = sqrtf(playerDir.x * playerDir.x + playerDir.y * playerDir.y);
-		const glm::vec2 playerDirNormalized = { playerDir.x / dirLength, playerDir.y / dirLength };
-		constexpr float bulletSpeed{ 250 };
-		bulletDir = { playerDirNormalized.x * bulletSpeed, playerDirNormalized.y * bulletSpeed };
-		return true;
-
-		//Still need to check whether there is wall between enemy and player---
-		//if(!m_pLevelCollision->CollisionHit(m_pOwner, playerPos))
-	}
-	return false;
+	//Still need to check whether there is wall between enemy and player---
+	//if(!m_pLevelCollision->CollisionHit(m_pOwner, playerPos))
 }
 
-void AIComponent::GoToPlayer(float deltaTime)
+void AIComponent::GoToPlayer(float)
 {
-	//check closest player
-	dae::GameObject* pPlayer{};
-	float closestDistance{ INFINITY };
-	for(auto p :m_pPlayers)
-	{
-		float d = distance(p->GetWorldTransform(), m_pOwner->GetWorldTransform());
-		if (d < closestDistance)
-		{
-			closestDistance = d;
-			pPlayer = p.get();
-		}
-	}
-
 
 	const glm::vec2 up{ 0,-m_Speed };
 	const glm::vec2 down{ 0,m_Speed };
 	const glm::vec2 left{ -m_Speed, 0 };
 	const glm::vec2 right{ m_Speed, 0 };
 
-	const glm::vec2 playerPos{ pPlayer->GetWorldTransform() };
+	const glm::vec2 playerPos{ m_pClosestPlayer->GetWorldTransform() };
 	const glm::vec2 ownerPos{ m_pOwner->GetWorldTransform() };
 
 	
@@ -116,14 +98,14 @@ void AIComponent::GoToPlayer(float deltaTime)
 		{
 			if (!m_pLevelCollision->CollisionHit(m_pOwner, up))
 			{
-				m_pOwner->GetComponent<MoveCp>()->Move(deltaTime, up);
+				m_pOwner->GetComponent<MoveCp>()->Move( up);
 			}
 		}
 		else
 		{
 			if (!m_pLevelCollision->CollisionHit(m_pOwner, up))
 			{
-				m_pOwner->GetComponent<MoveCp>()->Move(deltaTime, down);
+				m_pOwner->GetComponent<MoveCp>()->Move(down);
 			}
 		}
 	}
@@ -133,15 +115,33 @@ void AIComponent::GoToPlayer(float deltaTime)
 		{
 			if (!m_pLevelCollision->CollisionHit(m_pOwner, left))
 			{
-				m_pOwner->GetComponent<MoveCp>()->Move(deltaTime, left);
+				m_pOwner->GetComponent<MoveCp>()->Move(left);
 			}
 		}
 		else
 		{
 			if (!m_pLevelCollision->CollisionHit(m_pOwner, right))
 			{
-				m_pOwner->GetComponent<MoveCp>()->Move(deltaTime, right);
+				m_pOwner->GetComponent<MoveCp>()->Move( right);
 			}
+		}
+	}
+}
+
+void AIComponent::GetClosestPlayer()
+{
+	//check closest player
+	float closestDistance{ INFINITY };
+
+	for (auto p : m_pPlayers)
+	{
+		if (!p->GetScene()->IsActive()) continue;
+
+		float d = distance(p->GetWorldTransform(), m_pOwner->GetWorldTransform());
+		if (d < closestDistance)
+		{
+			closestDistance = d;
+			m_pClosestPlayer = p.get();
 		}
 	}
 }

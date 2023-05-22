@@ -7,7 +7,6 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "LevelPrefab.h"
-#include "TextComponent.h"
 #include "TextureComponent.h"
 #include "UICp.h"
 

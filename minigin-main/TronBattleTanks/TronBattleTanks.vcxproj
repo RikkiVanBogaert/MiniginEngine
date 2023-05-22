@@ -159,6 +159,7 @@
     <ClCompile Include="DerCounterCps.cpp" />
     <ClCompile Include="GameCommands.cpp" />
     <ClCompile Include="GameEvents.cpp" />
+    <ClCompile Include="GridCp.cpp" />
     <ClCompile Include="LevelInfoCp.cpp" />
     <ClCompile Include="MoveCp.cpp" />
     <ClCompile Include="NameCp.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="CreatePlayers.h" />
     <ClInclude Include="DerCounterCps.h" />
     <ClInclude Include="GameOverPrefab.h" />
+    <ClInclude Include="GridCp.h" />
     <ClInclude Include="LevelInfoCp.h" />
     <ClInclude Include="LevelPrefab.h" />
     <ClInclude Include="EnemyPrefab.h" />

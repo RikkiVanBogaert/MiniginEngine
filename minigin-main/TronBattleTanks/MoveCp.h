@@ -6,8 +6,13 @@
 class MoveCp final : public dae::ComponentBase
 {
 public:
-	MoveCp(dae::GameObject* owner);
+	MoveCp(dae::GameObject* owner, float speed);
 
-	void Move(float deltaT, const glm::vec2 dir);
+	void Update(float deltaTime) override;
+	void Move(const glm::vec2& dir);
+
+private:
+	const float m_Speed;
+	float m_DeltaT{};
 };
 

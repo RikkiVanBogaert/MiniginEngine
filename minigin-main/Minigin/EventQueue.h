@@ -37,18 +37,21 @@ public:
         return !queue.empty();
     }
 
-    TimeType getCurrent_time() const {
+    TimeType getCurrent_time() const
+	{
         return current_time;
     }
 
-    TimeType next_time() const {
+    TimeType next_time() const
+	{
         if (queue.empty()) {
             return current_time;
         }
         return queue.top().first;
     }
 
-    void process_next() {
+    void process_next()
+	{
         if (!queue.empty()) {
             auto [time, sharedEvent] = queue.top();
             current_time = time;
@@ -66,7 +69,8 @@ private:
 
     TimeType current_time{};
 
-    struct EventComparator {
+    struct EventComparator
+	{
         bool operator()(const std::pair<TimeType, std::shared_ptr<Event>>& lhs, const std::pair<TimeType, std::shared_ptr<Event>>& rhs) const {
             return lhs.first > rhs.first;
         }

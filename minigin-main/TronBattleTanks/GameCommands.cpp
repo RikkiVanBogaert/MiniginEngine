@@ -11,6 +11,7 @@
 #include "CollisionCp.h"
 #include "DerCounterCps.h"
 #include "GameHelpers.h"
+#include "MoveCp.h"
 #include "TextComponent.h"
 
 
@@ -28,7 +29,6 @@ void MoveCommand::Execute()
 
 	//Rotate
 
-
 	const auto sceneObjects = m_pGameObject->GetScene()->GetGameObjects();
 	for (auto& o : sceneObjects)
 	{
@@ -41,12 +41,16 @@ void MoveCommand::Execute()
 		break;
 	}
 
-	//Movement
-	glm::vec2 pos = m_pGameObject->GetRelativeTransform();
-	pos.x += m_Direction.x;
-	pos.y += m_Direction.y;
+	auto moveCp = m_pGameObject->GetComponent<MoveCp>();
+	moveCp->Move(m_Direction);
 
-	m_pGameObject->SetRelativePos(pos);
+
+	////Movement
+	//glm::vec2 pos = m_pGameObject->GetRelativeTransform();
+	//pos.x += m_Direction.x;
+	//pos.y += m_Direction.y;
+
+	//m_pGameObject->SetRelativePos(pos);
 }
 
 DieCommand::DieCommand(GameObject* gameObj)
