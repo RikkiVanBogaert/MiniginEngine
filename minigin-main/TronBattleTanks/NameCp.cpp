@@ -15,10 +15,10 @@ namespace dae
 	class Font;
 }
 
-NameCp::NameCp(dae::GameObject* owner, const std::string&, std::shared_ptr<dae::Font> font, const SDL_Color& color):
+NameCp::NameCp(dae::GameObject* owner, const std::string&, const std::shared_ptr<dae::Font>& font, const SDL_Color& color):
 ComponentBase(owner),
-m_pText{ std::make_unique<dae::TextComponent>(owner, "name", font, color) },
-m_Name("name")
+m_pText{ std::make_unique<dae::TextComponent>(owner, "...", font, color) },
+m_Name("")
 {}
 
 void NameCp::Update(float deltaTime)
@@ -39,11 +39,15 @@ void NameCp::EnterName(float deltaTime)
 
 	if(m_Timer < 1)
     {
+		m_Name = "";
         m_Timer += deltaTime;
         return;
     }
 
-    m_Name = "";
+    //m_pText->SetText("...");
+    //m_pText->Update(deltaTime);
+    //m_pText->Render();
+
     bool quit = false;
     while (!quit)
     {

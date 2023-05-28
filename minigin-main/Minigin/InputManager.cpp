@@ -14,11 +14,13 @@ bool InputManager::ProcessInput()
 		if (e.type == SDL_QUIT) {
 			return false;
 		}
-		if (e.type == SDL_KEYDOWN) {
-			
+		if (e.type == SDL_KEYDOWN) 
+		{
+			//std::cout << e.text.text << '\n';
 		}
-		if (e.type == SDL_MOUSEBUTTONDOWN) 
-        {
+		else if (e.type == SDL_TEXTINPUT)
+		{
+			//std::cout << e.text.text;
 		}
 		
 		// etc...

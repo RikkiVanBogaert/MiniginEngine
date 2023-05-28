@@ -45,6 +45,9 @@ static void CreateMainMenu(Scene& scene)
 		m_pGameModeObject->SetRelativePos({ 200, 320 });
 		m_pGameModeObject->AddComponent(m_pGameModeText);
 		pMenuObj->AddChild(m_pGameModeObject);
+
+		auto* switchGameMode = new SwitchGameModeCommand{};
+		dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_TAB, switchGameMode);
 	}
 
 	//Input
@@ -61,6 +64,9 @@ static void CreateMainMenu(Scene& scene)
 		inputObj->SetRelativePos({ 200, 390 });
 		inputObj->AddComponent(inputText);
 		pMenuObj->AddChild(inputObj);
+
+		auto* switchInput = new SwitchInputCommand{};
+		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_I, switchInput);
 	}
 
 	/*const auto nextLevelObj = std::make_shared<GameObject>();
@@ -78,7 +84,4 @@ static void CreateMainMenu(Scene& scene)
 
 	auto* exitGame = new ExitGameCommand{};
 	dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_ESCAPE, exitGame);
-
-	auto* switchGameMode = new SwitchGameModeCommand{};
-	dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_TAB, switchGameMode);
 }

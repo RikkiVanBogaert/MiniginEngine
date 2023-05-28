@@ -18,7 +18,7 @@ namespace dae
 class NameCp final : public dae::ComponentBase
 {
 public:
-	NameCp(dae::GameObject* owner, const std::string& text, std::shared_ptr<dae::Font> font, const SDL_Color& color);
+	NameCp(dae::GameObject* owner, const std::string& text, const std::shared_ptr<dae::Font>& font, const SDL_Color& color);
 
 	void Update(float deltaTime) override;
 	void Render() const override;

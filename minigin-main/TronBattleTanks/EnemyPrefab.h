@@ -6,6 +6,7 @@
 #include "GameObject.h"
 #include "CollisionCp.h"
 #include "AIComponent.h"
+#include "AIRecognizerCp.h"
 #include "CounterCp.h"
 #include "MoveCp.h"
 
@@ -77,7 +78,8 @@ static dae::GameObject* CreateRecognizer(dae::Scene& scene)
 	auto bulletManagerCP = std::make_shared<BulletManagerCp>(pTank.get());
 	pTank->AddComponent(bulletManagerCP);
 
-	auto pAICp = std::make_shared<AIComponent>(pTank.get(), 60.f);
+	//auto pAICp = std::make_shared<AIComponent>(pTank.get(), 60.f);
+	auto pAICp = std::make_shared<AIRecognizerCp>(pTank.get(), 60.f);
 	pTank->AddComponent(pAICp);
 
 	auto pMoveCp = std::make_shared<MoveCp>(pTank.get(), 60.f);

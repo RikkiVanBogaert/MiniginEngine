@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AIComponent.cpp" />
+    <ClCompile Include="AIRecognizerCp.cpp" />
     <ClCompile Include="BulletCollisionCp.cpp" />
     <ClCompile Include="BulletCp.cpp" />
     <ClCompile Include="BulletManagerCp.cpp" />
@@ -171,6 +172,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIComponent.h" />
+    <ClInclude Include="AIRecognizerCp.h" />
     <ClInclude Include="BulletCollisionCp.h" />
     <ClInclude Include="BulletCp.h" />
     <ClInclude Include="BulletManagerCp.h" />

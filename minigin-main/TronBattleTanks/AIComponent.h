@@ -3,9 +3,14 @@
 #include <vector>
 #include <glm/vec2.hpp>
 
+#include "AIComponent.h"
+#include "AIComponent.h"
 #include "BaseComponent.h"
 
 
+class AttackState;
+class WanderState;
+class RecognizerState;
 class CollisionCp;
 class BulletManagerCp;
 
@@ -13,7 +18,7 @@ class AIComponent final : public dae::ComponentBase
 {
 public:
 	AIComponent(dae::GameObject* owner, float speed = 30);
-	virtual ~AIComponent() = default;
+	virtual ~AIComponent() override = default;
 
 	AIComponent(const AIComponent& other) = delete;
 	AIComponent(AIComponent&& other) = delete;

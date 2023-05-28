@@ -98,7 +98,7 @@ void AIComponent::GoToPlayer(float)
 		{
 			if (!m_pLevelCollision->CollisionHit(m_pOwner, up))
 			{
-				m_pOwner->GetComponent<MoveCp>()->Move( up);
+				m_pOwner->GetComponent<MoveCp>()->Move(up);
 			}
 		}
 		else
@@ -145,3 +145,5 @@ void AIComponent::GetClosestPlayer()
 		}
 	}
 }
+
+

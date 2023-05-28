@@ -14,6 +14,7 @@
 #include "ResourceManager.h"
 
 //Components
+#include "AIRecognizerCp.h"
 #include "AudioService.h"
 #include "TextComponent.h"
 #include "TextureComponent.h"
@@ -109,13 +110,15 @@ void LoadNewScene()
 	auto* muteUnmute = new MuteCommand{};
 	InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_M, muteUnmute);
 
-	auto* switchInput = new SwitchInputCommand{};
-	InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_I, switchInput);
-
 	ExplainControls();
 }
 
+//Sound statics
  std::unique_ptr<sound_system> servicelocator::_ss_instance{ std::make_unique<null_sound_system>() };
+ //State statics
+ WanderState* RecognizerState::m_WanderState = new WanderState();
+ AttackState* RecognizerState::m_AttackState = new AttackState();
+
 void load()
 {
 	//LoadDaeScene();

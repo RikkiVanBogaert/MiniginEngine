@@ -72,6 +72,9 @@
     <ClCompile Include="GridCp.cpp">
       <Filter>Game Files\Components</Filter>
     </ClCompile>
+    <ClCompile Include="AIRecognizerCp.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PlayerManager.h">
@@ -154,6 +157,9 @@
     </ClInclude>
     <ClInclude Include="GridCp.h">
       <Filter>Game Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AIRecognizerCp.h">
+      <Filter>Other Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
