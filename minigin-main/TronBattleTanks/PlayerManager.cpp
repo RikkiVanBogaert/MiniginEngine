@@ -10,6 +10,7 @@
 #include "TextureComponent.h"
 #include "UICp.h"
 
+using namespace dae;
 
 void PlayerManager::SwitchGameMode()
 {

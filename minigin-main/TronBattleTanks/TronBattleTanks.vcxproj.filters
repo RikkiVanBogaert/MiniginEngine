@@ -122,9 +122,6 @@
     <ClInclude Include="PlayerPrefabs.h">
       <Filter>Game Files\Prefabs</Filter>
     </ClInclude>
-    <ClInclude Include="CreatePlayers.h">
-      <Filter>Game Files\Prefabs</Filter>
-    </ClInclude>
     <ClInclude Include="MainMenuPrefab.h">
       <Filter>Game Files\Prefabs</Filter>
     </ClInclude>
