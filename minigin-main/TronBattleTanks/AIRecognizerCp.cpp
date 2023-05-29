@@ -8,7 +8,7 @@
 
 AIRecognizerCp::AIRecognizerCp(dae::GameObject* owner, float speed) :
 	ComponentBase(owner),
-	m_Speed(speed),m_State(new WanderState(this))
+	m_Speed(speed),m_State(std::make_shared<WanderState>(this))
 {
 	//m_State->SetAiCpState(this);
 }
@@ -29,7 +29,7 @@ void AIRecognizerCp::Update(float deltaTime)
 	m_State->Update(m_pOwner, deltaTime, m_pPlayers, m_pLevelCollision, m_pBulletManager);
 }
 
-void AIRecognizerCp::SetState(RecognizerState* newState)
+void AIRecognizerCp::SetState(std::shared_ptr<RecognizerState> newState)
 {
 	m_State = newState;
 	//m_State->SetAiCpState(this);
@@ -70,7 +70,8 @@ void WanderState::Update(dae::GameObject* gameObject, float ,
 
 	if(PlayerInSight(gameObject, players))
 	{
-		m_AICp->SetState(new AttackState(m_AICp, {m_Direction *= 300}));
+		const glm::vec2 attackDir = m_Direction *= 300;
+		m_AICp->SetState(std::make_shared<AttackState>(m_AICp, attackDir));
 	}
 }
 
@@ -114,7 +115,7 @@ void AttackState::Update(dae::GameObject* gameObject, float deltaTime,
 
 	if (!PlayerInSight(gameObject, players))
 	{
-		m_AICp->SetState(new WanderState(m_AICp));
+		m_AICp->SetState(std::make_shared<WanderState>(m_AICp));
 	}
 }
 

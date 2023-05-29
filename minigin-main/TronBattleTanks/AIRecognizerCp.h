@@ -28,13 +28,13 @@ public:
 	AIRecognizerCp& operator=(AIRecognizerCp&& other) = delete;
 
 	void Update(float deltaTime) override;
-	void SetState(RecognizerState* newState);
+	void SetState(std::shared_ptr<RecognizerState> newState);
 
 protected:
 	void Init();
 
 private:
-	RecognizerState* m_State;
+	std::shared_ptr<RecognizerState> m_State;
 
 	const float m_Speed;
 	bool m_HasInit{};
@@ -50,12 +50,12 @@ class RecognizerState
 {
 public:
 	RecognizerState(AIRecognizerCp* cp = nullptr): m_AICp(cp){}
-	virtual ~RecognizerState() {}
+	virtual ~RecognizerState() = default;
 	virtual void Update(dae::GameObject* gameObject, float deltaTime, 
 		std::vector<std::shared_ptr<dae::GameObject>> players, CollisionCp* levelCollision, BulletManagerCp* bulletManager) = 0; //pass everything by argument
 
-	static WanderState* m_WanderState;
-	static AttackState* m_AttackState;
+	static std::shared_ptr<WanderState> m_WanderState;
+	static std::shared_ptr<AttackState> m_AttackState;
 
 	//void SetAiCpState(AIRecognizerCp* cp) { m_AICp = cp; }
 
@@ -83,6 +83,7 @@ class AttackState final : public RecognizerState
 {
 public:
 	AttackState(AIRecognizerCp* cp = nullptr, const glm::vec2& shootDir = {0,0}): RecognizerState(cp), m_ShootDirection(shootDir) {}
+
 	void Update(dae::GameObject* gameObject, float deltaTime, 
 		std::vector<std::shared_ptr<dae::GameObject>> players, CollisionCp* levelCollision, BulletManagerCp* bulletManager) override;
 

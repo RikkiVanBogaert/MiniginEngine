@@ -116,8 +116,8 @@ void LoadNewScene()
 //Sound statics
  std::unique_ptr<sound_system> servicelocator::_ss_instance{ std::make_unique<null_sound_system>() };
  //State statics
- WanderState* RecognizerState::m_WanderState = new WanderState();
- AttackState* RecognizerState::m_AttackState = new AttackState();
+ std::shared_ptr<WanderState> RecognizerState::m_WanderState = std::make_shared<WanderState>();
+ std::shared_ptr<AttackState> RecognizerState::m_AttackState = std::make_shared<AttackState>();
 
 void load()
 {

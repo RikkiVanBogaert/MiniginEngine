@@ -73,7 +73,7 @@
       <Filter>Game Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="AIRecognizerCp.cpp">
-      <Filter>Game Files</Filter>
+      <Filter>Game Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -156,7 +156,7 @@
       <Filter>Game Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="AIRecognizerCp.h">
-      <Filter>Other Files</Filter>
+      <Filter>Game Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
