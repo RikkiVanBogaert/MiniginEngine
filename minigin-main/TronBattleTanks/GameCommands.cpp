@@ -270,6 +270,6 @@ void SwitchInputCommand::Execute()
 
 void MuteCommand::Execute()
 {
-	auto& ss = servicelocator::get_sound_system(); 
+	auto& ss = Servicelocator::GetSoundSystem(); 
 	ss.MuteUnmuteSound();
 }

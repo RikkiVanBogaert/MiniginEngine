@@ -30,8 +30,8 @@ void BulletManagerCp::Shoot( const glm::vec2& vel)
 {
 	if (m_HasShot) return;
 
-	auto& ss = servicelocator::get_sound_system();
-	ss.play(0, 100);
+	auto& ss = Servicelocator::GetSoundSystem();
+	ss.Play(0, 100);
 
 
 	auto pBullet = CreateBullet(*m_pOwner->GetScene(), m_pOwner, vel);

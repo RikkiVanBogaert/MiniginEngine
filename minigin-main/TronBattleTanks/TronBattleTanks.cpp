@@ -114,7 +114,7 @@ void LoadNewScene()
 }
 
 //Sound statics
- std::unique_ptr<sound_system> servicelocator::_ss_instance{ std::make_unique<null_sound_system>() };
+ std::unique_ptr<SoundSystem> Servicelocator::SsInstance{ std::make_unique<NullSoundSystem>() };
  //State statics
  std::shared_ptr<WanderState> RecognizerState::m_WanderState = std::make_shared<WanderState>();
  std::shared_ptr<AttackState> RecognizerState::m_AttackState = std::make_shared<AttackState>();
@@ -126,13 +126,13 @@ void load()
 	LoadNewScene();
 
 #if _DEBUG
-	servicelocator::register_sound_system(
-		std::make_unique<logging_sound_system>(std::make_unique<sdl_sound_system>()));
+	Servicelocator::RegisterSoundSystem(
+		std::make_unique<LoggingSoundSystem>(std::make_unique<SDLSoundSystem>()));
 #else
-	servicelocator::register_sound_system(std::make_unique<sdl_sound_system>());
+	Servicelocator::RegisterSoundSystem(std::make_unique<SDLSoundSystem>());
 #endif
-	auto& ss = servicelocator::get_sound_system();
-	ss.addSound("../Data/Resources/Sounds/Shoot.wav");
+	auto& ss = Servicelocator::GetSoundSystem();
+	ss.AddSound("../Data/Resources/Sounds/Shoot.wav");
 }
 
 int main(int, char* []) 

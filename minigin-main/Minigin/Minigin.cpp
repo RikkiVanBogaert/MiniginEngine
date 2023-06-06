@@ -80,20 +80,7 @@ dae::Minigin::~Minigin()
 
 void dae::Minigin::Run(const std::function<void()>& load)
 {
-    //// create an instance of EventQueue
-    //auto& event_queue = EventQueue<Event, float>::GetInstance();
-
     load();
-
- //   // create a thread for processing events
- //   std::thread event_thread([&]() 
-	//{
-	//	while (event_queue.has_events()) 
-	//	{
-	//	    event_queue.process();
-	//	    std::this_thread::sleep_for(std::chrono::milliseconds(10)); // avoid spinning
-	//	}
-	//});
 
     auto& renderer = Renderer::GetInstance();
     auto& sceneManager = SceneManager::GetInstance();
@@ -129,8 +116,5 @@ void dae::Minigin::Run(const std::function<void()>& load)
 			std::chrono::high_resolution_clock::now();
 		std::this_thread::sleep_for(sleepTime);
     }
-
-    //// wait for the event thread to finish
-    //event_thread.join();
 }
 
