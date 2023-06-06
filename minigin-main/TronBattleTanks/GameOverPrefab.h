@@ -3,7 +3,7 @@
 
 #include "GameCommands.h"
 #include "InputManager.h"
-#include "NameCp.h"
+#include "HighScoresCp.h"
 #include "PlayerManager.h"
 #include "ResourceManager.h"
 #include "Scene.h"
@@ -18,7 +18,7 @@ namespace dae
 		pMainObj->SetTag("Main");
 		scene.Add(pMainObj);
 
-		auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+		auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 		auto smallFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 22);
 
 		const auto gameOverObj = std::make_shared<GameObject>();
@@ -49,7 +49,7 @@ namespace dae
 		const auto scoreObj = std::make_shared<GameObject>();
 		scoreObj->SetTag("Score");
 		int score{};
-		for (auto p : PlayerManager::GetInstance().GetPlayers())
+		for (const auto p : PlayerManager::GetInstance().GetPlayers())
 		{
 			score += p->GetComponent<PointsCp>()->GetAmount();
 		}
@@ -60,7 +60,7 @@ namespace dae
 
 
 		const auto pNameObj = std::make_shared<GameObject>();
-		const auto pNameTest = std::make_shared<NameCp>(pNameObj.get(), "temp", smallFont, SDL_Color{ 255, 0, 0, 255 });
+		const auto pNameTest = std::make_shared<HighScoresCp>(pNameObj.get(), "temp", smallFont, SDL_Color{ 255, 0, 0, 255 });
 		pNameObj->AddComponent(pNameTest);
 		pNameObj->SetRelativePos({ 160, 250 });
 		pMainObj->AddChild(pNameObj);

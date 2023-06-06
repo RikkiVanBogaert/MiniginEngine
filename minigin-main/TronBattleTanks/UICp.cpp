@@ -8,6 +8,7 @@
 #include <chrono>
 
 #include "CounterCp.h"
+#include "GameObservers.h"
 
 using namespace dae;
 

@@ -20,7 +20,7 @@ inline dae::GameObject* GetGameObject(dae::Scene* scene, const std::string& tag)
 }
 
 template <typename T>
-T* GetComponentInScene(dae::Scene* scene, const std::string& tag)
+T* GetComponentInScene(dae::Scene* scene, const std::string& tag = "noTag")
 {
 	for (const auto o : scene->GetGameObjects())
 	{

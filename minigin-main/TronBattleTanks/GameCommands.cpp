@@ -43,14 +43,6 @@ void MoveCommand::Execute()
 
 	auto moveCp = m_pGameObject->GetComponent<MoveCp>();
 	moveCp->Move(m_Direction);
-
-
-	////Movement
-	//glm::vec2 pos = m_pGameObject->GetRelativeTransform();
-	//pos.x += m_Direction.x;
-	//pos.y += m_Direction.y;
-
-	//m_pGameObject->SetRelativePos(pos);
 }
 
 DieCommand::DieCommand(GameObject* gameObj)
@@ -125,7 +117,7 @@ void StartGameCommand::Execute()
 {
 	if (GetKeyPressed()) return;
 
-	if (dae::SceneManager::GetInstance().GetActiveSceneName() != "MainMenu")
+	if (SceneManager::GetInstance().GetActiveSceneName() != "MainMenu")
 	{
 		SetKeyPressed(true);
 		return;
@@ -150,7 +142,7 @@ void ExitGameCommand::Execute()
 void SwitchGameModeCommand::Execute()
 {
 	if (GetKeyPressed()) return;
-	if (dae::SceneManager::GetInstance().GetActiveSceneName() != "MainMenu")
+	if (SceneManager::GetInstance().GetActiveSceneName() != "MainMenu")
 	{
 		SetKeyPressed(true);
 		return;

@@ -163,7 +163,7 @@
     <ClCompile Include="GridCp.cpp" />
     <ClCompile Include="LevelInfoCp.cpp" />
     <ClCompile Include="MoveCp.cpp" />
-    <ClCompile Include="NameCp.cpp" />
+    <ClCompile Include="HighScoresCp.cpp" />
     <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="SpawnPositionCp.cpp" />
     <ClCompile Include="TeleportCp.cpp" />
@@ -190,7 +190,7 @@
     <ClInclude Include="GameHelpers.h" />
     <ClInclude Include="MainMenuPrefab.h" />
     <ClInclude Include="MoveCp.h" />
-    <ClInclude Include="NameCp.h" />
+    <ClInclude Include="HighScoresCp.h" />
     <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="PlayerPrefabs.h" />
     <ClInclude Include="Sounds.h" />

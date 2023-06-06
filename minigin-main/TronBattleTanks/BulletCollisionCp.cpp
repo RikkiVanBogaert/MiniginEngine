@@ -50,7 +50,7 @@ void BulletCollisionCp::GetHit(dae::GameObject* shooter)
 
 	if (healthCp->GetAmount() > 0) return;
 
-	if (auto pointsText = GetComponentInScene<dae::UIPointsCp>(m_pOwner->GetScene(), shooter->GetTag()))
+	if (auto pointsText = GetComponentInScene<dae::UIPointsCp>(m_pOwner->GetScene()))
 	{
 		if(m_pOwner->GetTag() == "BlueEnemy")
 		{

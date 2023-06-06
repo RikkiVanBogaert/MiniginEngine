@@ -60,7 +60,7 @@
     <ClCompile Include="MoveCp.cpp">
       <Filter>Game Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="NameCp.cpp">
+    <ClCompile Include="HighScoresCp.cpp">
       <Filter>Game Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="TeleportCp.cpp">
@@ -137,7 +137,7 @@
     <ClInclude Include="GameOverPrefab.h">
       <Filter>Game Files\Prefabs</Filter>
     </ClInclude>
-    <ClInclude Include="NameCp.h">
+    <ClInclude Include="HighScoresCp.h">
       <Filter>Game Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="TeleportPrefab.h">

@@ -4,7 +4,7 @@
 
 #include "GameCommands.h"
 #include "InputManager.h"
-#include "NameCp.h"
+#include "HighScoresCp.h"
 #include "ResourceManager.h"
 #include "Scene.h"
 

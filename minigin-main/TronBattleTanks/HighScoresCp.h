@@ -15,10 +15,10 @@ namespace dae
 	class TextComponent;
 }
 
-class NameCp final : public dae::ComponentBase
+class HighScoresCp final : public dae::ComponentBase
 {
 public:
-	NameCp(dae::GameObject* owner, const std::string& text, const std::shared_ptr<dae::Font>& font, const SDL_Color& color);
+	HighScoresCp(dae::GameObject* owner, const std::string& text, const std::shared_ptr<dae::Font>& font, const SDL_Color& color);
 
 	void Update(float deltaTime) override;
 	void Render() const override;

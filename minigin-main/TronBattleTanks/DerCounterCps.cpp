@@ -36,7 +36,7 @@ void LivesCp::ChangeAmount(int difference)
 		//Game Over
 		dae::SceneManager::GetInstance().GetActiveScene()->RemoveAll();
 		dae::SceneManager::GetInstance().SetActiveScene("GameOver");
-		auto scene = dae::SceneManager::GetInstance().GetActiveScene();
+		const auto scene = dae::SceneManager::GetInstance().GetActiveScene();
 		CreateGameOver(*scene);
 	}
 	else

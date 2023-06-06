@@ -1,4 +1,4 @@
-#include "NameCp.h"
+#include "HighScoresCp.h"
 
 #include <iostream>
 
@@ -15,25 +15,25 @@ namespace dae
 	class Font;
 }
 
-NameCp::NameCp(dae::GameObject* owner, const std::string&, const std::shared_ptr<dae::Font>& font, const SDL_Color& color):
+HighScoresCp::HighScoresCp(dae::GameObject* owner, const std::string&, const std::shared_ptr<dae::Font>& font, const SDL_Color& color):
 ComponentBase(owner),
 m_pText{ std::make_unique<dae::TextComponent>(owner, "...", font, color) },
 m_Name("")
 {}
 
-void NameCp::Update(float deltaTime)
+void HighScoresCp::Update(float deltaTime)
 {
 	m_pText->Update(deltaTime);
 
 	EnterName(deltaTime);
 }
 
-void NameCp::Render() const
+void HighScoresCp::Render() const
 {
 	m_pText->Render();
 }
 
-void NameCp::EnterName(float deltaTime)
+void HighScoresCp::EnterName(float deltaTime)
 {
     if (m_NameSet) return;
 
@@ -43,10 +43,6 @@ void NameCp::EnterName(float deltaTime)
         m_Timer += deltaTime;
         return;
     }
-
-    //m_pText->SetText("...");
-    //m_pText->Update(deltaTime);
-    //m_pText->Render();
 
     bool quit = false;
     while (!quit)
@@ -76,13 +72,6 @@ void NameCp::EnterName(float deltaTime)
             }
         }
 
-        /*if (!m_Name.empty())
-        {
-            m_pText->SetText(m_Name);
-            m_pText->Update(deltaTime);
-            m_pText->Render();
-        }*/
-        //std::cout << m_Name << '\n';
     }
 
     m_pText->SetText(m_Name);
@@ -92,7 +81,7 @@ void NameCp::EnterName(float deltaTime)
     ShowHighScores();
 }
 
-void NameCp::WriteToHighScores(const std::string& name)
+void HighScoresCp::WriteToHighScores(const std::string& name)
 {
     auto score = GetComponentInScene<dae::TextComponent>(m_pOwner->GetScene(), "Score")->GetBeginText();
 
@@ -101,7 +90,7 @@ void NameCp::WriteToHighScores(const std::string& name)
 }
 
 
-void NameCp::SortAndPrintNames(const std::string& filename)
+void HighScoresCp::SortAndPrintNames(const std::string& filename)
 {
     std::ifstream file(filename);
     std::string line;
@@ -129,7 +118,7 @@ void NameCp::SortAndPrintNames(const std::string& filename)
 	m_HighScores = records;
 }
 
-void NameCp::ShowHighScores()
+void HighScoresCp::ShowHighScores()
 {
     auto mainObj = GetGameObject(m_pOwner->GetScene(), "Main");
     auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 16);

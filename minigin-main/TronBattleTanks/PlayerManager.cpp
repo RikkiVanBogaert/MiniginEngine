@@ -51,26 +51,22 @@ void PlayerManager::LevelCreate()
 	}
 
 	const auto players = GetInstance().GetPlayers();
-	auto scene = SceneManager::GetInstance().GetActiveScene();
+	const auto scene = SceneManager::GetInstance().GetActiveScene();
 
-	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
-	//Player 1 UI
-	auto pPointObject = std::make_shared<GameObject>();
-	pPointObject->SetTag("RedPlayer");
+	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
+
+	const auto pPointObject = std::make_shared<GameObject>();
 	pPointObject->SetRelativePos({5, 200});
 
-	auto pLivesObject = std::make_shared<GameObject>();
+	//Player 1 UI
+	const auto pLivesObject = std::make_shared<GameObject>();
 	pLivesObject->SetTag("RedPlayer");
 	pLivesObject->SetRelativePos({ 5, 250 });
 
 	//Player 2 UI
-	auto pPointObject2 = std::make_shared<GameObject>();
-	pPointObject2->SetTag("RedPlayer");
-	pPointObject2->SetRelativePos({ 5, 300 });
-
-	auto pLivesObject2 = std::make_shared<GameObject>();
+	const auto pLivesObject2 = std::make_shared<GameObject>();
 	pLivesObject2->SetTag("RedPlayer");
-	pLivesObject2->SetRelativePos({ 5, 350 });
+	pLivesObject2->SetRelativePos({ 5, 300 });
 
 	switch (GetInstance().GetGameMode())
 	{
@@ -89,7 +85,6 @@ void PlayerManager::LevelCreate()
 		scene->Add(pPointObject);
 		scene->Add(pLivesObject);
 
-		scene->Add(pPointObject2);
 		scene->Add(pLivesObject2);
 		players[1]->SetTag("RedPlayer");
 		players[1]->GetComponent<dae::TextureComponent>()->SetTexture("Resources/Sprites/GreenTank.png");
@@ -111,8 +106,6 @@ void PlayerManager::LevelCreate()
 		scene->Add(pPointObject);
 		scene->Add(pLivesObject);
 
-		scene->Add(pPointObject2);
-		pPointObject2->SetTag("BluePlayer");
 		scene->Add(pLivesObject2);
 		pLivesObject2->SetTag("BluePlayer");
 		players[1]->SetTag("BluePlayer");
@@ -134,19 +127,15 @@ void PlayerManager::LevelCreate()
 
 
 	const auto pPointText = std::make_shared<UIPointsCp>(pPointObject.get(), "Points: ", font,
-		SDL_Color{ 255, 0, 0, 255 }, GetPlayers()[0]->GetComponent<PointsCp>());
+		SDL_Color{ 255, 255, 255, 255 }, GetPlayers()[0]->GetComponent<PointsCp>());
 	pPointObject->AddComponent(pPointText);
-
-	const auto pPointText2 = std::make_shared<UIPointsCp>(pPointObject2.get(),"Points: ", font,
-		SDL_Color{ 0, 0, 255, 255 }, GetPlayers()[1]->GetComponent<PointsCp>());
-	pPointObject2->AddComponent(pPointText2);
 
 	const auto pLivesText = std::make_shared<UILivesCp>(pLivesObject.get(), "Lives: ", font,
 		SDL_Color{ 255, 0, 0, 255 }, GetPlayers()[0]->GetComponent<LivesCp>());
 	pLivesObject->AddComponent(pLivesText);
 
 	const auto pLivesText2 = std::make_shared<UILivesCp>(pLivesObject2.get(), "Lives: ", font,
-		SDL_Color{ 0, 0, 255, 255 }, GetPlayers()[1]->GetComponent<LivesCp>());
+		SDL_Color{ 255, 255, 0, 255 }, GetPlayers()[1]->GetComponent<LivesCp>());
 	pLivesObject2->AddComponent(pLivesText2);
 
 
@@ -207,7 +196,6 @@ void PlayerManager::NextLevel()
 void PlayerManager::SwitchInput()
 {
 	m_UsingKeyboard = !m_UsingKeyboard;
-	//std::cout << m_UsingKeyboard << '\n';
 }
 
 void PlayerManager::SkipNonLevels()

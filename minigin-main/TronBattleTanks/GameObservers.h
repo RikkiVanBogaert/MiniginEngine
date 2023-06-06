@@ -1,22 +1,52 @@
 #pragma once
-#include "DerCounterCps.h"
 #include "Observers.h"
+#include "UICp.h"
 
 namespace dae
 {
 	class GameObject;
 }
 
-class LivesObserver final : public dae::Observer
+// Concrete observer classes
+class LivesObserver : public dae::Observer
 {
 public:
-	LivesObserver(dae::GameObject* owner, int startAmount = 3):
-	m_Lives(startAmount)
+	LivesObserver(LivesCp* livesCp, dae::UILivesCp* UILivesCp) :
+		m_pLivesCp(livesCp), m_pUILivesCp(UILivesCp)
 	{}
+	void Update(dae::ObserverEvent event) override
+	{
+		//m_pLivesCp->ChangeAmount(-1);
+		if (event != dae::PlayerHit) return;
 
-	virtual void ChangeAmount(int difference);
-	//virtual void SetAmount(int newHealth);
+		m_pUILivesCp->SetValueText(std::to_string(m_pLivesCp->GetAmount()));
+	}
 
 private:
-	int m_Lives{};
+	LivesCp* m_pLivesCp{};
+	dae::UILivesCp* m_pUILivesCp{};
+};
+
+class PointsObserver : public dae::Observer
+{
+public:
+	PointsObserver(PointsCp* livesCp, dae::UIPointsCp* UILivesCp) :
+		m_pPointsCp(livesCp), m_pUIPointsCp(UILivesCp)
+	{}
+	void Update(dae::ObserverEvent event) override
+	{
+		if (event == dae::BlueTankKilled)
+		{
+			m_pPointsCp->ChangeAmount(100);
+		}
+		else if (event == dae::RecognizerKilled)
+		{
+			m_pPointsCp->ChangeAmount(250);
+		}
+		m_pUIPointsCp->SetValueText(std::to_string(m_pPointsCp->GetAmount()));
+	}
+
+private:
+	PointsCp* m_pPointsCp{};
+	dae::UIPointsCp* m_pUIPointsCp{};
 };
