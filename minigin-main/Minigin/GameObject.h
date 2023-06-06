@@ -14,9 +14,9 @@ namespace dae
 	class GameObject final
 	{
 	public:
-		virtual void Update(float deltaTime);
-		virtual void FixedUpdate(float deltaTime);
-		virtual void Render() const;
+		void Update(float deltaTime);
+		void FixedUpdate(float deltaTime);
+		void Render() const;
 
 		void AddComponent(const std::shared_ptr<ComponentBase>& component);
 		void RemoveComponent(const std::shared_ptr<ComponentBase>& component);
@@ -66,9 +66,6 @@ namespace dae
 		void AddChild(std::shared_ptr<GameObject> child);
 		std::vector<GameObject*> GetChildren() const;
 
-		//Observer/Subject
-		void MakeObserver(const std::shared_ptr<Observer>& observer);
-		void NotifyObservers(const ObserverEvent& event) const;
 		void SetTag(const std::string& tag) { m_Tag = tag; }
 		std::string GetTag() const { return m_Tag; }
 
@@ -76,16 +73,13 @@ namespace dae
 		Scene* GetScene() const;
 
 		GameObject(const std::string& tag = "noTag");
-		virtual ~GameObject() = default;
+		~GameObject() = default;
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
 
-	protected:
-		std::unique_ptr<Subject> m_pSubject;
-
-
+	
 	private:
 		Scene* m_pScene{};
 

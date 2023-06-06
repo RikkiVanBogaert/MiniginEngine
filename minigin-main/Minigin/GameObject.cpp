@@ -23,18 +23,6 @@ void GameObject::RemoveComponent(const std::shared_ptr<ComponentBase>& component
 	m_pComponents.erase(std::remove(m_pComponents.begin(), m_pComponents.end(), component), m_pComponents.end());
 }
 
-void GameObject::MakeObserver(const std::shared_ptr<Observer>& observer)
-{
-	m_pSubject = std::make_unique<Subject>(this);
-	m_pSubject->AddObserver(observer);
-}
-
-void GameObject::NotifyObservers(const ObserverEvent& event) const
-{
-	if (!m_pSubject) return;
-
-	m_pSubject->NotifyObservers(event);
-}
 
 void GameObject::Update(float deltaTime)
 {
@@ -124,8 +112,6 @@ dae::Scene* GameObject::GetScene() const
 
 void GameObject::MarkForDeletion()
 {
-	//if (!m_pSubject) return;
-	//m_pSubject->NotifyObservers(ObserverEvent::ActorDied);
 	m_NeedsDeleting = true;
 }
 

@@ -40,23 +40,26 @@ void BulletCollisionCp::GetHit(dae::GameObject* shooter)
 	//Victim lives
 	auto healthCp = m_pOwner->GetComponent<HealthCp>();
 	healthCp->ChangeAmount(-1);
-	if (auto livesText = GetComponentInScene<dae::UILivesCp>(m_pOwner->GetScene(), m_pOwner->GetTag()))
+	if (auto livesCp = GetComponentInScene<dae::UILivesCp>(m_pOwner->GetScene(), m_pOwner->GetTag()))
 	{
-		const std::string text = std::to_string(healthCp->GetAmount());
-		livesText->SetValueText(text);
+		livesCp->UpdateSubject(dae::PlayerHit);
 	}
-
-	if (healthCp->GetAmount() > 0) return;
 
 	//Shooter points
 	if (!shooter->GetComponent<PointsCp>()) return;
 
-	const auto shooterPoints = shooter->GetComponent<PointsCp>();
-	shooterPoints->ChangeAmount(m_PointsGivenOnKill);
+	if (healthCp->GetAmount() > 0) return;
+
 	if (auto pointsText = GetComponentInScene<dae::UIPointsCp>(m_pOwner->GetScene(), shooter->GetTag()))
 	{
-		const std::string text = std::to_string(shooterPoints->GetAmount());
-		pointsText->SetValueText(text);
+		if(m_pOwner->GetTag() == "BlueEnemy")
+		{
+			pointsText->UpdateSubject(dae::BlueTankKilled);
+		}
+		else if (m_pOwner->GetTag() == "Recognizer")
+		{
+			pointsText->UpdateSubject(dae::RecognizerKilled);
+		}
 	}
 	
 }

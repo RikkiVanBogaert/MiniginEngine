@@ -5,6 +5,7 @@
 #include <SDL_ttf.h>
 
 #include "CounterCp.h"
+#include "ObserverEvent.h"
 
 class LivesCp;
 class HealthCp;
@@ -12,6 +13,7 @@ class PointsCp;
 
 namespace dae
 {
+	class Subject;
 	class CounterCp;
 	
 	class Font;
@@ -39,11 +41,10 @@ namespace dae
 		UICounterCp(GameObject* owner, const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color, CounterCp* counter);
 
 		virtual void SetValueText(const std::string& text) override;
+		void UpdateSubject(ObserverEvent event);
 
-		CounterCp* GetCounter() const { return m_pCounterCp; }
-
-	private:
-		CounterCp* m_pCounterCp;
+	protected:
+		std::unique_ptr<Subject> m_pSubject;
 	};
 
 	class UIPointsCp final : public UICounterCp
@@ -52,7 +53,6 @@ namespace dae
 		UIPointsCp(GameObject* owner, const std::string& text, std::shared_ptr<Font> font,
 			const SDL_Color& color, PointsCp* counter);
 
-		virtual void Update(float deltaTime) override;
 	};
 
 	class UILivesCp final : public UICounterCp

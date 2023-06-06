@@ -41,31 +41,34 @@ void UICp::SetValueText(const std::string& text)
 UICounterCp::UICounterCp(GameObject* owner, const std::string& text, std::shared_ptr<Font> font, 
 	const SDL_Color& color, CounterCp* counter):
 UICp(owner, text, font , color),
-m_pCounterCp(counter)
+m_pSubject(std::make_unique<Subject>())
 {
 	SetText(text + std::to_string(counter->GetAmount()));
 }
 
-void UICounterCp::SetValueText(const std::string&)
+void UICounterCp::SetValueText(const std::string& newText)
 {
-	//auto player = GetGameObject(m_pOwner->GetScene(), m_pOwner->GetTag());
-	//m_pCounterCp = player->GetComponent<PointsCp>();
-	
-	UICp::SetValueText(std::to_string(m_pCounterCp->GetAmount()));
+	UICp::SetValueText(newText);
+}
+
+void UICounterCp::UpdateSubject(ObserverEvent event)
+{
+	m_pSubject->Notify(event);
 }
 
 UIPointsCp::UIPointsCp(GameObject* owner, const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color,
-	PointsCp* counter):
+                       PointsCp* counter):
 UICounterCp(owner, text, font, color, counter)
-{}
-
-void UIPointsCp::Update(float deltaTime)
 {
-	UICounterCp::Update(deltaTime);
-	//SetValueText(std::to_string(GetCounter()->GetAmount()));
+	const auto pointsObserver = std::make_shared<PointsObserver>(counter, this);
+	m_pSubject->attach(pointsObserver);
 }
 
 UILivesCp::UILivesCp(GameObject* owner, const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color,
-                     LivesCp* counter):
+                     LivesCp* counter) :
 	UICounterCp(owner, text, font, color, counter)
-{}
+{
+	const auto livesObserver = std::make_shared<LivesObserver>(counter, this);
+	m_pSubject->attach(livesObserver);
+
+}

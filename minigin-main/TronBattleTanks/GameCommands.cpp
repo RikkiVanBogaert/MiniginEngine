@@ -82,9 +82,6 @@ void PointCommand::Execute()
 	if (const auto points = m_pGameObject->GetComponent<PointsCp>())
 	{
 		points->ChangeAmount(1);
-
-		m_pGameObject->NotifyObservers(ScoredPoint);
-
 	}
 
 	SetKeyPressed(true);

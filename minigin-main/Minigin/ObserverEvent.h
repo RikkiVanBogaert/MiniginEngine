@@ -3,8 +3,9 @@ namespace dae
 {
 	enum ObserverEvent
 	{
-		ActorDied,
-		ScoredPoint
+		PlayerHit,
+		BlueTankKilled,
+		RecognizerKilled
 	};
 }
 
