@@ -7,10 +7,9 @@
 #include "CollisionCp.h"
 #include "MoveCp.h"
 
-AIComponent::AIComponent(dae::GameObject* owner, float speed):
+AIComponent::AIComponent(dae::GameObject* owner):
 	ComponentBase(owner),
-	m_ShootTime{3},
-	m_Speed(speed)
+	m_ShootTime{3}
 {
 }
 
@@ -83,10 +82,10 @@ bool AIComponent::PlayerInSight(glm::vec2& bulletDir)
 void AIComponent::GoToPlayer(float)
 {
 
-	const glm::vec2 up{ 0,-m_Speed };
-	const glm::vec2 down{ 0,m_Speed };
-	const glm::vec2 left{ -m_Speed, 0 };
-	const glm::vec2 right{ m_Speed, 0 };
+	constexpr glm::vec2 up{ 0,-1 };
+	constexpr glm::vec2 down{ 0,1 };
+	constexpr glm::vec2 left{ -1, 0 };
+	constexpr glm::vec2 right{ 1, 0 };
 
 	const glm::vec2 playerPos{ m_pClosestPlayer->GetWorldTransform() };
 	const glm::vec2 ownerPos{ m_pOwner->GetWorldTransform() };

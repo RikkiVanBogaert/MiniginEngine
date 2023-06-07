@@ -1,16 +1,17 @@
 #pragma once
+#include <memory>
 
 namespace dae
 {
     class Controller final
     {
         class ControllerImpl;
-        ControllerImpl* m_pImpl;
+        std::shared_ptr<ControllerImpl> m_pImpl;
 
 
     public:
         Controller(unsigned int controllerIndex);
-        ~Controller();
+        ~Controller() = default;
 
         void Update() const;
         bool IsButtonDown(unsigned int button) const;

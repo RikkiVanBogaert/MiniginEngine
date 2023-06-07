@@ -36,7 +36,7 @@ void HighScoresCp::Render() const
 void HighScoresCp::EnterName(float deltaTime)
 {
     if (m_NameSet) return;
-
+    m_Name = "";
 	if(m_Timer < 1)
     {
 		m_Name = "";
@@ -50,10 +50,10 @@ void HighScoresCp::EnterName(float deltaTime)
         SDL_Event e;
         while (SDL_PollEvent(&e))
         {
-            if (e.type == SDL_QUIT) 
+            /*if (e.type == SDL_QUIT) 
             {
                 std::exit(0);
-            }
+            }*/
             if (e.type == SDL_KEYUP)
             {
                 if (e.key.keysym.sym == SDLK_KP_ENTER || e.key.keysym.sym == SDLK_RETURN)
@@ -83,7 +83,7 @@ void HighScoresCp::EnterName(float deltaTime)
 
 void HighScoresCp::WriteToHighScores(const std::string& name)
 {
-    auto score = GetComponentInScene<dae::TextComponent>(m_pOwner->GetScene(), "Score")->GetBeginText();
+    const auto score = GetComponentInScene<dae::TextComponent>(m_pOwner->GetScene(), "Score")->GetBeginText();
 
     const std::string text{ score + ", " + name };
     WriteTextToFile("../Data/Resources/HighScores.txt", text);
@@ -131,7 +131,6 @@ void HighScoresCp::ShowHighScores()
         const std::string text = std::to_string(m_HighScores[i].score) + " - " + m_HighScores[i].name;
         const auto t = std::make_shared<dae::TextComponent>(o.get(), text, font, SDL_Color{255, 255, 50, 255});
     	o->AddComponent(t);
-        o->SetTag("Highscore");
         o->SetRelativePos(pos);
         mainObj->AddChild(o);
         pos.y += 25;

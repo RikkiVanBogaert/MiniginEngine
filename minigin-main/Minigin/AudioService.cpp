@@ -4,6 +4,8 @@
 #include <queue>
 #include <vector>
 
+using namespace dae;
+
 class SDLSoundSystem::SDLSoundSystemImpl
 {
 public:

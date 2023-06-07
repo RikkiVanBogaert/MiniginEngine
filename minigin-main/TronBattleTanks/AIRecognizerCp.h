@@ -19,8 +19,8 @@ namespace dae
 class AIRecognizerCp final : public dae::ComponentBase
 {
 public:
-	AIRecognizerCp(dae::GameObject* owner, float speed = 30);
-	virtual ~AIRecognizerCp() = default;
+	AIRecognizerCp(dae::GameObject* owner);
+	virtual ~AIRecognizerCp() override = default;
 
 	AIRecognizerCp(const AIRecognizerCp& other) = delete;
 	AIRecognizerCp(AIRecognizerCp&& other) = delete;
@@ -36,7 +36,6 @@ protected:
 private:
 	std::shared_ptr<RecognizerState> m_State;
 
-	const float m_Speed;
 	bool m_HasInit{};
 
 	std::vector<std::shared_ptr<dae::GameObject>> m_pPlayers;
@@ -56,8 +55,6 @@ public:
 
 	static std::shared_ptr<WanderState> m_WanderState;
 	static std::shared_ptr<AttackState> m_AttackState;
-
-	//void SetAiCpState(AIRecognizerCp* cp) { m_AICp = cp; }
 
 protected:
 	AIRecognizerCp* m_AICp;

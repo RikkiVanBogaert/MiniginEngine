@@ -6,9 +6,9 @@
 #include "BulletManagerCp.h"
 #include "CollisionCp.h"
 
-AIRecognizerCp::AIRecognizerCp(dae::GameObject* owner, float speed) :
+AIRecognizerCp::AIRecognizerCp(dae::GameObject* owner) :
 	ComponentBase(owner),
-	m_Speed(speed),m_State(std::make_shared<WanderState>(this))
+	m_State(std::make_shared<WanderState>(this))
 {
 	//m_State->SetAiCpState(this);
 }
@@ -79,22 +79,22 @@ void WanderState::SwapDirection()
 {
 	//will (maybe) do random/better direction choosing later
 
-	if(m_Direction.x == 1)
+	if(m_Direction.x == 1.f)
 	{
 		m_Direction.x = 0;
 		m_Direction.y = 1;
 	}
-	else if (m_Direction.y == 1)
+	else if (m_Direction.y == 1.f)
 	{
 		m_Direction.x = -1;
 		m_Direction.y = 0;
 	}
-	else if (m_Direction.x == -1)
+	else if (m_Direction.x == -1.f)
 	{
 		m_Direction.x = 0;
 		m_Direction.y = -1;
 	}
-	else if (m_Direction.y == -1)
+	else if (m_Direction.y == -1.f)
 	{
 		m_Direction.x = 1;
 		m_Direction.y = 0;

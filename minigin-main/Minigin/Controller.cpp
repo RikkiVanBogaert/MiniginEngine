@@ -43,13 +43,9 @@ private:
 
 Controller::Controller(unsigned int controllerIndex)
 {
-    m_pImpl = new ControllerImpl(controllerIndex);
+    m_pImpl = std::make_shared<ControllerImpl>(controllerIndex);
 }
 
-Controller::~Controller()
-{
-    delete m_pImpl;
-}
 
 void Controller::Update() const
 {

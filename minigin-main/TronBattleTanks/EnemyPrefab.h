@@ -12,32 +12,32 @@
 
 static dae::GameObject* CreateBlueEnemy(dae::Scene& scene)
 {
-	auto pTank = std::make_shared<dae::GameObject>();
+	const auto pTank = std::make_shared<dae::GameObject>();
 	pTank->SetTag("BlueEnemy");
 	scene.Add(pTank);
 	
 	//Texture
-	auto tankTxt = std::make_shared<dae::TextureComponent>(pTank.get());
+	const auto tankTxt = std::make_shared<dae::TextureComponent>(pTank.get());
 	tankTxt->SetTexture("Resources/Sprites/BlueTank.png");
 	pTank->AddComponent(tankTxt);
 
-	auto collisionCp = std::make_shared<CollisionCp>(pTank.get());
+	const auto collisionCp = std::make_shared<CollisionCp>(pTank.get());
 	pTank->AddComponent(collisionCp);
 	collisionCp->AddCollider(pTank.get());
 
-	auto healthCp = std::make_shared<HealthCp>(pTank.get(), 3);
+	const auto healthCp = std::make_shared<HealthCp>(pTank.get(), 3);
 	pTank->AddComponent(healthCp);
 
-	auto bulletCollisionCp = std::make_shared<BulletCollisionCp>(pTank.get());
+	const auto bulletCollisionCp = std::make_shared<BulletCollisionCp>(pTank.get());
 	pTank->AddComponent(bulletCollisionCp);
 
-	auto bulletManagerCP = std::make_shared<BulletManagerCp>(pTank.get());
+	const auto bulletManagerCP = std::make_shared<BulletManagerCp>(pTank.get());
 	pTank->AddComponent(bulletManagerCP);
 
-	auto pAICp = std::make_shared<AIComponent>(pTank.get());
+	const auto pAICp = std::make_shared<AIComponent>(pTank.get());
 	pTank->AddComponent(pAICp);
 
-	auto pMoveCp = std::make_shared<MoveCp>(pTank.get(), 30.f);
+	const auto pMoveCp = std::make_shared<MoveCp>(pTank.get(), 30.f);
 	pTank->AddComponent(pMoveCp);
 
 	return pTank.get();
@@ -46,43 +46,42 @@ static dae::GameObject* CreateBlueEnemy(dae::Scene& scene)
 static void CreateBlueEnemies(dae::Scene& scene, const std::vector<glm::vec2>& positions)
 {
 	constexpr glm::vec2 offset{ -8,-8 };
-	for(int i{}; i < positions.size(); ++i)
+	for(const auto p : positions)
 	{
-		auto enemy = CreateBlueEnemy(scene);
-		enemy->SetRelativePos(positions[i] + offset);
+		const auto enemy = CreateBlueEnemy(scene);
+		enemy->SetRelativePos(p + offset);
 	}
 }
 
 
 static dae::GameObject* CreateRecognizer(dae::Scene& scene)
 {
-	auto pTank = std::make_shared<dae::GameObject>();
+	const auto pTank = std::make_shared<dae::GameObject>();
 	pTank->SetTag("Recognizer");
 	scene.Add(pTank);
 
 	//Texture
-	auto tankTxt = std::make_shared<dae::TextureComponent>(pTank.get());
+	const auto tankTxt = std::make_shared<dae::TextureComponent>(pTank.get());
 	tankTxt->SetTexture("Resources/Sprites/Recognizer.png");
 	pTank->AddComponent(tankTxt);
 
-	auto collisionCp = std::make_shared<CollisionCp>(pTank.get());
+	const auto collisionCp = std::make_shared<CollisionCp>(pTank.get());
 	pTank->AddComponent(collisionCp);
 	collisionCp->AddCollider(pTank.get());
 
-	auto healthCp = std::make_shared<HealthCp>(pTank.get(), 3);
+	const auto healthCp = std::make_shared<HealthCp>(pTank.get(), 3);
 	pTank->AddComponent(healthCp);
 
-	auto bulletCollisionCp = std::make_shared<BulletCollisionCp>(pTank.get(), 250);
+	const auto bulletCollisionCp = std::make_shared<BulletCollisionCp>(pTank.get(), 250);
 	pTank->AddComponent(bulletCollisionCp);
 
-	auto bulletManagerCP = std::make_shared<BulletManagerCp>(pTank.get());
+	const auto bulletManagerCP = std::make_shared<BulletManagerCp>(pTank.get());
 	pTank->AddComponent(bulletManagerCP);
 
-	//auto pAICp = std::make_shared<AIComponent>(pTank.get(), 60.f);
-	auto pAICp = std::make_shared<AIRecognizerCp>(pTank.get(), 60.f);
+	const auto pAICp = std::make_shared<AIRecognizerCp>(pTank.get());
 	pTank->AddComponent(pAICp);
 
-	auto pMoveCp = std::make_shared<MoveCp>(pTank.get(), 60.f);
+	const auto pMoveCp = std::make_shared<MoveCp>(pTank.get(), 60.f);
 	pTank->AddComponent(pMoveCp);
 
 	return pTank.get();
@@ -91,9 +90,9 @@ static dae::GameObject* CreateRecognizer(dae::Scene& scene)
 static void CreateRecognizers(dae::Scene& scene, const std::vector<glm::vec2>& positions)
 {
 	constexpr glm::vec2 offset{ -8,-8 };
-	for (int i{}; i < positions.size(); ++i)
+	for (const auto p : positions)
 	{
-		auto enemy = CreateRecognizer(scene);
-		enemy->SetRelativePos(positions[i] + offset);
+		const auto enemy = CreateRecognizer(scene);
+		enemy->SetRelativePos(p + offset);
 	}
 }

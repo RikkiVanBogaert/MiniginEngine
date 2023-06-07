@@ -58,3 +58,13 @@
 200, lesgo
 100, iuyt
 300, opy
+100, yout
+0,  
+0, nnnn
+0, nio
+0, halo
+0, nice
+0, damn
+0, lll
+0, poop
+0, tch

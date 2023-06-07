@@ -1,11 +1,12 @@
 #pragma once
 #include "Singleton.h"
-#include "Controller.h"
 #include "Commands.h"
 
-#include <memory>
+//#include <memory>
 #include <map>
 #include <vector>
+
+#include "Controller.h"
 
 
 namespace dae

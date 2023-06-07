@@ -3,72 +3,74 @@
 #include <thread>
 #include <mutex>
 
-
-using soundId = unsigned short;
-class SoundSystem
+namespace dae
 {
-public:
-	virtual ~SoundSystem() = default;
-	virtual void Play(const soundId id, const int volume) = 0;
-	virtual void AddSound(const std::string& soundName) = 0;
-	virtual void MuteUnmuteSound() = 0;
-};
-
-class SDLSoundSystem final : public SoundSystem
-{
-public:
-	SDLSoundSystem();
-	~SDLSoundSystem() override;
-
-	void AddSound(const std::string& soundName) override;
-	void Play(const soundId id, const int volume) override;
-	void MuteUnmuteSound() override;
-
-private:
-	class SDLSoundSystemImpl;
-	std::unique_ptr<SDLSoundSystemImpl> m_pImpl;
-};
-
-class LoggingSoundSystem final : public SoundSystem
-{
-	std::unique_ptr<SDLSoundSystem> RealSs;
-public:
-	LoggingSoundSystem(std::unique_ptr<SDLSoundSystem>&& ss) : RealSs(std::move(ss)) {}
-	virtual ~LoggingSoundSystem() override = default;
-
-	void Play(const soundId id, const int volume = 1) override
+	using soundId = unsigned short;
+	class SoundSystem
 	{
-		RealSs->Play(id, volume);
-		std::cout << "playing " << id << " at volume " << volume << std::endl;
-	}
+	public:
+		virtual ~SoundSystem() = default;
+		virtual void Play(const soundId id, const int volume) = 0;
+		virtual void AddSound(const std::string& soundName) = 0;
+		virtual void MuteUnmuteSound() = 0;
+	};
 
-	void AddSound(const std::string& soundName) override
+	class SDLSoundSystem final : public SoundSystem
 	{
-		RealSs->AddSound(soundName);
-		std::cout << "adding sound: " << soundName << std::endl;
-	}
+	public:
+		SDLSoundSystem();
+		~SDLSoundSystem() override;
 
-	void MuteUnmuteSound() override
+		void AddSound(const std::string& soundName) override;
+		void Play(const soundId id, const int volume) override;
+		void MuteUnmuteSound() override;
+
+	private:
+		class SDLSoundSystemImpl;
+		std::unique_ptr<SDLSoundSystemImpl> m_pImpl;
+	};
+
+	class LoggingSoundSystem final : public SoundSystem
 	{
-		RealSs->MuteUnmuteSound();
-		std::cout << "muting/unmuting sound\n";
-	}
-};
+		std::unique_ptr<SDLSoundSystem> RealSs;
+	public:
+		LoggingSoundSystem(std::unique_ptr<SDLSoundSystem>&& ss) : RealSs(std::move(ss)) {}
+		virtual ~LoggingSoundSystem() override = default;
 
-class NullSoundSystem final : public SoundSystem
-{
-	void Play(const soundId, const int) override {}
-	void AddSound(const std::string& ) override {}
-	void MuteUnmuteSound() override {}
-};
+		void Play(const soundId id, const int volume = 1) override
+		{
+			RealSs->Play(id, volume);
+			std::cout << "playing " << id << " at volume " << volume << std::endl;
+		}
 
-class Servicelocator final
-{
-	static std::unique_ptr<SoundSystem> SsInstance;
-public:
-	static SoundSystem& GetSoundSystem() { return *SsInstance; }
-	static void RegisterSoundSystem(std::unique_ptr<SoundSystem>&& ss)
+		void AddSound(const std::string& soundName) override
+		{
+			RealSs->AddSound(soundName);
+			std::cout << "adding sound: " << soundName << std::endl;
+		}
+
+		void MuteUnmuteSound() override
+		{
+			RealSs->MuteUnmuteSound();
+			std::cout << "muting/unmuting sound\n";
+		}
+	};
+
+	class NullSoundSystem final : public SoundSystem
 	{
-		SsInstance = ss == nullptr ? std::make_unique<NullSoundSystem>() : std::move(ss);
-	}
-};
+		void Play(const soundId, const int) override {}
+		void AddSound(const std::string&) override {}
+		void MuteUnmuteSound() override {}
+	};
+
+	class Servicelocator final
+	{
+		static std::unique_ptr<SoundSystem> SsInstance;
+	public:
+		static SoundSystem& GetSoundSystem() { return *SsInstance; }
+		static void RegisterSoundSystem(std::unique_ptr<SoundSystem>&& ss)
+		{
+			SsInstance = ss == nullptr ? std::make_unique<NullSoundSystem>() : std::move(ss);
+		}
+	};
+}
