@@ -77,9 +77,7 @@ void ExplainControls()
 }
 
 void Test(Scene&)
-{
-	
-}
+{}
 
 void LoadNewScene()
 {
@@ -92,17 +90,13 @@ void LoadNewScene()
 	CreateTankController(waitingScene);
 	CreateTankController(waitingScene);
 
-	auto& scene = SceneManager::GetInstance().CreateScene("Level0");
-	scene; //i know this sucks but idk for now
+	SceneManager::GetInstance().CreateScene("Level0");
 	
-	auto& scene1 = SceneManager::GetInstance().CreateScene("Level1");
-	scene1;
+	SceneManager::GetInstance().CreateScene("Level1");
 
-	auto& scene2 = SceneManager::GetInstance().CreateScene("Level2");
-	scene2;
+	SceneManager::GetInstance().CreateScene("Level2");
 
-	auto& gameOverScene = SceneManager::GetInstance().CreateScene("GameOver");
-	gameOverScene;
+	SceneManager::GetInstance().CreateScene("GameOver");
 
 	auto* resetGame = new ResetGameCommand{};
 	InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_R, resetGame);

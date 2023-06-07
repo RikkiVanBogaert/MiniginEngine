@@ -5,8 +5,8 @@
 //class SoundEvent final : public Event
 //{
 //public:
-//    SoundEvent(int value, int sound_id)
-//        : Event(value), sound_id_(sound_id)
+//    SoundEvent(int value, int soundId)
+//        : Event(value), sound_id_(soundId)
 //    {}
 //    SoundEvent() = default;
 //
