@@ -14,8 +14,7 @@ namespace dae
 
 	static void CreateGameOver(Scene& scene)
 	{
-		auto pMainObj = std::make_shared<GameObject>();
-		pMainObj->SetTag("Main");
+		const auto pMainObj = std::make_shared<GameObject>();
 		scene.Add(pMainObj);
 
 		auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
@@ -49,7 +48,7 @@ namespace dae
 		const auto scoreObj = std::make_shared<GameObject>();
 		scoreObj->SetTag("Score");
 		int score{};
-		for (const auto p : PlayerManager::GetInstance().GetPlayers())
+		for (const auto& p : PlayerManager::GetInstance().GetPlayers())
 		{
 			score += p->GetComponent<PointsCp>()->GetAmount();
 		}
@@ -64,6 +63,22 @@ namespace dae
 		pNameObj->AddComponent(pNameTest);
 		pNameObj->SetRelativePos({ 160, 250 });
 		pMainObj->AddChild(pNameObj);
+
+
+		//HighScores
+		auto miniFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
+		glm::vec2 pos{ 350, 190 };
+		for (int i{}; i < 10; ++i)
+		{
+			const auto o = std::make_shared<GameObject>();
+			const std::string text = " ";
+			const auto t = std::make_shared<TextComponent>(o.get(), text, miniFont, SDL_Color{ 255, 255, 50, 255 });
+			o->AddComponent(t);
+			o->SetTag("HighScore" + std::to_string(i));
+			o->SetRelativePos(pos);
+			pMainObj->AddChild(o);
+			pos.y += 25;
+		}
 
 
 	}

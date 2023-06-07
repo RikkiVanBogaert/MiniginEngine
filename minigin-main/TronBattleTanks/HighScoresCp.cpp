@@ -50,10 +50,10 @@ void HighScoresCp::EnterName(float deltaTime)
         SDL_Event e;
         while (SDL_PollEvent(&e))
         {
-            /*if (e.type == SDL_QUIT) 
+            if (e.type == SDL_QUIT) 
             {
                 std::exit(0);
-            }*/
+            }
             if (e.type == SDL_KEYUP)
             {
                 if (e.key.keysym.sym == SDLK_KP_ENTER || e.key.keysym.sym == SDLK_RETURN)
@@ -120,7 +120,7 @@ void HighScoresCp::SortAndPrintNames(const std::string& filename)
 
 void HighScoresCp::ShowHighScores()
 {
-    auto mainObj = GetGameObject(m_pOwner->GetScene(), "Main");
+   /* auto mainObj = GetGameObject(m_pOwner->GetScene(), "Main");
     auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 16);
     glm::vec2 pos{ 350, 190 };
     for(int i{}; i < 10; ++i)
@@ -134,5 +134,22 @@ void HighScoresCp::ShowHighScores()
         o->SetRelativePos(pos);
         mainObj->AddChild(o);
         pos.y += 25;
+    }*/
+    for (int i{}; i < GetAmountHighScores(); ++i)
+    {
+        const auto o = GetGameObject(m_pOwner->GetScene(), "HighScore" + std::to_string(i));
+        const auto textCp = o->GetComponent<dae::TextComponent>();
+        const std::string text = std::to_string(m_HighScores[i].score) + " - " + m_HighScores[i].name;
+        textCp->SetText(text);
     }
+}
+
+int HighScoresCp::GetAmountHighScores()
+{
+    int amountHighScores{};
+    while(GetGameObject(m_pOwner->GetScene(), "HighScore" + std::to_string(amountHighScores)))
+    {
+        ++amountHighScores;
+    }
+    return amountHighScores;
 }

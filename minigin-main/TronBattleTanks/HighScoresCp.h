@@ -41,6 +41,9 @@ private:
 
 
 	void SortAndPrintNames(const std::string& filename);
+
 	void ShowHighScores();
+	int GetAmountHighScores();
+
 };
 
