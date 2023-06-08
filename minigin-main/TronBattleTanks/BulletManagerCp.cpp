@@ -6,6 +6,7 @@
 #include "EngineEvents.h"
 #include "EventQueue.h"
 #include "GameObject.h"
+#include "Sounds.h"
 
 BulletManagerCp::BulletManagerCp(dae::GameObject* owner):
 ComponentBase(owner)
@@ -29,7 +30,7 @@ void BulletManagerCp::Shoot( const glm::vec2& vel, bool playerBullet)
 	if (m_HasShot) return;
 
 	auto& ss = dae::ServiceLocator::GetSoundSystem();
-	ss.Play(0, 100);
+	ss.Play(0, 100, 0, Sounds::Shoot);
 
 
 	auto pBullet = CreateBullet(*m_pOwner->GetScene(), m_pOwner, vel, playerBullet);

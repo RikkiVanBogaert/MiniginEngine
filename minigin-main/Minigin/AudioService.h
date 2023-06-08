@@ -17,9 +17,10 @@ namespace dae
 		SoundSystem& operator=(const SoundSystem& other) = delete;
 		SoundSystem& operator=(SoundSystem&& other) = delete;
 
-		virtual void Play(const soundId id, const int volume) = 0;
+		virtual void Play(const soundId id, const int volume = 100, const int nrLoops = 0, const int channel = -1) = 0;
 		virtual void AddSound(const std::string& soundName) = 0;
 		virtual void MuteUnmuteSound() = 0;
+		virtual void StopSounds() = 0;
 	};
 
 	class SDLSoundSystem final : public SoundSystem
@@ -34,8 +35,9 @@ namespace dae
 		SDLSoundSystem& operator=(SDLSoundSystem&& other) = delete;
 
 		void AddSound(const std::string& soundName) override;
-		void Play(const soundId id, const int volume) override;
+		void Play(const soundId id, const int volume = 100, const int nrLoops = 0, const int channel = -1) override;
 		void MuteUnmuteSound() override;
+		void StopSounds() override;
 
 	private:
 		class SDLSoundSystemImpl;
@@ -54,9 +56,9 @@ namespace dae
 		LoggingSoundSystem& operator=(const LoggingSoundSystem& other) = delete;
 		LoggingSoundSystem& operator=(LoggingSoundSystem&& other) = delete;
 
-		void Play(const soundId id, const int volume = 1) override
+		void Play(const soundId id, const int volume = 100, const int nrLoops = 0, const int channel = -1) override
 		{
-			m_pRealSs->Play(id, volume);
+			m_pRealSs->Play(id, volume, nrLoops, channel);
 			std::cout << "playing " << id << " at volume " << volume << std::endl;
 		}
 
@@ -71,13 +73,19 @@ namespace dae
 			m_pRealSs->MuteUnmuteSound();
 			std::cout << "muting/unmuting sound\n";
 		}
+		void StopSounds() override
+		{
+			m_pRealSs->StopSounds();
+			std::cout << "stopping sounds\n";
+		}
 	};
 
 	class NullSoundSystem final : public SoundSystem
 	{
-		void Play(const soundId, const int) override {}
+		void Play(const soundId, const int, const int, const int) override {}
 		void AddSound(const std::string&) override {}
 		void MuteUnmuteSound() override {}
+		void StopSounds() override {};
 	};
 
 	class ServiceLocator final

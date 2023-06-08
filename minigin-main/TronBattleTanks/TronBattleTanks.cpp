@@ -127,6 +127,7 @@ void load()
 #endif
 	auto& ss = ServiceLocator::GetSoundSystem();
 	ss.AddSound("../Data/Resources/Sounds/Shoot.wav");
+	ss.AddSound("../Data/Resources/Sounds/Background.mp3");
 }
 
 int main(int, char* []) 

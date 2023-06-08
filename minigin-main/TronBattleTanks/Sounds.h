@@ -2,5 +2,6 @@
 
 enum Sounds
 {
-	Shoot
+	Shoot,
+	Background
 };

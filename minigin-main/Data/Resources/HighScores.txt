@@ -83,3 +83,6 @@
 0,  gh
 0, yoo
 0, top
+0, rr wda
+0, oknice
+0, r
