@@ -2,7 +2,6 @@
 #include "GameObject.h"
 #include "ResourceManager.h"
 #include "BaseComponent.h"
-#include "Observers.h"
 #include "Scene.h"
 
 using namespace dae;
@@ -82,10 +81,12 @@ GameObject* GameObject::GetParent() const
 	return m_pParent;
 }
 
-void GameObject::AddChild(std::shared_ptr<GameObject> child)
+void GameObject::AddChild(const std::shared_ptr<GameObject>& child)
 {
 	m_pChildren.push_back(child.get());
 	child->SetParent(this);
+
+	if (child->GetScene()) return;
 
 	GetScene()->Add(child);
 }

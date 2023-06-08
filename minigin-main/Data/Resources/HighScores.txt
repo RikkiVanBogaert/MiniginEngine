@@ -80,3 +80,6 @@
 0, yooo
 0, r  
 100, nif
+0,  gh
+0, yoo
+0, top

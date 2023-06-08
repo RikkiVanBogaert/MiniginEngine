@@ -23,7 +23,7 @@ namespace dae
 		auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 13);
 
 		const auto startObj = std::make_shared<GameObject>();
-		const auto startText = std::make_shared<TextComponent>(startObj.get(), "Skip Level (N)", font, SDL_Color{ 255, 255, 255 });
+		const auto startText = std::make_shared<TextComponent>(startObj.get(), "Skip Level (N)", font, SDL_Color{ 255, 255, 255, 255 });
 		startObj->SetRelativePos({ 5, 400 });
 		startObj->AddComponent(startText);
 		pLevelObject->AddChild(startObj);

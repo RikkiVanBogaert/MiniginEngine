@@ -1,4 +1,3 @@
-#pragma once
 #include "UICp.h"
 #include "Font.h"
 #include "Renderer.h"

@@ -1,4 +1,3 @@
-#pragma once
 #include "FPSComponent.h"
 #include "TextComponent.h"
 
@@ -8,9 +7,9 @@
 using namespace dae;
 
 
-FPSComponent::FPSComponent(GameObject* owner, std::shared_ptr<Font> font) :
+FPSComponent::FPSComponent(GameObject* owner, const std::shared_ptr<Font>& font) :
 ComponentBase(owner),
-m_pTextCp( std::make_unique<TextComponent>(owner, "FPS: 00", font, SDL_Color{255, 255, 0}) )
+m_pTextCp( std::make_unique<TextComponent>(owner, "FPS: 00", font, SDL_Color{255, 255, 0, 255}) )
 {}
 
 void FPSComponent::Update(float deltaTime)
@@ -24,9 +23,8 @@ void FPSComponent::Render() const
 	m_pTextCp->Render();
 }
 
-void FPSComponent::UpdateFPS(float)
+void FPSComponent::UpdateFPS(float) const
 {
-
 	static std::chrono::time_point<std::chrono::steady_clock> oldTime = std::chrono::high_resolution_clock::now();
 	static int fps;
 	fps++;

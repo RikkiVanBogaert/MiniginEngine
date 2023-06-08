@@ -24,15 +24,15 @@ void BulletManagerCp::Update(float deltaTime)
 }
 
 
-void BulletManagerCp::Shoot( const glm::vec2& vel)
+void BulletManagerCp::Shoot( const glm::vec2& vel, bool playerBullet)
 {
 	if (m_HasShot) return;
 
-	auto& ss = dae::Servicelocator::GetSoundSystem();
+	auto& ss = dae::ServiceLocator::GetSoundSystem();
 	ss.Play(0, 100);
 
 
-	auto pBullet = CreateBullet(*m_pOwner->GetScene(), m_pOwner, vel);
+	auto pBullet = CreateBullet(*m_pOwner->GetScene(), m_pOwner, vel, playerBullet);
 	pBullet->SetTag(m_pOwner->GetTag());
 
 	const glm::vec2 middlePos = { m_pOwner->GetWorldTransform().x + m_pOwner->GetSize().x / 2 - pBullet->GetSize().x / 2,

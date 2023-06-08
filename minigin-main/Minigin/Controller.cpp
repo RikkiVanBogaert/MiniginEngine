@@ -23,7 +23,7 @@ public:
         ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));
         XInputGetState(m_ControllerIndex, &m_CurrentState);
 
-        auto buttonChanges = m_CurrentState.Gamepad.wButtons ^ m_PreviousState.Gamepad.wButtons;
+        const auto buttonChanges = m_CurrentState.Gamepad.wButtons ^ m_PreviousState.Gamepad.wButtons;
         m_ButtonsPressedThisFrame = buttonChanges & m_CurrentState.Gamepad.wButtons;
         m_ButtonsPressedThisFrame = buttonChanges & (~m_CurrentState.Gamepad.wButtons);
     }

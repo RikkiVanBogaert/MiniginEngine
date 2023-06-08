@@ -13,9 +13,6 @@ namespace dae
 
 		virtual void Update(float deltaTime) override;
 
-	protected:
-
-
 	private:
 		float m_RotSpeed{};
 		float m_Radius{};

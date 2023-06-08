@@ -1,4 +1,3 @@
-#pragma once
 #include <SDL.h>
 
 #include "InputManager.h"
@@ -11,20 +10,12 @@ using namespace dae;
 bool InputManager::ProcessInput()
 {
 	SDL_Event e;
-	while (SDL_PollEvent(&e)) {
-		if (e.type == SDL_QUIT) {
+	while (SDL_PollEvent(&e)) 
+	{
+		if (e.type == SDL_QUIT) 
+		{
 			return false;
 		}
-		if (e.type == SDL_KEYDOWN) 
-		{
-			//std::cout << e.text.text << '\n';
-		}
-		else if (e.type == SDL_TEXTINPUT)
-		{
-			//std::cout << e.text.text;
-		}
-		
-		// etc...
 	}
 
 	ProcessInputKeyboard();

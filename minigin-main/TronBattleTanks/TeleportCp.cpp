@@ -30,17 +30,17 @@ glm::vec2 TeleportCp::GetRandomPos()
 {
 	glm::vec2 pos{};
 
-	auto level = GetGameObject(m_pOwner->GetScene(), "Level");
+	const auto level = GetGameObject(m_pOwner->GetScene(), "Level");
 
 	std::vector<int> paths{};
-	for(int i{}; i < level->GetChildren().size(); ++i)
+	for(int i{}; i < static_cast<int>(level->GetChildren().size()); ++i)
 	{
 		if (level->GetChildren()[i]->GetTag() != "Path") continue;
 
 		paths.emplace_back(i);
 	}
 
-	auto rndNr{ rand() % paths.size() - 1 };
+	const auto rndNr{ rand() % paths.size() - 1 };
 
 	pos = level->GetChildren()[rndNr]->GetWorldTransform();
 

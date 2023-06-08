@@ -8,7 +8,7 @@
 
 inline dae::GameObject* GetGameObject(dae::Scene* scene, const std::string& tag)
 {
-	for (const auto o : scene->GetGameObjects())
+	for (const auto& o : scene->GetGameObjects())
 	{
         if(o->NeedsDeleting()) continue;
         if (o->GetTag() != tag) continue;
@@ -22,7 +22,7 @@ inline dae::GameObject* GetGameObject(dae::Scene* scene, const std::string& tag)
 template <typename T>
 T* GetComponentInScene(dae::Scene* scene, const std::string& tag = "noTag")
 {
-	for (const auto o : scene->GetGameObjects())
+	for (const auto& o : scene->GetGameObjects())
 	{
 		if(!o->GetComponent<T>()) continue;
 

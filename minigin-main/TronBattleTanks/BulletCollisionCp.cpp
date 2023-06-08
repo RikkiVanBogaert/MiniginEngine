@@ -35,12 +35,12 @@ void BulletCollisionCp::Update(float )
 	bulletCp = nullptr;
 }
 
-void BulletCollisionCp::GetHit(dae::GameObject* shooter)
+void BulletCollisionCp::GetHit(dae::GameObject* shooter) const
 {
 	//Victim lives
-	auto healthCp = m_pOwner->GetComponent<HealthCp>();
+	const auto healthCp = m_pOwner->GetComponent<HealthCp>();
 	healthCp->ChangeAmount(-1);
-	if (auto livesCp = GetComponentInScene<dae::UILivesCp>(m_pOwner->GetScene(), m_pOwner->GetTag()))
+	if (const auto livesCp = GetComponentInScene<dae::UILivesCp>(m_pOwner->GetScene(), m_pOwner->GetTag()))
 	{
 		livesCp->UpdateSubject(dae::PlayerHit);
 	}
@@ -50,7 +50,7 @@ void BulletCollisionCp::GetHit(dae::GameObject* shooter)
 
 	if (healthCp->GetAmount() > 0) return;
 
-	if (auto pointsText = GetComponentInScene<dae::UIPointsCp>(m_pOwner->GetScene()))
+	if (const auto pointsText = GetComponentInScene<dae::UIPointsCp>(m_pOwner->GetScene()))
 	{
 		if(m_pOwner->GetTag() == "BlueEnemy")
 		{

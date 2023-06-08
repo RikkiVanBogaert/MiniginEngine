@@ -182,6 +182,7 @@
     <ClInclude Include="GameObservers.h" />
     <ClInclude Include="GameOverPrefab.h" />
     <ClInclude Include="GridCp.h" />
+    <ClInclude Include="GunPrefab.h" />
     <ClInclude Include="LevelInfoCp.h" />
     <ClInclude Include="LevelPrefab.h" />
     <ClInclude Include="EnemyPrefab.h" />

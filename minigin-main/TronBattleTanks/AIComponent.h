@@ -3,8 +3,6 @@
 #include <vector>
 #include <glm/vec2.hpp>
 
-#include "AIComponent.h"
-#include "AIComponent.h"
 #include "BaseComponent.h"
 
 

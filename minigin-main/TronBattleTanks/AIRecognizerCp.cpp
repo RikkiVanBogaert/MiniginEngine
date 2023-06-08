@@ -79,22 +79,22 @@ void WanderState::SwapDirection()
 {
 	//will (maybe) do random/better direction choosing later
 
-	if(m_Direction.x == 1.f)
+	if(m_Direction.x > 0.f)
 	{
 		m_Direction.x = 0;
 		m_Direction.y = 1;
 	}
-	else if (m_Direction.y == 1.f)
+	else if (m_Direction.y > 0.f)
 	{
 		m_Direction.x = -1;
 		m_Direction.y = 0;
 	}
-	else if (m_Direction.x == -1.f)
+	else if (m_Direction.x < 0.f)
 	{
 		m_Direction.x = 0;
 		m_Direction.y = -1;
 	}
-	else if (m_Direction.y == -1.f)
+	else if (m_Direction.y < 0.f)
 	{
 		m_Direction.x = 1;
 		m_Direction.y = 0;
@@ -108,7 +108,7 @@ void AttackState::Update(dae::GameObject* gameObject, float deltaTime,
 
 	if (!m_HasShot)
 	{
-		bulletManager->Shoot(m_ShootDirection);
+		bulletManager->Shoot(m_ShootDirection, false);
 		m_HasShot = true;
 	}
 	UpdateShootTimer(deltaTime);

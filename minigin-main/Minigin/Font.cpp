@@ -4,14 +4,15 @@
 
 using namespace dae;
 
-TTF_Font* Font::GetFont() const {
-	return m_font;
+TTF_Font* Font::GetFont() const
+{
+	return m_Font;
 }
 
-Font::Font(const std::string& fullPath, unsigned int size) : m_font(nullptr), m_size(size)
+Font::Font(const std::string& fullPath, unsigned int size) : m_Font(nullptr)
 {
-	m_font = TTF_OpenFont(fullPath.c_str(), size);
-	if (m_font == nullptr) 
+	m_Font = TTF_OpenFont(fullPath.c_str(), size);
+	if (!m_Font) 
 	{
 		throw std::runtime_error(std::string("Failed to load font: ") + SDL_GetError());
 	}
@@ -19,5 +20,5 @@ Font::Font(const std::string& fullPath, unsigned int size) : m_font(nullptr), m_
 
 Font::~Font()
 {
-	TTF_CloseFont(m_font);
+	TTF_CloseFont(m_Font);
 }

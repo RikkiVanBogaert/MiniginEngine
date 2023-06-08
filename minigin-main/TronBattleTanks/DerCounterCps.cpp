@@ -1,6 +1,5 @@
 #include "DerCounterCps.h"
 
-#include "GameHelpers.h"
 #include "GameObject.h"
 #include "PlayerManager.h"
 #include "Scene.h"
@@ -31,7 +30,7 @@ void LivesCp::ChangeAmount(int difference)
 {
 	CounterCp::ChangeAmount(difference);
 	
-	if (GetCounter() < 3)
+	if (GetCounter() < 0)
 	{
 		//Game Over
 		dae::SceneManager::GetInstance().GetActiveScene()->RemoveAll();

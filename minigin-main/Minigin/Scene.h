@@ -19,8 +19,8 @@ namespace dae
 		void FixedUpdate(float deltaTime) const;
 		void Render() const;
 
-		std::string GetName() const { return m_name; }
-		std::vector<std::shared_ptr<GameObject>> GetGameObjects() {	return m_objects; }
+		std::string GetName() const { return m_Name; }
+		std::vector<std::shared_ptr<GameObject>> GetGameObjects() {	return m_Objects; }
 		
 		void SetActive(bool isActive) { m_IsActive = isActive; }
 		bool IsActive() { return m_IsActive; }
@@ -34,12 +34,12 @@ namespace dae
 	private: 
 		explicit Scene(const std::string& name);
 
-		std::string m_name;
-		std::vector < std::shared_ptr<GameObject>> m_objects{};
+		std::string m_Name;
+		std::vector < std::shared_ptr<GameObject>> m_Objects{};
 		
 		bool m_IsActive{};
 
-		static unsigned int m_idCounter; 
+		static unsigned int m_IdCounter; 
 	};
 
 }

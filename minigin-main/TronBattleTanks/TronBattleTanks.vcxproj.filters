@@ -158,5 +158,8 @@
     <ClInclude Include="GameObservers.h">
       <Filter>Game Files</Filter>
     </ClInclude>
+    <ClInclude Include="GunPrefab.h">
+      <Filter>Game Files\Prefabs</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

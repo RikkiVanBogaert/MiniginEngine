@@ -1,5 +1,4 @@
 #pragma once
-#include <vector>
 #include <glm/vec2.hpp>
 
 #include "BaseComponent.h"
@@ -10,7 +9,7 @@ public:
 	BulletManagerCp(dae::GameObject* owner);
 
 	void Update(float deltaTime) override;
-	void Shoot( const glm::vec2& vel);
+	void Shoot( const glm::vec2& vel, bool playerBullet = true);
 
 private:
 	float m_Timer{};

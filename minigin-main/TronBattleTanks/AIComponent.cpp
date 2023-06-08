@@ -21,7 +21,7 @@ void AIComponent::Update(float deltaTime)
 	glm::vec2 bulletDir{};
 	if(PlayerInSight(bulletDir) && !m_HasShot)
 	{
-		m_pBulletManager->Shoot(bulletDir); 
+		m_pBulletManager->Shoot(bulletDir, false); 
 		m_HasShot = true;
 	}
 	else

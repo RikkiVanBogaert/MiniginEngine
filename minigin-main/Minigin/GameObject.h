@@ -63,7 +63,8 @@ namespace dae
 		//Parent stuff
 		void SetParent(GameObject* parent);
 		GameObject* GetParent() const;
-		void AddChild(std::shared_ptr<GameObject> child);
+		void AddChild(const std::shared_ptr<GameObject>& child);
+		void RemoveChild(GameObject* child);
 		std::vector<GameObject*> GetChildren() const;
 
 		void SetTag(const std::string& tag) { m_Tag = tag; }
@@ -99,7 +100,6 @@ namespace dae
 
 		std::string m_Tag{};
 
-		void RemoveChild(GameObject* child);
 
 
 	};

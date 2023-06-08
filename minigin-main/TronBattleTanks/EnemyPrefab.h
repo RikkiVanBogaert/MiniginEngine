@@ -7,7 +7,6 @@
 #include "CollisionCp.h"
 #include "AIComponent.h"
 #include "AIRecognizerCp.h"
-#include "CounterCp.h"
 #include "MoveCp.h"
 
 static dae::GameObject* CreateBlueEnemy(dae::Scene& scene)

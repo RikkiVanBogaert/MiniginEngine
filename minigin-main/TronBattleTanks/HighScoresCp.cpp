@@ -1,14 +1,13 @@
 #include "HighScoresCp.h"
-
-#include <iostream>
-
 #include "TextComponent.h"
+#include "GameHelpers.h"
+#include "ResourceManager.h"
 
+#include <algorithm>
+#include <iostream>
 #include <memory>
 #include <SDL_pixels.h>
 
-#include "GameHelpers.h"
-#include "ResourceManager.h"
 
 namespace dae
 {
@@ -17,8 +16,7 @@ namespace dae
 
 HighScoresCp::HighScoresCp(dae::GameObject* owner, const std::string&, const std::shared_ptr<dae::Font>& font, const SDL_Color& color):
 ComponentBase(owner),
-m_pText{ std::make_unique<dae::TextComponent>(owner, "...", font, color) },
-m_Name("")
+m_pText{ std::make_unique<dae::TextComponent>(owner, "...", font, color) }
 {}
 
 void HighScoresCp::Update(float deltaTime)
@@ -81,7 +79,7 @@ void HighScoresCp::EnterName(float deltaTime)
     ShowHighScores();
 }
 
-void HighScoresCp::WriteToHighScores(const std::string& name)
+void HighScoresCp::WriteToHighScores(const std::string& name) const
 {
     const auto score = GetComponentInScene<dae::TextComponent>(m_pOwner->GetScene(), "Score")->GetBeginText();
 
@@ -118,23 +116,8 @@ void HighScoresCp::SortAndPrintNames(const std::string& filename)
 	m_HighScores = records;
 }
 
-void HighScoresCp::ShowHighScores()
+void HighScoresCp::ShowHighScores() const
 {
-   /* auto mainObj = GetGameObject(m_pOwner->GetScene(), "Main");
-    auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 16);
-    glm::vec2 pos{ 350, 190 };
-    for(int i{}; i < 10; ++i)
-    {
-        if (i >= m_HighScores.size()) return;
-
-        const auto o = std::make_shared<dae::GameObject>();
-        const std::string text = std::to_string(m_HighScores[i].score) + " - " + m_HighScores[i].name;
-        const auto t = std::make_shared<dae::TextComponent>(o.get(), text, font, SDL_Color{255, 255, 50, 255});
-    	o->AddComponent(t);
-        o->SetRelativePos(pos);
-        mainObj->AddChild(o);
-        pos.y += 25;
-    }*/
     for (int i{}; i < GetAmountHighScores(); ++i)
     {
         const auto o = GetGameObject(m_pOwner->GetScene(), "HighScore" + std::to_string(i));
@@ -144,7 +127,7 @@ void HighScoresCp::ShowHighScores()
     }
 }
 
-int HighScoresCp::GetAmountHighScores()
+int HighScoresCp::GetAmountHighScores() const
 {
     int amountHighScores{};
     while(GetGameObject(m_pOwner->GetScene(), "HighScore" + std::to_string(amountHighScores)))

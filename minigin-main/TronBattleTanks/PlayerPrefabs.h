@@ -12,6 +12,7 @@
 #include "PlayerManager.h"
 #include "Scene.h"
 #include "TextureComponent.h"
+#include "GunPrefab.h"
 
 namespace dae
 {
@@ -63,10 +64,10 @@ namespace dae
 		auto* moveCommandLeft = new MoveCommand{ pTank.get(), left };
 		auto* moveCommandRight = new MoveCommand{ pTank.get(), right };
 
-		dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_S, moveCommandDown);
-		dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_W, moveCommandUp);
-		dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_A, moveCommandLeft);
-		dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_D, moveCommandRight);
+		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_S, moveCommandDown);
+		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_W, moveCommandUp);
+		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_A, moveCommandLeft);
+		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_D, moveCommandRight);
 
 		//Shooting
 		constexpr float shootSpeed{ 300 };
@@ -84,6 +85,8 @@ namespace dae
 		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_DOWN, shootDown);
 		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_LEFT, shootLeft);
 		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_RIGHT, shootRight);
+
+		pTank->AddChild(CreateTankGun(scene));
 	}
 
 	static void CreateTankController(Scene& scene)

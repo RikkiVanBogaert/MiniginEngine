@@ -1,10 +1,7 @@
 #pragma once
 #include <memory>
 #include <SDL_pixels.h>
-#include <iostream>
-#include <fstream>
 #include <vector>
-#include <algorithm>
 #include <sstream>
 
 #include "BaseComponent.h"
@@ -37,13 +34,10 @@ private:
 	std::vector<Record> m_HighScores{};
 
 	void EnterName(float deltaTime);
-	void WriteToHighScores(const std::string& name);
-
-
+	void WriteToHighScores(const std::string& name) const;
 	void SortAndPrintNames(const std::string& filename);
-
-	void ShowHighScores();
-	int GetAmountHighScores();
+	void ShowHighScores() const;
+	int GetAmountHighScores() const;
 
 };
 

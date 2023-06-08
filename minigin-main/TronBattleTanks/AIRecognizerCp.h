@@ -39,7 +39,6 @@ private:
 	bool m_HasInit{};
 
 	std::vector<std::shared_ptr<dae::GameObject>> m_pPlayers;
-	dae::GameObject* m_pClosestPlayer{};
 	CollisionCp* m_pLevelCollision{};
 	BulletManagerCp* m_pBulletManager{};
 

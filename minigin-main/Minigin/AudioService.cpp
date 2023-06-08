@@ -118,7 +118,7 @@ SDLSoundSystem::SDLSoundSystem()
 
 SDLSoundSystem::~SDLSoundSystem()
 {
-    m_pImpl.release();
+    m_pImpl.reset();
 }
 
 void SDLSoundSystem::AddSound(const std::string& soundName)

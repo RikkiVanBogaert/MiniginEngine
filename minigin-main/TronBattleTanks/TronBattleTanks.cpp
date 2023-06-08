@@ -53,7 +53,7 @@ void LoadDaeScene()
 	const auto textObj = std::make_shared<GameObject>();
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	const auto to = std::make_shared<TextComponent>(textObj.get(), "Programming 4 Assignment", 
-		font, SDL_Color{ 255, 255, 255 });
+		font, SDL_Color{ 255, 255, 255, 255 });
 	textObj->SetRelativePos({ 80, 20 });
 	textObj->AddComponent(to);
 	scene.Add(textObj);
@@ -108,7 +108,7 @@ void LoadNewScene()
 }
 
 //Sound statics
- std::unique_ptr<SoundSystem> Servicelocator::SsInstance{ std::make_unique<NullSoundSystem>() };
+ std::unique_ptr<SoundSystem> ServiceLocator::m_pSsInstance{ std::make_unique<NullSoundSystem>() };
  //State statics
  std::shared_ptr<WanderState> RecognizerState::m_WanderState = std::make_shared<WanderState>();
  std::shared_ptr<AttackState> RecognizerState::m_AttackState = std::make_shared<AttackState>();
@@ -120,12 +120,12 @@ void load()
 	LoadNewScene();
 
 #if _DEBUG
-	Servicelocator::RegisterSoundSystem(
+	ServiceLocator::RegisterSoundSystem(
 		std::make_unique<LoggingSoundSystem>(std::make_unique<SDLSoundSystem>()));
 #else
-	Servicelocator::RegisterSoundSystem(std::make_unique<SDLSoundSystem>());
+	ServiceLocator::RegisterSoundSystem(std::make_unique<SDLSoundSystem>());
 #endif
-	auto& ss = Servicelocator::GetSoundSystem();
+	auto& ss = ServiceLocator::GetSoundSystem();
 	ss.AddSound("../Data/Resources/Sounds/Shoot.wav");
 }
 
