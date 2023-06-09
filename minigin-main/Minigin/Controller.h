@@ -13,11 +13,6 @@ namespace dae
         Controller(unsigned int controllerIndex);
        
         void Update() const;
-        bool IsButtonDown(unsigned int button) const;
-        bool IsUpThisFrame(unsigned int button) const;
-        bool IsPressed(unsigned int button) const;
-        unsigned int GetControllerIndex() const;
-
         enum class ControllerButton
         {
             DpadUp = 0x0001,
@@ -31,9 +26,15 @@ namespace dae
             LeftShoulder = 0x0100,
             RightShoulder = 0x0200,
             ButtonA = 0x1000,
-            ButtonB = 0x2002,
+            ButtonB = 0x2000,
             ButtonX = 0x4000,
             ButtonY = 0x8000,
         };
+
+        bool IsButtonDown(ControllerButton button) const;
+        bool IsUpThisFrame(ControllerButton button) const;
+        bool IsPressed(ControllerButton button) const;
+        unsigned int GetControllerIndex() const;
+
     };
 }

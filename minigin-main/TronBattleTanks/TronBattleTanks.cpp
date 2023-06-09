@@ -86,8 +86,7 @@ void LoadNewScene()
 	startScene.SetActive(true);
 
 	auto& waitingScene = SceneManager::GetInstance().CreateScene("WaitingScene");
-	CreateTankKeyboard(waitingScene);
-	CreateTankController(waitingScene);
+	CreateTankKeyboardAndController(waitingScene);
 	CreateTankController(waitingScene);
 
 	SceneManager::GetInstance().CreateScene("Level0");
@@ -98,10 +97,10 @@ void LoadNewScene()
 
 	SceneManager::GetInstance().CreateScene("GameOver");
 
-	auto* resetGame = new ResetGameCommand{};
+	const auto resetGame = std::make_shared<ResetGameCommand>();
 	InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_R, resetGame);
 
-	auto* muteUnmute = new MuteCommand{};
+	const auto muteUnmute = std::make_shared<MuteCommand>();
 	InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_M, muteUnmute);
 
 	ExplainControls();

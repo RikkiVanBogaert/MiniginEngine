@@ -10,8 +10,8 @@ using namespace dae;
 class Controller::ControllerImpl
 {
 public:
-    ControllerImpl(unsigned int controllerIndex):
-        m_ControllerIndex{controllerIndex}
+    ControllerImpl(unsigned int controllerIndex) :
+        m_ControllerIndex{ controllerIndex }
     {
         ZeroMemory(&m_PreviousState, sizeof(XINPUT_STATE));
         ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));
@@ -23,22 +23,34 @@ public:
         ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));
         XInputGetState(m_ControllerIndex, &m_CurrentState);
 
-        const auto buttonChanges = m_CurrentState.Gamepad.wButtons ^ m_PreviousState.Gamepad.wButtons;
-        m_ButtonsPressedThisFrame = buttonChanges & m_CurrentState.Gamepad.wButtons;
-        m_ButtonsPressedThisFrame = buttonChanges & (~m_CurrentState.Gamepad.wButtons);
+        m_ButtonsPressedThisFrame = m_CurrentState.Gamepad.wButtons & ~m_PreviousState.Gamepad.wButtons;
     }
-    bool IsButtonDown(unsigned int button) const { return m_ButtonsPressedThisFrame & button; }
-    bool IsUpThisFrame(unsigned int button) const { return m_ButtonsPressedThisFrame & button; }
-    bool IsPressed(unsigned int button) const { return m_CurrentState.Gamepad.wButtons & button; }
+
+    bool IsButtonDown(ControllerButton button) const
+    {
+        return (m_CurrentState.Gamepad.wButtons & static_cast<unsigned int>(button)) != 0;
+    }
+
+    bool IsUpThisFrame(ControllerButton button) const
+    {
+        return (m_ButtonsPressedThisFrame & static_cast<unsigned int>(button)) != 0;
+    }
+
+    bool IsPressed(ControllerButton button) const
+    {
+        return (m_CurrentState.Gamepad.wButtons & static_cast<unsigned int>(button)) != 0;
+    }
+
     unsigned int GetControllerIndex() const { return m_ControllerIndex; }
 
 private:
     XINPUT_STATE m_CurrentState{};
     XINPUT_STATE m_PreviousState{};
-    int m_ButtonsPressedThisFrame{};
-    
+    unsigned int m_ButtonsPressedThisFrame{};
+
     unsigned int m_ControllerIndex{};
 };
+
 
 
 Controller::Controller(unsigned int controllerIndex)
@@ -52,17 +64,17 @@ void Controller::Update() const
     m_pImpl->Update();
 }
 
-bool Controller::IsButtonDown(unsigned int button) const
+bool Controller::IsButtonDown(ControllerButton button) const
 {
     return m_pImpl->IsButtonDown(button);
 }
 
-bool Controller::IsUpThisFrame(unsigned int button) const
+bool Controller::IsUpThisFrame(ControllerButton button) const
 {
     return m_pImpl->IsUpThisFrame(button);
 }
 
-bool Controller::IsPressed(unsigned int button) const
+bool Controller::IsPressed(ControllerButton button) const
 {
     return m_pImpl->IsPressed(button);
 }

@@ -17,15 +17,15 @@
 namespace dae
 {
 
-	static void CreateTankKeyboard(Scene& scene)
+	static void CreateTankKeyboardAndController(Scene& scene)
 	{
-		auto pTank = std::make_shared<dae::GameObject>();
+		auto pTank = std::make_shared<GameObject>();
 		scene.Add(pTank);
 		pTank->SetTag("RedPlayer");
 		PlayerManager::GetInstance().AddPlayer(pTank);
 
 		//Texture
-		auto tankTxt = std::make_shared<dae::TextureComponent>(pTank.get());
+		auto tankTxt = std::make_shared<TextureComponent>(pTank.get());
 		tankTxt->SetTexture("Resources/Sprites/RedTank.png");
 		pTank->AddComponent(tankTxt);
 
@@ -49,6 +49,7 @@ namespace dae
 		auto health = std::make_shared<LivesCp>(pTank.get(), 3);
 		pTank->AddComponent(health);
 
+
 		//Movement
 		auto moveCp = std::make_shared<MoveCp>(pTank.get(), 50.f);
 		pTank->AddComponent(moveCp);
@@ -59,32 +60,56 @@ namespace dae
 		glm::vec3 right = { speed,0.f,0.f };
 		glm::vec3 left = { -speed,0.f,0.f };
 
-		auto* moveCommandUp = new MoveCommand{ pTank.get(), up };
-		auto* moveCommandDown = new MoveCommand{ pTank.get(), down };
-		auto* moveCommandLeft = new MoveCommand{ pTank.get(), left };
-		auto* moveCommandRight = new MoveCommand{ pTank.get(), right };
+		auto moveCommandUp = std::make_shared<MoveCommand>( pTank.get(), up);
+		auto moveCommandDown = std::make_shared<MoveCommand>(pTank.get(), down);
+		auto moveCommandLeft = std::make_shared<MoveCommand>(pTank.get(), left);
+		auto moveCommandRight = std::make_shared<MoveCommand>(pTank.get(), right);
 
-		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_S, moveCommandDown);
 		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_W, moveCommandUp);
+		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_S, moveCommandDown);
 		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_A, moveCommandLeft);
 		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_D, moveCommandRight);
 
+		//Controller
+		int controllerIdx{ PlayerManager::GetInstance().GetControllerIdx() };
+		dae::InputManager::GetInstance().AddController(controllerIdx);
+		++PlayerManager::GetInstance().GetControllerIdx();
+		Controller::ControllerButton button{};
+
+		button = Controller::ControllerButton::DpadDown;
+		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandDown);
+		button = Controller::ControllerButton::DpadUp;
+		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandUp);
+		button = Controller::ControllerButton::DpadLeft;
+		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandLeft);
+		button = Controller::ControllerButton::DpadRight;
+		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandRight);
+
 		//Shooting
 		constexpr float shootSpeed{ 300 };
-		glm::vec2 shootUpSpeed = { 0.f, -shootSpeed };
-		glm::vec2 shootDownSpeed = { 0.f, shootSpeed };
-		glm::vec2 shootLeftSpeed = { -shootSpeed, 0.f };
-		glm::vec2 shootRightSpeed = { shootSpeed, 0.f };
+		glm::vec2 shootUpVel = { 0.f, -shootSpeed };
+		glm::vec2 shootDownVel = { 0.f, shootSpeed };
+		glm::vec2 shootLeftVel = { -shootSpeed, 0.f };
+		glm::vec2 shootRightVel = { shootSpeed, 0.f };
 
-		auto* shootUp = new ShootCommand{ pTank.get(), shootUpSpeed };
-		auto* shootDown = new ShootCommand{ pTank.get(), shootDownSpeed };
-		auto* shootLeft = new ShootCommand{ pTank.get(), shootLeftSpeed };
-		auto* shootRight = new ShootCommand{ pTank.get(), shootRightSpeed };
+		auto shootUp = std::make_shared<ShootCommand>(pTank.get(), shootUpVel);
+		auto shootDown = std::make_shared<ShootCommand>(pTank.get(), shootDownVel);
+		auto shootLeft = std::make_shared<ShootCommand>(pTank.get(), shootLeftVel);
+		auto shootRight = std::make_shared<ShootCommand>(pTank.get(), shootRightVel);
 
 		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_UP, shootUp);
 		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_DOWN, shootDown);
 		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_LEFT, shootLeft);
 		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_RIGHT, shootRight);
+
+		button = Controller::ControllerButton::ButtonY;
+		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, shootUp);
+		button = Controller::ControllerButton::ButtonA;
+		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, shootDown);
+		button = Controller::ControllerButton::ButtonX;
+		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, shootLeft);
+		button = Controller::ControllerButton::ButtonB;
+		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, shootRight);
 
 		pTank->AddChild(CreateTankGun(scene));
 	}
@@ -138,32 +163,33 @@ namespace dae
 		glm::vec3 down = { 0.f,speed,0.f };
 		glm::vec3 right = { speed,0.f,0.f };
 		glm::vec3 left = { -speed,0.f,0.f };
-		auto* moveCommandDownBlue = new MoveCommand{ pTank.get(), down };
-		auto* moveCommandUpBlue = new MoveCommand{ pTank.get(), up };
-		auto* moveCommandLeftBlue = new MoveCommand{ pTank.get(), left };
-		auto* moveCommandRightBlue = new MoveCommand{ pTank.get(), right };
+
+		auto moveCommandUp = std::make_shared<MoveCommand>(pTank.get(), up);
+		auto moveCommandDown = std::make_shared<MoveCommand>(pTank.get(), down);
+		auto moveCommandLeft = std::make_shared<MoveCommand>(pTank.get(), left);
+		auto moveCommandRight = std::make_shared<MoveCommand>(pTank.get(), right);
 
 		button = Controller::ControllerButton::DpadDown;
-		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandDownBlue);
+		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandDown);
 		button = Controller::ControllerButton::DpadUp;
-		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandUpBlue);
+		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandUp);
 		button = Controller::ControllerButton::DpadLeft;
-		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandLeftBlue);
+		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandLeft);
 		button = Controller::ControllerButton::DpadRight;
-		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandRightBlue);
+		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandRight);
 
 
 		//Shooting
 		constexpr float shootSpeed{ 300 };
-		glm::vec2 shootUpSpeed = { 0.f, -shootSpeed };
-		glm::vec2 shootDownSpeed = { 0.f, shootSpeed };
-		glm::vec2 shootLeftSpeed = { -shootSpeed, 0.f };
-		glm::vec2 shootRightSpeed = { shootSpeed, 0.f };
+		glm::vec2 shootUpVel = { 0.f, -shootSpeed };
+		glm::vec2 shootDownVel = { 0.f, shootSpeed };
+		glm::vec2 shootLeftVel = { -shootSpeed, 0.f };
+		glm::vec2 shootRightVel = { shootSpeed, 0.f };
 
-		auto* shootUp = new ShootCommand{ pTank.get(), shootUpSpeed };
-		auto* shootDown = new ShootCommand{ pTank.get(), shootDownSpeed };
-		auto* shootLeft = new ShootCommand{ pTank.get(), shootLeftSpeed };
-		auto* shootRight = new ShootCommand{ pTank.get(), shootRightSpeed };
+		auto shootUp = std::make_shared<ShootCommand>(pTank.get(), shootUpVel);
+		auto shootDown = std::make_shared<ShootCommand>(pTank.get(), shootDownVel);
+		auto shootLeft = std::make_shared<ShootCommand>(pTank.get(), shootLeftVel);
+		auto shootRight = std::make_shared<ShootCommand>(pTank.get(), shootRightVel);
 
 		button = Controller::ControllerButton::ButtonY;
 		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, shootUp);
@@ -171,7 +197,7 @@ namespace dae
 		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, shootDown);
 		button = Controller::ControllerButton::ButtonX;
 		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, shootLeft);
-		button = Controller::ControllerButton::RightShoulder;
+		button = Controller::ControllerButton::ButtonB;
 		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, shootRight);
 	}
 }

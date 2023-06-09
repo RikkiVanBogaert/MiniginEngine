@@ -13,7 +13,7 @@ namespace dae
 
 	static void CreateMainMenu(Scene& scene)
 	{
-		auto pMenuObj = std::make_shared<GameObject>();
+		const auto pMenuObj = std::make_shared<GameObject>();
 		scene.Add(pMenuObj);
 
 		auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
@@ -42,13 +42,13 @@ namespace dae
 
 			const auto m_pGameModeObject = std::make_shared<GameObject>();
 			m_pGameModeObject->SetTag("GameMode");
-			auto m_pGameModeText = std::make_shared<TextComponent>(m_pGameModeObject.get(), "SinglePlayer", smallFont, SDL_Color{ 255, 255, 255, 255 });
+			const auto m_pGameModeText = std::make_shared<TextComponent>(m_pGameModeObject.get(), "SinglePlayer", smallFont, SDL_Color{ 255, 255, 255, 255 });
 			m_pGameModeObject->SetRelativePos({ 200, 320 });
 			m_pGameModeObject->AddComponent(m_pGameModeText);
 			pMenuObj->AddChild(m_pGameModeObject);
 
-			auto* switchGameMode = new SwitchGameModeCommand{};
-			dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_TAB, switchGameMode);
+			const auto switchGameMode = std::make_shared<SwitchGameModeCommand>();
+			InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_TAB, switchGameMode);
 		}
 
 		//Input
@@ -66,7 +66,7 @@ namespace dae
 			inputObj->AddComponent(inputText);
 			pMenuObj->AddChild(inputObj);
 
-			auto* switchInput = new SwitchInputCommand{};
+			const auto switchInput = std::make_shared<SwitchInputCommand>();
 			InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_I, switchInput);
 		}
 
@@ -77,13 +77,13 @@ namespace dae
 		pMenuObj->AddChild(nextLevelObj);*/
 
 		//INPUT
-		auto* skipLevel = new SkipLevelCommand{};
+		const auto skipLevel = std::make_shared<SkipLevelCommand>();
 		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_N, skipLevel);
 
-		auto* startGame = new StartGameCommand{};
-		dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_SPACE, startGame);
+		const auto startGame = std::make_shared<StartGameCommand>();
+		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_SPACE, startGame);
 
-		auto* exitGame = new ExitGameCommand{};
-		dae::InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_ESCAPE, exitGame);
+		const auto exitGame = std::make_shared<ExitGameCommand>();
+		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_ESCAPE, exitGame);
 	}
 }

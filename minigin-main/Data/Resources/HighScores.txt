@@ -87,3 +87,4 @@
 0, oknice
 0, r
 100, nein
+0, nicejob

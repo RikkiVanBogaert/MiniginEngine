@@ -29,15 +29,15 @@ void InputManager::AddController(unsigned int id)
     m_Controllers.emplace_back(std::make_unique<Controller>(id));
 }
 
-void InputManager::BindControllerToCommand(unsigned int id, Controller::ControllerButton& button, Command* command)
+void InputManager::BindControllerToCommand(unsigned int id, Controller::ControllerButton& button, std::shared_ptr<Command> command)
 {
 	ControllerKey key = ControllerKey(id, button);
-	m_ControllerCommands.insert({ key, std::unique_ptr<Command>(command) });
+	m_ControllerCommands.insert({ key, command });
 }
 
-void InputManager::BindKeyToCommand(const Uint8& key, Command* command)
+void InputManager::BindKeyToCommand(const Uint8& key, std::shared_ptr<Command> command)
 {
-	m_KeyCommands.insert({ key, std::unique_ptr<Command>(command) });
+	m_KeyCommands.insert({ key, command });
 }
 
 void InputManager::UnbindCommand(Command* command)
@@ -69,7 +69,7 @@ void InputManager::ProcessInputControllers()
         {
             const auto controllerKey = command.first.second;
             const unsigned int controllerId = command.first.first;
-            if (controller->GetControllerIndex() == controllerId && controller->IsPressed(static_cast<int>(controllerKey)))
+            if (controller->GetControllerIndex() == controllerId && controller->IsPressed(controllerKey))
             {
                 command.second->Execute();
             }
