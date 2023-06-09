@@ -51,7 +51,7 @@ namespace dae
 
 
 		//Movement
-		auto moveCp = std::make_shared<MoveCp>(pTank.get(), 50.f);
+		auto moveCp = std::make_shared<MoveCp>(pTank.get(), 65.f);
 		pTank->AddComponent(moveCp);
 
 		constexpr float speed{ 1.5f };
@@ -155,7 +155,7 @@ namespace dae
 
 
 		//Movement
-		auto moveCp = std::make_shared<MoveCp>(pTank.get(), 50.f);
+		auto moveCp = std::make_shared<MoveCp>(pTank.get(), 65.f);
 		pTank->AddComponent(moveCp);
 
 		constexpr float speed{ 1.5f };
