@@ -28,27 +28,27 @@ namespace dae
 		startObj->AddComponent(startText);
 		pLevelObject->AddChild(startObj);
 
-		auto infoCp = std::make_shared<LevelInfoCp>(pLevelObject.get());
+		const auto infoCp = std::make_shared<LevelInfoCp>(pLevelObject.get());
 		pLevelObject->AddComponent(infoCp);
 
-		auto collisionCp = std::make_shared<CollisionCp>(pLevelObject.get());
+		const auto collisionCp = std::make_shared<CollisionCp>(pLevelObject.get());
 		pLevelObject->AddComponent(collisionCp);
 
-		auto playerSpawnPosCp = std::make_shared<PlayerSpawnPosCp>(pLevelObject.get());
+		const auto playerSpawnPosCp = std::make_shared<PlayerSpawnPosCp>(pLevelObject.get());
 		pLevelObject->AddComponent(playerSpawnPosCp);
 
-		auto blueEnemySpawnPosCp = std::make_shared<BlueEnemySpawnPosCp>(pLevelObject.get());
+		const auto blueEnemySpawnPosCp = std::make_shared<BlueEnemySpawnPosCp>(pLevelObject.get());
 		pLevelObject->AddComponent(blueEnemySpawnPosCp);
 
-		auto recognizerSpawnPosCp = std::make_shared<RecognizerSpawnPosCp>(pLevelObject.get());
+		const auto recognizerSpawnPosCp = std::make_shared<RecognizerSpawnPosCp>(pLevelObject.get());
 		pLevelObject->AddComponent(recognizerSpawnPosCp);
 
-		auto gridCp = std::make_shared<GridCp>(pLevelObject.get());
+		const auto gridCp = std::make_shared<GridCp>(pLevelObject.get());
 		pLevelObject->AddComponent(gridCp);
 
 		//Create Map
 		constexpr int columns = 58;
-		auto map = ResourceManager::GetInstance().ParseCsv(levelPath);
+		const auto map = ResourceManager::GetInstance().ParseCsv(levelPath);
 		constexpr float size{ 8 };
 		constexpr glm::vec2 startPos{ 100,20 };
 		glm::vec2 pos{ startPos };
@@ -65,7 +65,7 @@ namespace dae
 			pBlock->AddComponent(pTexture);
 			pTexture->SetTexture("Resources/Level/path.png");
 			pBlock->SetTag("Path");
-
+			
 			const glm::vec2 offset{ pBlock->GetSize() };
 
 			switch (map[i])
@@ -96,7 +96,11 @@ namespace dae
 				break;
 			case 6:
 				if (amountPlayerSpawns % 4 == 0)
-					playerSpawnPosCp->AddPos(pos);
+				{
+					auto spawnPos = pos;
+					spawnPos -= offset;
+					playerSpawnPosCp->AddPos(spawnPos);
+				}
 
 				++amountPlayerSpawns;
 				break;
@@ -106,11 +110,14 @@ namespace dae
 			gridCp->AddCell({ pBlock->GetTag(), pos });
 
 			pos.x += size;
+			if(gridCp->m_GridRows == 0)
+				++gridCp->m_GridCols;
 
 			if ((i + 1) % columns == 0)
 			{
 				pos.x = startPos.x;
 				pos.y += size;
+				++gridCp->m_GridRows;
 			}
 		}
 

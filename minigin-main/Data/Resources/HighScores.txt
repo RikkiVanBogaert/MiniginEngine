@@ -86,3 +86,4 @@
 0, rr wda
 0, oknice
 0, r
+100, nein

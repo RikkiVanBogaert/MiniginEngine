@@ -51,6 +51,14 @@ public:
     void MuteUnmuteSound()
     {
         m_IsMuted = !m_IsMuted;
+        if(m_IsMuted)
+        {
+			Mix_Volume(-1, 0);
+        }
+        else
+        {
+            Mix_Volume(-1, MIX_MAX_VOLUME);
+        }
     }
 
     void StopSounds()
@@ -94,12 +102,9 @@ private:
 
             lock.unlock();
 
-            if (!m_IsMuted)
-            {
-                // Play the sound with the given ID
-                Mix_Volume(channel, volume);
-                Mix_PlayChannel(channel, m_AudioClips[id].get(), nrLoops); // Third argument is the number of loops
-            }
+        	// Play the sound with the given ID
+        	Mix_Volume(channel, volume);
+        	Mix_PlayChannel(channel, m_AudioClips[id].get(), nrLoops); // Third argument is the number of loops
 
             // Sleep for a short duration to avoid busy-waiting
             std::this_thread::sleep_for(std::chrono::milliseconds(10));

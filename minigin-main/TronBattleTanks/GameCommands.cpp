@@ -27,8 +27,7 @@ void MoveCommand::Execute()
 {
 	if (!m_pGameObject || m_pGameObject->NeedsDeleting() || !m_pGameObject->GetScene()->IsActive()) return;
 
-	//Rotate
-
+	//Collision
 	const auto sceneObjects = m_pGameObject->GetScene()->GetGameObjects();
 	for (auto& o : sceneObjects)
 	{
@@ -41,7 +40,7 @@ void MoveCommand::Execute()
 		break;
 	}
 
-	auto moveCp = m_pGameObject->GetComponent<MoveCp>();
+	const auto moveCp = m_pGameObject->GetComponent<MoveCp>();
 	moveCp->Move(m_Direction);
 }
 

@@ -18,20 +18,22 @@ void CollisionCp::AddCollider(dae::GameObject* collider)
 bool CollisionCp::CollisionHit(dae::GameObject* object, const glm::vec2& dir)
 {
 	const auto objectPos = object->GetWorldTransform();
-
-	const glm::vec2 midPoint = { objectPos.x + object->GetSize().x / 2, objectPos.y + object->GetSize().y / 2 };
-	const float rayLength = object->GetSize().x / 2;
-	const glm::vec2 normalizedDir = normalize(dir);
-	const glm::vec2 rayPoint = { midPoint.x + normalizedDir.x * rayLength, midPoint.y + normalizedDir.y * rayLength };
+	const float objectSize = object->GetSize().x;
+	const float rayLength = 1;
+	const glm::vec2 direction = normalize(dir) * rayLength;
+	const glm::vec2 rayPoint = { objectPos.x + direction.x, objectPos.y + direction.y };
 
 	for (const auto& collider : m_pColliders)
 	{
-		if (rayPoint.x >= collider->GetWorldTransform().x && rayPoint.x <= collider->GetWorldTransform().x + collider->GetSize().x &&
-			rayPoint.y >= collider->GetWorldTransform().y && rayPoint.y <= collider->GetWorldTransform().y + collider->GetSize().y)
+		const auto colPos = collider->GetWorldTransform();
+		const auto colSize = collider->GetSize().x;
+		if(int(rayPoint.x) + objectSize > colPos.x && int(rayPoint.x) < colPos.x + colSize &&
+			int(rayPoint.y) + objectSize > colPos.y && int(rayPoint.y) < colPos.y + colSize)
 		{
 			return true;
 		}
 	}
+
 
 	return false;
 }

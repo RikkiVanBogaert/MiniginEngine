@@ -11,10 +11,29 @@ class GridCp final : public dae::ComponentBase
 public:
 	GridCp(dae::GameObject* owner);
 
-	void AddCell(std::pair<std::string, const glm::vec2&> cell);
-	std::map<std::string, glm::vec2> GetCells() const { return m_Cells; }
+	void Update(float deltaTime) override;
+
+	struct CellInfo
+	{
+		std::string type;
+		glm::vec2 pos;
+	};
+
+	void AddCell(const CellInfo& cell);
+	std::vector<CellInfo> GetCells() const { return m_Cells; }
+
+	CellInfo GetCell(int index) const;
+	int GetCellAtPos(const glm::vec2& pos) const;
+	bool IsCellAtDirFree(int currCell, const glm::vec2& dir) const;
+	int GetCellInDir(int currCell, const glm::vec2& dir) const;
+
+	int m_GridRows{};
+	int m_GridCols{};
 
 private:
-	std::map<std::string, glm::vec2> m_Cells;
+	std::vector<CellInfo> m_Cells{};
+
+	const float m_CellSize;
+
 };
 

@@ -2,6 +2,7 @@
 
 #include "DerCounterCps.h"
 #include "EnemyPrefab.h"
+#include "GameHelpers.h"
 #include "SceneManager.h"
 #include "SpawnPositionCp.h"
 #include "Scene.h"
@@ -58,12 +59,12 @@ void PlayerManager::LevelCreate()
 	const auto pPointObject = std::make_shared<GameObject>();
 	pPointObject->SetRelativePos({5, 200});
 
-	//Player 1 UI
+	//Player 1 Lives
 	const auto pLivesObject = std::make_shared<GameObject>();
 	pLivesObject->SetTag("RedPlayer");
 	pLivesObject->SetRelativePos({ 5, 250 });
 
-	//Player 2 UI
+	//Player 2 Lives
 	const auto pLivesObject2 = std::make_shared<GameObject>();
 	pLivesObject2->SetTag("RedPlayer");
 	pLivesObject2->SetRelativePos({ 5, 300 });
@@ -71,6 +72,7 @@ void PlayerManager::LevelCreate()
 	switch (GetInstance().GetGameMode())
 	{
 	case SinglePlayer:
+	{
 		scene->Add(pPointObject);
 		scene->Add(pLivesObject);
 		CreateBlueEnemies(*scene, blueEnemySpawn->GetPos());
@@ -78,7 +80,7 @@ void PlayerManager::LevelCreate()
 
 		sceneManager.GetActiveScene()->Add(players[m_UsingKeyboard]);
 		players[m_UsingKeyboard]->SetRelativePos(playerSpawn->GetPos()[0]);
-
+	}
 		break;
 	case Coop:
 	{
