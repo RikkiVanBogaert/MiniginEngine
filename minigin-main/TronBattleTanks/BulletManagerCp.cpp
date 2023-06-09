@@ -8,8 +8,9 @@
 #include "GameObject.h"
 #include "Sounds.h"
 
-BulletManagerCp::BulletManagerCp(dae::GameObject* owner):
-ComponentBase(owner)
+BulletManagerCp::BulletManagerCp(dae::GameObject* owner, float bulletSpeed):
+ComponentBase(owner),
+m_BulletSpeed(bulletSpeed)
 {}
 
 void BulletManagerCp::Update(float deltaTime)
@@ -32,8 +33,8 @@ void BulletManagerCp::Shoot( const glm::vec2& vel, bool playerBullet)
 	auto& ss = dae::ServiceLocator::GetSoundSystem();
 	ss.Play(0, 100, 0, Sounds::Shoot);
 
-
-	auto pBullet = CreateBullet(*m_pOwner->GetScene(), m_pOwner, vel, playerBullet);
+	const auto bulletVelocity = glm::normalize(vel) * m_BulletSpeed;
+	const auto pBullet = CreateBullet(*m_pOwner->GetScene(), m_pOwner, bulletVelocity, playerBullet);
 	pBullet->SetTag(m_pOwner->GetTag());
 
 	const glm::vec2 middlePos = { m_pOwner->GetWorldTransform().x + m_pOwner->GetSize().x / 2 - pBullet->GetSize().x / 2,

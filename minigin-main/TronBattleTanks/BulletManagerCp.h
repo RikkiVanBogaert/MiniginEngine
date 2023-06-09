@@ -6,7 +6,7 @@
 class BulletManagerCp final : public dae::ComponentBase
 {
 public:
-	BulletManagerCp(dae::GameObject* owner);
+	BulletManagerCp(dae::GameObject* owner, float bulletSpeed = 200);
 
 	void Update(float deltaTime) override;
 	void Shoot( const glm::vec2& vel, bool playerBullet = true);
@@ -14,6 +14,6 @@ public:
 private:
 	float m_Timer{};
 	bool m_HasShot{};
-
+	const float m_BulletSpeed;
 };
 

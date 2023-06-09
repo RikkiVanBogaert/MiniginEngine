@@ -13,6 +13,15 @@ AIComponent::AIComponent(dae::GameObject* owner):
 {
 }
 
+void AIComponent::Init()
+{
+	if (m_HasInit) return;
+	m_pPlayers = PlayerManager::GetInstance().GetPlayers();
+	m_pLevelCollision = GetComponentInScene<CollisionCp>(m_pOwner->GetScene(), "Level");
+	m_pBulletManager = m_pOwner->GetComponent<BulletManagerCp>();
+	m_HasInit = true;
+}
+
 void AIComponent::Update(float deltaTime)
 {
 	Init();
@@ -24,21 +33,9 @@ void AIComponent::Update(float deltaTime)
 		m_pBulletManager->Shoot(bulletDir, false); 
 		m_HasShot = true;
 	}
-	else
-	{
-		GoToPlayer(deltaTime);
-	}
+	GoToPlayer(deltaTime);
 
 	UpdateShootTimer(deltaTime);
-}
-
-void AIComponent::Init()
-{
-	if (m_HasInit) return;
-	m_pPlayers = PlayerManager::GetInstance().GetPlayers();
-	m_pLevelCollision = GetComponentInScene<CollisionCp>(m_pOwner->GetScene(), "Level");
-	m_pBulletManager = m_pOwner->GetComponent<BulletManagerCp>();
-	m_HasInit = true;
 }
 
 
@@ -55,7 +52,7 @@ void AIComponent::UpdateShootTimer(float deltaTime)
 	}
 }
 
-bool AIComponent::PlayerInSight(glm::vec2& bulletDir)
+bool AIComponent::PlayerInSight(glm::vec2& bulletDir) const
 {
 	const glm::vec2 start{ m_pClosestPlayer->GetWorldTransform() };
 	glm::vec2 end{ m_pOwner->GetWorldTransform() };
@@ -79,7 +76,7 @@ bool AIComponent::PlayerInSight(glm::vec2& bulletDir)
 	//if(!m_pLevelCollision->CollisionHit(m_pOwner, playerPos))
 }
 
-void AIComponent::GoToPlayer(float)
+void AIComponent::GoToPlayer(float) const
 {
 
 	constexpr glm::vec2 up{ 0,-1 };
@@ -90,41 +87,37 @@ void AIComponent::GoToPlayer(float)
 	const glm::vec2 playerPos{ m_pClosestPlayer->GetWorldTransform() };
 	const glm::vec2 ownerPos{ m_pOwner->GetWorldTransform() };
 
-	
-	if (abs(playerPos.y - ownerPos.y) < abs(playerPos.x - ownerPos.x))
+
+	if (playerPos.y < ownerPos.y)
 	{
-		if (playerPos.y < ownerPos.y)
+		if (!m_pLevelCollision->CollisionHit(m_pOwner, up))
 		{
-			if (!m_pLevelCollision->CollisionHit(m_pOwner, up))
-			{
-				m_pOwner->GetComponent<MoveCp>()->Move(up);
-			}
-		}
-		else
-		{
-			if (!m_pLevelCollision->CollisionHit(m_pOwner, up))
-			{
-				m_pOwner->GetComponent<MoveCp>()->Move(down);
-			}
+			m_pOwner->GetComponent<MoveCp>()->Move(up);
 		}
 	}
 	else
 	{
-		if (playerPos.x < ownerPos.x)
+		if (!m_pLevelCollision->CollisionHit(m_pOwner, up))
 		{
-			if (!m_pLevelCollision->CollisionHit(m_pOwner, left))
-			{
-				m_pOwner->GetComponent<MoveCp>()->Move(left);
-			}
-		}
-		else
-		{
-			if (!m_pLevelCollision->CollisionHit(m_pOwner, right))
-			{
-				m_pOwner->GetComponent<MoveCp>()->Move( right);
-			}
+			m_pOwner->GetComponent<MoveCp>()->Move(down);
 		}
 	}
+
+	if (playerPos.x < ownerPos.x)
+	{
+		if (!m_pLevelCollision->CollisionHit(m_pOwner, left))
+		{
+			m_pOwner->GetComponent<MoveCp>()->Move(left);
+		}
+	}
+	else
+	{
+		if (!m_pLevelCollision->CollisionHit(m_pOwner, right))
+		{
+			m_pOwner->GetComponent<MoveCp>()->Move( right);
+		}
+	}
+	
 }
 
 void AIComponent::GetClosestPlayer()

@@ -36,11 +36,10 @@ private:
 	CollisionCp* m_pLevelCollision{};
 	BulletManagerCp* m_pBulletManager{};
 
-
 	void Init();
 	void UpdateShootTimer(float deltaTime);
-	bool PlayerInSight(glm::vec2& bulletDir);
-	void GoToPlayer(float);
+	bool PlayerInSight(glm::vec2& bulletDir) const;
+	void GoToPlayer(float) const;
 	void GetClosestPlayer();
 };
 

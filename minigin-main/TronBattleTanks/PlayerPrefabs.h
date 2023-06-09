@@ -72,7 +72,7 @@ namespace dae
 
 		//Controller
 		int controllerIdx{ PlayerManager::GetInstance().GetControllerIdx() };
-		dae::InputManager::GetInstance().AddController(controllerIdx);
+		InputManager::GetInstance().AddController(controllerIdx);
 		++PlayerManager::GetInstance().GetControllerIdx();
 		Controller::ControllerButton button{};
 
@@ -116,13 +116,13 @@ namespace dae
 
 	static void CreateTankController(Scene& scene)
 	{
-		auto pTank = std::make_shared<dae::GameObject>();
+		auto pTank = std::make_shared<GameObject>();
 		scene.Add(pTank);
 		pTank->SetTag("RedPlayer");
 		PlayerManager::GetInstance().AddPlayer(pTank);
 
 		//Texture
-		auto tankTxt = std::make_shared<dae::TextureComponent>(pTank.get());
+		auto tankTxt = std::make_shared<TextureComponent>(pTank.get());
 		tankTxt->SetTexture("Resources/Sprites/RedTank.png");
 		pTank->AddComponent(tankTxt);
 
@@ -149,7 +149,7 @@ namespace dae
 
 		//Controller
 		int controllerIdx{ PlayerManager::GetInstance().GetControllerIdx() };
-		dae::InputManager::GetInstance().AddController(controllerIdx);
+		InputManager::GetInstance().AddController(controllerIdx);
 		++PlayerManager::GetInstance().GetControllerIdx();
 		Controller::ControllerButton button{};
 

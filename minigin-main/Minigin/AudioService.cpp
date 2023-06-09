@@ -103,7 +103,10 @@ private:
             lock.unlock();
 
         	// Play the sound with the given ID
-        	Mix_Volume(channel, volume);
+            if(!m_IsMuted)
+            {
+        		Mix_Volume(channel, volume);
+            }
         	Mix_PlayChannel(channel, m_AudioClips[id].get(), nrLoops); // Third argument is the number of loops
 
             // Sleep for a short duration to avoid busy-waiting

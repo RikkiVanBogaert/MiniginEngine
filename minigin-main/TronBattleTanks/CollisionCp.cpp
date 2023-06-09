@@ -5,7 +5,7 @@ CollisionCp::CollisionCp(dae::GameObject* owner):
 ComponentBase(owner)
 {}
 
-void CollisionCp::SetColliders(std::vector<dae::GameObject*> colliders)
+void CollisionCp::SetColliders(const std::vector<dae::GameObject*>& colliders)
 {
 	m_pColliders = colliders;
 }
@@ -15,7 +15,7 @@ void CollisionCp::AddCollider(dae::GameObject* collider)
 	m_pColliders.emplace_back(collider);
 }
 
-bool CollisionCp::CollisionHit(dae::GameObject* object, const glm::vec2& dir)
+bool CollisionCp::CollisionHit(dae::GameObject* object, const glm::vec2& dir) const
 {
 	const auto objectPos = object->GetWorldTransform();
 	const float objectSize = object->GetSize().x;

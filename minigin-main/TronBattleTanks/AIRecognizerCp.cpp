@@ -29,15 +29,15 @@ void AIRecognizerCp::Update(float deltaTime)
 	m_State->Update(m_pOwner, deltaTime, m_pPlayers, m_pLevelCollision, m_pBulletManager);
 }
 
-void AIRecognizerCp::SetState(std::shared_ptr<RecognizerState> newState)
+void AIRecognizerCp::SetState(const std::shared_ptr<RecognizerState>& newState)
 {
 	m_State = newState;
 	//m_State->SetAiCpState(this);
 }
 
-bool RecognizerState::PlayerInSight(dae::GameObject* gameObject, std::vector<std::shared_ptr<dae::GameObject>> players)
+bool RecognizerState::PlayerInSight(dae::GameObject* gameObject, const std::vector<std::shared_ptr<dae::GameObject>>& players)
 {
-	for (auto p : players)
+	for (const auto p : players)
 	{
 		const glm::vec2 playerPos{ p->GetWorldTransform() };
 		glm::vec2 pos{ gameObject->GetWorldTransform() };
@@ -48,7 +48,7 @@ bool RecognizerState::PlayerInSight(dae::GameObject* gameObject, std::vector<std
 		if ((tankMidPos.x > pos.x && tankMidPos.x < pos.x + playerSize)
 			|| (tankMidPos.y > pos.y && tankMidPos.y < pos.y + playerSize))
 		{
-			//std::cout << "IN STRAIGHT LINE\n";
+			m_ToPlayer = normalize(playerPos - pos);
 			return true;
 		}
 	}
@@ -61,51 +61,36 @@ bool RecognizerState::PlayerInSight(dae::GameObject* gameObject, std::vector<std
 void WanderState::Update(dae::GameObject* gameObject, float ,
                          std::vector<std::shared_ptr<dae::GameObject>> players, CollisionCp* levelCollision, BulletManagerCp* )
 {
-	gameObject->GetComponent<MoveCp>()->Move(m_Direction);
-
-	if(levelCollision->CollisionHit(gameObject, m_Direction))
+	if (!levelCollision->CollisionHit(gameObject, m_Direction))
 	{
-		SwapDirection();
+		gameObject->GetComponent<MoveCp>()->Move(m_Direction);
+	}
+
+	//check for open side paths
+	auto sideDir = abs(m_Direction);
+	sideDir.x -= 1;
+	sideDir.y -= 1;
+
+	if (!levelCollision->CollisionHit(gameObject, sideDir) &&
+		rand() % 3 == 0)
+	{
+		m_Direction = sideDir;
+	}
+	if (!levelCollision->CollisionHit(gameObject, -sideDir) &&
+		rand() % 3 == 0)
+	{
+		m_Direction = -sideDir;
 	}
 
 	if(PlayerInSight(gameObject, players))
 	{
-		const glm::vec2 attackDir = m_Direction *= 300;
-		m_AICp->SetState(std::make_shared<AttackState>(m_AICp, attackDir));
-	}
-}
-
-void WanderState::SwapDirection()
-{
-	//will (maybe) do random/better direction choosing later
-
-	if(m_Direction.x > 0.f)
-	{
-		m_Direction.x = 0;
-		m_Direction.y = 1;
-	}
-	else if (m_Direction.y > 0.f)
-	{
-		m_Direction.x = -1;
-		m_Direction.y = 0;
-	}
-	else if (m_Direction.x < 0.f)
-	{
-		m_Direction.x = 0;
-		m_Direction.y = -1;
-	}
-	else if (m_Direction.y < 0.f)
-	{
-		m_Direction.x = 1;
-		m_Direction.y = 0;
+		m_AICp->SetState(std::make_shared<AttackState>(m_AICp, m_ToPlayer));
 	}
 }
 
 void AttackState::Update(dae::GameObject* gameObject, float deltaTime,
                          std::vector<std::shared_ptr<dae::GameObject>> players, CollisionCp* , BulletManagerCp* bulletManager)
 {
-	//is not correct behaviour, just quick code for state pattern
-
 	if (!m_HasShot)
 	{
 		bulletManager->Shoot(m_ShootDirection, false);

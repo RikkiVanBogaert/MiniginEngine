@@ -9,10 +9,10 @@ class CollisionCp final : public dae::ComponentBase
 public:
 	CollisionCp(dae::GameObject* owner);
 
-	void SetColliders(std::vector<dae::GameObject*> colliders);
+	void SetColliders(const std::vector<dae::GameObject*>& colliders);
 	void AddCollider(dae::GameObject* collider);
 
-	bool CollisionHit(dae::GameObject* object, const glm::vec2& dir);
+	bool CollisionHit(dae::GameObject* object, const glm::vec2& dir) const;
 	bool DoesOverlap(dae::GameObject* object);
 
 private:

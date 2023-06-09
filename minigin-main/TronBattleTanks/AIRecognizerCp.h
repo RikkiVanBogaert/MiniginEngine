@@ -28,7 +28,7 @@ public:
 	AIRecognizerCp& operator=(AIRecognizerCp&& other) = delete;
 
 	void Update(float deltaTime) override;
-	void SetState(std::shared_ptr<RecognizerState> newState);
+	void SetState(const std::shared_ptr<RecognizerState>& newState);
 
 protected:
 	void Init();
@@ -56,9 +56,10 @@ public:
 	static std::shared_ptr<AttackState> m_AttackState;
 
 protected:
-	AIRecognizerCp* m_AICp;
+	AIRecognizerCp* m_AICp{};
+	glm::vec2 m_ToPlayer{};
 
-	bool PlayerInSight(dae::GameObject* gameObject, std::vector<std::shared_ptr<dae::GameObject>> players);
+	bool PlayerInSight(dae::GameObject* gameObject, const std::vector<std::shared_ptr<dae::GameObject>>& players);
 
 };
 
@@ -71,8 +72,6 @@ public:
 
 private:
 	glm::vec2 m_Direction{1,0};
-
-	void SwapDirection();
 };
 
 class AttackState final : public RecognizerState
