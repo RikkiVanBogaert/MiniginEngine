@@ -68,6 +68,7 @@ namespace dae
 		std::vector<GameObject*> GetChildren() const;
 
 		void SetTag(const std::string& tag) { m_Tag = tag; }
+		void SetTagIncludingChildren(const std::string& tag);
 		std::string GetTag() const { return m_Tag; }
 
 		void SetScene(Scene* scene);

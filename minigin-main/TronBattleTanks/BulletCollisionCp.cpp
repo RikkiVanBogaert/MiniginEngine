@@ -35,7 +35,7 @@ void BulletCollisionCp::Update(float )
 	bulletCp = nullptr;
 }
 
-void BulletCollisionCp::GetHit(dae::GameObject* shooter) const
+void BulletCollisionCp::GetHit(dae::GameObject* gun) const
 {
 	//Victim lives
 	const auto healthCp = m_pOwner->GetComponent<HealthCp>();
@@ -46,7 +46,8 @@ void BulletCollisionCp::GetHit(dae::GameObject* shooter) const
 	}
 
 	//Shooter points
-	if (!shooter->GetComponent<PointsCp>()) return;
+	if(!gun->GetParent()) return;
+	if(!gun->GetParent()->GetComponent<PointsCp>()) return;
 
 	if (healthCp->GetAmount() > 0) return;
 

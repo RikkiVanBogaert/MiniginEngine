@@ -37,9 +37,6 @@ namespace dae
 		auto bulletCollisionCp = std::make_shared<BulletCollisionCp>(pTank.get());
 		pTank->AddComponent(bulletCollisionCp);
 
-		//BulletManager
-		auto bulletManager = std::make_shared<BulletManagerCp>(pTank.get());
-		pTank->AddComponent(bulletManager);
 
 		//Points
 		auto points = std::make_shared<PointsCp>(pTank.get(), 0);
@@ -49,6 +46,12 @@ namespace dae
 		auto health = std::make_shared<LivesCp>(pTank.get(), 3);
 		pTank->AddComponent(health);
 
+
+		//Controller
+		int controllerIdx{ PlayerManager::GetInstance().GetControllerIdx() };
+		InputManager::GetInstance().AddController(controllerIdx);
+		++PlayerManager::GetInstance().GetControllerIdx();
+		Controller::ControllerButton button{};
 
 		//Movement
 		auto moveCp = std::make_shared<MoveCp>(pTank.get(), 65.f);
@@ -70,12 +73,6 @@ namespace dae
 		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_A, moveCommandLeft);
 		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_D, moveCommandRight);
 
-		//Controller
-		int controllerIdx{ PlayerManager::GetInstance().GetControllerIdx() };
-		InputManager::GetInstance().AddController(controllerIdx);
-		++PlayerManager::GetInstance().GetControllerIdx();
-		Controller::ControllerButton button{};
-
 		button = Controller::ControllerButton::DpadDown;
 		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandDown);
 		button = Controller::ControllerButton::DpadUp;
@@ -85,77 +82,49 @@ namespace dae
 		button = Controller::ControllerButton::DpadRight;
 		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandRight);
 
-		//Shooting
-		constexpr float shootSpeed{ 300 };
-		glm::vec2 shootUpVel = { 0.f, -shootSpeed };
-		glm::vec2 shootDownVel = { 0.f, shootSpeed };
-		glm::vec2 shootLeftVel = { -shootSpeed, 0.f };
-		glm::vec2 shootRightVel = { shootSpeed, 0.f };
-
-		auto shootUp = std::make_shared<ShootCommand>(pTank.get(), shootUpVel);
-		auto shootDown = std::make_shared<ShootCommand>(pTank.get(), shootDownVel);
-		auto shootLeft = std::make_shared<ShootCommand>(pTank.get(), shootLeftVel);
-		auto shootRight = std::make_shared<ShootCommand>(pTank.get(), shootRightVel);
-
-		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_UP, shootUp);
-		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_DOWN, shootDown);
-		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_LEFT, shootLeft);
-		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_RIGHT, shootRight);
-
-		button = Controller::ControllerButton::ButtonY;
-		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, shootUp);
-		button = Controller::ControllerButton::ButtonA;
-		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, shootDown);
-		button = Controller::ControllerButton::ButtonX;
-		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, shootLeft);
-		button = Controller::ControllerButton::ButtonB;
-		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, shootRight);
-
-		pTank->AddChild(CreateTankGun(scene));
+		//Gun-Shooting
+		const auto pGun = CreateTankGun(scene, controllerIdx);
+		pGun->SetTag(pTank->GetTag());
+		pTank->AddChild(pGun);
 	}
 
 	static void CreateTankController(Scene& scene)
 	{
-		auto pTank = std::make_shared<GameObject>();
+		const auto pTank = std::make_shared<GameObject>();
 		scene.Add(pTank);
 		pTank->SetTag("RedPlayer");
 		PlayerManager::GetInstance().AddPlayer(pTank);
 
 		//Texture
-		auto tankTxt = std::make_shared<TextureComponent>(pTank.get());
+		const auto tankTxt = std::make_shared<TextureComponent>(pTank.get());
 		tankTxt->SetTexture("Resources/Sprites/RedTank.png");
 		pTank->AddComponent(tankTxt);
 
-		//BulletManager
-		auto bulletManager = std::make_shared<BulletManagerCp>(pTank.get());
-		pTank->AddComponent(bulletManager);
-
-
 		//Collision
-		auto collisionCp = std::make_shared<CollisionCp>(pTank.get());
+		const auto collisionCp = std::make_shared<CollisionCp>(pTank.get());
 		pTank->AddComponent(collisionCp);
 		collisionCp->AddCollider(pTank.get());
 
-		auto bulletCollisionCp = std::make_shared<BulletCollisionCp>(pTank.get());
+		const auto bulletCollisionCp = std::make_shared<BulletCollisionCp>(pTank.get());
 		pTank->AddComponent(bulletCollisionCp);
 
 		//Points
-		auto points = std::make_shared<PointsCp>(pTank.get(), 0);
+		const auto points = std::make_shared<PointsCp>(pTank.get(), 0);
 		pTank->AddComponent(points);
 
 		//Health
-		auto health = std::make_shared<LivesCp>(pTank.get(), 3);
+		const auto health = std::make_shared<LivesCp>(pTank.get(), 3);
 		pTank->AddComponent(health);
 
 		//Controller
-		int controllerIdx{ PlayerManager::GetInstance().GetControllerIdx() };
+		const int controllerIdx{ PlayerManager::GetInstance().GetControllerIdx() };
 		InputManager::GetInstance().AddController(controllerIdx);
 		++PlayerManager::GetInstance().GetControllerIdx();
 		Controller::ControllerButton button{};
 
 
 		//Movement
-		auto moveCp = std::make_shared<MoveCp>(pTank.get(), 65.f);
+		const auto moveCp = std::make_shared<MoveCp>(pTank.get(), 65.f);
 		pTank->AddComponent(moveCp);
 
 		constexpr float speed{ 1.5f };
@@ -164,10 +133,10 @@ namespace dae
 		glm::vec3 right = { speed,0.f,0.f };
 		glm::vec3 left = { -speed,0.f,0.f };
 
-		auto moveCommandUp = std::make_shared<MoveCommand>(pTank.get(), up);
-		auto moveCommandDown = std::make_shared<MoveCommand>(pTank.get(), down);
-		auto moveCommandLeft = std::make_shared<MoveCommand>(pTank.get(), left);
-		auto moveCommandRight = std::make_shared<MoveCommand>(pTank.get(), right);
+		const auto moveCommandUp = std::make_shared<MoveCommand>(pTank.get(), up);
+		const auto moveCommandDown = std::make_shared<MoveCommand>(pTank.get(), down);
+		const auto moveCommandLeft = std::make_shared<MoveCommand>(pTank.get(), left);
+		const auto moveCommandRight = std::make_shared<MoveCommand>(pTank.get(), right);
 
 		button = Controller::ControllerButton::DpadDown;
 		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandDown);
@@ -178,26 +147,9 @@ namespace dae
 		button = Controller::ControllerButton::DpadRight;
 		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandRight);
 
-
-		//Shooting
-		constexpr float shootSpeed{ 300 };
-		glm::vec2 shootUpVel = { 0.f, -shootSpeed };
-		glm::vec2 shootDownVel = { 0.f, shootSpeed };
-		glm::vec2 shootLeftVel = { -shootSpeed, 0.f };
-		glm::vec2 shootRightVel = { shootSpeed, 0.f };
-
-		auto shootUp = std::make_shared<ShootCommand>(pTank.get(), shootUpVel);
-		auto shootDown = std::make_shared<ShootCommand>(pTank.get(), shootDownVel);
-		auto shootLeft = std::make_shared<ShootCommand>(pTank.get(), shootLeftVel);
-		auto shootRight = std::make_shared<ShootCommand>(pTank.get(), shootRightVel);
-
-		button = Controller::ControllerButton::ButtonY;
-		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, shootUp);
-		button = Controller::ControllerButton::ButtonA;
-		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, shootDown);
-		button = Controller::ControllerButton::ButtonX;
-		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, shootLeft);
-		button = Controller::ControllerButton::ButtonB;
-		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, shootRight);
+		//Gun-Shooting
+		const auto pGun = CreateTankGun(scene, controllerIdx, false);
+		pGun->SetTag(pTank->GetTag());
+		pTank->AddChild(pGun);
 	}
 }

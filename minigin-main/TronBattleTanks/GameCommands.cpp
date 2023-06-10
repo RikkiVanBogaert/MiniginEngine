@@ -90,7 +90,7 @@ void ShootCommand::Execute()
 
 	if (GetKeyPressed()) return;
 
-	auto bulletManager = m_pGameObject->GetComponent<BulletManagerCp>();
+	const auto bulletManager = m_pGameObject->GetComponent<BulletManagerCp>();
 	bulletManager->Shoot(m_Direction);
 
 	SetKeyPressed(true);

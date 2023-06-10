@@ -88,8 +88,8 @@ void PlayerManager::LevelCreate()
 		scene->Add(pLivesObject);
 
 		scene->Add(pLivesObject2);
-		players[1]->SetTag("RedPlayer");
-		players[1]->GetComponent<dae::TextureComponent>()->SetTexture("Resources/Sprites/GreenTank.png");
+		players[1]->SetTagIncludingChildren("RedPlayer");
+		players[1]->GetComponent<TextureComponent>()->SetTexture("Resources/Sprites/GreenTank.png");
 		CreateBlueEnemies(*scene, blueEnemySpawn->GetPos());
 		CreateRecognizers(*scene, recognizerSpawn->GetPos());
 
@@ -110,7 +110,7 @@ void PlayerManager::LevelCreate()
 
 		scene->Add(pLivesObject2);
 		pLivesObject2->SetTag("BluePlayer");
-		players[1]->SetTag("BluePlayer");
+		players[1]->SetTagIncludingChildren("BluePlayer");
 		players[1]->GetComponent<dae::TextureComponent>()->SetTexture("Resources/Sprites/BlueTank.png");
 
 		CreateBlueEnemies(*scene, blueEnemySpawn->GetPos());

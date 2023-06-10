@@ -90,3 +90,6 @@
 0, nicejob
 0, r
 0, asmngkiSF;JDAI;FSDF
+200, gumm
+0, fsdfa
+0, yes

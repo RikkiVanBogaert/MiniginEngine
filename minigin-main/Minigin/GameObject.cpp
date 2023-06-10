@@ -101,9 +101,22 @@ std::vector<GameObject*> GameObject::GetChildren() const
 	return m_pChildren;
 }
 
+void GameObject::SetTagIncludingChildren(const std::string& tag)
+{
+	SetTag(tag);
+	for(const auto c : m_pChildren)
+	{
+		c->SetTag(tag);
+	}
+}
+
 void GameObject::SetScene(dae::Scene* scene)
 {
 	m_pScene = scene;
+	for(const auto c : m_pChildren)
+	{
+		c->SetScene(scene);
+	}
 }
 
 dae::Scene* GameObject::GetScene() const 
