@@ -93,3 +93,5 @@
 200, gumm
 0, fsdfa
 0, yes
+0, aityoo
+200, okya

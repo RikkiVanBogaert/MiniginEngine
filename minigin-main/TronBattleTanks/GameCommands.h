@@ -17,23 +17,6 @@ private:
 	glm::vec3 m_Direction{};
 };
 
-class DieCommand final : public dae::Command
-{
-public:
-	DieCommand(dae::GameObject* gameObj);
-	virtual void Execute() override;
-
-};
-
-class PointCommand final : public dae::Command
-{
-public:
-	PointCommand(dae::GameObject* gameObj);
-	virtual void Execute() override;
-
-};
-
-
 class Tank;
 
 class ShootCommand final : public dae::Command
@@ -57,7 +40,7 @@ public:
 class StartGameCommand final : public dae::Command
 {
 public:
-	StartGameCommand() = default; //gets gameMode as paramater
+	StartGameCommand() = default;
 	virtual void Execute() override;
 
 };
@@ -74,9 +57,6 @@ class SwitchGameModeCommand final : public dae::Command
 public:
 	SwitchGameModeCommand() = default;
 	virtual void Execute() override;
-
-private:
-	void UpdateInputText();
 };
 
 class ResetGameCommand final : public dae::Command
@@ -90,12 +70,5 @@ class MuteCommand final : public dae::Command
 {
 public:
 	MuteCommand() = default;
-	virtual void Execute() override;
-};
-
-class SwitchInputCommand final : public dae::Command
-{
-public:
-	SwitchInputCommand() = default;
 	virtual void Execute() override;
 };

@@ -78,8 +78,8 @@ void PlayerManager::LevelCreate()
 		CreateBlueEnemies(*scene, blueEnemySpawn->GetPos());
 		CreateRecognizers(*scene, recognizerSpawn->GetPos());
 
-		sceneManager.GetActiveScene()->Add(players[m_UsingKeyboard]);
-		players[m_UsingKeyboard]->SetRelativePos(playerSpawn->GetPos()[0]);
+		sceneManager.GetActiveScene()->Add(players[0]);
+		players[0]->SetRelativePos(playerSpawn->GetPos()[0]);
 	}
 		break;
 	case Coop:
@@ -93,13 +93,12 @@ void PlayerManager::LevelCreate()
 		CreateBlueEnemies(*scene, blueEnemySpawn->GetPos());
 		CreateRecognizers(*scene, recognizerSpawn->GetPos());
 
-		sceneManager.GetActiveScene()->Add(players[1]);
-		players[1]->SetRelativePos(playerSpawn->GetPos()[1]);
-
-		int playerNr{};
-		if (m_UsingKeyboard) playerNr = 2;
-		sceneManager.GetActiveScene()->Add(players[playerNr]);
-		players[playerNr]->SetRelativePos(playerSpawn->GetPos()[0]);
+		
+		for(int i{}; i < players.size(); ++i)
+		{
+			sceneManager.GetActiveScene()->Add(players[i]);
+			players[i]->SetRelativePos(playerSpawn->GetPos()[i]);
+		}
 
 		break;
 	}
@@ -111,18 +110,16 @@ void PlayerManager::LevelCreate()
 		scene->Add(pLivesObject2);
 		pLivesObject2->SetTag("BluePlayer");
 		players[1]->SetTagIncludingChildren("BluePlayer");
-		players[1]->GetComponent<dae::TextureComponent>()->SetTexture("Resources/Sprites/BlueTank.png");
+		players[1]->GetComponent<TextureComponent>()->SetTexture("Resources/Sprites/BlueTank.png");
 
 		CreateBlueEnemies(*scene, blueEnemySpawn->GetPos());
 		CreateRecognizers(*scene, recognizerSpawn->GetPos());
 
-		sceneManager.GetActiveScene()->Add(players[1]);
-		players[1]->SetRelativePos(playerSpawn->GetPos()[1]);
-
-		int playerNmbr{};
-		if (m_UsingKeyboard) playerNmbr = 2;
-		sceneManager.GetActiveScene()->Add(players[playerNmbr]);
-		players[playerNmbr]->SetRelativePos(playerSpawn->GetPos()[0]);
+		for (int i{}; i < players.size(); ++i)
+		{
+			sceneManager.GetActiveScene()->Add(players[i]);
+			players[i]->SetRelativePos(playerSpawn->GetPos()[i]);
+		}
 	}
 		break;
 	}
@@ -152,9 +149,9 @@ void PlayerManager::ResetPlayerVars()
 	}
 }
 
-void PlayerManager::RemovePlayerFromScene(GameObject* player)
+void PlayerManager::RemovePlayerFromScene(GameObject* player) const
 {
-	for(auto p : m_Players)
+	for(const auto& p : m_Players)
 	{
 		if(p.get() == player)
 		{
@@ -165,7 +162,7 @@ void PlayerManager::RemovePlayerFromScene(GameObject* player)
 
 void PlayerManager::RemoveAllPlayersFromScene()
 {
-	for(auto p : GetPlayers())
+	for(const auto& p : GetPlayers())
 	{
 		p->GetScene()->Remove(p);
 	}
@@ -181,7 +178,6 @@ void PlayerManager::NextLevel()
 {
 	auto& sceneManager = SceneManager::GetInstance();
 	const auto oldScene = sceneManager.GetActiveScene();
-	//sceneManager.GetActiveScene()->RemoveAll();
 	RemoveAllPlayersFromScene();
 	for(auto g : oldScene->GetGameObjects())
 	{
@@ -195,12 +191,7 @@ void PlayerManager::NextLevel()
 
 }
 
-void PlayerManager::SwitchInput()
-{
-	m_UsingKeyboard = !m_UsingKeyboard;
-}
-
-void PlayerManager::SkipNonLevels()
+void PlayerManager::SkipNonLevels() const
 {
 	const auto sceneName = SceneManager::GetInstance().GetActiveScene()->GetName();
 	if (sceneName == "WaitingScene" || sceneName == "MainMenu" || sceneName == "GameOver")

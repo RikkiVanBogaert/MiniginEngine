@@ -33,7 +33,7 @@ void MoveCommand::Execute()
 	{
 		if (o->GetTag() != "Level") continue;
 
-		auto collisionCp = o->GetComponent<CollisionCp>();
+		const auto collisionCp = o->GetComponent<CollisionCp>();
 		if (collisionCp->CollisionHit(m_pGameObject, m_Direction))
 			return;
 		
@@ -42,40 +42,6 @@ void MoveCommand::Execute()
 
 	const auto moveCp = m_pGameObject->GetComponent<MoveCp>();
 	moveCp->Move(m_Direction);
-}
-
-DieCommand::DieCommand(GameObject* gameObj)
-{
-	m_pGameObject = gameObj;
-}
-
-void DieCommand::Execute()
-{
-	if (!m_pGameObject || m_pGameObject->NeedsDeleting() || !m_pGameObject->GetScene()->IsActive()) return;
-
-	if (const auto health = m_pGameObject->GetComponent<HealthCp>())
-	{
-		health->SetAmount(0);
-	}
-}
-
-PointCommand::PointCommand(GameObject* gameObj)
-{
-	m_pGameObject = gameObj;
-}
-
-void PointCommand::Execute()
-{
-	if (!m_pGameObject || m_pGameObject->NeedsDeleting() || !m_pGameObject->GetScene()->IsActive()) return;
-
-	if (GetKeyPressed()) return;
-
-	if (const auto points = m_pGameObject->GetComponent<PointsCp>())
-	{
-		points->ChangeAmount(1);
-	}
-
-	SetKeyPressed(true);
 }
 
 ShootCommand::ShootCommand(dae::GameObject* gameObj, const glm::vec2& direction)
@@ -100,7 +66,7 @@ void SkipLevelCommand::Execute()
 {
 	if (GetKeyPressed()) return;
 
-	auto& sceneManager = SceneManager::GetInstance();
+	const auto& sceneManager = SceneManager::GetInstance();
 	if (sceneManager.GetActiveSceneName() == "MainMenu")
 	{
 		SetKeyPressed(true);
@@ -165,41 +131,9 @@ void SwitchGameModeCommand::Execute()
 		break;
 	}
 
-	UpdateInputText();
-
 	SetKeyPressed(true);
 }
 
-void SwitchGameModeCommand::UpdateInputText()
-{
-	const auto inputObject = GetGameObject(SceneManager::GetInstance().GetActiveScene(), "Input");
-	const auto inputText = inputObject->GetComponent<TextComponent>();
-
-	switch (PlayerManager::GetInstance().GetGameMode())
-	{
-	case PlayerManager::SinglePlayer:
-		if (PlayerManager::GetInstance().GetInput())
-		{
-			inputText->SetText("Controller");
-		}
-		else
-		{
-			inputText->SetText("Keyboard");
-		}
-		break;
-	case PlayerManager::Coop:
-	case PlayerManager::Versus:
-		if (PlayerManager::GetInstance().GetInput())
-		{
-			inputText->SetText("Controller / Controller");
-		}
-		else
-		{
-			inputText->SetText("Keyboard / Controller");
-		}
-		break;
-	}
-}
 
 void ResetGameCommand::Execute()
 {
@@ -213,47 +147,6 @@ void ResetGameCommand::Execute()
 	sceneManager.SetActiveScene("MainMenu");
 	SetKeyPressed(true);
 	
-}
-
-void SwitchInputCommand::Execute()
-{
-	if (GetKeyPressed()) return;
-
-	if (SceneManager::GetInstance().GetActiveSceneName() != "MainMenu")
-		return;
-
-
-	const auto inputObject = GetGameObject(SceneManager::GetInstance().GetActiveScene(), "Input");
-	const auto inputText = inputObject->GetComponent<TextComponent>();
-
-	PlayerManager::GetInstance().SwitchInput();
-	switch (PlayerManager::GetInstance().GetGameMode())
-	{
-	case PlayerManager::SinglePlayer:
-		if (PlayerManager::GetInstance().GetInput())
-		{
-			inputText->SetText("Controller");
-		}
-		else
-		{
-			inputText->SetText("Keyboard");
-		}
-		break;
-	case PlayerManager::Coop:
-	case PlayerManager::Versus:
-		if (PlayerManager::GetInstance().GetInput())
-		{
-			inputText->SetText("Controller / Controller");
-		}
-		else
-		{
-			inputText->SetText("Keyboard / Controller");
-		}
-		break;
-	}
-
-
-	SetKeyPressed(true);
 }
 
 void MuteCommand::Execute()

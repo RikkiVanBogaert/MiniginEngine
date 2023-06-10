@@ -51,35 +51,6 @@ namespace dae
 			InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_TAB, switchGameMode);
 		}
 
-		//Input
-		{
-			const auto switchInputObj = std::make_shared<GameObject>();
-			const auto switchInputText = std::make_shared<TextComponent>(switchInputObj.get(), "Switch Input (I)", font, SDL_Color{ 255, 255, 255, 255 });
-			switchInputObj->SetRelativePos({ 150, 350 });
-			switchInputObj->AddComponent(switchInputText);
-			pMenuObj->AddChild(switchInputObj);
-
-			const auto inputObj = std::make_shared<GameObject>();
-			inputObj->SetTag("Input");
-			auto inputText = std::make_shared<TextComponent>(inputObj.get(), "Keyboard", smallFont, SDL_Color{ 255, 255, 255, 255 });
-			inputObj->SetRelativePos({ 200, 390 });
-			inputObj->AddComponent(inputText);
-			pMenuObj->AddChild(inputObj);
-
-			const auto switchInput = std::make_shared<SwitchInputCommand>();
-			InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_I, switchInput);
-		}
-
-		/*const auto nextLevelObj = std::make_shared<GameObject>();
-		const auto nextLevelText = std::make_shared<TextComponent>(nextLevelObj.get(), "Next Level (N)", smallFont, SDL_Color{ 255, 255, 255 });
-		nextLevelObj->SetRelativePos({ 10, 430 });
-		nextLevelObj->AddComponent(nextLevelText);
-		pMenuObj->AddChild(nextLevelObj);*/
-
-		//INPUT
-		const auto skipLevel = std::make_shared<SkipLevelCommand>();
-		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_N, skipLevel);
-
 		const auto startGame = std::make_shared<StartGameCommand>();
 		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_SPACE, startGame);
 

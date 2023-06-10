@@ -55,14 +55,11 @@ public:
 
     void LevelCreate();
     void ResetPlayerVars();
-    void RemovePlayerFromScene(dae::GameObject* player);
+    void RemovePlayerFromScene(dae::GameObject* player) const;
     void RemoveAllPlayersFromScene();
     void ResetScene();
 
     void NextLevel();
-
-    void SwitchInput();
-    bool GetInput() const { return m_UsingKeyboard; }
 
     int& GetControllerIdx() { return m_ControllerIdx; }
 
@@ -75,8 +72,7 @@ private:
     std::vector<glm::vec2> m_SpawnPositions;
 
     int m_ControllerIdx{};
-    bool m_UsingKeyboard{};
-
-    void SkipNonLevels();
+    
+    void SkipNonLevels() const;
 };
 

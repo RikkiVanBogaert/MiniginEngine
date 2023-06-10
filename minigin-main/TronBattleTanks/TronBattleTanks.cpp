@@ -97,11 +97,16 @@ void LoadNewScene()
 
 	SceneManager::GetInstance().CreateScene("GameOver");
 
+	//INPUT
+	const auto skipLevel = std::make_shared<SkipLevelCommand>();
+	InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_N, skipLevel);
+
 	const auto resetGame = std::make_shared<ResetGameCommand>();
 	InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_R, resetGame);
 
 	const auto muteUnmute = std::make_shared<MuteCommand>();
 	InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_M, muteUnmute);
+
 
 	ExplainControls();
 }
