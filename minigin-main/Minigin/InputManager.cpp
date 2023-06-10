@@ -91,8 +91,10 @@ void InputManager::ProcessInputControllers()
 		{
 			const unsigned int controllerId = command.first.first;
 			const auto controllerStick = command.first.second;
+			constexpr float deadzone{ 0.2f };
 			if (controller->GetControllerIndex() == controllerId &&
-				GetControllerStickValues(controllerId, controllerStick) != glm::vec2(0,0)) //add a deadzone
+				(abs(GetControllerStickValues(controllerId, controllerStick).x) > deadzone ||
+				abs(GetControllerStickValues(controllerId, controllerStick).y) > deadzone))
 			{
 				command.second->Execute(true);
 			}

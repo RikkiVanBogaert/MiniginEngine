@@ -47,7 +47,9 @@ namespace dae
 		pLevelObject->AddComponent(gridCp);
 
 		//Create Map
-		constexpr int columns = 58;
+		constexpr int amountCols = 58;
+		int curRow{};
+		int curCol{};
 		const auto map = ResourceManager::GetInstance().ParseCsv(levelPath);
 		constexpr float size{ 8 };
 		constexpr glm::vec2 startPos{ 100,20 };
@@ -55,6 +57,10 @@ namespace dae
 		int amountPlayerSpawns{};
 		int amountBlueEnemySpawns{};
 		int amountRecognizerSpawns{};
+
+		std::vector<glm::vec2> teleports;
+		std::vector<int> teleportPlaces;
+
 		for (size_t i{}; i < map.size(); ++i)
 		{
 			auto pBlock = std::make_shared<GameObject>();
@@ -77,10 +83,18 @@ namespace dae
 				break;
 			case 1:
 				pTexture->SetTexture("Resources/Level/void.png");
-				pBlock->SetTag("Teleport");
+				break;
+			case 2:
+				//path
+				if(curRow % 2 == 1 && curCol < amountCols - 6)
+				{
+					teleportPlaces.emplace_back(int(i));
+				}
 				break;
 			case 3:
-				CreateTeleport(scene)->SetRelativePos(pos);
+				pTexture->SetTexture("Resources/Level/path.png");
+				pBlock->SetTag("Teleport");
+				teleports.emplace_back(pos);
 				break;
 			case 4:
 				if (amountBlueEnemySpawns % 4 == 0)
@@ -110,15 +124,23 @@ namespace dae
 			gridCp->AddCell({ pBlock->GetTag(), pos });
 
 			pos.x += size;
+			++curCol;
 			if(gridCp->m_GridRows == 0)
 				++gridCp->m_GridCols;
 
-			if ((i + 1) % columns == 0)
+			if ((i + 1) % amountCols == 0)
 			{
 				pos.x = startPos.x;
 				pos.y += size;
+				++curRow;
+				curCol = 0;
 				++gridCp->m_GridRows;
 			}
+		}
+
+		for(auto t : teleports)
+		{
+			CreateTeleport(scene, teleportPlaces)->SetRelativePos(t);
 		}
 
 		return pLevelObject;

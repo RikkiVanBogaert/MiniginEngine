@@ -19,7 +19,7 @@ bool CollisionCp::CollisionHit(dae::GameObject* object, const glm::vec2& dir) co
 {
 	const auto objectPos = object->GetWorldTransform();
 	const float objectSize = object->GetSize().x;
-	const float rayLength = 1;
+	constexpr float rayLength = 1;
 	const glm::vec2 direction = normalize(dir) * rayLength;
 	const glm::vec2 rayPoint = { objectPos.x + direction.x, objectPos.y + direction.y };
 
@@ -38,7 +38,7 @@ bool CollisionCp::CollisionHit(dae::GameObject* object, const glm::vec2& dir) co
 	return false;
 }
 
-bool CollisionCp::DoesOverlap(dae::GameObject* object)
+bool CollisionCp::DoesOverlap(dae::GameObject* object) const
 {
 	const float square1BottomRightX = object->GetWorldTransform().x + object->GetSize().x;
 	const float square1BottomRightY = object->GetWorldTransform().y + object->GetSize().y;

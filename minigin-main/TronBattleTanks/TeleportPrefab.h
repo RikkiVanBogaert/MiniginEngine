@@ -10,7 +10,7 @@ namespace dae
 	class Scene;
 
 
-	static GameObject* CreateTeleport(Scene& scene)
+	static std::shared_ptr<GameObject> CreateTeleport(Scene& scene, std::vector<int> teleportPlaces)
 	{
 		auto obj = std::make_shared<GameObject>();
 		scene.Add(obj);
@@ -23,9 +23,9 @@ namespace dae
 		colCp->AddCollider(obj.get());
 		obj->AddComponent(colCp);
 
-		auto teleportCp = std::make_shared<TeleportCp>(obj.get());
+		auto teleportCp = std::make_shared<TeleportCp>(obj.get(), teleportPlaces);
 		obj->AddComponent(teleportCp);
 
-		return obj.get();
+		return obj;
 	}
 }

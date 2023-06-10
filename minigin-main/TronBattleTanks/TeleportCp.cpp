@@ -5,25 +5,29 @@
 #include "GameObject.h"
 #include "PlayerManager.h"
 
-TeleportCp::TeleportCp(dae::GameObject* owner):
-ComponentBase(owner)
+TeleportCp::TeleportCp(dae::GameObject* owner, const std::vector<int>& teleportPlaces):
+ComponentBase(owner),
+m_TeleportPlaceIdxs(teleportPlaces)
 {
 	m_pCollisionCp = owner->GetComponent<CollisionCp>();
 }
 
 void TeleportCp::Update(float)
 {
+	for (auto p : PlayerManager::GetInstance().GetPlayers())
+	{
+		if (!p->GetScene()->IsActive()) continue;
 
-	//for (auto p : PlayerManager::GetInstance().GetPlayers())
-	//{
-	//	//auto dir = normalize(m_pOwner->GetWorldTransform() - p->GetWorldTransform());
-	//	if (m_pCollisionCp->DoesOverlap(p.get()))
-	//	{
-	//		//Teleport
-	//		std::cout << "TELEPORT\n";
-	//		//p->SetRelativePos(GetRandomPos());
-	//	}
-	//}
+		//auto dir = normalize(m_pOwner->GetWorldTransform() - p->GetWorldTransform());
+		if (m_pCollisionCp->DoesOverlap(p.get()))
+		{
+			//Teleport
+			std::cout << "TELEPORT\n";
+			p->SetRelativePos(GetRandomPos());
+
+			
+		}
+	}
 }
 
 glm::vec2 TeleportCp::GetRandomPos()
@@ -32,17 +36,19 @@ glm::vec2 TeleportCp::GetRandomPos()
 
 	const auto level = GetGameObject(m_pOwner->GetScene(), "Level");
 
-	std::vector<int> paths{};
+	/*std::vector<int> paths{};
 	for(int i{}; i < static_cast<int>(level->GetChildren().size()); ++i)
 	{
 		if (level->GetChildren()[i]->GetTag() != "Path") continue;
 
 		paths.emplace_back(i);
-	}
+	}*/
 
-	const auto rndNr{ rand() % paths.size() - 1 };
+	const auto rndNr{ rand() % m_TeleportPlaceIdxs.size() - 1 };
+	const int rndSpot = m_TeleportPlaceIdxs[rndNr];
 
-	pos = level->GetChildren()[rndNr]->GetWorldTransform();
+	constexpr glm::vec2 offset{ 0, 16 };
+	pos = level->GetChildren()[rndSpot]->GetWorldTransform() - offset;
 
 	return pos;
 }
