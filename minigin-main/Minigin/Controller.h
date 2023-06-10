@@ -43,9 +43,9 @@ namespace dae
         unsigned int GetControllerIndex() const;
 
         // Joystick getters
-        short GetLeftStickX() const;
-        short GetLeftStickY() const;
-        short GetRightStickX() const;
-        short GetRightStickY() const;
+        float GetLeftStickX() const;
+        float GetLeftStickY() const;
+        float GetRightStickX() const;
+        float GetRightStickY() const;
     };
 }

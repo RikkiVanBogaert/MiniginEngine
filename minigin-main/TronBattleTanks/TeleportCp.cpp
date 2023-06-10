@@ -14,16 +14,16 @@ ComponentBase(owner)
 void TeleportCp::Update(float)
 {
 
-	for (auto p : PlayerManager::GetInstance().GetPlayers())
-	{
-		//auto dir = normalize(m_pOwner->GetWorldTransform() - p->GetWorldTransform());
-		if (m_pCollisionCp->DoesOverlap(p.get()))
-		{
-			//Teleport
-			std::cout << "TELEPORT\n";
-			p->SetRelativePos(GetRandomPos());
-		}
-	}
+	//for (auto p : PlayerManager::GetInstance().GetPlayers())
+	//{
+	//	//auto dir = normalize(m_pOwner->GetWorldTransform() - p->GetWorldTransform());
+	//	if (m_pCollisionCp->DoesOverlap(p.get()))
+	//	{
+	//		//Teleport
+	//		std::cout << "TELEPORT\n";
+	//		//p->SetRelativePos(GetRandomPos());
+	//	}
+	//}
 }
 
 glm::vec2 TeleportCp::GetRandomPos()

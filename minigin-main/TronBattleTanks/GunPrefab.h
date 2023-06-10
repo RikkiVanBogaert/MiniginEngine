@@ -31,7 +31,7 @@ namespace dae
 		const auto shootUp = std::make_shared<ShootCommand>(pGun.get(), shootUpVel);
 		const auto shootDown = std::make_shared<ShootCommand>(pGun.get(), shootDownVel);
 		const auto shootLeft = std::make_shared<ShootCommand>(pGun.get(), shootLeftVel);
-		const auto shootRight = std::make_shared<ShootCommand>(pGun.get(), shootRightVel);
+		const auto shootRight = std::make_shared<ShootCommand>(pGun.get(), shootRightVel, controllerIdx);
 
 		if (usingKeyboard)
 		{
@@ -40,15 +40,6 @@ namespace dae
 			InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_LEFT, shootLeft);
 			InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_RIGHT, shootRight);
 		}
-
-		Controller::ControllerButton button{};
-		button = Controller::ControllerButton::ButtonY;
-		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, shootUp);
-		button = Controller::ControllerButton::ButtonA;
-		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, shootDown);
-		button = Controller::ControllerButton::ButtonX;
-		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, shootLeft);
-
 
 		Controller::ControllerStick t = Controller::ControllerStick::RightStick;
 		InputManager::GetInstance().BindControllerToCommand(controllerIdx, t, shootRight);

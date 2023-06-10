@@ -15,7 +15,7 @@ namespace dae
 		Command& operator=(Command&& other) = delete;
 
 
-		virtual void Execute() = 0;
+		virtual void Execute(bool useStickDir = false) = 0;
 
 		void SetKeyPressed(bool keyPressed) { m_KeyPressed = keyPressed; }
 

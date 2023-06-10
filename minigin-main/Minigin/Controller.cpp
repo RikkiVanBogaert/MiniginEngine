@@ -49,10 +49,10 @@ public:
 
     unsigned int GetControllerIndex() const { return m_ControllerIndex; }
 
-    short GetLeftStickX() const { return m_LeftStickX; }
-    short GetLeftStickY() const { return m_LeftStickY; }
-    short GetRightStickX() const { return m_RightStickX; }
-    short GetRightStickY() const { return m_RightStickY; }
+    float GetLeftStickX() const { return m_LeftStickX; }
+    float GetLeftStickY() const { return m_LeftStickY; }
+    float GetRightStickX() const { return m_RightStickX; }
+    float GetRightStickY() const { return m_RightStickY; }
 
 private:
     XINPUT_STATE m_CurrentState{};
@@ -62,10 +62,10 @@ private:
     unsigned int m_ControllerIndex{};
 
     // Joystick values
-    short m_LeftStickX{};
-    short m_LeftStickY{};
-    short m_RightStickX{};
-    short m_RightStickY{};
+    float m_LeftStickX{};
+    float m_LeftStickY{};
+    float m_RightStickX{};
+    float m_RightStickY{};
 
 };
 
@@ -102,7 +102,7 @@ unsigned int Controller::GetControllerIndex() const
     return m_pImpl->GetControllerIndex();
 }
 
-short Controller::GetLeftStickX() const { return m_pImpl->GetLeftStickX(); }
-short Controller::GetLeftStickY() const { return m_pImpl->GetLeftStickY(); }
-short Controller::GetRightStickX() const { return m_pImpl->GetRightStickX(); }
-short Controller::GetRightStickY() const { return m_pImpl->GetRightStickY(); }
+float Controller::GetLeftStickX() const { return m_pImpl->GetLeftStickX(); }
+float Controller::GetLeftStickY() const { return m_pImpl->GetLeftStickY(); }
+float Controller::GetRightStickX() const { return m_pImpl->GetRightStickX(); }
+float Controller::GetRightStickY() const { return m_pImpl->GetRightStickY(); }

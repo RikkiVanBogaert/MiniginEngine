@@ -17,7 +17,7 @@ public:
 private:
 	dae::GameObject* m_pShooter;
 	glm::vec2 m_Velocity;
-	CollisionCp* m_pCollisionCp;
+	CollisionCp* m_pCollisionCp{};
 	int m_AmountBounces{};
 };
 

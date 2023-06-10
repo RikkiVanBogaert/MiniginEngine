@@ -13,45 +13,96 @@
 #include "GameHelpers.h"
 #include "MoveCp.h"
 #include "TextComponent.h"
-//#include "InputManager.h" //putting this include higher causes Uint8 undeclared errors
+#include "InputManager.h" //putting this include higher causes Uint8 undeclared errors
 
 
 using namespace dae;
 
-MoveCommand::MoveCommand(GameObject* gameObj, const glm::vec3& direction)
+MoveCommand::MoveCommand(GameObject* gameObj, const glm::vec2& direction, int controllerIdx,
+	Controller::ControllerStick stick):
+	m_Direction(direction),
+	m_ControllerIdx(controllerIdx),
+	m_ControllerStick(stick)
 {
 	m_pGameObject = gameObj;
-	m_Direction = direction;
 }
 
-void MoveCommand::Execute()
+void MoveCommand::Execute(bool useStickDir)
 {
 	if (!m_pGameObject || m_pGameObject->NeedsDeleting() || !m_pGameObject->GetScene()->IsActive()) return;
 
 	//Collision
-	const auto sceneObjects = m_pGameObject->GetScene()->GetGameObjects();
-	for (auto& o : sceneObjects)
-	{
-		if (o->GetTag() != "Level") continue;
+	auto moveDir = m_Direction;
 
-		const auto collisionCp = o->GetComponent<CollisionCp>();
-		if (collisionCp->CollisionHit(m_pGameObject, m_Direction))
+	const auto sceneObjects = m_pGameObject->GetScene()->GetGameObjects();
+	if(useStickDir)
+	{
+		moveDir = InputManager::GetInstance().GetControllerStickValues(m_ControllerIdx, m_ControllerStick);
+		if(!CheckAllMoveDirections(moveDir))
+		{
 			return;
-		
-		break;
+		}
+	}
+	else
+	{
+		const auto collisionCp = GetComponentInScene<CollisionCp>(m_pGameObject->GetScene(), "Level");
+		if (collisionCp->CollisionHit(m_pGameObject, moveDir))
+		{
+			return;
+		}
 	}
 
 	const auto moveCp = m_pGameObject->GetComponent<MoveCp>();
-	moveCp->Move(m_Direction);
+	moveCp->Move(moveDir);
 }
 
-ShootCommand::ShootCommand(dae::GameObject* gameObj, const glm::vec2& direction)
+bool MoveCommand::CheckAllMoveDirections(glm::vec2& moveDir)
+{
+	const auto collisionCp = GetComponentInScene<CollisionCp>(m_pGameObject->GetScene(), "Level");
+
+	if(abs(moveDir.x) > abs(moveDir.y))
+	{
+		if (!collisionCp->CollisionHit(m_pGameObject, { moveDir.x, 0 }))
+		{
+			moveDir.y = 0;
+			return true;
+		}
+
+		if (!collisionCp->CollisionHit(m_pGameObject, { 0, moveDir.y }))
+		{
+			moveDir.x = 0;
+			return true;
+		}
+	}
+	else
+	{
+		if (!collisionCp->CollisionHit(m_pGameObject, { 0, moveDir.y }))
+		{
+			moveDir.x = 0;
+			return true;
+		}
+
+		if (!collisionCp->CollisionHit(m_pGameObject, { moveDir.x, 0 }))
+		{
+			moveDir.y = 0;
+			return true;
+		}
+	}
+
+	return false;
+
+}
+
+ShootCommand::ShootCommand(dae::GameObject* gameObj, const glm::vec2& direction, int controllerIdx,
+                           Controller::ControllerStick stick):
+m_Direction(direction),
+m_ControllerIdx(controllerIdx),
+m_ControllerStick(stick)
 {
 	m_pGameObject = gameObj;
-	m_Direction = direction;
 }
 
-void ShootCommand::Execute()
+void ShootCommand::Execute(bool useStickDir)
 {
 	if (!m_pGameObject || m_pGameObject->NeedsDeleting() || !m_pGameObject->GetScene()->IsActive()) return;
 
@@ -59,12 +110,19 @@ void ShootCommand::Execute()
 
 	const auto bulletManager = m_pGameObject->GetComponent<BulletManagerCp>();
 
-	bulletManager->Shoot(m_Direction);
+	auto shootDir = m_Direction;
+
+	if(useStickDir)
+	{
+		shootDir = InputManager::GetInstance().GetControllerStickValues(m_ControllerIdx, m_ControllerStick);
+	}
+
+	bulletManager->Shoot(shootDir);
 
 	SetKeyPressed(true);
 }
 
-void SkipLevelCommand::Execute()
+void SkipLevelCommand::Execute(bool)
 {
 	if (GetKeyPressed()) return;
 
@@ -80,7 +138,7 @@ void SkipLevelCommand::Execute()
 	SetKeyPressed(true);
 }
 
-void StartGameCommand::Execute()
+void StartGameCommand::Execute(bool)
 {
 	if (GetKeyPressed()) return;
 
@@ -101,12 +159,12 @@ void StartGameCommand::Execute()
 }
 
 
-void ExitGameCommand::Execute()
+void ExitGameCommand::Execute(bool)
 {
 	exit(0);
 }
 
-void SwitchGameModeCommand::Execute()
+void SwitchGameModeCommand::Execute(bool)
 {
 	if (GetKeyPressed()) return;
 	if (SceneManager::GetInstance().GetActiveSceneName() != "MainMenu")
@@ -137,7 +195,7 @@ void SwitchGameModeCommand::Execute()
 }
 
 
-void ResetGameCommand::Execute()
+void ResetGameCommand::Execute(bool)
 {
 	if (GetKeyPressed()) return;
 
@@ -151,7 +209,7 @@ void ResetGameCommand::Execute()
 	
 }
 
-void MuteCommand::Execute()
+void MuteCommand::Execute(bool)
 {
 	auto& ss = ServiceLocator::GetSoundSystem(); 
 	ss.MuteUnmuteSound();

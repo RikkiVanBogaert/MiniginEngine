@@ -8,6 +8,9 @@ ComponentBase(owner),
 m_pShooter(shooter),
 m_Velocity(vel)
 {
+	if (!GetGameObject(m_pOwner->GetScene(), "Level")) return;
+	if (!GetGameObject(m_pOwner->GetScene(), "Level")->GetComponent<CollisionCp>()) return;
+
 	m_pCollisionCp = GetGameObject(m_pOwner->GetScene(), "Level")->GetComponent<CollisionCp>();
 }
 
@@ -16,6 +19,7 @@ void BulletCp::Update(float deltaTime)
 	const auto newPos = m_pOwner->GetRelativeTransform() + m_Velocity * deltaTime;
 	m_pOwner->SetRelativePos(newPos);
 
+	if (!m_pCollisionCp) return;
 	if (!m_pCollisionCp->CollisionHit(m_pOwner, m_Velocity)) return;
 
 	m_Velocity *= -1;

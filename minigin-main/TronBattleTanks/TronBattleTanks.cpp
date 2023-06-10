@@ -76,8 +76,13 @@ void ExplainControls()
 		<< "Moving - WASD\n" << "Shooting(has sound) - Arrow Keys\n";
 }
 
-void Test(Scene&)
-{}
+void Test()
+{
+	auto& scene = SceneManager::GetInstance().CreateScene("Test");
+	scene.SetActive(true);
+	CreateTankKeyboardAndController(scene);
+
+}
 
 void LoadNewScene()
 {
@@ -120,8 +125,8 @@ void LoadNewScene()
 void load()
 {
 	//LoadDaeScene();
-	//LoadGameScene();
 	LoadNewScene();
+	//Test();
 
 #if _DEBUG
 	ServiceLocator::RegisterSoundSystem(

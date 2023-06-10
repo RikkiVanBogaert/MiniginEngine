@@ -94,7 +94,7 @@ void InputManager::ProcessInputControllers()
 			if (controller->GetControllerIndex() == controllerId &&
 				GetControllerStickValues(controllerId, controllerStick) != glm::vec2(0,0)) //add a deadzone
 			{
-				command.second->Execute();
+				command.second->Execute(true);
 			}
 		}
     }
@@ -133,12 +133,12 @@ glm::vec2 InputManager::GetControllerStickValues(unsigned controllerId, Controll
 	if(stick == Controller::ControllerStick::LeftStick)
 	{
 		dir.x = m_Controllers[controllerId]->GetLeftStickX();
-		dir.y = m_Controllers[controllerId]->GetLeftStickY();
+		dir.y = -m_Controllers[controllerId]->GetLeftStickY();
 	}
 	else
 	{
 		dir.x = m_Controllers[controllerId]->GetRightStickX();
-		dir.y = m_Controllers[controllerId]->GetRightStickY();
+		dir.y = -m_Controllers[controllerId]->GetRightStickY();
 	}
 
 	return dir;
