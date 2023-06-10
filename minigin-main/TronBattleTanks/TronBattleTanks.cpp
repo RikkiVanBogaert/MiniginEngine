@@ -87,12 +87,13 @@ void Test()
 void LoadNewScene()
 {
 	auto& startScene = SceneManager::GetInstance().CreateScene("MainMenu");
-	CreateMainMenu(startScene);
-	startScene.SetActive(true);
 
 	auto& waitingScene = SceneManager::GetInstance().CreateScene("WaitingScene");
 	CreateTankKeyboardAndController(waitingScene);
 	CreateTankController(waitingScene);
+
+	CreateMainMenu(startScene);
+	startScene.SetActive(true);
 
 	SceneManager::GetInstance().CreateScene("Level0");
 	
@@ -112,6 +113,18 @@ void LoadNewScene()
 	const auto muteUnmute = std::make_shared<MuteCommand>();
 	InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_M, muteUnmute);
 
+	const int amountControllers = PlayerManager::GetInstance().GetControllerIdx();
+	for (int i{}; i < amountControllers; ++i)
+	{
+		Controller::ControllerButton button = Controller::ControllerButton::ButtonY;
+		InputManager::GetInstance().BindControllerToCommand(i, button, skipLevel);
+
+		button = Controller::ControllerButton::ButtonB;
+		InputManager::GetInstance().BindControllerToCommand(i, button, resetGame);
+
+		button = Controller::ControllerButton::Start;
+		InputManager::GetInstance().BindControllerToCommand(i, button, muteUnmute);
+	}
 
 	ExplainControls();
 }

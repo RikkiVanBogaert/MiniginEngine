@@ -22,11 +22,17 @@ namespace dae
 
 		auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 13);
 
-		const auto startObj = std::make_shared<GameObject>();
-		const auto startText = std::make_shared<TextComponent>(startObj.get(), "Skip Level (N)", font, SDL_Color{ 255, 255, 255, 255 });
-		startObj->SetRelativePos({ 5, 400 });
-		startObj->AddComponent(startText);
-		pLevelObject->AddChild(startObj);
+		const auto skipObj = std::make_shared<GameObject>();
+		const auto skipText = std::make_shared<TextComponent>(skipObj.get(), "Skip Level (N/Button Y)", font, SDL_Color{ 255, 255, 255, 255 });
+		skipObj->SetRelativePos({ 250, 458 });
+		skipObj->AddComponent(skipText);
+		pLevelObject->AddChild(skipObj);
+
+		const auto muteObj = std::make_shared<GameObject>();
+		const auto muteText = std::make_shared<TextComponent>(muteObj.get(), "Mute (M/Button Start)", font, SDL_Color{ 255, 255, 255, 255 });
+		muteObj->SetRelativePos({ 5, 458 });
+		muteObj->AddComponent(muteText);
+		pLevelObject->AddChild(muteObj);
 
 		const auto infoCp = std::make_shared<LevelInfoCp>(pLevelObject.get());
 		pLevelObject->AddComponent(infoCp);

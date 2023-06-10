@@ -26,9 +26,10 @@ namespace dae
 		gameOverObj->AddComponent(gameOverText);
 		pMainObj->AddChild(gameOverObj);
 
-		const auto resetObj = std::make_shared<GameObject>();
-		const auto resetText = std::make_shared<TextComponent>(resetObj.get(), "Reset Game (R)", smallFont, SDL_Color{ 255, 255, 255, 255 });
-		resetObj->SetRelativePos({ 220, 100 });
+		//dont show this until name is entered
+		const auto resetObj = std::make_shared<GameObject>("Explanation");
+		const auto resetText = std::make_shared<TextComponent>(resetObj.get(), "Enter your name", smallFont, SDL_Color{ 255, 255, 255, 255 });
+		resetObj->SetRelativePos({ 160, 100 });
 		resetObj->AddComponent(resetText);
 		pMainObj->AddChild(resetObj);
 

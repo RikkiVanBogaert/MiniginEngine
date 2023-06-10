@@ -47,11 +47,10 @@ namespace dae
 		pTank->AddComponent(health);
 
 
-		//Controller
+		//Create Controller
 		int controllerIdx{ PlayerManager::GetInstance().GetControllerIdx() };
 		InputManager::GetInstance().AddController(controllerIdx);
 		++PlayerManager::GetInstance().GetControllerIdx();
-		//Controller::ControllerButton button{};
 
 		//Movement
 		auto moveCp = std::make_shared<MoveCp>(pTank.get(), 65.f);
@@ -111,10 +110,12 @@ namespace dae
 		const auto health = std::make_shared<LivesCp>(pTank.get(), 3);
 		pTank->AddComponent(health);
 
-		//Controller
-		const int controllerIdx{ PlayerManager::GetInstance().GetControllerIdx() };
+
+		//Create Controller
+		int controllerIdx{ PlayerManager::GetInstance().GetControllerIdx() };
 		InputManager::GetInstance().AddController(controllerIdx);
 		++PlayerManager::GetInstance().GetControllerIdx();
+
 
 		//Movement
 		const auto moveCp = std::make_shared<MoveCp>(pTank.get(), 65.f);

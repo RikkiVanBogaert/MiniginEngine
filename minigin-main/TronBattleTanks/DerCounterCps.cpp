@@ -30,7 +30,7 @@ void LivesCp::ChangeAmount(int difference)
 {
 	CounterCp::ChangeAmount(difference);
 	
-	if (GetCounter() < 0)
+	if (GetCounter() < 3)
 	{
 		//Game Over
 		dae::SceneManager::GetInstance().GetActiveScene()->RemoveAll();

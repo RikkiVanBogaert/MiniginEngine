@@ -76,15 +76,10 @@ void InputManager::ProcessInputControllers()
         {
             const unsigned int controllerId = command.first.first;
             const auto controllerKey = command.first.second;
-            if (controller->GetControllerIndex() == controllerId && controller->IsPressed(controllerKey))
+            if (controller->GetControllerIndex() == controllerId && controller->IsUpThisFrame(controllerKey))
             {
                 command.second->Execute();
             }
-			else if(controller->GetControllerIndex() == controllerId)
-			{
-				command.second->SetKeyPressed(false);
-			}
-
         }
 
 		for (auto& command : m_ControllerStickCommands)

@@ -20,6 +20,7 @@ public:
 	void Update(float deltaTime) override;
 	void Render() const override;
 	std::string GetName() const { return m_Name; }
+	bool IsNameSet() const { return m_NameSet; }
 
 private:
 	std::unique_ptr<dae::TextComponent> m_pText;

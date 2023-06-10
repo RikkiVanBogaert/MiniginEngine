@@ -36,7 +36,7 @@ static dae::GameObject* CreateBlueEnemy(dae::Scene& scene)
 	const auto pAICp = std::make_shared<AIComponent>(pTank.get());
 	pTank->AddComponent(pAICp);
 
-	const auto pMoveCp = std::make_shared<MoveCp>(pTank.get(), 30.f);
+	const auto pMoveCp = std::make_shared<MoveCp>(pTank.get(), 25.f);
 	pTank->AddComponent(pMoveCp);
 
 	return pTank.get();
@@ -80,7 +80,7 @@ static dae::GameObject* CreateRecognizer(dae::Scene& scene)
 	const auto pAICp = std::make_shared<AIRecognizerCp>(pTank.get());
 	pTank->AddComponent(pAICp);
 
-	const auto pMoveCp = std::make_shared<MoveCp>(pTank.get(), 60.f);
+	const auto pMoveCp = std::make_shared<MoveCp>(pTank.get(), 50.f);
 	pTank->AddComponent(pMoveCp);
 
 	return pTank.get();

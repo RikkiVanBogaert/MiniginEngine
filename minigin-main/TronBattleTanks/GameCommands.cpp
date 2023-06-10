@@ -11,6 +11,7 @@
 #include "CollisionCp.h"
 #include "DerCounterCps.h"
 #include "GameHelpers.h"
+#include "HighScoresCp.h"
 #include "MoveCp.h"
 #include "TextComponent.h"
 #include "InputManager.h" //putting this include higher causes Uint8 undeclared errors
@@ -136,7 +137,8 @@ void SkipLevelCommand::Execute(bool)
 	if (GetKeyPressed()) return;
 
 	const auto& sceneManager = SceneManager::GetInstance();
-	if (sceneManager.GetActiveSceneName() == "MainMenu")
+	if (sceneManager.GetActiveSceneName() == "MainMenu" || 
+		sceneManager.GetActiveSceneName() == "GameOver")
 	{
 		SetKeyPressed(true);
 		return;
@@ -176,6 +178,7 @@ void ExitGameCommand::Execute(bool)
 void SwitchGameModeCommand::Execute(bool)
 {
 	if (GetKeyPressed()) return;
+
 	if (SceneManager::GetInstance().GetActiveSceneName() != "MainMenu")
 	{
 		SetKeyPressed(true);
@@ -208,18 +211,37 @@ void ResetGameCommand::Execute(bool)
 {
 	if (GetKeyPressed()) return;
 
-	if (SceneManager::GetInstance().GetActiveSceneName() == "MainMenu")
+	if (SceneManager::GetInstance().GetActiveSceneName() != "GameOver")
 		return;
+
+	const auto highScoreCp = GetComponentInScene<HighScoresCp>(SceneManager::GetInstance().GetActiveScene());
+	if(highScoreCp)
+	{
+		if(!highScoreCp->IsNameSet())
+		{
+			SetKeyPressed(true);
+			return;
+		}
+	}
+	else
+	{
+		SetKeyPressed(true);
+		return;
+	}
 	
 	auto& sceneManager = SceneManager::GetInstance();
 	sceneManager.GetActiveScene()->RemoveAll();
 	sceneManager.SetActiveScene("MainMenu");
+
 	SetKeyPressed(true);
-	
 }
 
 void MuteCommand::Execute(bool)
 {
+	if (GetKeyPressed()) return;
+
 	auto& ss = ServiceLocator::GetSoundSystem(); 
 	ss.MuteUnmuteSound();
+
+	SetKeyPressed(true);
 }

@@ -8,6 +8,8 @@
 #include <memory>
 #include <SDL_pixels.h>
 
+#include "Renderer.h"
+
 
 namespace dae
 {
@@ -64,16 +66,24 @@ void HighScoresCp::EnterName(float deltaTime)
                     m_Name.pop_back();
                 }
             }
-            else if (e.type == SDL_TEXTINPUT)
+            else if (e.type == SDL_TEXTINPUT && m_Name.size() < 16)
             {
                 m_Name += e.text.text;
             }
+        	//std::cout << m_Name << '\n';
+            m_pText->SetText(m_Name);
         }
-
+        m_pText->Update(deltaTime);
+        m_pText->Render();
+        dae::Renderer::GetInstance().Render();
     }
 
     m_pText->SetText(m_Name);
     m_NameSet = true;
+
+    const auto explanationText = GetComponentInScene<dae::TextComponent>(m_pOwner->GetScene(), "Explanation");
+    explanationText->SetText("Reset Game (R/Button B)");
+
     WriteToHighScores(m_Name);
     SortAndPrintNames("../Data/Resources/HighScores.txt");
     ShowHighScores();
