@@ -23,11 +23,10 @@ namespace dae
 		pGun->AddComponent(bulletManager);
 
 		//Shooting
-		constexpr float shootSpeed{ 300 };
-		glm::vec2 shootUpVel = { 0.f, -shootSpeed };
-		glm::vec2 shootDownVel = { 0.f, shootSpeed };
-		glm::vec2 shootLeftVel = { -shootSpeed, 0.f };
-		glm::vec2 shootRightVel = { shootSpeed, 0.f };
+		glm::vec2 shootUpVel = { 0.f, -1 };
+		glm::vec2 shootDownVel = { 0.f, 1 };
+		glm::vec2 shootLeftVel = { -1, 0.f };
+		glm::vec2 shootRightVel = { 1, 0.f };
 
 		const auto shootUp = std::make_shared<ShootCommand>(pGun.get(), shootUpVel);
 		const auto shootDown = std::make_shared<ShootCommand>(pGun.get(), shootDownVel);
@@ -49,8 +48,10 @@ namespace dae
 		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, shootDown);
 		button = Controller::ControllerButton::ButtonX;
 		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, shootLeft);
-		button = Controller::ControllerButton::ButtonB;
-		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, shootRight);
+
+
+		Controller::ControllerStick t = Controller::ControllerStick::RightStick;
+		InputManager::GetInstance().BindControllerToCommand(controllerIdx, t, shootRight);
 
 		return pGun;
 	}

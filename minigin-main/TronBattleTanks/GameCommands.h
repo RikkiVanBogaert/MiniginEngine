@@ -2,6 +2,8 @@
 #include <glm/vec3.hpp>
 
 #include "Commands.h"
+#include "Controller.h"
+#include "Controller.h"
 #include "GameObject.h"
 
 

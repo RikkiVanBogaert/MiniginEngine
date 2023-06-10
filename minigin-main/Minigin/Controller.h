@@ -31,10 +31,21 @@ namespace dae
             ButtonY = 0x8000,
         };
 
+        enum class ControllerStick
+        {
+            LeftStick = 0,
+            RightStick = 1
+        };
+
         bool IsButtonDown(ControllerButton button) const;
         bool IsUpThisFrame(ControllerButton button) const;
         bool IsPressed(ControllerButton button) const;
         unsigned int GetControllerIndex() const;
 
+        // Joystick getters
+        short GetLeftStickX() const;
+        short GetLeftStickY() const;
+        short GetRightStickX() const;
+        short GetRightStickY() const;
     };
 }

@@ -31,8 +31,15 @@ void InputManager::AddController(unsigned int id)
 
 void InputManager::BindControllerToCommand(unsigned int id, Controller::ControllerButton& button, std::shared_ptr<Command> command)
 {
-	ControllerKey key = ControllerKey(id, button);
-	m_ControllerCommands.insert({ key, command });
+	ControllerButtonKey key = ControllerButtonKey(id, button);
+	m_ControllerButtonCommands.insert({ key, command });
+}
+
+void InputManager::BindControllerToCommand(unsigned id, Controller::ControllerStick& stick,
+	std::shared_ptr<Command> command)
+{
+	ControllerStickKey key = ControllerStickKey(id, stick);
+	m_ControllerStickCommands.insert({ key, command });
 }
 
 void InputManager::BindKeyToCommand(const Uint8& key, std::shared_ptr<Command> command)
@@ -57,7 +64,7 @@ void InputManager::UnbindCommand(Command* command)
 //void InputManager::UnbindAllCommands()
 //{
 //	m_KeyCommands.clear();
-//	m_ControllerCommands.clear();
+//	m_ControllerButtonCommands.clear();
 //	m_Controllers.clear();
 //}
 
@@ -65,10 +72,10 @@ void InputManager::ProcessInputControllers()
 {
     for (auto& controller : m_Controllers)
     {
-        for (auto& command : m_ControllerCommands)
+        for (auto& command : m_ControllerButtonCommands)
         {
-            const auto controllerKey = command.first.second;
             const unsigned int controllerId = command.first.first;
+            const auto controllerKey = command.first.second;
             if (controller->GetControllerIndex() == controllerId && controller->IsPressed(controllerKey))
             {
                 command.second->Execute();
@@ -80,6 +87,16 @@ void InputManager::ProcessInputControllers()
 
         }
 
+		for (auto& command : m_ControllerStickCommands)
+		{
+			const unsigned int controllerId = command.first.first;
+			const auto controllerStick = command.first.second;
+			if (controller->GetControllerIndex() == controllerId &&
+				GetControllerStickValues(controllerId, controllerStick) != glm::vec2(0,0)) //add a deadzone
+			{
+				command.second->Execute();
+			}
+		}
     }
 }
 
@@ -107,4 +124,22 @@ void InputManager::UpdateControllers()
     {
         controller->Update();
     }
+}
+
+glm::vec2 InputManager::GetControllerStickValues(unsigned controllerId, Controller::ControllerStick stick)
+{
+	glm::vec2 dir;
+
+	if(stick == Controller::ControllerStick::LeftStick)
+	{
+		dir.x = m_Controllers[controllerId]->GetLeftStickX();
+		dir.y = m_Controllers[controllerId]->GetLeftStickY();
+	}
+	else
+	{
+		dir.x = m_Controllers[controllerId]->GetRightStickX();
+		dir.y = m_Controllers[controllerId]->GetRightStickY();
+	}
+
+	return dir;
 }

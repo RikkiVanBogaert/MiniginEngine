@@ -13,6 +13,7 @@
 #include "GameHelpers.h"
 #include "MoveCp.h"
 #include "TextComponent.h"
+//#include "InputManager.h" //putting this include higher causes Uint8 undeclared errors
 
 
 using namespace dae;
@@ -57,6 +58,7 @@ void ShootCommand::Execute()
 	if (GetKeyPressed()) return;
 
 	const auto bulletManager = m_pGameObject->GetComponent<BulletManagerCp>();
+
 	bulletManager->Shoot(m_Direction);
 
 	SetKeyPressed(true);

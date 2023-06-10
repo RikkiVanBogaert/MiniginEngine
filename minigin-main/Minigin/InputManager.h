@@ -5,6 +5,7 @@
 //#include <memory>
 #include <map>
 #include <vector>
+#include <glm/vec2.hpp>
 
 #include "Controller.h"
 
@@ -19,17 +20,25 @@ namespace dae
 		bool ProcessInput();
 		void AddController(unsigned int id);
 		void BindControllerToCommand(unsigned int controllerId, Controller::ControllerButton& button, std::shared_ptr<Command> command);
+		void BindControllerToCommand(unsigned int controllerId, Controller::ControllerStick& stick, std::shared_ptr<Command> command);
 		void BindKeyToCommand(const Uint8& key, std::shared_ptr<Command> command);
 		void UnbindCommand(Command* command);
 		//void UnbindAllCommands();
 		void UpdateControllers();
 
+		glm::vec2 GetControllerStickValues(unsigned int controllerId, Controller::ControllerStick stick);
+
 	private:
-		//Controller
-		using ControllerKey = std::pair<unsigned int, Controller::ControllerButton>;
-		using CommandsMap = std::map<ControllerKey, std::shared_ptr<Command>>;
+		//Controller----
 		std::vector<std::unique_ptr<Controller>> m_Controllers{};
-		CommandsMap m_ControllerCommands{};
+		//Buttons
+		using ControllerButtonKey = std::pair<unsigned int, Controller::ControllerButton>;
+		using ButtonCommandsMap = std::map<ControllerButtonKey, std::shared_ptr<Command>>;
+		ButtonCommandsMap m_ControllerButtonCommands{};
+		//Sticks
+		using ControllerStickKey = std::pair<unsigned int, Controller::ControllerStick>;
+		using StickCommandsMap = std::map<ControllerStickKey, std::shared_ptr<Command>>;
+		StickCommandsMap m_ControllerStickCommands{};
 
 		//Keyboard
 		using KeyboardCommands = std::map<Uint8, std::shared_ptr<Command>>;
