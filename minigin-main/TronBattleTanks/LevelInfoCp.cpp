@@ -21,7 +21,7 @@ LevelInfoCp::~LevelInfoCp()
 
 void LevelInfoCp::Update(float)
 {
-	//CheckIfLevelComplete();
+	CheckIfLevelComplete();
 }
 
 void LevelInfoCp::CheckIfLevelComplete() const

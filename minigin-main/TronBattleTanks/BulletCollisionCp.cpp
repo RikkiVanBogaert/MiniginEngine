@@ -46,6 +46,7 @@ void BulletCollisionCp::GetHit(dae::GameObject* gun) const
 	}
 
 	//Shooter points
+	//bug: killing enemy when getting killed
 	if(!gun->GetParent()) return;
 	if(!gun->GetParent()->GetComponent<PointsCp>()) return;
 

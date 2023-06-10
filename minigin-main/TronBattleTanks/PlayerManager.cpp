@@ -75,7 +75,7 @@ void PlayerManager::LevelCreate()
 	{
 		scene->Add(pPointObject);
 		scene->Add(pLivesObject);
-		//CreateBlueEnemies(*scene, blueEnemySpawn->GetPos());
+		CreateBlueEnemies(*scene, blueEnemySpawn->GetPos());
 		CreateRecognizers(*scene, recognizerSpawn->GetPos());
 
 		sceneManager.GetActiveScene()->Add(players[0]);

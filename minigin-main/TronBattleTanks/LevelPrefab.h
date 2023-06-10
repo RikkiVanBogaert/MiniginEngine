@@ -86,7 +86,8 @@ namespace dae
 				break;
 			case 2:
 				//path
-				if(curRow % 2 == 1 && curCol < amountCols - 6)
+				if(curRow % 2 == 1 && curCol % 2 == 1 && 
+					curCol < amountCols - 6)
 				{
 					teleportPlaces.emplace_back(int(i));
 				}

@@ -73,15 +73,6 @@ namespace dae
 		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_A, moveCommandLeft);
 		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_D, moveCommandRight);
 
-		/*button = Controller::ControllerButton::DpadDown;
-		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandDown);
-		button = Controller::ControllerButton::DpadUp;
-		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandUp);
-		button = Controller::ControllerButton::DpadLeft;
-		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandLeft);
-		button = Controller::ControllerButton::DpadRight;
-		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandRight);*/
-
 		Controller::ControllerStick t = Controller::ControllerStick::LeftStick;
 		InputManager::GetInstance().BindControllerToCommand(controllerIdx, t, moveCommandRight);
 
@@ -124,8 +115,6 @@ namespace dae
 		const int controllerIdx{ PlayerManager::GetInstance().GetControllerIdx() };
 		InputManager::GetInstance().AddController(controllerIdx);
 		++PlayerManager::GetInstance().GetControllerIdx();
-		Controller::ControllerButton button{};
-
 
 		//Movement
 		const auto moveCp = std::make_shared<MoveCp>(pTank.get(), 65.f);
@@ -140,16 +129,11 @@ namespace dae
 		const auto moveCommandUp = std::make_shared<MoveCommand>(pTank.get(), up);
 		const auto moveCommandDown = std::make_shared<MoveCommand>(pTank.get(), down);
 		const auto moveCommandLeft = std::make_shared<MoveCommand>(pTank.get(), left);
-		const auto moveCommandRight = std::make_shared<MoveCommand>(pTank.get(), right);
+		const auto moveCommandRight = std::make_shared<MoveCommand>(pTank.get(), right, controllerIdx);
 
-		button = Controller::ControllerButton::DpadDown;
-		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandDown);
-		button = Controller::ControllerButton::DpadUp;
-		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandUp);
-		button = Controller::ControllerButton::DpadLeft;
-		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandLeft);
-		button = Controller::ControllerButton::DpadRight;
-		InputManager::GetInstance().BindControllerToCommand(controllerIdx, button, moveCommandRight);
+		Controller::ControllerStick t = Controller::ControllerStick::LeftStick;
+		InputManager::GetInstance().BindControllerToCommand(controllerIdx, t, moveCommandRight);
+
 
 		//Gun-Shooting
 		const auto pGun = CreateTankGun(scene, controllerIdx, false);

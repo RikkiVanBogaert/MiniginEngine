@@ -20,7 +20,7 @@ void MoveCp::Move(const glm::vec2& dir) const
 	glm::vec2 pos = m_pOwner->GetRelativeTransform();
 	const auto normalizedDir = normalize(dir);
 
-	pos.x +=  normalizedDir.x * m_Speed * m_DeltaT;
+	pos.x += normalizedDir.x * m_Speed * m_DeltaT;
 	pos.y += normalizedDir.y * m_Speed * m_DeltaT;
 
 	m_pOwner->SetRelativePos(pos);

@@ -68,7 +68,8 @@ bool MoveCommand::CheckAllMoveDirections(glm::vec2& moveDir)
 			return true;
 		}
 
-		if (!collisionCp->CollisionHit(m_pGameObject, { 0, moveDir.y }))
+		if (moveDir.y != 0 &&
+			!collisionCp->CollisionHit(m_pGameObject, { 0, moveDir.y }))
 		{
 			moveDir.x = 0;
 			return true;
@@ -82,7 +83,8 @@ bool MoveCommand::CheckAllMoveDirections(glm::vec2& moveDir)
 			return true;
 		}
 
-		if (!collisionCp->CollisionHit(m_pGameObject, { moveDir.x, 0 }))
+		if (moveDir.x != 0 && 
+			!collisionCp->CollisionHit(m_pGameObject, { moveDir.x, 0 }))
 		{
 			moveDir.y = 0;
 			return true;
@@ -106,7 +108,6 @@ void ShootCommand::Execute(bool useStickDir)
 {
 	if (!m_pGameObject || m_pGameObject->NeedsDeleting() || !m_pGameObject->GetScene()->IsActive()) return;
 
-	if (GetKeyPressed()) return;
 
 	const auto bulletManager = m_pGameObject->GetComponent<BulletManagerCp>();
 
@@ -115,11 +116,19 @@ void ShootCommand::Execute(bool useStickDir)
 	if(useStickDir)
 	{
 		shootDir = InputManager::GetInstance().GetControllerStickValues(m_ControllerIdx, m_ControllerStick);
+
+		//to always shoot bullets straight
+		if(abs(shootDir.x) >= abs(shootDir.y))
+		{
+			shootDir.y = 0;
+		}
+		else
+		{
+			shootDir.x = 0;
+		}
 	}
 
 	bulletManager->Shoot(shootDir);
-
-	SetKeyPressed(true);
 }
 
 void SkipLevelCommand::Execute(bool)

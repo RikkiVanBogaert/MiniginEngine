@@ -40,18 +40,31 @@ bool CollisionCp::CollisionHit(dae::GameObject* object, const glm::vec2& dir) co
 
 bool CollisionCp::DoesOverlap(dae::GameObject* object) const
 {
-	const float square1BottomRightX = object->GetWorldTransform().x + object->GetSize().x;
-	const float square1BottomRightY = object->GetWorldTransform().y + object->GetSize().y;
+	//const float square1BottomRightX = object->GetWorldTransform().x + object->GetSize().x;
+	//const float square1BottomRightY = object->GetWorldTransform().y + object->GetSize().y;
 
-	const float square2BottomRightX = m_pOwner->GetWorldTransform().x + m_pOwner->GetSize().x;
-	const float square2BottomRightY = m_pOwner->GetWorldTransform().y + m_pOwner->GetSize().y;
+	//const float square2BottomRightX = m_pOwner->GetWorldTransform().x + m_pOwner->GetSize().x;
+	//const float square2BottomRightY = m_pOwner->GetWorldTransform().y + m_pOwner->GetSize().y;
 
-	// Check for overlap
-	if (object->GetWorldTransform().x > square2BottomRightX || m_pOwner->GetWorldTransform().x > square1BottomRightX)
-		return false; // Squares are horizontally separated
+	//// Check for overlap
+	//if (object->GetWorldTransform().x > square2BottomRightX || m_pOwner->GetWorldTransform().x > square1BottomRightX)
+	//	return false; // Squares are horizontally separated
 
-	if (object->GetWorldTransform().y > square2BottomRightY || m_pOwner->GetWorldTransform().y > square1BottomRightY)
-		return false; // Squares are vertically separated
+	//if (object->GetWorldTransform().y > square2BottomRightY || m_pOwner->GetWorldTransform().y > square1BottomRightY)
+	//	return false; // Squares are vertically separated
 
-	return true; // Squares overlap
+	//return true; // Squares overlap
+
+	const glm::vec2 objectPos = object->GetWorldTransform();
+	const glm::vec2 objectSize = object->GetSize();
+	const glm::vec2 ownerPos = m_pOwner->GetWorldTransform();
+	const glm::vec2 ownerSize = m_pOwner->GetSize();
+
+	if (objectPos.x + objectSize.x > ownerPos.x && objectPos.x < ownerPos.x + ownerSize.x &&
+		objectPos.y + objectSize.y > ownerPos.y && objectPos.y < ownerPos.y + ownerSize.y)
+	{
+		return true;
+	}
+
+	return false;
 }

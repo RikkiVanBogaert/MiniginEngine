@@ -18,14 +18,11 @@ void TeleportCp::Update(float)
 	{
 		if (!p->GetScene()->IsActive()) continue;
 
-		//auto dir = normalize(m_pOwner->GetWorldTransform() - p->GetWorldTransform());
 		if (m_pCollisionCp->DoesOverlap(p.get()))
 		{
 			//Teleport
 			std::cout << "TELEPORT\n";
 			p->SetRelativePos(GetRandomPos());
-
-			
 		}
 	}
 }
@@ -35,14 +32,6 @@ glm::vec2 TeleportCp::GetRandomPos()
 	glm::vec2 pos{};
 
 	const auto level = GetGameObject(m_pOwner->GetScene(), "Level");
-
-	/*std::vector<int> paths{};
-	for(int i{}; i < static_cast<int>(level->GetChildren().size()); ++i)
-	{
-		if (level->GetChildren()[i]->GetTag() != "Path") continue;
-
-		paths.emplace_back(i);
-	}*/
 
 	const auto rndNr{ rand() % m_TeleportPlaceIdxs.size() - 1 };
 	const int rndSpot = m_TeleportPlaceIdxs[rndNr];
