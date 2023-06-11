@@ -63,9 +63,6 @@
     <ClCompile Include="LevelInfoCp.cpp">
       <Filter>Game Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="GridCp.cpp">
-      <Filter>Game Files\Components</Filter>
-    </ClCompile>
     <ClCompile Include="AIRecognizerCp.cpp">
       <Filter>Game Files\Components</Filter>
     </ClCompile>
@@ -138,9 +135,6 @@
       <Filter>Game Files\Prefabs</Filter>
     </ClInclude>
     <ClInclude Include="LevelInfoCp.h">
-      <Filter>Game Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="GridCp.h">
       <Filter>Game Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="AIRecognizerCp.h">

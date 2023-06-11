@@ -31,7 +31,7 @@ glm::vec2 TeleportCp::GetRandomPos()
 {
 	glm::vec2 pos{};
 
-	const auto level = GetGameObject(m_pOwner->GetScene(), "Level");
+	const auto level = GetGameObject(GetOwner()->GetScene(), "Level");
 
 	const auto rndNr{ rand() % m_TeleportPlaceIdxs.size() - 1 };
 	const int rndSpot = m_TeleportPlaceIdxs[rndNr];

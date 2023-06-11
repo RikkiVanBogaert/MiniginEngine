@@ -52,7 +52,7 @@ void HighScoresCp::EnterName(float deltaTime)
         {
             if (e.type == SDL_QUIT || e.type == SDLK_ESCAPE) 
             {
-                quit = true; //bug: memory leaks when calling this before name typed
+                //quit = true; //bug: memory leaks when calling this before name typed
                 std::exit(0);
             }
             if (e.type == SDL_KEYUP)
@@ -83,7 +83,7 @@ void HighScoresCp::EnterName(float deltaTime)
     m_pText->SetText(m_Name);
     m_NameSet = true;
 
-    const auto explanationText = GetComponentInScene<dae::TextComponent>(m_pOwner->GetScene(), "Explanation");
+    const auto explanationText = GetComponentInScene<dae::TextComponent>(GetOwner()->GetScene(), "Explanation");
     explanationText->SetText("Reset Game (R/Button B)");
 
     WriteToHighScores(m_Name);
@@ -93,7 +93,7 @@ void HighScoresCp::EnterName(float deltaTime)
 
 void HighScoresCp::WriteToHighScores(const std::string& name) const
 {
-    const auto score = GetComponentInScene<dae::TextComponent>(m_pOwner->GetScene(), "Score")->GetBeginText();
+    const auto score = GetComponentInScene<dae::TextComponent>(GetOwner()->GetScene(), "Score")->GetBeginText();
 
     const std::string text{ score + ", " + name };
     WriteTextToFile("../Data/Resources/HighScores.txt", text);
@@ -132,7 +132,7 @@ void HighScoresCp::ShowHighScores() const
 {
     for (int i{}; i < GetAmountHighScores(); ++i)
     {
-        const auto o = GetGameObject(m_pOwner->GetScene(), "HighScore" + std::to_string(i));
+        const auto o = GetGameObject(GetOwner()->GetScene(), "HighScore" + std::to_string(i));
         const auto textCp = o->GetComponent<dae::TextComponent>();
         const std::string text = std::to_string(m_HighScores[i].score) + " - " + m_HighScores[i].name;
         textCp->SetText(text);
@@ -142,7 +142,7 @@ void HighScoresCp::ShowHighScores() const
 int HighScoresCp::GetAmountHighScores() const
 {
     int amountHighScoresShown{};
-    while(GetGameObject(m_pOwner->GetScene(), "HighScore" + std::to_string(amountHighScoresShown)) &&
+    while(GetGameObject(GetOwner()->GetScene(), "HighScore" + std::to_string(amountHighScoresShown)) &&
         amountHighScoresShown < m_HighScores.size())
     {
         ++amountHighScoresShown;

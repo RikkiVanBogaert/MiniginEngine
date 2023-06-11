@@ -19,8 +19,8 @@ void AIComponent::Init()
 {
 	if (m_HasInit) return;
 	m_pPlayers = GameManager::GetInstance().GetPlayers();
-	m_pLevelCollision = GetComponentInScene<CollisionCp>(m_pOwner->GetScene(), "Level");
-	m_pBulletManager = m_pOwner->GetComponent<BulletManagerCp>();
+	m_pLevelCollision = GetComponentInScene<CollisionCp>(GetOwner()->GetScene(), "Level");
+	m_pBulletManager = GetOwner()->GetComponent<BulletManagerCp>();
 	m_HasInit = true;
 }
 
@@ -57,7 +57,7 @@ void AIComponent::UpdateShootTimer(float deltaTime)
 bool AIComponent::PlayerInSight(glm::vec2& bulletDir) const
 {
 	const glm::vec2 start{ m_pClosestPlayer->GetWorldTransform() };
-	glm::vec2 end{ m_pOwner->GetWorldTransform() };
+	glm::vec2 end{ GetOwner()->GetWorldTransform() };
 	const float playerSize{ m_pClosestPlayer->GetSize().x / 2 };
 	const glm::vec2 tankMidPos{ start.x + playerSize / 2, start.y + playerSize / 2 };
 
@@ -67,7 +67,7 @@ bool AIComponent::PlayerInSight(glm::vec2& bulletDir) const
 		return false;
 
 	const auto playerPos = m_pClosestPlayer->GetRelativeTransform();
-	const auto playerDir = playerPos - m_pOwner->GetRelativeTransform();
+	const auto playerDir = playerPos - GetOwner()->GetRelativeTransform();
 	const float dirLength = sqrtf(playerDir.x * playerDir.x + playerDir.y * playerDir.y);
 	const glm::vec2 playerDirNormalized = { playerDir.x / dirLength, playerDir.y / dirLength };
 	constexpr float bulletSpeed{ 250 };
@@ -75,7 +75,7 @@ bool AIComponent::PlayerInSight(glm::vec2& bulletDir) const
 	return true;
 
 	//Still need to check whether there is wall between enemy and player---
-	//if(!m_pLevelCollision->CollisionHit(m_pOwner, playerPos))
+	//if(!m_pLevelCollision->CollisionHit(GetOwner(), playerPos))
 }
 
 void AIComponent::GoToPlayer(float) const
@@ -87,36 +87,36 @@ void AIComponent::GoToPlayer(float) const
 	constexpr glm::vec2 right{ 1, 0 };
 
 	const glm::vec2 playerPos{ m_pClosestPlayer->GetWorldTransform() };
-	const glm::vec2 ownerPos{ m_pOwner->GetWorldTransform() };
+	const glm::vec2 ownerPos{ GetOwner()->GetWorldTransform() };
 
 
 	if (playerPos.y < ownerPos.y)
 	{
-		if (!m_pLevelCollision->CollisionHit(m_pOwner, up))
+		if (!m_pLevelCollision->CollisionHit(GetOwner(), up))
 		{
-			m_pOwner->GetComponent<MoveCp>()->Move(up);
+			GetOwner()->GetComponent<MoveCp>()->Move(up);
 		}
 	}
 	else
 	{
-		if (!m_pLevelCollision->CollisionHit(m_pOwner, up))
+		if (!m_pLevelCollision->CollisionHit(GetOwner(), up))
 		{
-			m_pOwner->GetComponent<MoveCp>()->Move(down);
+			GetOwner()->GetComponent<MoveCp>()->Move(down);
 		}
 	}
 
 	if (playerPos.x < ownerPos.x)
 	{
-		if (!m_pLevelCollision->CollisionHit(m_pOwner, left))
+		if (!m_pLevelCollision->CollisionHit(GetOwner(), left))
 		{
-			m_pOwner->GetComponent<MoveCp>()->Move(left);
+			GetOwner()->GetComponent<MoveCp>()->Move(left);
 		}
 	}
 	else
 	{
-		if (!m_pLevelCollision->CollisionHit(m_pOwner, right))
+		if (!m_pLevelCollision->CollisionHit(GetOwner(), right))
 		{
-			m_pOwner->GetComponent<MoveCp>()->Move( right);
+			GetOwner()->GetComponent<MoveCp>()->Move( right);
 		}
 	}
 	
@@ -131,7 +131,7 @@ void AIComponent::GetClosestPlayer()
 	{
 		if (!p->GetScene()->IsActive()) continue;
 
-		float d = distance(p->GetWorldTransform(), m_pOwner->GetWorldTransform());
+		float d = distance(p->GetWorldTransform(), GetOwner()->GetWorldTransform());
 		if (d < closestDistance)
 		{
 			closestDistance = d;

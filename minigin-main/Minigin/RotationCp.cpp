@@ -18,5 +18,5 @@ void RotationCp::Update(float deltaTime)
 	//use matrices instead
 	glm::vec2 newPos{ m_OffsetToParent.x + cosf(m_Angle) * m_Radius,
 		m_OffsetToParent.y + sinf(m_Angle) * m_Radius };
-	m_pOwner->SetRelativePos({newPos.x, newPos.y});
+	GetOwner()->SetRelativePos({newPos.x, newPos.y});
 }

@@ -8,6 +8,7 @@
 
 #include "CounterCp.h"
 #include "GameObservers.h"
+#include "Subject.h"
 
 using namespace dae;
 
@@ -61,7 +62,7 @@ UIPointsCp::UIPointsCp(GameObject* owner, const std::string& text, std::shared_p
 UICounterCp(owner, text, font, color, counter)
 {
 	const auto pointsObserver = std::make_shared<PointsObserver>(counter, this);
-	m_pSubject->attach(pointsObserver);
+	GetSubject()->Attach(pointsObserver);
 }
 
 UILivesCp::UILivesCp(GameObject* owner, const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color,
@@ -69,6 +70,6 @@ UILivesCp::UILivesCp(GameObject* owner, const std::string& text, std::shared_ptr
 	UICounterCp(owner, text, font, color, counter)
 {
 	const auto livesObserver = std::make_shared<LivesObserver>(counter, this);
-	m_pSubject->attach(livesObserver);
+	GetSubject()->Attach(livesObserver);
 
 }

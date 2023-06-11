@@ -84,7 +84,7 @@ void Test()
 	
 }
 
-void LoadNewScene()
+void LoadGameScene()
 {
 	auto& startScene = SceneManager::GetInstance().CreateScene("MainMenu");
 
@@ -132,7 +132,7 @@ void LoadNewScene()
 	InputManager::GetInstance().RemoveController(0);
 }
 
-//Sound statics
+ //Sound statics
  std::unique_ptr<SoundSystem> ServiceLocator::m_pSsInstance{ std::make_unique<NullSoundSystem>() };
  //State statics
  std::shared_ptr<WanderState> RecognizerState::m_WanderState = std::make_shared<WanderState>();
@@ -141,7 +141,7 @@ void LoadNewScene()
 void load()
 {
 	//LoadDaeScene();
-	LoadNewScene();
+	LoadGameScene();
 	//Test();
 
 #if _DEBUG

@@ -1,8 +1,8 @@
 #pragma once
-#include "Subject.h"
 
 #include <memory>
 #include <vector>
+#include <string>
 #include <glm/vec2.hpp>
 
 namespace dae

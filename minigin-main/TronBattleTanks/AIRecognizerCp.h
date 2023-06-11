@@ -48,7 +48,7 @@ private:
 class RecognizerState
 {
 public:
-	RecognizerState(AIRecognizerCp* cp = nullptr): m_AICp(cp){}
+	RecognizerState(AIRecognizerCp* cp = nullptr): m_pAICp(cp){}
 	virtual ~RecognizerState() = default;
 	virtual void Update(dae::GameObject* gameObject, float deltaTime, 
 		std::vector<std::shared_ptr<dae::GameObject>> players, CollisionCp* levelCollision, BulletManagerCp* bulletManager) = 0; //pass everything by argument
@@ -57,11 +57,13 @@ public:
 	static std::shared_ptr<AttackState> m_AttackState;
 
 protected:
-	AIRecognizerCp* m_AICp{};
-	glm::vec2 m_ToPlayer{};
-
 	bool PlayerInSight(dae::GameObject* gameObject, const std::vector<std::shared_ptr<dae::GameObject>>& players);
+	AIRecognizerCp* GetAICp() const { return m_pAICp; }
+	glm::vec2 GetToPlayer() const { return m_ToPlayer; }
 
+private:
+	AIRecognizerCp* m_pAICp{};
+	glm::vec2 m_ToPlayer{};
 };
 
 class WanderState final : public RecognizerState

@@ -8,6 +8,7 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "LevelPrefab.h"
+#include "Subject.h"
 #include "TextureComponent.h"
 #include "UICp.h"
 
@@ -51,12 +52,10 @@ void GameManager::LevelCreate()
 
 	//Player 1 Lives
 	const auto pLivesObject = std::make_shared<GameObject>();
-	pLivesObject->SetTag("RedPlayer");
 	pLivesObject->SetRelativePos({ 5, 250 });
 
 	//Player 2 Lives
 	const auto pLivesObject2 = std::make_shared<GameObject>();
-	pLivesObject2->SetTag("RedPlayer");
 	pLivesObject2->SetRelativePos({ 5, 300 });
 
 	switch (GetInstance().GetGameMode())
@@ -98,7 +97,6 @@ void GameManager::LevelCreate()
 		scene->Add(pLivesObject);
 
 		scene->Add(pLivesObject2);
-		pLivesObject2->SetTag("BluePlayer");
 		players[1]->SetTagIncludingChildren("BluePlayer");
 		players[1]->GetComponent<TextureComponent>()->SetTexture("Resources/Sprites/BlueTank.png");
 
@@ -110,8 +108,8 @@ void GameManager::LevelCreate()
 			sceneManager.GetActiveScene()->Add(players[i]);
 			players[i]->SetRelativePos(playerSpawn->GetPos()[i]);
 		}
-	}
 		break;
+	}
 	}
 
 

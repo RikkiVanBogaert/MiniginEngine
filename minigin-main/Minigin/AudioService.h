@@ -85,7 +85,7 @@ namespace dae
 		void Play(const soundId, const int, const int, const int) override {}
 		void AddSound(const std::string&) override {}
 		void MuteUnmuteSound() override {}
-		void StopSounds() override {};
+		void StopSounds() override {}
 	};
 
 	class ServiceLocator final

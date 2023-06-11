@@ -60,8 +60,8 @@ bool CollisionCp::DoesOverlap(dae::GameObject* object) const
 
 	const glm::vec2 objectPos = object->GetWorldTransform();
 	const glm::vec2 objectSize = object->GetSize();
-	const glm::vec2 ownerPos = m_pOwner->GetWorldTransform();
-	const glm::vec2 ownerSize = m_pOwner->GetSize();
+	const glm::vec2 ownerPos = GetOwner()->GetWorldTransform();
+	const glm::vec2 ownerSize = GetOwner()->GetSize();
 
 	if (objectPos.x + objectSize.x > ownerPos.x && objectPos.x < ownerPos.x + ownerSize.x &&
 		objectPos.y + objectSize.y > ownerPos.y && objectPos.y < ownerPos.y + ownerSize.y)

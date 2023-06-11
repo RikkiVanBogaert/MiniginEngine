@@ -3,7 +3,6 @@
 
 #include "CollisionCp.h"
 #include "GameObject.h"
-#include "GridCp.h"
 #include "LevelInfoCp.h"
 #include "SpawnPositionCp.h"
 #include "TextureComponent.h"
@@ -49,8 +48,6 @@ namespace dae
 		const auto recognizerSpawnPosCp = std::make_shared<RecognizerSpawnPosCp>(pLevelObject.get());
 		pLevelObject->AddComponent(recognizerSpawnPosCp);
 
-		const auto gridCp = std::make_shared<GridCp>(pLevelObject.get());
-		pLevelObject->AddComponent(gridCp);
 
 		//Create Map
 		constexpr int amountCols = 58;
@@ -128,20 +125,16 @@ namespace dae
 			default:
 				break;
 			}
-			gridCp->AddCell({ pBlock->GetTag(), pos });
-
+			
 			pos.x += size;
 			++curCol;
-			if(gridCp->m_GridRows == 0)
-				++gridCp->m_GridCols;
-
+			
 			if ((i + 1) % amountCols == 0)
 			{
 				pos.x = startPos.x;
 				pos.y += size;
 				++curRow;
 				curCol = 0;
-				++gridCp->m_GridRows;
 			}
 		}
 

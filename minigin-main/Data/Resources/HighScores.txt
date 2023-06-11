@@ -3,3 +3,9 @@
 0,  lol
 500,  cavakes
 100,  aha
+100,  hi
+0,  kop
+0,  tesdt
+0,  gdf
+650,  esy
+400,  gotam

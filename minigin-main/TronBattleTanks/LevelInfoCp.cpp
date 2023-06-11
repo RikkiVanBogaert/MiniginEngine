@@ -26,8 +26,8 @@ void LevelInfoCp::Update(float)
 
 void LevelInfoCp::CheckIfLevelComplete() const
 {
-	if (!GetGameObject(m_pOwner->GetScene(), "BlueEnemy") && 
-		!GetGameObject(m_pOwner->GetScene(), "Recognizer"))
+	if (!GetGameObject(GetOwner()->GetScene(), "BlueEnemy") &&
+		!GetGameObject(GetOwner()->GetScene(), "Recognizer"))
 	{
 		GameManager::GetInstance().NextLevel();
 	}

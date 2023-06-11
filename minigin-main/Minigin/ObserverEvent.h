@@ -3,7 +3,7 @@
 class ObserverEvent
 {
 public:
-	virtual void Function() {}
+	virtual ~ObserverEvent() = default;
 };
 
 //must define a virtual function otherwise dynamic_cast not possible

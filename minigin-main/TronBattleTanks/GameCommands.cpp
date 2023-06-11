@@ -2,14 +2,12 @@
 
 #include "AudioService.h"
 #include "GameObject.h"
-#include "CounterCp.h"
 #include "SceneManager.h"
 #include "GameManager.h"
 
 #include "Scene.h"
 #include "BulletManagerCp.h"
 #include "CollisionCp.h"
-#include "DerCounterCps.h"
 #include "GameHelpers.h"
 #include "HighScoresCp.h"
 #include "MoveCp.h"
@@ -45,7 +43,7 @@ void MoveCommand::Execute(bool useStickDir)
 	else
 	{
 		const auto collisionCp = GetComponentInScene<CollisionCp>(GetGameActor()->GetScene(), "Level");
-		if (collisionCp->CollisionHit(GetGameActor(), moveDir))
+		if (collisionCp && collisionCp->CollisionHit(GetGameActor(), moveDir))
 		{
 			return;
 		}

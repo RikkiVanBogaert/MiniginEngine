@@ -1,42 +1,43 @@
 #pragma once
+#include "Observers.h"
 
 #include <vector>
-#include <iostream>
 #include <memory>
 
-#include "Observers.h"
 
 namespace dae
 {
-    // Subject class
     class Subject final
 	{
-    private:
-        std::vector<std::shared_ptr<Observer>> observers;
-
     public:
-        void attach(std::shared_ptr<Observer> observer)
+        void Attach(const std::shared_ptr<Observer>& observer)
     	{
-            observers.push_back(observer);
+            m_Observers.push_back(observer);
         }
 
-        void detach(std::shared_ptr<Observer> observer)
+        void Detach(const std::shared_ptr<Observer>& observer)
     	{
-            for (auto it = observers.begin(); it != observers.end(); ++it) {
-                if (*it == observer) {
-                    observers.erase(it);
+            for (auto it = m_Observers.begin(); it != m_Observers.end(); ++it) 
+            {
+                if (*it == observer) 
+                {
+                    m_Observers.erase(it);
                     break;
                 }
             }
         }
 
-        void Notify(std::shared_ptr<ObserverEvent> event)
+        void Notify(const std::shared_ptr<ObserverEvent>& event) const
     	{
-            for (std::shared_ptr<Observer> observer : observers) 
+            for (const std::shared_ptr<Observer>& observer : m_Observers) 
             {
                 observer->Update(event);
             }
         }
+
+    private:
+        std::vector<std::shared_ptr<Observer>> m_Observers;
+
     };
 
 }

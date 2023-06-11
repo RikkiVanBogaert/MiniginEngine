@@ -19,31 +19,30 @@ namespace dae
 
 	static void CreateTankKeyboardAndController(Scene& scene)
 	{
-		auto pTank = std::make_shared<GameObject>();
+		const auto pTank = std::make_shared<GameObject>();
 		scene.Add(pTank);
-		pTank->SetTag("RedPlayer");
 		GameManager::GetInstance().AddPlayer(pTank);
 
 		//Texture
-		auto tankTxt = std::make_shared<TextureComponent>(pTank.get());
+		const auto tankTxt = std::make_shared<TextureComponent>(pTank.get());
 		tankTxt->SetTexture("Resources/Sprites/RedTank.png");
 		pTank->AddComponent(tankTxt);
 
 		//Collision
-		auto collisionCp = std::make_shared<CollisionCp>(pTank.get());
+		const auto collisionCp = std::make_shared<CollisionCp>(pTank.get());
 		pTank->AddComponent(collisionCp);
 		collisionCp->AddCollider(pTank.get());
 
-		auto bulletCollisionCp = std::make_shared<BulletCollisionCp>(pTank.get());
+		const auto bulletCollisionCp = std::make_shared<BulletCollisionCp>(pTank.get());
 		pTank->AddComponent(bulletCollisionCp);
 
 
 		//Points
-		auto points = std::make_shared<PointsCp>(pTank.get(), 0);
+		const auto points = std::make_shared<PointsCp>(pTank.get(), 0);
 		pTank->AddComponent(points);
 
 		//Health
-		auto health = std::make_shared<LivesCp>(pTank.get(), 3);
+		const auto health = std::make_shared<LivesCp>(pTank.get(), 3);
 		pTank->AddComponent(health);
 
 
@@ -53,7 +52,7 @@ namespace dae
 		++GameManager::GetInstance().GetControllerIdx();
 
 		//Movement
-		auto moveCp = std::make_shared<MoveCp>(pTank.get(), 65.f);
+		const auto moveCp = std::make_shared<MoveCp>(pTank.get(), 65.f);
 		pTank->AddComponent(moveCp);
 
 		constexpr float speed{ 1.5f };
@@ -62,10 +61,10 @@ namespace dae
 		glm::vec3 right = { speed,0.f,0.f };
 		glm::vec3 left = { -speed,0.f,0.f };
 
-		auto moveCommandUp = std::make_shared<MoveCommand>( pTank.get(), up);
-		auto moveCommandDown = std::make_shared<MoveCommand>(pTank.get(), down);
-		auto moveCommandLeft = std::make_shared<MoveCommand>(pTank.get(), left);
-		auto moveCommandRight = std::make_shared<MoveCommand>(pTank.get(), right, controllerIdx);
+		const auto moveCommandUp = std::make_shared<MoveCommand>( pTank.get(), up);
+		const auto moveCommandDown = std::make_shared<MoveCommand>(pTank.get(), down);
+		const auto moveCommandLeft = std::make_shared<MoveCommand>(pTank.get(), left);
+		const auto moveCommandRight = std::make_shared<MoveCommand>(pTank.get(), right, controllerIdx);
 
 		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_W, moveCommandUp);
 		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_S, moveCommandDown);
@@ -80,13 +79,14 @@ namespace dae
 		const auto pGun = CreateTankGun(scene, controllerIdx);
 		pGun->SetTag(pTank->GetTag());
 		pTank->AddChild(pGun);
+
+		pTank->SetTagIncludingChildren("RedPlayer");
 	}
 
 	static void CreateTankController(Scene& scene)
 	{
 		const auto pTank = std::make_shared<GameObject>();
 		scene.Add(pTank);
-		pTank->SetTag("RedPlayer");
 		GameManager::GetInstance().AddPlayer(pTank);
 
 		//Texture
@@ -140,5 +140,7 @@ namespace dae
 		const auto pGun = CreateTankGun(scene, controllerIdx, false);
 		pGun->SetTag(pTank->GetTag());
 		pTank->AddChild(pGun);
+
+		pTank->SetTagIncludingChildren("RedPlayer");
 	}
 }

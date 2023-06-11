@@ -2,6 +2,8 @@
 
 #include "ObserverEvent.h"
 
+#include <memory>
+
 namespace dae
 {
 	class Subject;

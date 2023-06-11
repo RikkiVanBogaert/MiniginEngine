@@ -1,7 +1,6 @@
 #include "MoveCp.h"
 
 #include "GameObject.h"
-#include "GridCp.h"
 
 #include <glm/glm.hpp>
 
@@ -18,12 +17,12 @@ void MoveCp::Update(float deltaTime)
 void MoveCp::Move(const glm::vec2& dir) const
 {
 
-	glm::vec2 pos = m_pOwner->GetRelativeTransform();
+	glm::vec2 pos = GetOwner()->GetRelativeTransform();
 	const auto normalizedDir = normalize(dir);
 
 	pos.x += normalizedDir.x * m_Speed * m_DeltaT;
 	pos.y += normalizedDir.y * m_Speed * m_DeltaT;
 
-	m_pOwner->SetRelativePos(pos);
+	GetOwner()->SetRelativePos(pos);
 }
 

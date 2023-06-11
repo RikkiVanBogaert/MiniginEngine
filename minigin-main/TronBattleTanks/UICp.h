@@ -44,6 +44,9 @@ namespace dae
 		void UpdateSubject(std::shared_ptr<ObserverEvent> event);
 
 	protected:
+		Subject* GetSubject() const { return m_pSubject.get(); }
+
+	private:
 		std::unique_ptr<Subject> m_pSubject;
 	};
 

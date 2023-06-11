@@ -17,7 +17,7 @@ m_TextTexture(nullptr),
 m_Color{color}
 {}
 
-void dae::TextComponent::Update(float)
+void TextComponent::Update(float)
 {
 	if (m_NeedsUpdate)
 	{
@@ -41,7 +41,7 @@ void dae::TextComponent::Render() const
 {
 	if (m_TextTexture != nullptr)
 	{
-		const auto& pos = m_pOwner->GetWorldTransform();
+		const auto& pos = GetOwner()->GetWorldTransform();
 		Renderer::GetInstance().RenderTexture(*m_TextTexture, pos.x, pos.y);
 	}
 }

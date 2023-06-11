@@ -93,9 +93,6 @@
     <ClInclude Include="InputManager.h">
       <Filter>Game Files</Filter>
     </ClInclude>
-    <ClInclude Include="MathHelpers.h">
-      <Filter>Game Files</Filter>
-    </ClInclude>
     <ClInclude Include="Minigin.h">
       <Filter>Game Files</Filter>
     </ClInclude>

@@ -14,7 +14,7 @@ void HealthCp::ChangeAmount(int difference)
 
 	if (GetCounter() > 0) return;
 
-	m_pOwner->MarkForDeletion();
+	GetOwner()->MarkForDeletion();
 }
 
 void HealthCp::SetAmount(int newHealth)
@@ -23,7 +23,7 @@ void HealthCp::SetAmount(int newHealth)
 
 	if (GetCounter() > 0) return;
 
-	m_pOwner->MarkForDeletion();
+	GetOwner()->MarkForDeletion();
 }
 
 void LivesCp::ChangeAmount(int difference)

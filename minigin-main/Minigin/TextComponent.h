@@ -34,5 +34,7 @@ namespace dae
 		std::shared_ptr<Font> m_Font;
 		std::shared_ptr<Texture2D> m_TextTexture;
 		SDL_Color m_Color;
+
+		bool m_NeedsUpdate{ true };
 	};
 }

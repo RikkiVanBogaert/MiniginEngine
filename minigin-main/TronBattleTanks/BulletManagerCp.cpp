@@ -35,11 +35,11 @@ void BulletManagerCp::Shoot( const glm::vec2& vel, bool playerBullet)
 	ss.Play(Sounds::Shoot, 100, 0, Sounds::Shoot);
 
 	const auto bulletVelocity = glm::normalize(vel) * m_BulletSpeed;
-	const auto pBullet = CreateBullet(*m_pOwner->GetScene(), m_pOwner, bulletVelocity, playerBullet);
-	pBullet->SetTag(m_pOwner->GetTag());
+	const auto pBullet = CreateBullet(*GetOwner()->GetScene(), GetOwner(), bulletVelocity, playerBullet);
+	pBullet->SetTag(GetOwner()->GetTag());
 
-	const glm::vec2 middlePos = { m_pOwner->GetWorldTransform().x + m_pOwner->GetSize().x / 2 - pBullet->GetSize().x / 2,
-		m_pOwner->GetWorldTransform().y + m_pOwner->GetSize().y / 2 - pBullet->GetSize().y / 2 };
+	const glm::vec2 middlePos = { GetOwner()->GetWorldTransform().x + GetOwner()->GetSize().x / 2 - pBullet->GetSize().x / 2,
+		GetOwner()->GetWorldTransform().y + GetOwner()->GetSize().y / 2 - pBullet->GetSize().y / 2 };
 
 	pBullet->SetRelativePos(middlePos);
 

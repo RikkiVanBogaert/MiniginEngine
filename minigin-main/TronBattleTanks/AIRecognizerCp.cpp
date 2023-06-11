@@ -20,15 +20,15 @@ void AIRecognizerCp::Init()
 {
 	if (m_HasInit) return;
 	m_pPlayers = GameManager::GetInstance().GetPlayers();
-	m_pLevelCollision = GetComponentInScene<CollisionCp>(m_pOwner->GetScene(), "Level");
-	m_pBulletManager = m_pOwner->GetComponent<BulletManagerCp>();
+	m_pLevelCollision = GetComponentInScene<CollisionCp>(GetOwner()->GetScene(), "Level");
+	m_pBulletManager = GetOwner()->GetComponent<BulletManagerCp>();
 	m_HasInit = true;
 }
 
 void AIRecognizerCp::Update(float deltaTime)
 {
 	Init();
-	m_State->Update(m_pOwner, deltaTime, m_pPlayers, m_pLevelCollision, m_pBulletManager);
+	m_State->Update(GetOwner(), deltaTime, m_pPlayers, m_pLevelCollision, m_pBulletManager);
 }
 
 void AIRecognizerCp::SetState(const std::shared_ptr<RecognizerState>& newState)
@@ -39,7 +39,7 @@ void AIRecognizerCp::SetState(const std::shared_ptr<RecognizerState>& newState)
 
 bool RecognizerState::PlayerInSight(dae::GameObject* gameObject, const std::vector<std::shared_ptr<dae::GameObject>>& players)
 {
-	for (const auto p : players)
+	for (const auto& p : players)
 	{
 		const glm::vec2 playerPos{ p->GetWorldTransform() };
 		glm::vec2 pos{ gameObject->GetWorldTransform() };
@@ -86,7 +86,7 @@ void WanderState::Update(dae::GameObject* gameObject, float ,
 
 	if(PlayerInSight(gameObject, players))
 	{
-		m_AICp->SetState(std::make_shared<AttackState>(m_AICp, m_ToPlayer));
+		GetAICp()->SetState(std::make_shared<AttackState>(GetAICp(), GetToPlayer()));
 	}
 }
 
@@ -102,7 +102,7 @@ void AttackState::Update(dae::GameObject* gameObject, float deltaTime,
 
 	if (!PlayerInSight(gameObject, players))
 	{
-		m_AICp->SetState(std::make_shared<WanderState>(m_AICp));
+		GetAICp()->SetState(std::make_shared<WanderState>(GetAICp()));
 	}
 }
 
