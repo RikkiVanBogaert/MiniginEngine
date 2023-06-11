@@ -1,3 +1,14 @@
+# Engine specifics:
+-GameObject - Component system:
+A gameobject class that is used to represent all objects in the scene.
+To add functionality to this object, make use of components.
+There are some base components in the engine, but it is also possible for the user to create their own components that inherit from ComponentBase.
+
+The engine has other features, including:
+-AudioService - used to play sounds
+-Inputmanager + Commands - used for keyboard/controller commands that link to an action
+-Observers - the user can make their own gameObservers which can be linked to a component by giving this component a subject.
+
 # Minigin
 
 Minigin is a very small project using [SDL2](https://www.libsdl.org/) and [glm](https://github.com/g-truc/glm) for 2D c++ game projects. It is in no way a game engine, only a barebone start project where everything sdl related has been set up. It contains glm for vector math, to aleviate the need to write custom vector and matrix classes.
