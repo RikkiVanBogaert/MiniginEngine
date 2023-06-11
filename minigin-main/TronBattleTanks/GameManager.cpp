@@ -58,6 +58,7 @@ void GameManager::LevelCreate()
 	const auto pLivesObject2 = std::make_shared<GameObject>();
 	pLivesObject2->SetRelativePos({ 5, 300 });
 
+	//bug: when first playing multiplayer, then playing singleplayer, ai still thinks other player is there
 	switch (GetInstance().GetGameMode())
 	{
 	case SinglePlayer:
@@ -83,7 +84,7 @@ void GameManager::LevelCreate()
 		CreateRecognizers(*scene, recognizerSpawn->GetPos());
 
 		
-		for(int i{}; i < players.size(); ++i)
+		for(int i{}; i < int(players.size()); ++i)
 		{
 			sceneManager.GetActiveScene()->Add(players[i]);
 			players[i]->SetRelativePos(playerSpawn->GetPos()[i]);
@@ -103,7 +104,7 @@ void GameManager::LevelCreate()
 		CreateBlueEnemies(*scene, blueEnemySpawn->GetPos());
 		CreateRecognizers(*scene, recognizerSpawn->GetPos());
 
-		for (int i{}; i < players.size(); ++i)
+		for (int i{}; i < int(players.size()); ++i)
 		{
 			sceneManager.GetActiveScene()->Add(players[i]);
 			players[i]->SetRelativePos(playerSpawn->GetPos()[i]);

@@ -11,7 +11,6 @@ TextComponent::TextComponent(GameObject* owner, const std::string& text, const s
 	const SDL_Color& color = {255, 255, 255, 255}):
 ComponentBase(owner),
 m_Text(text), 
-m_BeginText(text),
 m_Font(std::move(font)), 
 m_TextTexture(nullptr),
 m_Color{color}

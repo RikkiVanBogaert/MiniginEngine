@@ -26,11 +26,10 @@ namespace dae
 		virtual void Render() const override;
 
 		void SetText(const std::string& text);
-		std::string GetBeginText() const { return m_BeginText; }
-
+		std::string GetText() const { return m_Text; }
 		
 	private:
-		std::string m_Text{}, m_BeginText{};
+		std::string m_Text{};
 		std::shared_ptr<Font> m_Font;
 		std::shared_ptr<Texture2D> m_TextTexture;
 		SDL_Color m_Color;

@@ -14,7 +14,8 @@ using namespace dae;
 
 UICp::UICp(GameObject* owner, const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color) :
 	ComponentBase(owner),
-	m_pTextCp{ std::make_unique<TextComponent>(owner, text, font, color) }
+	m_pTextCp{ std::make_unique<TextComponent>(owner, text, font, color) },
+	m_BeginText(text)
 {}
 
 

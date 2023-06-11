@@ -54,12 +54,6 @@ public:
 
 };
 
-class ExitGameCommand final : public dae::Command
-{
-public:
-	ExitGameCommand() = default;
-	virtual void Execute(bool) override;
-};
 
 class SwitchGameModeCommand final : public dae::Command
 {

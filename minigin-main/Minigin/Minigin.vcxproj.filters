@@ -36,9 +36,6 @@
     <ClInclude Include="TextComponent.h">
       <Filter>Game Files\Component Files</Filter>
     </ClInclude>
-    <ClInclude Include="RotationCp.h">
-      <Filter>Game Files\Component Files</Filter>
-    </ClInclude>
     <ClInclude Include="imgui\imconfig.h">
       <Filter>Game Files\Imgui</Filter>
     </ClInclude>
@@ -129,9 +126,6 @@
       <Filter>Game Files\Component Files</Filter>
     </ClCompile>
     <ClCompile Include="TextComponent.cpp">
-      <Filter>Game Files\Component Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RotationCp.cpp">
       <Filter>Game Files\Component Files</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui.cpp">

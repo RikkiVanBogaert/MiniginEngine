@@ -167,11 +167,6 @@ void StartGameCommand::Execute(bool)
 }
 
 
-void ExitGameCommand::Execute(bool)
-{
-	exit(0);
-}
-
 void SwitchGameModeCommand::Execute(bool)
 {
 	if (GetKeyPressed()) return;

@@ -28,10 +28,11 @@ namespace dae
 
 		void SetText(const std::string& text);
 		virtual void SetValueText(const std::string& text);
-		std::string GetBeginText() const { return m_pTextCp->GetBeginText(); }
+		std::string GetBeginText() const { return m_BeginText; }
 
 	private:
 		std::unique_ptr<TextComponent> m_pTextCp{};
+		const std::string m_BeginText{};
 	};
 
 

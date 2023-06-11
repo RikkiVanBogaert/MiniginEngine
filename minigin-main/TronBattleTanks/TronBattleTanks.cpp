@@ -19,7 +19,6 @@
 #include "TextComponent.h"
 #include "TextureComponent.h"
 #include "FPSComponent.h"
-#include "RotationCp.h"
 
 #include "GameObject.h"
 #include "Scene.h"
@@ -122,7 +121,7 @@ void LoadGameScene()
 		button = Controller::ControllerButton::ButtonB;
 		InputManager::GetInstance().BindControllerToCommand(i, button, resetGame);
 
-		button = Controller::ControllerButton::Start;
+		button = Controller::ControllerButton::Back;
 		InputManager::GetInstance().BindControllerToCommand(i, button, muteUnmute);
 	}
 

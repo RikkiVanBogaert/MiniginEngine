@@ -84,9 +84,9 @@ void dae::Minigin::Run(const std::function<void()>& load)
     auto& sceneManager = SceneManager::GetInstance();
     auto& input = InputManager::GetInstance();
 
-	const float fixedTimeStep{ 0.02f };
-	const float wantedFps{ 60.f };
-	const int frameTimeMs{ int(1000 / wantedFps) };
+	constexpr float fixedTimeStep{ 0.02f };
+	constexpr float wantedFps{ 60.f };
+	constexpr int frameTimeMs{ int(1000 / wantedFps) };
 
 	bool doContinue = true;
 	auto lastTime = std::chrono::high_resolution_clock::now();

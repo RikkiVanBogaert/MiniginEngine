@@ -52,8 +52,8 @@ void HighScoresCp::EnterName(float deltaTime)
         {
             if (e.type == SDL_QUIT || e.type == SDLK_ESCAPE) 
             {
-                //quit = true; //bug: memory leaks when calling this before name typed
-                std::exit(0);
+                quit = true; //bug: memory leaks when calling this before name typed
+                //std::exit(0);
             }
             if (e.type == SDL_KEYUP)
             {
@@ -93,7 +93,7 @@ void HighScoresCp::EnterName(float deltaTime)
 
 void HighScoresCp::WriteToHighScores(const std::string& name) const
 {
-    const auto score = GetComponentInScene<dae::TextComponent>(GetOwner()->GetScene(), "Score")->GetBeginText();
+    const auto score = GetComponentInScene<dae::TextComponent>(GetOwner()->GetScene(), "Score")->GetText();
 
     const std::string text{ score + ", " + name };
     WriteTextToFile("../Data/Resources/HighScores.txt", text);
@@ -143,7 +143,7 @@ int HighScoresCp::GetAmountHighScores() const
 {
     int amountHighScoresShown{};
     while(GetGameObject(GetOwner()->GetScene(), "HighScore" + std::to_string(amountHighScoresShown)) &&
-        amountHighScoresShown < m_HighScores.size())
+        amountHighScoresShown < int(m_HighScores.size()))
     {
         ++amountHighScoresShown;
     }

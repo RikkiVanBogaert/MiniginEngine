@@ -19,7 +19,7 @@ namespace dae
 		scene.Add(pLevelObject);
 		pLevelObject->SetTag("Level");
 
-		auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 13);
+		auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 13);
 
 		const auto skipObj = std::make_shared<GameObject>();
 		const auto skipText = std::make_shared<TextComponent>(skipObj.get(), "Skip Level (N/Button Y)", font, SDL_Color{ 255, 255, 255, 255 });
@@ -28,7 +28,7 @@ namespace dae
 		pLevelObject->AddChild(skipObj);
 
 		const auto muteObj = std::make_shared<GameObject>();
-		const auto muteText = std::make_shared<TextComponent>(muteObj.get(), "Mute (M/Button Start)", font, SDL_Color{ 255, 255, 255, 255 });
+		const auto muteText = std::make_shared<TextComponent>(muteObj.get(), "Mute (M/Button Back)", font, SDL_Color{ 255, 255, 255, 255 });
 		muteObj->SetRelativePos({ 5, 458 });
 		muteObj->AddComponent(muteText);
 		pLevelObject->AddChild(muteObj);

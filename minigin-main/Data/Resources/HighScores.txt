@@ -9,3 +9,12 @@
 0,  gdf
 650,  esy
 400,  gotam
+0,  looksgood
+100,  well
+0,  test
+0,  oke
+0,  oke2
+0,  typename
+100,  
+0,  works
+0,  oke

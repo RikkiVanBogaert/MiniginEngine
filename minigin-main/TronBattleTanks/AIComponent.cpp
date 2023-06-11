@@ -127,11 +127,11 @@ void AIComponent::GetClosestPlayer()
 	//check closest player
 	float closestDistance{ INFINITY };
 
-	for (auto p : m_pPlayers)
+	for (const auto& p : m_pPlayers)
 	{
 		if (!p->GetScene()->IsActive()) continue;
 
-		float d = distance(p->GetWorldTransform(), GetOwner()->GetWorldTransform());
+		const float d = distance(p->GetWorldTransform(), GetOwner()->GetWorldTransform());
 		if (d < closestDistance)
 		{
 			closestDistance = d;
