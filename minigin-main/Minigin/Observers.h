@@ -1,11 +1,9 @@
 #pragma once
-#include "ObserverEvent.h"
 
-class LivesCp;
+#include "ObserverEvent.h"
 
 namespace dae
 {
-	class UILivesCp;
 	class Subject;
 
 	class Observer
@@ -19,7 +17,7 @@ namespace dae
 		Observer& operator=(const Observer& other) = delete;
 		Observer& operator=(Observer&& other) = delete;
 
-		virtual void Update(ObserverEvent event) = 0;
+		virtual void Update(std::shared_ptr<ObserverEvent> event) = 0;
 	};
 
 }

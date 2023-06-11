@@ -22,7 +22,7 @@ private:
 	const int m_ControllerIdx;
 	const dae::Controller::ControllerStick m_ControllerStick;
 
-	bool CheckAllMoveDirections(glm::vec2& moveDir);
+	bool CheckAllMoveDirections(glm::vec2& moveDir) const;
 };
 
 class Tank;

@@ -16,13 +16,13 @@ namespace dae
 		ComponentBase& operator=(ComponentBase&& other) = delete;
 
 
-		virtual void Update(float deltaTime);
-		virtual void FixedUpdate(float deltaTime);
-		virtual void Render() const;
+		virtual void Update(float ){}
+		virtual void FixedUpdate(float ){}
+		virtual void Render() const {}
 
 	protected:
-		bool m_NeedsUpdate{ true };
 		GameObject* m_pOwner{};
+		bool m_NeedsUpdate{ true };
 
 	};
 

@@ -114,9 +114,6 @@
     <ClInclude Include="Subject.h">
       <Filter>Game Files</Filter>
     </ClInclude>
-    <ClInclude Include="ObserverEvent.h">
-      <Filter>Game Files</Filter>
-    </ClInclude>
     <ClInclude Include="AudioService.h">
       <Filter>Scene Files</Filter>
     </ClInclude>
@@ -131,6 +128,9 @@
     </ClInclude>
     <ClInclude Include="MathHelpers.h">
       <Filter>Scene Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObserverEvent.h">
+      <Filter>Game Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

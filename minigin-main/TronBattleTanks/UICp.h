@@ -41,7 +41,7 @@ namespace dae
 		UICounterCp(GameObject* owner, const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color, CounterCp* counter);
 
 		virtual void SetValueText(const std::string& text) override;
-		void UpdateSubject(ObserverEvent event);
+		void UpdateSubject(std::shared_ptr<ObserverEvent> event);
 
 	protected:
 		std::unique_ptr<Subject> m_pSubject;

@@ -109,3 +109,10 @@
 0, hallo ik ben een besset
 0, asdf
 0, hallokes
+0, mma
+0, lol
+100, piem
+0, fasjklf
+0, lol
+0, 
+0,  

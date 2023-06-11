@@ -36,10 +36,10 @@ void HighScoresCp::Render() const
 void HighScoresCp::EnterName(float deltaTime)
 {
     if (m_NameSet) return;
-    m_Name = "";
+    //m_Name = " ";
 	if(m_Timer < 1)
     {
-		m_Name = "";
+		m_Name = " ";
         m_Timer += deltaTime;
         return;
     }
@@ -50,8 +50,9 @@ void HighScoresCp::EnterName(float deltaTime)
         SDL_Event e;
         while (SDL_PollEvent(&e))
         {
-            if (e.type == SDL_QUIT) 
+            if (e.type == SDL_QUIT || e.type == SDLK_ESCAPE) 
             {
+                quit = true; //bug: memory leaks when calling this before name typed
                 std::exit(0);
             }
             if (e.type == SDL_KEYUP)
@@ -71,7 +72,8 @@ void HighScoresCp::EnterName(float deltaTime)
                 m_Name += e.text.text;
             }
         	//std::cout << m_Name << '\n';
-            m_pText->SetText(m_Name);
+            if(!m_Name.empty())
+            	m_pText->SetText(m_Name);
         }
         m_pText->Update(deltaTime);
         m_pText->Render();

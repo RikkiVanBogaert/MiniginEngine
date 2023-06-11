@@ -1,5 +1,4 @@
 #pragma once
-#include "ObserverEvent.h"
 
 #include <vector>
 #include <iostream>
@@ -31,7 +30,7 @@ namespace dae
             }
         }
 
-        void Notify(ObserverEvent event)
+        void Notify(std::shared_ptr<ObserverEvent> event)
     	{
             for (std::shared_ptr<Observer> observer : observers) 
             {

@@ -63,9 +63,6 @@
     <ClCompile Include="HighScoresCp.cpp">
       <Filter>Game Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="TeleportCp.cpp">
-      <Filter>Game Files</Filter>
-    </ClCompile>
     <ClCompile Include="LevelInfoCp.cpp">
       <Filter>Game Files\Components</Filter>
     </ClCompile>
@@ -73,6 +70,9 @@
       <Filter>Game Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="AIRecognizerCp.cpp">
+      <Filter>Game Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="TeleportCp.cpp">
       <Filter>Game Files\Components</Filter>
     </ClCompile>
   </ItemGroup>
@@ -143,9 +143,6 @@
     <ClInclude Include="TeleportPrefab.h">
       <Filter>Game Files\Prefabs</Filter>
     </ClInclude>
-    <ClInclude Include="TeleportCp.h">
-      <Filter>Other Files</Filter>
-    </ClInclude>
     <ClInclude Include="LevelInfoCp.h">
       <Filter>Game Files\Components</Filter>
     </ClInclude>
@@ -160,6 +157,12 @@
     </ClInclude>
     <ClInclude Include="GunPrefab.h">
       <Filter>Game Files\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="TeleportCp.h">
+      <Filter>Game Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObserverEvents.h">
+      <Filter>Game Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,4 +1,5 @@
 #pragma once
+#include "GameObserverEvents.h"
 #include "Observers.h"
 #include "UICp.h"
 
@@ -21,11 +22,11 @@ public:
 	LivesObserver& operator=(const LivesObserver& other) = delete;
 	LivesObserver& operator=(LivesObserver&& other) = delete;
 
-	void Update(dae::ObserverEvent event) override
+	void Update(std::shared_ptr<ObserverEvent> event) override
 	{
 		//m_pLivesCp->ChangeAmount(-1);
-		if (event != dae::PlayerHit) return;
-
+		if (!dynamic_cast<PlayerHit*>(event.get())) return;
+		
 		m_pUILivesCp->SetValueText(std::to_string(m_pLivesCp->GetAmount()));
 	}
 
@@ -47,13 +48,13 @@ public:
 	PointsObserver& operator=(const PointsObserver& other) = delete;
 	PointsObserver& operator=(PointsObserver&& other) = delete;
 
-	void Update(dae::ObserverEvent event) override
+	void Update(std::shared_ptr<ObserverEvent> event) override
 	{
-		if (event == dae::BlueTankKilled)
+		if (dynamic_cast<BlueTankKilled*>(event.get()))
 		{
 			m_pPointsCp->ChangeAmount(100);
 		}
-		else if (event == dae::RecognizerKilled)
+		else if (dynamic_cast<RecognizerKilled*>(event.get()))
 		{
 			m_pPointsCp->ChangeAmount(250);
 		}

@@ -51,7 +51,7 @@ void UICounterCp::SetValueText(const std::string& newText)
 	UICp::SetValueText(newText);
 }
 
-void UICounterCp::UpdateSubject(ObserverEvent event)
+void UICounterCp::UpdateSubject(std::shared_ptr<ObserverEvent> event)
 {
 	m_pSubject->Notify(event);
 }

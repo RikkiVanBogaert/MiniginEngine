@@ -9,6 +9,7 @@
 #include "Scene.h"
 #include "TextComponent.h"
 #include "UICp.h"
+#include "GameObserverEvents.h"
 
 BulletCollisionCp::BulletCollisionCp(dae::GameObject* owner, int pointsGivenOnKill):
 ComponentBase(owner),
@@ -42,7 +43,8 @@ void BulletCollisionCp::GetHit(dae::GameObject* gun) const
 	healthCp->ChangeAmount(-1);
 	if (const auto livesCp = GetComponentInScene<dae::UILivesCp>(m_pOwner->GetScene(), m_pOwner->GetTag()))
 	{
-		livesCp->UpdateSubject(dae::PlayerHit);
+		const auto event = std::make_shared<PlayerHit>();
+		livesCp->UpdateSubject(event);
 	}
 
 	//Shooter points
@@ -56,11 +58,13 @@ void BulletCollisionCp::GetHit(dae::GameObject* gun) const
 	{
 		if(m_pOwner->GetTag() == "BlueEnemy")
 		{
-			pointsText->UpdateSubject(dae::BlueTankKilled);
+			const auto event = std::make_shared<BlueTankKilled>();
+			pointsText->UpdateSubject(event);
 		}
 		else if (m_pOwner->GetTag() == "Recognizer")
 		{
-			pointsText->UpdateSubject(dae::RecognizerKilled);
+			const auto event = std::make_shared<RecognizerKilled>();
+			pointsText->UpdateSubject(event);
 		}
 	}
 	

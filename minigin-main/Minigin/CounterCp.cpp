@@ -14,12 +14,9 @@ void CounterCp::ChangeAmount(int difference)
 	m_Counter += difference;
 }
 
-void CounterCp::SetAmount(int newHealth)
+void CounterCp::SetAmount(int newAmount)
 {
-	if (newHealth < 0)
-		return;
-
-	m_Counter = newHealth;
+	m_Counter = newAmount;
 }
 
 int CounterCp::GetAmount() const

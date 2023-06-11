@@ -179,6 +179,7 @@
     <ClInclude Include="CollisionCp.h" />
     <ClInclude Include="BulletPrefab.h" />
     <ClInclude Include="DerCounterCps.h" />
+    <ClInclude Include="GameObserverEvents.h" />
     <ClInclude Include="GameObservers.h" />
     <ClInclude Include="GameOverPrefab.h" />
     <ClInclude Include="GridCp.h" />

@@ -209,7 +209,6 @@
     <ClInclude Include="Controller.h" />
     <ClInclude Include="EngineEvents.h" />
     <ClInclude Include="MathHelpers.h" />
-    <ClInclude Include="ObserverEvent.h" />
     <ClInclude Include="EventQueue.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSComponent.h" />
@@ -227,6 +226,7 @@
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="Event.h" />
+    <ClInclude Include="ObserverEvent.h" />
     <ClInclude Include="Observers.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="ResourceManager.h" />
