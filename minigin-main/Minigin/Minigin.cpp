@@ -10,8 +10,6 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
-#include "EventQueue.h"
-#include "EngineEvents.h"
 
 SDL_Window* g_window{};
 

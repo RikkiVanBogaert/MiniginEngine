@@ -4,7 +4,7 @@
 #include "GameObject.h"
 #include "CounterCp.h"
 #include "SceneManager.h"
-#include "PlayerManager.h"
+#include "GameManager.h"
 
 #include "Scene.h"
 #include "BulletManagerCp.h"
@@ -34,7 +34,6 @@ void MoveCommand::Execute(bool useStickDir)
 	//Collision
 	auto moveDir = m_Direction;
 
-	const auto sceneObjects = GetGameActor()->GetScene()->GetGameObjects();
 	if(useStickDir)
 	{
 		moveDir = InputManager::GetInstance().GetControllerStickValues(m_ControllerIdx, m_ControllerStick);
@@ -59,6 +58,8 @@ void MoveCommand::Execute(bool useStickDir)
 bool MoveCommand::CheckAllMoveDirections(glm::vec2& moveDir) const
 {
 	const auto collisionCp = GetComponentInScene<CollisionCp>(GetGameActor()->GetScene(), "Level");
+
+	if (!collisionCp) return true; /// collisionCp so move freely
 
 	if(abs(moveDir.x) > abs(moveDir.y))
 	{
@@ -142,7 +143,7 @@ void SkipLevelCommand::Execute(bool)
 		return;
 	}
 
-	PlayerManager::GetInstance().NextLevel();
+	GameManager::GetInstance().NextLevel();
 	
 	SetKeyPressed(true);
 }
@@ -161,8 +162,8 @@ void StartGameCommand::Execute(bool)
 	auto& sceneManager = SceneManager::GetInstance();
 	sceneManager.SetActiveScene(nameScene);
 
-	PlayerManager::GetInstance().ResetPlayerVars();
-	PlayerManager::GetInstance().LevelCreate();
+	GameManager::GetInstance().ResetPlayerVars();
+	GameManager::GetInstance().LevelCreate();
 
 	SetKeyPressed(true);
 }
@@ -183,20 +184,20 @@ void SwitchGameModeCommand::Execute(bool)
 		return;
 	}
 
-	PlayerManager::GetInstance().SwitchGameMode();
+	GameManager::GetInstance().SwitchGameMode();
 
 	const auto gameModeObject = GetGameObject(SceneManager::GetInstance().GetActiveScene(), "GameMode");
 	const auto gameModeText = gameModeObject->GetComponent<TextComponent>();
 
-	switch (PlayerManager::GetInstance().GetGameMode())
+	switch (GameManager::GetInstance().GetGameMode())
 	{
-	case PlayerManager::SinglePlayer:
+	case GameManager::SinglePlayer:
 		gameModeText->SetText("SinglePlayer");
 		break;
-	case PlayerManager::Coop:
+	case GameManager::Coop:
 		gameModeText->SetText("Coop");
 		break;
-	case PlayerManager::Versus:
+	case GameManager::Versus:
 		gameModeText->SetText("Versus");
 		break;
 	}

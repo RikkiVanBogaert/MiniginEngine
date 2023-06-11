@@ -1,8 +1,9 @@
 #include "MoveCp.h"
 
-#include "GameHelpers.h"
 #include "GameObject.h"
 #include "GridCp.h"
+
+#include <glm/glm.hpp>
 
 MoveCp::MoveCp(dae::GameObject* owner, float speed):
 ComponentBase(owner),

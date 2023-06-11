@@ -3,10 +3,9 @@
 class ObserverEvent
 {
 public:
-	virtual ~ObserverEvent() = default;
-
-	//no rof, so it doesn't need to be done for all other events
+	virtual void Function() {}
 };
 
+//must define a virtual function otherwise dynamic_cast not possible
 
 

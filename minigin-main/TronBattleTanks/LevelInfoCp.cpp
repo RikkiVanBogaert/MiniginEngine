@@ -2,7 +2,7 @@
 
 #include "AudioService.h"
 #include "GameHelpers.h"
-#include "PlayerManager.h"
+#include "GameManager.h"
 #include "Sounds.h"
 
 LevelInfoCp::LevelInfoCp(dae::GameObject* owner):
@@ -29,6 +29,6 @@ void LevelInfoCp::CheckIfLevelComplete() const
 	if (!GetGameObject(m_pOwner->GetScene(), "BlueEnemy") && 
 		!GetGameObject(m_pOwner->GetScene(), "Recognizer"))
 	{
-		PlayerManager::GetInstance().NextLevel();
+		GameManager::GetInstance().NextLevel();
 	}
 }

@@ -4,7 +4,7 @@
 #include "GameCommands.h"
 #include "InputManager.h"
 #include "HighScoresCp.h"
-#include "PlayerManager.h"
+#include "GameManager.h"
 #include "ResourceManager.h"
 #include "Scene.h"
 #include "UICp.h"
@@ -49,7 +49,7 @@ namespace dae
 		const auto scoreObj = std::make_shared<GameObject>();
 		scoreObj->SetTag("Score");
 		int score{};
-		for (const auto& p : PlayerManager::GetInstance().GetPlayers())
+		for (const auto& p : GameManager::GetInstance().GetPlayers())
 		{
 			score += p->GetComponent<PointsCp>()->GetAmount();
 		}

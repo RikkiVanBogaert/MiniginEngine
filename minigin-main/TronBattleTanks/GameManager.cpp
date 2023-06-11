@@ -1,4 +1,4 @@
-#include "PlayerManager.h"
+#include "GameManager.h"
 
 #include "DerCounterCps.h"
 #include "EnemyPrefab.h"
@@ -13,7 +13,7 @@
 
 using namespace dae;
 
-void PlayerManager::SwitchGameMode()
+void GameManager::SwitchGameMode()
 {
 	switch (m_GameMode)
 	{
@@ -29,27 +29,17 @@ void PlayerManager::SwitchGameMode()
 	}
 }
 
-void PlayerManager::LevelCreate()
+void GameManager::LevelCreate()
 {
-	auto& sceneManager = dae::SceneManager::GetInstance();
+	auto& sceneManager = SceneManager::GetInstance();
 
 	const std::string filePath = "../Data/Resources/" + sceneManager.GetActiveSceneName() + ".csv";
-	CreateLevel(*sceneManager.GetActiveScene(), filePath);
 
-
-	const auto sceneObjects = sceneManager.GetActiveScene()->GetGameObjects();
-	const PlayerSpawnPosCp* playerSpawn{};
-	const BlueEnemySpawnPosCp* blueEnemySpawn{};
-	const RecognizerSpawnPosCp* recognizerSpawn{};
-	for (auto& o : sceneObjects)
-	{
-		if (o->GetTag() != "Level") continue;
-
-		playerSpawn = o->GetComponent<PlayerSpawnPosCp>();
-		blueEnemySpawn = o->GetComponent<BlueEnemySpawnPosCp>();
-		recognizerSpawn = o->GetComponent<RecognizerSpawnPosCp>();
-		break;
-	}
+	const auto pLevel = CreateLevel(*sceneManager.GetActiveScene(), filePath);
+		
+	const auto playerSpawn = pLevel->GetComponent<PlayerSpawnPosCp>();
+	const auto blueEnemySpawn = pLevel->GetComponent<BlueEnemySpawnPosCp>();
+	const auto recognizerSpawn = pLevel->GetComponent<RecognizerSpawnPosCp>();
 
 	const auto players = GetInstance().GetPlayers();
 	const auto scene = SceneManager::GetInstance().GetActiveScene();
@@ -140,7 +130,7 @@ void PlayerManager::LevelCreate()
 
 }
 
-void PlayerManager::ResetPlayerVars()
+void GameManager::ResetPlayerVars()
 {
 	for(auto p : GetPlayers())
 	{
@@ -149,7 +139,7 @@ void PlayerManager::ResetPlayerVars()
 	}
 }
 
-void PlayerManager::RemovePlayerFromScene(GameObject* player) const
+void GameManager::RemovePlayerFromScene(GameObject* player) const
 {
 	for(const auto& p : m_Players)
 	{
@@ -160,7 +150,7 @@ void PlayerManager::RemovePlayerFromScene(GameObject* player) const
 	}
 }
 
-void PlayerManager::RemoveAllPlayersFromScene()
+void GameManager::RemoveAllPlayersFromScene()
 {
 	for(const auto& p : GetPlayers())
 	{
@@ -168,13 +158,13 @@ void PlayerManager::RemoveAllPlayersFromScene()
 	}
 }
 
-void PlayerManager::ResetScene()
+void GameManager::ResetScene()
 {
 	SceneManager::GetInstance().GetActiveScene()->RemoveAll();
 	LevelCreate();
 }
 
-void PlayerManager::NextLevel()
+void GameManager::NextLevel()
 {
 	auto& sceneManager = SceneManager::GetInstance();
 	const auto oldScene = sceneManager.GetActiveScene();
@@ -191,7 +181,7 @@ void PlayerManager::NextLevel()
 
 }
 
-void PlayerManager::SkipNonLevels() const
+void GameManager::SkipNonLevels() const
 {
 	const auto sceneName = SceneManager::GetInstance().GetActiveScene()->GetName();
 	if (sceneName == "WaitingScene" || sceneName == "MainMenu" || sceneName == "GameOver")

@@ -8,20 +8,20 @@ namespace dae
     class GameObject;
 }
 
-class PlayerManager final
+class GameManager final
 {
 public:
 
-    ~PlayerManager() = default;
-    PlayerManager(const PlayerManager&) = delete;
-    PlayerManager& operator=(const PlayerManager&) = delete;
-    PlayerManager(PlayerManager&&) = default;
-    PlayerManager& operator=(PlayerManager&&) = default;
+    ~GameManager() = default;
+    GameManager(const GameManager&) = delete;
+    GameManager& operator=(const GameManager&) = delete;
+    GameManager(GameManager&&) = default;
+    GameManager& operator=(GameManager&&) = default;
 
 
-    static PlayerManager& GetInstance()
+    static GameManager& GetInstance()
     {
-        static PlayerManager instance;  // thread-safe singleton instance
+        static GameManager instance;  // thread-safe singleton instance
         return instance;
     }
 
@@ -64,7 +64,7 @@ public:
     int& GetControllerIdx() { return m_ControllerIdx; }
 
 private:
-    PlayerManager() = default;
+    GameManager() = default;
 
     std::vector<std::shared_ptr<dae::GameObject>> m_Players;
 

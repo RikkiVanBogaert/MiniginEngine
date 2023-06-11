@@ -43,7 +43,7 @@ void BulletCollisionCp::GetHit(dae::GameObject* gun) const
 	healthCp->ChangeAmount(-1);
 	if (const auto livesCp = GetComponentInScene<dae::UILivesCp>(m_pOwner->GetScene(), m_pOwner->GetTag()))
 	{
-		const auto event = std::make_shared<PlayerHit>();
+		const auto event = std::make_shared<PlayerHitEvent>();
 		livesCp->UpdateSubject(event);
 	}
 
@@ -58,12 +58,12 @@ void BulletCollisionCp::GetHit(dae::GameObject* gun) const
 	{
 		if(m_pOwner->GetTag() == "BlueEnemy")
 		{
-			const auto event = std::make_shared<BlueTankKilled>();
+			const auto event = std::make_shared<BlueTankKilledEvent>();
 			pointsText->UpdateSubject(event);
 		}
 		else if (m_pOwner->GetTag() == "Recognizer")
 		{
-			const auto event = std::make_shared<RecognizerKilled>();
+			const auto event = std::make_shared<RecognizerKilledEvent>();
 			pointsText->UpdateSubject(event);
 		}
 	}

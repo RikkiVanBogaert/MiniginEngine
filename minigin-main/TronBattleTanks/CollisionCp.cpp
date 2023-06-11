@@ -1,5 +1,8 @@
 #include "CollisionCp.h"
+
 #include "GameObject.h"
+
+#include <glm/glm.hpp>
 
 CollisionCp::CollisionCp(dae::GameObject* owner):
 ComponentBase(owner)

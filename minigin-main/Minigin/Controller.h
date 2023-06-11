@@ -41,6 +41,7 @@ namespace dae
         bool IsUpThisFrame(ControllerButton button) const;
         bool IsPressed(ControllerButton button) const;
         unsigned int GetControllerIndex() const;
+        void SetControllerIndex(unsigned int idx) const;
 
         // Joystick getters
         float GetLeftStickX() const;

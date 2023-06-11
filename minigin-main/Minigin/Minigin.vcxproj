@@ -207,9 +207,7 @@
     <ClInclude Include="BaseComponent.h" />
     <ClInclude Include="Commands.h" />
     <ClInclude Include="Controller.h" />
-    <ClInclude Include="EngineEvents.h" />
     <ClInclude Include="MathHelpers.h" />
-    <ClInclude Include="EventQueue.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSComponent.h" />
     <ClInclude Include="GameObject.h" />
@@ -225,7 +223,6 @@
     <ClInclude Include="imgui\imstb_truetype.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="Minigin.h" />
-    <ClInclude Include="Event.h" />
     <ClInclude Include="ObserverEvent.h" />
     <ClInclude Include="Observers.h" />
     <ClInclude Include="Renderer.h" />
@@ -238,8 +235,6 @@
     <ClInclude Include="TextComponent.h" />
     <ClInclude Include="Texture2D.h" />
     <ClInclude Include="TextureComponent.h" />
-    <ClInclude Include="Transform.h" />
-    <ClInclude Include="TransformComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AudioService.cpp" />
@@ -269,8 +264,6 @@
     <ClCompile Include="TextComponent.cpp" />
     <ClCompile Include="Texture2D.cpp" />
     <ClCompile Include="TextureComponent.cpp" />
-    <ClCompile Include="Transform.cpp" />
-    <ClCompile Include="TransformComponent.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

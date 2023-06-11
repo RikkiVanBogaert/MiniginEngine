@@ -1,9 +1,9 @@
 #pragma once
-#include <memory>
-#include <vector>
-#include "Transform.h"
 #include "Subject.h"
 
+#include <memory>
+#include <vector>
+#include <glm/vec2.hpp>
 
 namespace dae
 {

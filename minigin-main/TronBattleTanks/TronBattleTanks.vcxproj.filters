@@ -21,7 +21,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PlayerManager.cpp">
+    <ClCompile Include="GameManager.cpp">
       <Filter>Other Files</Filter>
     </ClCompile>
     <ClCompile Include="GameCommands.cpp">
@@ -29,9 +29,6 @@
     </ClCompile>
     <ClCompile Include="AIComponent.cpp">
       <Filter>Game Files\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEvents.cpp">
-      <Filter>Other Files</Filter>
     </ClCompile>
     <ClCompile Include="CollisionCp.cpp">
       <Filter>Game Files\Components</Filter>
@@ -77,7 +74,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PlayerManager.h">
+    <ClInclude Include="GameManager.h">
       <Filter>Other Files</Filter>
     </ClInclude>
     <ClInclude Include="GameCommands.h">
@@ -87,9 +84,6 @@
       <Filter>Game Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="Sounds.h">
-      <Filter>Other Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEvents.h">
       <Filter>Other Files</Filter>
     </ClInclude>
     <ClInclude Include="LevelPrefab.h">

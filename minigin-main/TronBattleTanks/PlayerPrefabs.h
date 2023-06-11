@@ -9,7 +9,7 @@
 #include "GameCommands.h"
 #include "InputManager.h"
 #include "MoveCp.h"
-#include "PlayerManager.h"
+#include "GameManager.h"
 #include "Scene.h"
 #include "TextureComponent.h"
 #include "GunPrefab.h"
@@ -22,7 +22,7 @@ namespace dae
 		auto pTank = std::make_shared<GameObject>();
 		scene.Add(pTank);
 		pTank->SetTag("RedPlayer");
-		PlayerManager::GetInstance().AddPlayer(pTank);
+		GameManager::GetInstance().AddPlayer(pTank);
 
 		//Texture
 		auto tankTxt = std::make_shared<TextureComponent>(pTank.get());
@@ -48,9 +48,9 @@ namespace dae
 
 
 		//Create Controller
-		int controllerIdx{ PlayerManager::GetInstance().GetControllerIdx() };
+		int controllerIdx{ GameManager::GetInstance().GetControllerIdx() };
 		InputManager::GetInstance().AddController(controllerIdx);
-		++PlayerManager::GetInstance().GetControllerIdx();
+		++GameManager::GetInstance().GetControllerIdx();
 
 		//Movement
 		auto moveCp = std::make_shared<MoveCp>(pTank.get(), 65.f);
@@ -87,7 +87,7 @@ namespace dae
 		const auto pTank = std::make_shared<GameObject>();
 		scene.Add(pTank);
 		pTank->SetTag("RedPlayer");
-		PlayerManager::GetInstance().AddPlayer(pTank);
+		GameManager::GetInstance().AddPlayer(pTank);
 
 		//Texture
 		const auto tankTxt = std::make_shared<TextureComponent>(pTank.get());
@@ -112,9 +112,9 @@ namespace dae
 
 
 		//Create Controller
-		int controllerIdx{ PlayerManager::GetInstance().GetControllerIdx() };
+		int controllerIdx{ GameManager::GetInstance().GetControllerIdx() };
 		InputManager::GetInstance().AddController(controllerIdx);
-		++PlayerManager::GetInstance().GetControllerIdx();
+		++GameManager::GetInstance().GetControllerIdx();
 
 
 		//Movement

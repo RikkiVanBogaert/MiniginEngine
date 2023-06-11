@@ -5,7 +5,7 @@
 #include "GameCommands.h"
 #include "InputManager.h"
 #include "HighScoresCp.h"
-#include "PlayerManager.h"
+#include "GameManager.h"
 #include "ResourceManager.h"
 #include "Scene.h"
 
@@ -56,7 +56,7 @@ namespace dae
 		const auto exitGame = std::make_shared<ExitGameCommand>();
 		InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_ESCAPE, exitGame);
 
-		const int amountControllers = PlayerManager::GetInstance().GetControllerIdx();
+		const int amountControllers = GameManager::GetInstance().GetControllerIdx();
 		for (int i{}; i < amountControllers; ++i)
 		{
 			Controller::ControllerButton button = Controller::ControllerButton::ButtonA;

@@ -159,12 +159,11 @@
     <ClCompile Include="CollisionCp.cpp" />
     <ClCompile Include="DerCounterCps.cpp" />
     <ClCompile Include="GameCommands.cpp" />
-    <ClCompile Include="GameEvents.cpp" />
     <ClCompile Include="GridCp.cpp" />
     <ClCompile Include="LevelInfoCp.cpp" />
     <ClCompile Include="MoveCp.cpp" />
     <ClCompile Include="HighScoresCp.cpp" />
-    <ClCompile Include="PlayerManager.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="SpawnPositionCp.cpp" />
     <ClCompile Include="TeleportCp.cpp" />
     <ClCompile Include="TronBattleTanks.cpp" />
@@ -188,12 +187,11 @@
     <ClInclude Include="LevelPrefab.h" />
     <ClInclude Include="EnemyPrefab.h" />
     <ClInclude Include="GameCommands.h" />
-    <ClInclude Include="GameEvents.h" />
     <ClInclude Include="GameHelpers.h" />
     <ClInclude Include="MainMenuPrefab.h" />
     <ClInclude Include="MoveCp.h" />
     <ClInclude Include="HighScoresCp.h" />
-    <ClInclude Include="PlayerManager.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="PlayerPrefabs.h" />
     <ClInclude Include="Sounds.h" />
     <ClInclude Include="SpawnPositionCp.h" />

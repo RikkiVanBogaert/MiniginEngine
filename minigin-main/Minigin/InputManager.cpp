@@ -29,50 +29,101 @@ void InputManager::AddController(unsigned int id)
     m_Controllers.emplace_back(std::make_unique<Controller>(id));
 }
 
-void InputManager::BindControllerToCommand(unsigned int id, Controller::ControllerButton& button, std::shared_ptr<Command> command)
+void InputManager::RemoveController(unsigned int id)
+{
+	if (id >= m_Controllers.size()) return;
+
+	//m_Controllers.erase(m_Controllers.begin() + id);
+
+	//for(unsigned int i{id}; i < m_Controllers.size(); ++i)
+	//{
+	//	for (const auto& command : m_ControllerButtonCommands)
+	//	{
+	//		const unsigned int controllerId = command.first.first;
+	//		if (m_Controllers[i]->GetControllerIndex() == controllerId)
+	//		{
+	//			ControllerButtonKey newKey = std::make_pair(i, command.first.second);
+	//			// Remove the existing key-value pair
+	//			m_ControllerButtonCommands.erase(command.first);
+	//			// Insert the new key-value pair with the modified key
+	//			m_ControllerButtonCommands[newKey] = command.second;
+	//		}
+	//	}
+
+	//	for (const auto& command : m_ControllerStickCommands)
+	//	{
+	//		const unsigned int controllerId = command.first.first;
+	//		if (m_Controllers[i]->GetControllerIndex() == controllerId)
+	//		{
+	//			ControllerStickKey newKey = std::make_pair(i, command.first.second);
+	//			// Remove the existing key-value pair
+	//			m_ControllerStickCommands.erase(command.first);
+	//			// Insert the new key-value pair with the modified key
+	//			m_ControllerStickCommands[newKey] = command.second;
+	//		}
+	//	}
+
+	//	m_Controllers[i]->SetControllerIndex(i);
+	//}
+
+
+}
+
+void InputManager::BindControllerToCommand(unsigned int id, Controller::ControllerButton& button, const std::shared_ptr<Command>& command)
 {
 	ControllerButtonKey key = ControllerButtonKey(id, button);
 	m_ControllerButtonCommands.insert({ key, command });
 }
 
 void InputManager::BindControllerToCommand(unsigned id, Controller::ControllerStick& stick,
-	std::shared_ptr<Command> command)
+	const std::shared_ptr<Command>& command)
 {
 	ControllerStickKey key = ControllerStickKey(id, stick);
 	m_ControllerStickCommands.insert({ key, command });
 }
 
-void InputManager::BindKeyToCommand(const Uint8& key, std::shared_ptr<Command> command)
+void InputManager::BindKeyToCommand(const Uint8& key, const std::shared_ptr<Command>& command)
 {
 	m_KeyCommands.insert({ key, command });
 }
 
-void InputManager::UnbindCommand(Command* command)
+void InputManager::UnbindCommand(const std::shared_ptr<Command>& command)
 {
 	// `command` is the command object to be removed from the map
 	for (auto it = m_KeyCommands.begin(); it != m_KeyCommands.end(); ++it) 
 	{
-		if (it->second.get() == command) 
+		if (it->second == command) 
 		{
 			m_KeyCommands.erase(it);
 			break;  // we found the element, so we can stop iterating
 		}
 	}
 
-}
+	for (auto it = m_ControllerButtonCommands.begin(); it != m_ControllerButtonCommands.end(); ++it)
+	{
+		if (it->second == command)
+		{
+			m_ControllerButtonCommands.erase(it);
+			break;  // we found the element, so we can stop iterating
+		}
+	}
 
-//void InputManager::UnbindAllCommands()
-//{
-//	m_KeyCommands.clear();
-//	m_ControllerButtonCommands.clear();
-//	m_Controllers.clear();
-//}
+	for (auto it = m_ControllerStickCommands.begin(); it != m_ControllerStickCommands.end(); ++it)
+	{
+		if (it->second == command)
+		{
+			m_ControllerStickCommands.erase(it);
+			break;  // we found the element, so we can stop iterating
+		}
+	}
+
+}
 
 void InputManager::ProcessInputControllers()
 {
-    for (auto& controller : m_Controllers)
+    for (const auto& controller : m_Controllers)
     {
-        for (auto& command : m_ControllerButtonCommands)
+        for (const auto& command : m_ControllerButtonCommands)
         {
             const unsigned int controllerId = command.first.first;
             const auto controllerKey = command.first.second;
@@ -82,11 +133,11 @@ void InputManager::ProcessInputControllers()
             }
         }
 
-		for (auto& command : m_ControllerStickCommands)
+		for (const auto& command : m_ControllerStickCommands)
 		{
 			const unsigned int controllerId = command.first.first;
 			const auto controllerStick = command.first.second;
-			constexpr float deadzone{ 0.2f };
+			constexpr float deadzone{ 14000 };
 			if (controller->GetControllerIndex() == controllerId &&
 				(abs(GetControllerStickValues(controllerId, controllerStick).x) > deadzone ||
 				abs(GetControllerStickValues(controllerId, controllerStick).y) > deadzone))

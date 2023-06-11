@@ -81,7 +81,7 @@ void Test()
 	auto& scene = SceneManager::GetInstance().CreateScene("Test");
 	scene.SetActive(true);
 	CreateTankKeyboardAndController(scene);
-
+	
 }
 
 void LoadNewScene()
@@ -113,7 +113,7 @@ void LoadNewScene()
 	const auto muteUnmute = std::make_shared<MuteCommand>();
 	InputManager::GetInstance().BindKeyToCommand(SDL_SCANCODE_M, muteUnmute);
 
-	const int amountControllers = PlayerManager::GetInstance().GetControllerIdx();
+	const int amountControllers = GameManager::GetInstance().GetControllerIdx();
 	for (int i{}; i < amountControllers; ++i)
 	{
 		Controller::ControllerButton button = Controller::ControllerButton::ButtonY;
@@ -127,6 +127,9 @@ void LoadNewScene()
 	}
 
 	ExplainControls();
+
+
+	InputManager::GetInstance().RemoveController(0);
 }
 
 //Sound statics

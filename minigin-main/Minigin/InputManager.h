@@ -19,11 +19,11 @@ namespace dae
 	public:
 		bool ProcessInput();
 		void AddController(unsigned int id);
-		void BindControllerToCommand(unsigned int controllerId, Controller::ControllerButton& button, std::shared_ptr<Command> command);
-		void BindControllerToCommand(unsigned int controllerId, Controller::ControllerStick& stick, std::shared_ptr<Command> command);
-		void BindKeyToCommand(const Uint8& key, std::shared_ptr<Command> command);
-		void UnbindCommand(Command* command);
-		//void UnbindAllCommands();
+		void RemoveController(unsigned int id);
+		void BindControllerToCommand(unsigned int controllerId, Controller::ControllerButton& button, const std::shared_ptr<Command>& command);
+		void BindControllerToCommand(unsigned int controllerId, Controller::ControllerStick& stick, const std::shared_ptr<Command>& command);
+		void BindKeyToCommand(const Uint8& key, const std::shared_ptr<Command>& command);
+		void UnbindCommand(const std::shared_ptr<Command>& command);
 		void UpdateControllers();
 
 		glm::vec2 GetControllerStickValues(unsigned int controllerId, Controller::ControllerStick stick);

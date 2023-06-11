@@ -25,7 +25,7 @@ public:
 	void Update(std::shared_ptr<ObserverEvent> event) override
 	{
 		//m_pLivesCp->ChangeAmount(-1);
-		if (!dynamic_cast<PlayerHit*>(event.get())) return;
+		if (!dynamic_cast<PlayerHitEvent*>(event.get())) return;
 		
 		m_pUILivesCp->SetValueText(std::to_string(m_pLivesCp->GetAmount()));
 	}
@@ -50,11 +50,11 @@ public:
 
 	void Update(std::shared_ptr<ObserverEvent> event) override
 	{
-		if (dynamic_cast<BlueTankKilled*>(event.get()))
+		if (dynamic_cast<BlueTankKilledEvent*>(event.get()))
 		{
 			m_pPointsCp->ChangeAmount(100);
 		}
-		else if (dynamic_cast<RecognizerKilled*>(event.get()))
+		else if (dynamic_cast<RecognizerKilledEvent*>(event.get()))
 		{
 			m_pPointsCp->ChangeAmount(250);
 		}

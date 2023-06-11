@@ -1,7 +1,7 @@
 #include "DerCounterCps.h"
 
 #include "GameObject.h"
-#include "PlayerManager.h"
+#include "GameManager.h"
 #include "Scene.h"
 #include "SceneManager.h"
 #include "UICp.h"
@@ -40,6 +40,6 @@ void LivesCp::ChangeAmount(int difference)
 	}
 	else
 	{
-		PlayerManager::GetInstance().ResetScene();
+		GameManager::GetInstance().ResetScene();
 	}
 }

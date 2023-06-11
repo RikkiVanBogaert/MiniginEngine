@@ -21,36 +21,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Singleton.h">
-      <Filter>Scene Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceManager.h">
-      <Filter>Scene Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>Scene Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture2D.h">
-      <Filter>Scene Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InputManager.h">
-      <Filter>Scene Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>Scene Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Scene Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>Scene Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Font.h">
-      <Filter>Scene Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Minigin.h">
-      <Filter>Scene Files</Filter>
-    </ClInclude>
     <ClInclude Include="BaseComponent.h">
       <Filter>Game Files\Component Files</Filter>
     </ClInclude>
@@ -64,9 +34,6 @@
       <Filter>Game Files\Component Files</Filter>
     </ClInclude>
     <ClInclude Include="TextComponent.h">
-      <Filter>Game Files\Component Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TransformComponent.h">
       <Filter>Game Files\Component Files</Filter>
     </ClInclude>
     <ClInclude Include="RotationCp.h">
@@ -99,9 +66,6 @@
     <ClInclude Include="imgui\imgui_plot.h">
       <Filter>Game Files\Imgui</Filter>
     </ClInclude>
-    <ClInclude Include="Controller.h">
-      <Filter>Scene Files</Filter>
-    </ClInclude>
     <ClInclude Include="Commands.h">
       <Filter>Game Files</Filter>
     </ClInclude>
@@ -114,55 +78,49 @@
     <ClInclude Include="Subject.h">
       <Filter>Game Files</Filter>
     </ClInclude>
+    <ClInclude Include="ObserverEvent.h">
+      <Filter>Game Files</Filter>
+    </ClInclude>
     <ClInclude Include="AudioService.h">
-      <Filter>Scene Files</Filter>
+      <Filter>Game Files</Filter>
     </ClInclude>
-    <ClInclude Include="EventQueue.h">
-      <Filter>Scene Files</Filter>
+    <ClInclude Include="Controller.h">
+      <Filter>Game Files</Filter>
     </ClInclude>
-    <ClInclude Include="Event.h">
-      <Filter>Scene Files</Filter>
+    <ClInclude Include="Font.h">
+      <Filter>Game Files</Filter>
     </ClInclude>
-    <ClInclude Include="EngineEvents.h">
-      <Filter>Scene Files</Filter>
+    <ClInclude Include="InputManager.h">
+      <Filter>Game Files</Filter>
     </ClInclude>
     <ClInclude Include="MathHelpers.h">
-      <Filter>Scene Files</Filter>
+      <Filter>Game Files</Filter>
     </ClInclude>
-    <ClInclude Include="ObserverEvent.h">
+    <ClInclude Include="Minigin.h">
+      <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture2D.h">
       <Filter>Game Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseComponent.cpp">
       <Filter>Game Files\Component Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Font.cpp">
-      <Filter>Scene Files</Filter>
-    </ClCompile>
-    <ClCompile Include="InputManager.cpp">
-      <Filter>Scene Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Minigin.cpp">
-      <Filter>Scene Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>Scene Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceManager.cpp">
-      <Filter>Scene Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Scene Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneManager.cpp">
-      <Filter>Scene Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture2D.cpp">
-      <Filter>Scene Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>Scene Files</Filter>
     </ClCompile>
     <ClCompile Include="TextureComponent.cpp">
       <Filter>Game Files\Component Files</Filter>
@@ -174,9 +132,6 @@
       <Filter>Game Files\Component Files</Filter>
     </ClCompile>
     <ClCompile Include="TextComponent.cpp">
-      <Filter>Game Files\Component Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TransformComponent.cpp">
       <Filter>Game Files\Component Files</Filter>
     </ClCompile>
     <ClCompile Include="RotationCp.cpp">
@@ -206,9 +161,6 @@
     <ClCompile Include="imgui\imgui_plot.cpp">
       <Filter>Game Files\Imgui</Filter>
     </ClCompile>
-    <ClCompile Include="Controller.cpp">
-      <Filter>Scene Files</Filter>
-    </ClCompile>
     <ClCompile Include="CounterCp.cpp">
       <Filter>Game Files\Component Files</Filter>
     </ClCompile>
@@ -219,6 +171,33 @@
       <Filter>Game Files</Filter>
     </ClCompile>
     <ClCompile Include="AudioService.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Font.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minigin.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture2D.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
   </ItemGroup>

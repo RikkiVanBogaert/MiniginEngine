@@ -2,10 +2,12 @@
 
 #include "GameHelpers.h"
 #include "GameObject.h"
-#include "PlayerManager.h"
+#include "GameManager.h"
 #include "BulletManagerCp.h"
 #include "CollisionCp.h"
 #include "MoveCp.h"
+
+#include <glm/glm.hpp>
 
 AIComponent::AIComponent(dae::GameObject* owner):
 	ComponentBase(owner),
@@ -16,7 +18,7 @@ AIComponent::AIComponent(dae::GameObject* owner):
 void AIComponent::Init()
 {
 	if (m_HasInit) return;
-	m_pPlayers = PlayerManager::GetInstance().GetPlayers();
+	m_pPlayers = GameManager::GetInstance().GetPlayers();
 	m_pLevelCollision = GetComponentInScene<CollisionCp>(m_pOwner->GetScene(), "Level");
 	m_pBulletManager = m_pOwner->GetComponent<BulletManagerCp>();
 	m_HasInit = true;

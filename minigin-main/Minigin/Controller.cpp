@@ -47,6 +47,7 @@ public:
         return (m_CurrentState.Gamepad.wButtons & static_cast<unsigned int>(button)) != 0;
     }
 
+    void SetControllerIndex(unsigned int idx) { m_ControllerIndex = idx; }
     unsigned int GetControllerIndex() const { return m_ControllerIndex; }
 
     float GetLeftStickX() const { return m_LeftStickX; }
@@ -100,6 +101,11 @@ bool Controller::IsPressed(ControllerButton button) const
 unsigned int Controller::GetControllerIndex() const
 {
     return m_pImpl->GetControllerIndex();
+}
+
+void Controller::SetControllerIndex(unsigned idx) const
+{
+    m_pImpl->SetControllerIndex(idx);
 }
 
 float Controller::GetLeftStickX() const { return m_pImpl->GetLeftStickX(); }

@@ -141,10 +141,11 @@ void HighScoresCp::ShowHighScores() const
 
 int HighScoresCp::GetAmountHighScores() const
 {
-    int amountHighScores{};
-    while(GetGameObject(m_pOwner->GetScene(), "HighScore" + std::to_string(amountHighScores)))
+    int amountHighScoresShown{};
+    while(GetGameObject(m_pOwner->GetScene(), "HighScore" + std::to_string(amountHighScoresShown)) &&
+        amountHighScoresShown < m_HighScores.size())
     {
-        ++amountHighScores;
+        ++amountHighScoresShown;
     }
-    return amountHighScores;
+    return amountHighScoresShown;
 }

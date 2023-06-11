@@ -1,12 +1,13 @@
 #include "BulletManagerCp.h"
 
-#include <glm/vec2.hpp>
 
+#include "AudioService.h"
 #include "BulletPrefab.h"
-#include "EngineEvents.h"
-#include "EventQueue.h"
 #include "GameObject.h"
 #include "Sounds.h"
+
+#include <glm/vec2.hpp>
+#include <glm/glm.hpp>
 
 BulletManagerCp::BulletManagerCp(dae::GameObject* owner, float bulletSpeed):
 ComponentBase(owner),
