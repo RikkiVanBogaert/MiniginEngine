@@ -10,9 +10,10 @@
 #include "LevelPrefab.h"
 #include "PointsCp.h"
 #include "PlayerLivesCp.h"
+#include "PlayerManager.h"
 #include "TextureComponent.h"
 #include "UICp.h"
-#include "Subject.h"
+
 
 using namespace dae;
 
@@ -32,9 +33,9 @@ void GameManager::SwitchGameMode()
 	}
 }
 
-void GameManager::LevelCreate()
+void GameManager::LevelCreate() const
 {
-	auto& sceneManager = SceneManager::GetInstance();
+	const auto& sceneManager = SceneManager::GetInstance();
 
 	const std::string filePath = "../Data/Resources/" + sceneManager.GetActiveSceneName() + ".csv";
 
@@ -44,7 +45,7 @@ void GameManager::LevelCreate()
 	const auto blueEnemySpawn = pLevel->GetComponent<BlueEnemySpawnPosCp>();
 	const auto recognizerSpawn = pLevel->GetComponent<RecognizerSpawnPosCp>();
 
-	const auto players = GetInstance().GetPlayers();
+	const auto players = PlayerManager::GetInstance().GetPlayers();
 	const auto scene = SceneManager::GetInstance().GetActiveScene();
 
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 18);
@@ -61,7 +62,6 @@ void GameManager::LevelCreate()
 	const auto pLivesObject2 = std::make_shared<GameObject>();
 	pLivesObject2->SetRelativePos({ 5, 300 });
 
-	//bug: when first playing multiplayer, then playing singleplayer, ai still thinks other player is there
 	switch (GetInstance().GetGameMode())
 	{
 	case SinglePlayer:
@@ -83,11 +83,11 @@ void GameManager::LevelCreate()
 		scene->Add(pLivesObject2);
 		players[1]->SetTagIncludingChildren("RedPlayer");
 		players[1]->GetComponent<TextureComponent>()->SetTexture("Resources/Sprites/GreenTank.png");
-		CreateBlueEnemies(*scene, blueEnemySpawn->GetPos());
+		//CreateBlueEnemies(*scene, blueEnemySpawn->GetPos());
 		CreateRecognizers(*scene, recognizerSpawn->GetPos());
 
 		
-		for(int i{}; i < int(players.size()); ++i)
+		for(int i{}; i < static_cast<int>(players.size()); ++i)
 		{
 			sceneManager.GetActiveScene()->Add(players[i]);
 			players[i]->SetRelativePos(playerSpawn->GetPos()[i]);
@@ -104,10 +104,10 @@ void GameManager::LevelCreate()
 		players[1]->SetTagIncludingChildren("BluePlayer");
 		players[1]->GetComponent<TextureComponent>()->SetTexture("Resources/Sprites/BlueTank.png");
 
-		CreateBlueEnemies(*scene, blueEnemySpawn->GetPos());
+		//CreateBlueEnemies(*scene, blueEnemySpawn->GetPos());
 		CreateRecognizers(*scene, recognizerSpawn->GetPos());
 
-		for (int i{}; i < int(players.size()); ++i)
+		for (int i{}; i < static_cast<int>(players.size()); ++i)
 		{
 			sceneManager.GetActiveScene()->Add(players[i]);
 			players[i]->SetRelativePos(playerSpawn->GetPos()[i]);
@@ -118,59 +118,31 @@ void GameManager::LevelCreate()
 
 
 	const auto pPointText = std::make_shared<UIPointsCp>(pPointObject.get(), "Points: ", font,
-		SDL_Color{ 255, 255, 255, 255 }, GetPlayers()[0]->GetComponent<PointsCp>());
+		SDL_Color{ 255, 255, 255, 255 }, players[0]->GetComponent<PointsCp>());
 	pPointObject->AddComponent(pPointText);
 
 	const auto pLivesText = std::make_shared<UILivesCp>(pLivesObject.get(), "Lives: ", font,
-		SDL_Color{ 255, 0, 0, 255 }, GetPlayers()[0]->GetComponent<PlayerLivesCp>());
+		SDL_Color{ 255, 0, 0, 255 }, players[0]->GetComponent<PlayerLivesCp>());
 	pLivesObject->AddComponent(pLivesText);
 
 	const auto pLivesText2 = std::make_shared<UILivesCp>(pLivesObject2.get(), "Lives: ", font,
-		SDL_Color{ 255, 255, 0, 255 }, GetPlayers()[1]->GetComponent<PlayerLivesCp>());
+		SDL_Color{ 255, 255, 0, 255 }, players[1]->GetComponent<PlayerLivesCp>());
 	pLivesObject2->AddComponent(pLivesText2);
 
 
 }
 
-void GameManager::ResetPlayerVars()
-{
-	for(auto p : GetPlayers())
-	{
-		p->GetComponent<PointsCp>()->SetAmount(0);
-		p->GetComponent<PlayerLivesCp>()->SetAmount(3);
-	}
-}
-
-void GameManager::RemovePlayerFromScene(GameObject* player) const
-{
-	for(const auto& p : m_Players)
-	{
-		if(p.get() == player)
-		{
-			p->GetScene()->Remove(p);
-		}
-	}
-}
-
-void GameManager::RemoveAllPlayersFromScene()
-{
-	for(const auto& p : GetPlayers())
-	{
-		p->GetScene()->Remove(p);
-	}
-}
-
-void GameManager::ResetScene()
+void GameManager::ResetScene() const
 {
 	SceneManager::GetInstance().GetActiveScene()->RemoveAll();
 	LevelCreate();
 }
 
-void GameManager::NextLevel()
+void GameManager::NextLevel() const
 {
 	auto& sceneManager = SceneManager::GetInstance();
 	const auto oldScene = sceneManager.GetActiveScene();
-	RemoveAllPlayersFromScene();
+	PlayerManager::GetInstance().RemoveAllPlayersFromScene();
 	for(auto g : oldScene->GetGameObjects())
 	{
 		g->MarkForDeletion();

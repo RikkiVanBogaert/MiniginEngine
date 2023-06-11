@@ -78,6 +78,9 @@
     <ClCompile Include="GameObservers.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerManager.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIComponent.h">
@@ -163,6 +166,9 @@
     </ClInclude>
     <ClInclude Include="PointsCp.h">
       <Filter>Game Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerManager.h">
+      <Filter>Game Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

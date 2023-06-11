@@ -45,3 +45,8 @@
 100,  wow
 0,  sdew
 400,  prettygood
+100,  hola
+0,  recog
+0,  ok
+0,  
+0,  

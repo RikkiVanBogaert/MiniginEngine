@@ -4,8 +4,8 @@
 #include <string>
 #include <SDL_ttf.h>
 
-#include "CounterCp.h"
 #include "ObserverEvent.h"
+#include "Subject.h"
 
 class PointsCp;
 class PlayerLivesCp;

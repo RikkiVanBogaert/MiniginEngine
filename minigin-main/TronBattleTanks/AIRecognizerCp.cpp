@@ -8,6 +8,8 @@
 
 #include <glm/glm.hpp>
 
+#include "PlayerManager.h"
+
 AIRecognizerCp::AIRecognizerCp(dae::GameObject* owner) :
 	ComponentBase(owner),
 	m_State(std::make_shared<WanderState>(this))
@@ -17,7 +19,7 @@ AIRecognizerCp::AIRecognizerCp(dae::GameObject* owner) :
 void AIRecognizerCp::Init()
 {
 	if (m_HasInit) return;
-	m_pPlayers = GameManager::GetInstance().GetPlayers();
+	m_pPlayers = PlayerManager::GetInstance().GetPlayers();
 	m_pLevelCollision = GetComponentInScene<CollisionCp>(GetOwner()->GetScene(), "Level");
 	m_pBulletManager = GetOwner()->GetComponent<BulletManagerCp>();
 	m_HasInit = true;
@@ -47,7 +49,7 @@ bool RecognizerState::PlayerInSight(dae::GameObject* gameObject, const std::vect
 		if ((tankMidPos.x > pos.x && tankMidPos.x < pos.x + playerSize)
 			|| (tankMidPos.y > pos.y && tankMidPos.y < pos.y + playerSize))
 		{
-			m_ToPlayer = glm::normalize(playerPos - pos);
+			m_ToPlayer = normalize(playerPos - pos);
 			return true;
 		}
 	}

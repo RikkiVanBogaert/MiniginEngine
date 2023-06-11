@@ -1,5 +1,4 @@
 #pragma once
-#include <memory>
 #include <vector>
 #include <glm/vec2.hpp>
 
@@ -21,25 +20,9 @@ public:
 
     static GameManager& GetInstance()
     {
-        static GameManager instance;  // thread-safe singleton instance
+        static GameManager instance; 
         return instance;
     }
-
-    // Add public methods for managing players here
-
-    void AddPlayer(const std::shared_ptr<dae::GameObject>& player)
-    {
-	    m_Players.push_back(player);
-    }
-    void RemovePlayer(const std::shared_ptr<dae::GameObject>& player)
-    {
-        m_Players.erase(std::remove(m_Players.begin(), m_Players.end(), player), m_Players.end());
-    }
-    void RemoveAllPlayers()
-    {
-        m_Players.clear();
-    }
-    std::vector<std::shared_ptr<dae::GameObject>> GetPlayers() { return m_Players; }
 
     enum GameMode
     {
@@ -53,20 +36,15 @@ public:
     void AddSpawnPos(const glm::vec2 spawnPos) { m_SpawnPositions.emplace_back(spawnPos); }
     std::vector<glm::vec2> GetSpawnPositions() const { return m_SpawnPositions; }
 
-    void LevelCreate();
-    void ResetPlayerVars();
-    void RemovePlayerFromScene(dae::GameObject* player) const;
-    void RemoveAllPlayersFromScene();
-    void ResetScene();
+    void LevelCreate() const;
+    void ResetScene() const;
 
-    void NextLevel();
+    void NextLevel() const;
 
     int& GetControllerIdx() { return m_ControllerIdx; }
 
 private:
     GameManager() = default;
-
-    std::vector<std::shared_ptr<dae::GameObject>> m_Players;
 
     GameMode m_GameMode{ SinglePlayer };
     std::vector<glm::vec2> m_SpawnPositions;

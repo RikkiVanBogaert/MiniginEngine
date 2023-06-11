@@ -5,6 +5,7 @@
 #include "InputManager.h"
 #include "HighScoresCp.h"
 #include "GameManager.h"
+#include "PlayerManager.h"
 #include "PointsCp.h"
 #include "ResourceManager.h"
 #include "Scene.h"
@@ -46,7 +47,7 @@ static void CreateGameOver(dae::Scene& scene)
 	const auto scoreObj = std::make_shared<dae::GameObject>();
 	scoreObj->SetTag("Score");
 	int score{};
-	for (const auto& p : GameManager::GetInstance().GetPlayers())
+	for (const auto& p : PlayerManager::GetInstance().GetPlayers())
 	{
 		score += p->GetComponent<PointsCp>()->GetAmount();
 	}

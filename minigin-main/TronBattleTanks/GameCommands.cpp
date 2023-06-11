@@ -13,6 +13,7 @@
 #include "MoveCp.h"
 #include "TextComponent.h"
 #include "InputManager.h" //putting this include higher causes Uint8 undeclared errors
+#include "PlayerManager.h"
 
 
 using namespace dae;
@@ -160,7 +161,7 @@ void StartGameCommand::Execute(bool)
 	auto& sceneManager = SceneManager::GetInstance();
 	sceneManager.SetActiveScene(nameScene);
 
-	GameManager::GetInstance().ResetPlayerVars();
+	PlayerManager::GetInstance().ResetPlayerVars();
 	GameManager::GetInstance().LevelCreate();
 
 	SetKeyPressed(true);

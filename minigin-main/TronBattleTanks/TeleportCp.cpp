@@ -4,6 +4,7 @@
 #include "GameHelpers.h"
 #include "GameObject.h"
 #include "GameManager.h"
+#include "PlayerManager.h"
 
 TeleportCp::TeleportCp(dae::GameObject* owner, const std::vector<int>& teleportPlaces):
 ComponentBase(owner),
@@ -14,7 +15,7 @@ m_TeleportPlaceIdxs(teleportPlaces)
 
 void TeleportCp::Update(float)
 {
-	for (const auto& p : GameManager::GetInstance().GetPlayers())
+	for (const auto& p : PlayerManager::GetInstance().GetPlayers())
 	{
 		if (!p->GetScene()->IsActive()) continue;
 

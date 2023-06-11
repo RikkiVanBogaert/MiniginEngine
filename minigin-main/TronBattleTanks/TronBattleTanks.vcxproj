@@ -165,6 +165,7 @@
     <ClCompile Include="HighScoresCp.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="PlayerLivesCp.cpp" />
+    <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="PointsCp.cpp" />
     <ClCompile Include="SpawnPositionCp.cpp" />
     <ClCompile Include="TeleportCp.cpp" />
@@ -193,6 +194,7 @@
     <ClInclude Include="HighScoresCp.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="PlayerLivesCp.h" />
+    <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="PlayerPrefabs.h" />
     <ClInclude Include="PointsCp.h" />
     <ClInclude Include="Sounds.h" />

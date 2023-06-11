@@ -13,13 +13,14 @@
 #include "TextureComponent.h"
 #include "GunPrefab.h"
 #include "PlayerLivesCp.h"
+#include "PlayerManager.h"
 #include "PointsCp.h"
 
 static void CreateTankKeyboardAndController(dae::Scene& scene)
 {
 	const auto pTank = std::make_shared<dae::GameObject>();
 	scene.Add(pTank);
-	GameManager::GetInstance().AddPlayer(pTank);
+	PlayerManager::GetInstance().AddPlayer(pTank);
 
 	//Texture
 	const auto tankTxt = std::make_shared<dae::TextureComponent>(pTank.get());
@@ -85,7 +86,7 @@ static void CreateTankController(dae::Scene& scene)
 {
 	const auto pTank = std::make_shared<dae::GameObject>();
 	scene.Add(pTank);
-	GameManager::GetInstance().AddPlayer(pTank);
+	PlayerManager::GetInstance().AddPlayer(pTank);
 
 	//Texture
 	const auto tankTxt = std::make_shared<dae::TextureComponent>(pTank.get());

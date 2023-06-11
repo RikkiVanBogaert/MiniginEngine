@@ -9,6 +9,8 @@
 
 #include <glm/glm.hpp>
 
+#include "PlayerManager.h"
+
 AIComponent::AIComponent(dae::GameObject* owner):
 	ComponentBase(owner),
 	m_ShootDelay{3}
@@ -18,7 +20,7 @@ AIComponent::AIComponent(dae::GameObject* owner):
 void AIComponent::Init()
 {
 	if (m_HasInit) return;
-	m_pPlayers = GameManager::GetInstance().GetPlayers();
+	m_pPlayers = PlayerManager::GetInstance().GetPlayers();
 	m_pLevelCollision = GetComponentInScene<CollisionCp>(GetOwner()->GetScene(), "Level");
 	m_pBulletManager = GetOwner()->GetComponent<BulletManagerCp>();
 	m_HasInit = true;

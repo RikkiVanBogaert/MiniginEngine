@@ -82,7 +82,7 @@ public:
 		std::vector<std::shared_ptr<dae::GameObject>> players, CollisionCp* levelCollision, BulletManagerCp* bulletManager) override;
 
 private:
-	glm::vec2 m_Direction{};
+	glm::vec2 m_Direction{1, 0};
 };
 
 class AttackState final : public RecognizerState
