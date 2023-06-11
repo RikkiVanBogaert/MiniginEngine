@@ -19,7 +19,7 @@ using namespace dae;
 
 MoveCommand::MoveCommand(GameObject* gameObj, const glm::vec2& direction, int controllerIdx,
 	Controller::ControllerStick stick):
-Command(gameObj),
+	m_pGameObject(gameObj),
 	m_Direction(direction),
 	m_ControllerIdx(controllerIdx),
 	m_ControllerStick(stick)
@@ -27,7 +27,7 @@ Command(gameObj),
 
 void MoveCommand::Execute(bool useStickDir)
 {
-	if (!GetGameActor() || GetGameActor()->NeedsDeleting() || !GetGameActor()->GetScene()->IsActive()) return;
+	if (!m_pGameObject || m_pGameObject->NeedsDeleting() || !m_pGameObject->GetScene()->IsActive()) return;
 
 	//Collision
 	auto moveDir = m_Direction;
@@ -42,33 +42,33 @@ void MoveCommand::Execute(bool useStickDir)
 	}
 	else
 	{
-		const auto collisionCp = GetComponentInScene<CollisionCp>(GetGameActor()->GetScene(), "Level");
-		if (collisionCp && collisionCp->CollisionHit(GetGameActor(), moveDir))
+		const auto collisionCp = GetComponentInScene<CollisionCp>(m_pGameObject->GetScene(), "Level");
+		if (collisionCp && collisionCp->CollisionHit(m_pGameObject, moveDir))
 		{
 			return;
 		}
 	}
 
-	const auto moveCp = GetGameActor()->GetComponent<MoveCp>();
+	const auto moveCp = m_pGameObject->GetComponent<MoveCp>();
 	moveCp->Move(moveDir);
 }
 
 bool MoveCommand::CheckAllMoveDirections(glm::vec2& moveDir) const
 {
-	const auto collisionCp = GetComponentInScene<CollisionCp>(GetGameActor()->GetScene(), "Level");
+	const auto collisionCp = GetComponentInScene<CollisionCp>(m_pGameObject->GetScene(), "Level");
 
 	if (!collisionCp) return true; /// collisionCp so move freely
 
 	if(abs(moveDir.x) > abs(moveDir.y))
 	{
-		if (!collisionCp->CollisionHit(GetGameActor(), { moveDir.x, 0 }))
+		if (!collisionCp->CollisionHit(m_pGameObject, { moveDir.x, 0 }))
 		{
 			moveDir.y = 0;
 			return true;
 		}
 
 		if (moveDir.y != 0 &&
-			!collisionCp->CollisionHit(GetGameActor(), { 0, moveDir.y }))
+			!collisionCp->CollisionHit(m_pGameObject, { 0, moveDir.y }))
 		{
 			moveDir.x = 0;
 			return true;
@@ -76,14 +76,14 @@ bool MoveCommand::CheckAllMoveDirections(glm::vec2& moveDir) const
 	}
 	else
 	{
-		if (!collisionCp->CollisionHit(GetGameActor(), { 0, moveDir.y }))
+		if (!collisionCp->CollisionHit(m_pGameObject, { 0, moveDir.y }))
 		{
 			moveDir.x = 0;
 			return true;
 		}
 
 		if (moveDir.x != 0 && 
-			!collisionCp->CollisionHit(GetGameActor(), { moveDir.x, 0 }))
+			!collisionCp->CollisionHit(m_pGameObject, { moveDir.x, 0 }))
 		{
 			moveDir.y = 0;
 			return true;
@@ -96,7 +96,7 @@ bool MoveCommand::CheckAllMoveDirections(glm::vec2& moveDir) const
 
 ShootCommand::ShootCommand(dae::GameObject* gameObj, const glm::vec2& direction, int controllerIdx,
                            Controller::ControllerStick stick):
-Command(gameObj),
+m_pGameObject(gameObj),
 m_Direction(direction),
 m_ControllerIdx(controllerIdx),
 m_ControllerStick(stick)
@@ -104,10 +104,10 @@ m_ControllerStick(stick)
 
 void ShootCommand::Execute(bool useStickDir)
 {
-	if (!GetGameActor() || GetGameActor()->NeedsDeleting() || !GetGameActor()->GetScene()->IsActive()) return;
+	if (!m_pGameObject || m_pGameObject->NeedsDeleting() || !m_pGameObject->GetScene()->IsActive()) return;
 
 
-	const auto bulletManager = GetGameActor()->GetComponent<BulletManagerCp>();
+	const auto bulletManager = m_pGameObject->GetComponent<BulletManagerCp>();
 
 	auto shootDir = m_Direction;
 

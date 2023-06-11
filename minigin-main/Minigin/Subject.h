@@ -31,7 +31,7 @@ namespace dae
     	{
             for (const std::shared_ptr<Observer>& observer : m_Observers) 
             {
-                observer->Update(event);
+                observer->OnNotify(event);
             }
         }
 

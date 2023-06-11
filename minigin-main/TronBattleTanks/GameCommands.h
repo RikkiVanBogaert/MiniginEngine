@@ -16,6 +16,7 @@ public:
 	virtual void Execute(bool) override;
 
 private:
+	dae::GameObject* m_pGameObject{};
 	const glm::vec2 m_Direction;
 	const int m_ControllerIdx;
 	const dae::Controller::ControllerStick m_ControllerStick;
@@ -33,6 +34,7 @@ public:
 	virtual void Execute(bool useStickDir = false) override;
 
 private:
+	dae::GameObject* m_pGameObject{};
 	const glm::vec2 m_Direction;
 	const int m_ControllerIdx;
 	const dae::Controller::ControllerStick m_ControllerStick;

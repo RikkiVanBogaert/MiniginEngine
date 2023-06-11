@@ -24,9 +24,8 @@ public:
 	LivesObserver& operator=(const LivesObserver& other) = delete;
 	LivesObserver& operator=(LivesObserver&& other) = delete;
 
-	void Update(std::shared_ptr<ObserverEvent> event) override
+	void OnNotify(std::shared_ptr<ObserverEvent> event) override
 	{
-		//m_pLivesCp->ChangeAmount(-1);
 		if (!dynamic_cast<PlayerHitEvent*>(event.get())) return;
 
 		m_pLivesCp->ChangeAmount(-1);
@@ -51,7 +50,7 @@ public:
 	PointsObserver& operator=(const PointsObserver& other) = delete;
 	PointsObserver& operator=(PointsObserver&& other) = delete;
 
-	void Update(std::shared_ptr<ObserverEvent> event) override
+	void OnNotify(std::shared_ptr<ObserverEvent> event) override
 	{
 		if (dynamic_cast<BlueTankKilledEvent*>(event.get()))
 		{

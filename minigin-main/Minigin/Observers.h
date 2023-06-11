@@ -19,7 +19,7 @@ namespace dae
 		Observer& operator=(const Observer& other) = delete;
 		Observer& operator=(Observer&& other) = delete;
 
-		virtual void Update(std::shared_ptr<ObserverEvent> event) = 0;
+		virtual void OnNotify(std::shared_ptr<ObserverEvent> event) = 0;
 	};
 
 }

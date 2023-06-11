@@ -30,3 +30,4 @@
 300,  okekes
 100,  ya
 0,  damn
+100,  hio
