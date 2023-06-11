@@ -86,7 +86,7 @@ void dae::Minigin::Run(const std::function<void()>& load)
 
 	constexpr float fixedTimeStep{ 0.02f };
 	constexpr float wantedFps{ 60.f };
-	constexpr int frameTimeMs{ int(1000 / wantedFps) };
+	constexpr int frameTimeMs{ static_cast<int>(1000 / wantedFps) };
 
 	bool doContinue = true;
 	auto lastTime = std::chrono::high_resolution_clock::now();

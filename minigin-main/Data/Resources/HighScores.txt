@@ -18,3 +18,15 @@
 100,  
 0,  works
 0,  oke
+0,  asdf
+0,  
+100,  pointsstillwork
+0,  
+0,  ami
+200,  goed
+100,  ded
+0,  
+200,  davidpan
+300,  okekes
+100,  ya
+0,  damn

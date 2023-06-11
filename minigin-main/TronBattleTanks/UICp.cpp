@@ -2,7 +2,6 @@
 #include "Font.h"
 #include "Renderer.h"
 #include "GameObject.h"
-#include "DerCounterCps.h"
 
 #include <chrono>
 
@@ -60,16 +59,20 @@ void UICounterCp::UpdateSubject(std::shared_ptr<ObserverEvent> event)
 
 UIPointsCp::UIPointsCp(GameObject* owner, const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color,
                        PointsCp* counter):
-UICounterCp(owner, text, font, color, counter)
+UICounterCp(owner, text, font, color, counter->GetCounter())
 {
+	counter->SetUIPointsCp(this);
+
 	const auto pointsObserver = std::make_shared<PointsObserver>(counter, this);
 	GetSubject()->Attach(pointsObserver);
 }
 
 UILivesCp::UILivesCp(GameObject* owner, const std::string& text, std::shared_ptr<Font> font, const SDL_Color& color,
-                     LivesCp* counter) :
-	UICounterCp(owner, text, font, color, counter)
+                     PlayerLivesCp* counter) :
+	UICounterCp(owner, text, font, color, counter->GetCounter())
 {
+	counter->SetUILivesCp(this);
+
 	const auto livesObserver = std::make_shared<LivesObserver>(counter, this);
 	GetSubject()->Attach(livesObserver);
 

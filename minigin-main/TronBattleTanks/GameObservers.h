@@ -1,6 +1,8 @@
 #pragma once
 #include "GameObserverEvents.h"
 #include "Observers.h"
+#include "PointsCp.h"
+#include "PlayerLivesCp.h"
 #include "UICp.h"
 
 namespace dae
@@ -11,7 +13,7 @@ namespace dae
 class LivesObserver : public dae::Observer
 {
 public:
-	LivesObserver(LivesCp* livesCp, dae::UILivesCp* UILivesCp) :
+	LivesObserver(PlayerLivesCp* livesCp, dae::UILivesCp* UILivesCp) :
 		m_pLivesCp(livesCp), m_pUILivesCp(UILivesCp)
 	{}
 
@@ -26,12 +28,13 @@ public:
 	{
 		//m_pLivesCp->ChangeAmount(-1);
 		if (!dynamic_cast<PlayerHitEvent*>(event.get())) return;
-		
+
+		m_pLivesCp->ChangeAmount(-1);
 		m_pUILivesCp->SetValueText(std::to_string(m_pLivesCp->GetAmount()));
 	}
 
 private:
-	LivesCp* m_pLivesCp{};
+	PlayerLivesCp* m_pLivesCp{};
 	dae::UILivesCp* m_pUILivesCp{};
 };
 
@@ -52,13 +55,13 @@ public:
 	{
 		if (dynamic_cast<BlueTankKilledEvent*>(event.get()))
 		{
-			m_pPointsCp->ChangeAmount(100);
+			m_pPointsCp->GetCounter()->ChangeAmount(100);
 		}
 		else if (dynamic_cast<RecognizerKilledEvent*>(event.get()))
 		{
-			m_pPointsCp->ChangeAmount(250);
+			m_pPointsCp->GetCounter()->ChangeAmount(250);
 		}
-		m_pUIPointsCp->SetValueText(std::to_string(m_pPointsCp->GetAmount()));
+		m_pUIPointsCp->SetValueText(std::to_string(m_pPointsCp->GetCounter()->GetAmount()));
 	}
 
 private:

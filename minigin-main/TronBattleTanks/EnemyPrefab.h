@@ -7,6 +7,7 @@
 #include "CollisionCp.h"
 #include "AIComponent.h"
 #include "AIRecognizerCp.h"
+#include "EnemyHealthCp.h"
 #include "MoveCp.h"
 
 static dae::GameObject* CreateBlueEnemy(dae::Scene& scene)
@@ -24,13 +25,13 @@ static dae::GameObject* CreateBlueEnemy(dae::Scene& scene)
 	pTank->AddComponent(collisionCp);
 	collisionCp->AddCollider(pTank.get());
 
-	const auto healthCp = std::make_shared<HealthCp>(pTank.get(), 3);
+	const auto healthCp = std::make_shared<EnemyHealthCp>(pTank.get(), 3);
 	pTank->AddComponent(healthCp);
 
 	const auto bulletCollisionCp = std::make_shared<BulletCollisionCp>(pTank.get());
 	pTank->AddComponent(bulletCollisionCp);
 
-	const auto bulletManagerCP = std::make_shared<BulletManagerCp>(pTank.get());
+	const auto bulletManagerCP = std::make_shared<BulletManagerCp>(pTank.get(), 160.f);
 	pTank->AddComponent(bulletManagerCP);
 
 	const auto pAICp = std::make_shared<AIComponent>(pTank.get());
@@ -68,7 +69,7 @@ static dae::GameObject* CreateRecognizer(dae::Scene& scene)
 	pTank->AddComponent(collisionCp);
 	collisionCp->AddCollider(pTank.get());
 
-	const auto healthCp = std::make_shared<HealthCp>(pTank.get(), 3);
+	const auto healthCp = std::make_shared<EnemyHealthCp>(pTank.get(), 3);
 	pTank->AddComponent(healthCp);
 
 	const auto bulletCollisionCp = std::make_shared<BulletCollisionCp>(pTank.get(), 250);

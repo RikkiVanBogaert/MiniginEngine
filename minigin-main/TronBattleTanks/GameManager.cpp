@@ -1,6 +1,6 @@
 #include "GameManager.h"
 
-#include "DerCounterCps.h"
+
 #include "EnemyPrefab.h"
 #include "GameHelpers.h"
 #include "SceneManager.h"
@@ -8,9 +8,11 @@
 #include "Scene.h"
 #include "GameObject.h"
 #include "LevelPrefab.h"
-#include "Subject.h"
+#include "PointsCp.h"
+#include "PlayerLivesCp.h"
 #include "TextureComponent.h"
 #include "UICp.h"
+#include "Subject.h"
 
 using namespace dae;
 
@@ -52,6 +54,7 @@ void GameManager::LevelCreate()
 
 	//Player 1 Lives
 	const auto pLivesObject = std::make_shared<GameObject>();
+	pLivesObject->SetTag("RedPlayer");
 	pLivesObject->SetRelativePos({ 5, 250 });
 
 	//Player 2 Lives
@@ -119,11 +122,11 @@ void GameManager::LevelCreate()
 	pPointObject->AddComponent(pPointText);
 
 	const auto pLivesText = std::make_shared<UILivesCp>(pLivesObject.get(), "Lives: ", font,
-		SDL_Color{ 255, 0, 0, 255 }, GetPlayers()[0]->GetComponent<LivesCp>());
+		SDL_Color{ 255, 0, 0, 255 }, GetPlayers()[0]->GetComponent<PlayerLivesCp>());
 	pLivesObject->AddComponent(pLivesText);
 
 	const auto pLivesText2 = std::make_shared<UILivesCp>(pLivesObject2.get(), "Lives: ", font,
-		SDL_Color{ 255, 255, 0, 255 }, GetPlayers()[1]->GetComponent<LivesCp>());
+		SDL_Color{ 255, 255, 0, 255 }, GetPlayers()[1]->GetComponent<PlayerLivesCp>());
 	pLivesObject2->AddComponent(pLivesText2);
 
 
@@ -133,8 +136,8 @@ void GameManager::ResetPlayerVars()
 {
 	for(auto p : GetPlayers())
 	{
-		p->GetComponent<PointsCp>()->SetAmount(0);
-		p->GetComponent<LivesCp>()->SetAmount(3);
+		p->GetComponent<PointsCp>()->GetCounter()->SetAmount(0);
+		p->GetComponent<PlayerLivesCp>()->SetAmount(3);
 	}
 }
 

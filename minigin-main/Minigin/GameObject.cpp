@@ -94,6 +94,7 @@ void GameObject::AddChild(const std::shared_ptr<GameObject>& child)
 void GameObject::RemoveChild(GameObject* child)
 {
 	m_pChildren.erase(std::remove(m_pChildren.begin(), m_pChildren.end(), child), m_pChildren.end());
+	//don't remove from scene, just from parent
 }
 
 std::vector<GameObject*> GameObject::GetChildren() const
@@ -143,7 +144,7 @@ void GameObject::SetRelativePos(const glm::vec2& pos)
 		m_WorldTransform = m_RelativeTransform;
 	}
 
-	SetFlag();
+	SetDirtyFlag();
 }
 
 void GameObject::UpdateWorldPos()
@@ -155,12 +156,12 @@ void GameObject::UpdateWorldPos()
 	m_WorldTransform = m_pParent->GetWorldTransform() + m_RelativeTransform;
 }
 
-void GameObject::SetFlag()
+void GameObject::SetDirtyFlag()
 {
 	m_DirtyFlag = true;
-	for (auto child : m_pChildren)
+	for (const auto child : m_pChildren)
 	{
-		child->SetFlag();
+		child->SetDirtyFlag();
 	}
 }
 

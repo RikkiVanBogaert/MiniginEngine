@@ -21,12 +21,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GameManager.cpp">
-      <Filter>Other Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GameCommands.cpp">
-      <Filter>Other Files</Filter>
-    </ClCompile>
     <ClCompile Include="AIComponent.cpp">
       <Filter>Game Files\Components</Filter>
     </ClCompile>
@@ -51,7 +45,7 @@
     <ClCompile Include="UICp.cpp">
       <Filter>Game Files\Components</Filter>
     </ClCompile>
-    <ClCompile Include="DerCounterCps.cpp">
+    <ClCompile Include="EnemyHealthCp.cpp">
       <Filter>Game Files\Components</Filter>
     </ClCompile>
     <ClCompile Include="MoveCp.cpp">
@@ -69,19 +63,22 @@
     <ClCompile Include="TeleportCp.cpp">
       <Filter>Game Files\Components</Filter>
     </ClCompile>
+    <ClCompile Include="GameCommands.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerLivesCp.cpp">
+      <Filter>Game Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="PointsCp.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameManager.h">
-      <Filter>Other Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameCommands.h">
-      <Filter>Other Files</Filter>
-    </ClInclude>
     <ClInclude Include="AIComponent.h">
       <Filter>Game Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Sounds.h">
-      <Filter>Other Files</Filter>
     </ClInclude>
     <ClInclude Include="LevelPrefab.h">
       <Filter>Game Files\Prefabs</Filter>
@@ -91,9 +88,6 @@
     </ClInclude>
     <ClInclude Include="SpawnPositionCp.h">
       <Filter>Game Files\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="GameHelpers.h">
-      <Filter>Other Files</Filter>
     </ClInclude>
     <ClInclude Include="BulletManagerCp.h">
       <Filter>Game Files\Components</Filter>
@@ -119,7 +113,7 @@
     <ClInclude Include="UICp.h">
       <Filter>Game Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="DerCounterCps.h">
+    <ClInclude Include="EnemyHealthCp.h">
       <Filter>Game Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="MoveCp.h">
@@ -151,6 +145,24 @@
     </ClInclude>
     <ClInclude Include="GameObserverEvents.h">
       <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameCommands.h">
+      <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameHelpers.h">
+      <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sounds.h">
+      <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerLivesCp.h">
+      <Filter>Game Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="PointsCp.h">
+      <Filter>Other Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

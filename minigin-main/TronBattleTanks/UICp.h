@@ -7,9 +7,9 @@
 #include "CounterCp.h"
 #include "ObserverEvent.h"
 
-class LivesCp;
-class HealthCp;
 class PointsCp;
+class PlayerLivesCp;
+class HealthCp;
 
 namespace dae
 {
@@ -63,7 +63,7 @@ namespace dae
 	{
 	public:
 		UILivesCp(GameObject* owner, const std::string& text, std::shared_ptr<Font> font,
-			const SDL_Color& color, LivesCp* counter);
+			const SDL_Color& color, PlayerLivesCp* counter);
 	};
 
 }

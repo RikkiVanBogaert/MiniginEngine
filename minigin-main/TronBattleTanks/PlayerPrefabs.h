@@ -5,7 +5,6 @@
 #include "BulletCollisionCp.h"
 #include "BulletManagerCp.h"
 #include "CollisionCp.h"
-#include "DerCounterCps.h"
 #include "GameCommands.h"
 #include "InputManager.h"
 #include "MoveCp.h"
@@ -13,6 +12,8 @@
 #include "Scene.h"
 #include "TextureComponent.h"
 #include "GunPrefab.h"
+#include "PlayerLivesCp.h"
+#include "PointsCp.h"
 
 namespace dae
 {
@@ -42,7 +43,7 @@ namespace dae
 		pTank->AddComponent(points);
 
 		//Health
-		const auto health = std::make_shared<LivesCp>(pTank.get(), 3);
+		const auto health = std::make_shared<PlayerLivesCp>(pTank.get(), 3);
 		pTank->AddComponent(health);
 
 
@@ -107,7 +108,7 @@ namespace dae
 		pTank->AddComponent(points);
 
 		//Health
-		const auto health = std::make_shared<LivesCp>(pTank.get(), 3);
+		const auto health = std::make_shared<PlayerLivesCp>(pTank.get(), 3);
 		pTank->AddComponent(health);
 
 

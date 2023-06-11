@@ -5,6 +5,7 @@
 #include "InputManager.h"
 #include "HighScoresCp.h"
 #include "GameManager.h"
+#include "PointsCp.h"
 #include "ResourceManager.h"
 #include "Scene.h"
 #include "UICp.h"
@@ -51,7 +52,7 @@ namespace dae
 		int score{};
 		for (const auto& p : GameManager::GetInstance().GetPlayers())
 		{
-			score += p->GetComponent<PointsCp>()->GetAmount();
+			score += p->GetComponent<PointsCp>()->GetCounter()->GetAmount();
 		}
 		const auto scoreText = std::make_shared<TextComponent>(scoreObj.get(), std::to_string(score), smallFont, SDL_Color{ 255, 255, 255, 255 });
 		scoreObj->SetRelativePos({ 90, 250 });

@@ -2,8 +2,9 @@
 
 #include "BulletCp.h"
 #include "CollisionCp.h"
-#include "CounterCp.h"
-#include "DerCounterCps.h"
+#include "EnemyHealthCp.h"
+#include "PlayerLivesCp.h"
+#include "PointsCp.h"
 #include "GameHelpers.h"
 #include "GameObject.h"
 #include "Scene.h"
@@ -45,12 +46,22 @@ void BulletCollisionCp::Update(float )
 void BulletCollisionCp::GetHit(dae::GameObject* gun) const
 {
 	//Victim lives
-	const auto healthCp = GetOwner()->GetComponent<HealthCp>();
-	healthCp->ChangeAmount(-1);
-	if (const auto livesCp = GetComponentInScene<dae::UILivesCp>(GetOwner()->GetScene(), GetOwner()->GetTag()))
+	if (const auto livesCp = GetOwner()->GetComponent<PlayerLivesCp>())
 	{
+		//Player
+		const auto pUILives = livesCp->GetUILives();
+
 		const auto event = std::make_shared<PlayerHitEvent>();
-		livesCp->UpdateSubject(event);
+		pUILives->UpdateSubject(event);
+	}
+	else
+	{
+		//AI
+		const auto healthCp = GetOwner()->GetComponent<EnemyHealthCp>();
+		healthCp->ChangeAmount(-1);
+
+		//AI not dead
+		if (healthCp->GetAmount() > 0) return;
 	}
 
 	//bug: killing enemy when getting killed
@@ -59,19 +70,19 @@ void BulletCollisionCp::GetHit(dae::GameObject* gun) const
 	if(!gun->GetParent()) return;
 	if(!gun->GetParent()->GetComponent<PointsCp>()) return;
 
-	if (healthCp->GetAmount() > 0) return;
 
-	if (const auto pointsText = GetComponentInScene<dae::UIPointsCp>(GetOwner()->GetScene()))
+	if (const auto pointsCp = gun->GetParent()->GetComponent<PointsCp>())
 	{
+		const auto UIPoints = pointsCp->GetUIPoints();
 		if(GetOwner()->GetTag() == "BlueEnemy")
 		{
 			const auto event = std::make_shared<BlueTankKilledEvent>();
-			pointsText->UpdateSubject(event);
+			UIPoints->UpdateSubject(event);
 		}
 		else if (GetOwner()->GetTag() == "Recognizer")
 		{
 			const auto event = std::make_shared<RecognizerKilledEvent>();
-			pointsText->UpdateSubject(event);
+			UIPoints->UpdateSubject(event);
 		}
 	}
 	

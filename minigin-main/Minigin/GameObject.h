@@ -53,7 +53,7 @@ namespace dae
 
 		void SetRelativePos(const glm::vec2& pos);
 		void UpdateWorldPos();
-		void SetFlag();
+		void SetDirtyFlag();
 
 		glm::vec2 GetWorldTransform();
 		glm::vec2 GetRelativeTransform() const;

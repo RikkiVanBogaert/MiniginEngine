@@ -4,16 +4,14 @@
 namespace dae
 {
 
-	class CounterCp : public ComponentBase
+	class CounterCp final : public ComponentBase
 	{
 	public:
 		CounterCp(GameObject* owner, int startAmount);
 		
-		virtual void ChangeAmount(int difference);
-		virtual void SetAmount(int newAmount);
+		void ChangeAmount(int difference);
+		void SetAmount(int newAmount);
 		int GetAmount() const;
-
-	protected:
 		int GetCounter() const { return m_Counter; }
 
 	private:
