@@ -34,7 +34,7 @@ void BulletManagerCp::Shoot( const glm::vec2& vel, bool playerBullet)
 	auto& ss = dae::ServiceLocator::GetSoundSystem();
 	ss.Play(Sounds::Shoot, 100, 0, Sounds::Shoot);
 
-	const auto bulletVelocity = glm::normalize(vel) * m_BulletSpeed;
+	const auto bulletVelocity = normalize(vel) * m_BulletSpeed;
 	const auto pBullet = CreateBullet(*GetOwner()->GetScene(), GetOwner(), bulletVelocity, playerBullet);
 	pBullet->SetTag(GetOwner()->GetTag());
 

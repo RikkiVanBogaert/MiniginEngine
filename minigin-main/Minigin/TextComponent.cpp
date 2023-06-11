@@ -11,16 +11,16 @@ TextComponent::TextComponent(GameObject* owner, const std::string& text, const s
 	const SDL_Color& color = {255, 255, 255, 255}):
 ComponentBase(owner),
 m_Text(text), 
-m_Font(std::move(font)), 
-m_TextTexture(nullptr),
-m_Color{color}
+m_pFont(std::move(font)), 
+m_Color(color),
+m_pTextTexture(nullptr)
 {}
 
 void TextComponent::Update(float)
 {
 	if (m_NeedsUpdate)
 	{
-		const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), m_Text.c_str(), m_Color);
+		const auto surf = TTF_RenderText_Blended(m_pFont->GetFont(), m_Text.c_str(), m_Color);
 		if (surf == nullptr) 
 		{
 			throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
@@ -31,22 +31,22 @@ void TextComponent::Update(float)
 			throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
 		}
 		SDL_FreeSurface(surf);
-		m_TextTexture = std::make_shared<Texture2D>(texture);
+		m_pTextTexture = std::make_shared<Texture2D>(texture);
 		m_NeedsUpdate = false;
 	}
 }
 
-void dae::TextComponent::Render() const
+void TextComponent::Render() const
 {
-	if (m_TextTexture != nullptr)
+	if (m_pTextTexture != nullptr)
 	{
 		const auto& pos = GetOwner()->GetWorldTransform();
-		Renderer::GetInstance().RenderTexture(*m_TextTexture, pos.x, pos.y);
+		Renderer::GetInstance().RenderTexture(*m_pTextTexture, pos.x, pos.y);
 	}
 }
 
 // This implementation uses the "dirty flag" pattern
-void dae::TextComponent::SetText(const std::string& text)
+void TextComponent::SetText(const std::string& text)
 {
 	m_Text = text;
 	m_NeedsUpdate = true;

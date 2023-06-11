@@ -136,7 +136,7 @@ void GameManager::ResetPlayerVars()
 {
 	for(auto p : GetPlayers())
 	{
-		p->GetComponent<PointsCp>()->GetCounter()->SetAmount(0);
+		p->GetComponent<PointsCp>()->SetAmount(0);
 		p->GetComponent<PlayerLivesCp>()->SetAmount(3);
 	}
 }

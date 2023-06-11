@@ -11,7 +11,7 @@
 
 AIComponent::AIComponent(dae::GameObject* owner):
 	ComponentBase(owner),
-	m_ShootTime{3}
+	m_ShootDelay{3}
 {
 }
 
@@ -47,7 +47,7 @@ void AIComponent::UpdateShootTimer(float deltaTime)
 
 	m_ShootTimer += deltaTime;
 
-	if(m_ShootTimer >= m_ShootTime)
+	if(m_ShootTimer >= m_ShootDelay)
 	{
 		m_ShootTimer = 0;
 		m_HasShot = false;
@@ -57,7 +57,7 @@ void AIComponent::UpdateShootTimer(float deltaTime)
 bool AIComponent::PlayerInSight(glm::vec2& bulletDir) const
 {
 	const glm::vec2 start{ m_pClosestPlayer->GetWorldTransform() };
-	glm::vec2 end{ GetOwner()->GetWorldTransform() };
+	const glm::vec2 end{ GetOwner()->GetWorldTransform() };
 	const float playerSize{ m_pClosestPlayer->GetSize().x / 2 };
 	const glm::vec2 tankMidPos{ start.x + playerSize / 2, start.y + playerSize / 2 };
 
@@ -74,8 +74,6 @@ bool AIComponent::PlayerInSight(glm::vec2& bulletDir) const
 	bulletDir = { playerDirNormalized.x * bulletSpeed, playerDirNormalized.y * bulletSpeed };
 	return true;
 
-	//Still need to check whether there is wall between enemy and player---
-	//if(!m_pLevelCollision->CollisionHit(GetOwner(), playerPos))
 }
 
 void AIComponent::GoToPlayer(float) const
@@ -124,7 +122,6 @@ void AIComponent::GoToPlayer(float) const
 
 void AIComponent::GetClosestPlayer()
 {
-	//check closest player
 	float closestDistance{ INFINITY };
 
 	for (const auto& p : m_pPlayers)

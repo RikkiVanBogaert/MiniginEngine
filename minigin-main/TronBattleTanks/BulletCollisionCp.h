@@ -17,6 +17,6 @@ private:
 	CollisionCp* m_pCollisionCp;
 	const int m_PointsGivenOnKill;
 
-	void GetHit(dae::GameObject* gun) const;
+	void GetHit(const dae::GameObject* gun) const;
 };
 

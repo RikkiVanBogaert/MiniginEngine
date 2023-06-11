@@ -27,10 +27,10 @@ public:
 
 private:
 
-	bool m_HasInit{};
-	bool m_HasShot{};
+	const float m_ShootDelay{};
 	float m_ShootTimer{};
-	float m_ShootTime{};
+	bool m_HasShot{};
+	bool m_HasInit{};
 	std::vector<std::shared_ptr<dae::GameObject>> m_pPlayers;
 	dae::GameObject* m_pClosestPlayer{};
 	CollisionCp* m_pLevelCollision{};

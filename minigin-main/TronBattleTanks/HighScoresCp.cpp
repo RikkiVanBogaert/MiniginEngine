@@ -11,14 +11,11 @@
 #include "Renderer.h"
 
 
-namespace dae
-{
-	class Font;
-}
+using namespace dae;
 
-HighScoresCp::HighScoresCp(dae::GameObject* owner, const std::string&, const std::shared_ptr<dae::Font>& font, const SDL_Color& color):
+HighScoresCp::HighScoresCp(GameObject* owner, const std::shared_ptr<Font>& font, const SDL_Color& color):
 ComponentBase(owner),
-m_pText{ std::make_unique<dae::TextComponent>(owner, "...", font, color) }
+m_pText{ std::make_unique<TextComponent>(owner, "...", font, color) }
 {}
 
 void HighScoresCp::Update(float deltaTime)
@@ -36,7 +33,7 @@ void HighScoresCp::Render() const
 void HighScoresCp::EnterName(float deltaTime)
 {
     if (m_NameSet) return;
-    //m_Name = " ";
+    
 	if(m_Timer < 1)
     {
 		m_Name = " ";
@@ -52,8 +49,7 @@ void HighScoresCp::EnterName(float deltaTime)
         {
             if (e.type == SDL_QUIT || e.type == SDLK_ESCAPE) 
             {
-                quit = true; //bug: memory leaks when calling this before name typed
-                //std::exit(0);
+                quit = true; 
             }
             if (e.type == SDL_KEYUP)
             {
@@ -71,36 +67,35 @@ void HighScoresCp::EnterName(float deltaTime)
             {
                 m_Name += e.text.text;
             }
-        	//std::cout << m_Name << '\n';
             if(!m_Name.empty())
             	m_pText->SetText(m_Name);
         }
         m_pText->Update(deltaTime);
         m_pText->Render();
-        dae::Renderer::GetInstance().Render();
+        Renderer::GetInstance().Render();
     }
 
     m_pText->SetText(m_Name);
     m_NameSet = true;
 
-    const auto explanationText = GetComponentInScene<dae::TextComponent>(GetOwner()->GetScene(), "Explanation");
+    const auto explanationText = GetComponentInScene<TextComponent>(GetOwner()->GetScene(), "Explanation");
     explanationText->SetText("Reset Game (R/Button B)");
 
     WriteToHighScores(m_Name);
-    SortAndPrintNames("../Data/Resources/HighScores.txt");
+    SortAndGetNames("../Data/Resources/HighScores.txt");
     ShowHighScores();
 }
 
 void HighScoresCp::WriteToHighScores(const std::string& name) const
 {
-    const auto score = GetComponentInScene<dae::TextComponent>(GetOwner()->GetScene(), "Score")->GetText();
+    const auto score = GetComponentInScene<TextComponent>(GetOwner()->GetScene(), "Score")->GetText();
 
     const std::string text{ score + ", " + name };
     WriteTextToFile("../Data/Resources/HighScores.txt", text);
 }
 
 
-void HighScoresCp::SortAndPrintNames(const std::string& filename)
+void HighScoresCp::SortAndGetNames(const std::string& filename)
 {
     std::ifstream file(filename);
     std::string line;
@@ -133,7 +128,7 @@ void HighScoresCp::ShowHighScores() const
     for (int i{}; i < GetAmountHighScores(); ++i)
     {
         const auto o = GetGameObject(GetOwner()->GetScene(), "HighScore" + std::to_string(i));
-        const auto textCp = o->GetComponent<dae::TextComponent>();
+        const auto textCp = o->GetComponent<TextComponent>();
         const std::string text = std::to_string(m_HighScores[i].score) + " - " + m_HighScores[i].name;
         textCp->SetText(text);
     }
@@ -143,7 +138,7 @@ int HighScoresCp::GetAmountHighScores() const
 {
     int amountHighScoresShown{};
     while(GetGameObject(GetOwner()->GetScene(), "HighScore" + std::to_string(amountHighScoresShown)) &&
-        amountHighScoresShown < int(m_HighScores.size()))
+        amountHighScoresShown < static_cast<int>(m_HighScores.size()))
     {
         ++amountHighScoresShown;
     }

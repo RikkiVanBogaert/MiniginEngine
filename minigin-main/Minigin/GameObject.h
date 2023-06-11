@@ -14,8 +14,16 @@ namespace dae
 	class GameObject final
 	{
 	public:
-		void Update(float deltaTime);
-		void FixedUpdate(float deltaTime);
+		GameObject(const std::string& tag = "noTag");
+		~GameObject() = default;
+
+		GameObject(const GameObject& other) = delete;
+		GameObject(GameObject&& other) = delete;
+		GameObject& operator=(const GameObject& other) = delete;
+		GameObject& operator=(GameObject&& other) = delete;
+
+		void Update(float deltaTime) const;
+		void FixedUpdate(float deltaTime) const;
 		void Render() const;
 
 		void AddComponent(const std::shared_ptr<ComponentBase>& component);
@@ -48,25 +56,24 @@ namespace dae
 			return cp;
 		}
 
+		//Parent/Children stuff
+		void SetParent(GameObject* parent);
+		GameObject* GetParent() const;
+		void AddChild(const std::shared_ptr<GameObject>& child);
+		void RemoveChild(const GameObject* child);
+		void RemoveAllChildren();
+		std::vector<std::shared_ptr<GameObject>> GetChildren() const;
+
 		void MarkForDeletion();
 		bool NeedsDeleting() const;
 
 		void SetRelativePos(const glm::vec2& pos);
 		void UpdateWorldPos();
 		void SetDirtyFlag();
-
 		glm::vec2 GetWorldTransform();
 		glm::vec2 GetRelativeTransform() const;
 		void SetSize(const glm::vec2& size) { m_Size = size; }
 		glm::vec2 GetSize() const { return m_Size; }
-
-		//Parent stuff
-		void SetParent(GameObject* parent);
-		GameObject* GetParent() const;
-		void AddChild(const std::shared_ptr<GameObject>& child);
-		void RemoveChild(GameObject* child);
-		void RemoveAllChildren();
-		std::vector<std::shared_ptr<GameObject>> GetChildren() const;
 
 		void SetTag(const std::string& tag) { m_Tag = tag; }
 		void SetTagIncludingChildren(const std::string& tag);
@@ -75,34 +82,23 @@ namespace dae
 		void SetScene(Scene* scene);
 		Scene* GetScene() const;
 
-		GameObject(const std::string& tag = "noTag");
-		~GameObject() = default;
-		GameObject(const GameObject& other) = delete;
-		GameObject(GameObject&& other) = delete;
-		GameObject& operator=(const GameObject& other) = delete;
-		GameObject& operator=(GameObject&& other) = delete;
-
 	
 	private:
-		Scene* m_pScene{};
+		std::string m_Tag{};
 
-		//Put all these in one Transform struct
-		glm::vec2 m_WorldTransform{};
-		glm::vec2 m_RelativeTransform{};
-		glm::vec2 m_Size{};
+		Scene* m_pScene{};
 
 		std::vector<std::shared_ptr<ComponentBase>> m_pComponents{};
 
 		GameObject* m_pParent{};
 		std::vector<std::shared_ptr<GameObject>> m_pChildren{};
 
-		bool m_NeedsDeleting{};
-
+		glm::vec2 m_WorldTransform{};
+		glm::vec2 m_RelativeTransform{};
+		glm::vec2 m_Size{};
 		bool m_DirtyFlag{ false };
 
-		std::string m_Tag{};
-
-
+		bool m_NeedsDeleting{};
 
 	};
 }

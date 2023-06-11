@@ -23,7 +23,7 @@ namespace dae
 		std::vector<std::shared_ptr<GameObject>> GetGameObjects() {	return m_pObjects; }
 		
 		void SetActive(bool isActive) { m_IsActive = isActive; }
-		bool IsActive() { return m_IsActive; }
+		bool IsActive() const { return m_IsActive; }
 
 		~Scene();
 		Scene(const Scene& other) = delete;

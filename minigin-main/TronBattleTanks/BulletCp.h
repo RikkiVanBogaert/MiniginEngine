@@ -15,8 +15,8 @@ public:
 	glm::vec2 GetVelocity() const { return m_Velocity; }
 
 private:
-	dae::GameObject* m_pShooter;
-	glm::vec2 m_Velocity;
+	dae::GameObject* m_pShooter{};
+	glm::vec2 m_Velocity{};
 	CollisionCp* m_pCollisionCp{};
 	int m_AmountBounces{};
 };

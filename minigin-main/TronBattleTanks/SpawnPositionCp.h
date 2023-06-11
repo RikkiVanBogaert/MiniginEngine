@@ -4,7 +4,7 @@
 
 #include "BaseComponent.h"
 
-class SpawnPositionCp  : public dae::ComponentBase
+class SpawnPositionCp : public dae::ComponentBase
 {
 public:
 	SpawnPositionCp(dae::GameObject* owner);

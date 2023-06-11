@@ -6,8 +6,6 @@
 #include "GameObject.h"
 
 
-class Level;
-
 class MoveCommand final : public dae::Command
 {
 public:
@@ -24,7 +22,6 @@ private:
 	bool CheckAllMoveDirections(glm::vec2& moveDir) const;
 };
 
-class Tank;
 
 class ShootCommand final : public dae::Command
 {
@@ -45,7 +42,6 @@ class SkipLevelCommand final : public dae::Command
 public:
 	SkipLevelCommand() = default;
 	virtual void Execute(bool) override;
-
 };
 
 class StartGameCommand final : public dae::Command
@@ -53,7 +49,6 @@ class StartGameCommand final : public dae::Command
 public:
 	StartGameCommand() = default;
 	virtual void Execute(bool) override;
-
 };
 
 

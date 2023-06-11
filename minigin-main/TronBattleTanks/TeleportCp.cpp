@@ -14,20 +14,19 @@ m_TeleportPlaceIdxs(teleportPlaces)
 
 void TeleportCp::Update(float)
 {
-	for (auto p : GameManager::GetInstance().GetPlayers())
+	for (const auto& p : GameManager::GetInstance().GetPlayers())
 	{
 		if (!p->GetScene()->IsActive()) continue;
 
 		if (m_pCollisionCp->DoesOverlap(p.get()))
 		{
 			//Teleport
-			std::cout << "TELEPORT\n";
 			p->SetRelativePos(GetRandomPos());
 		}
 	}
 }
 
-glm::vec2 TeleportCp::GetRandomPos()
+glm::vec2 TeleportCp::GetRandomPos() const
 {
 	glm::vec2 pos{};
 

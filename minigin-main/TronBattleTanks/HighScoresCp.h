@@ -15,7 +15,7 @@ namespace dae
 class HighScoresCp final : public dae::ComponentBase
 {
 public:
-	HighScoresCp(dae::GameObject* owner, const std::string& text, const std::shared_ptr<dae::Font>& font, const SDL_Color& color);
+	HighScoresCp(dae::GameObject* owner, const std::shared_ptr<dae::Font>& font, const SDL_Color& color);
 
 	void Update(float deltaTime) override;
 	void Render() const override;
@@ -36,7 +36,7 @@ private:
 
 	void EnterName(float deltaTime);
 	void WriteToHighScores(const std::string& name) const;
-	void SortAndPrintNames(const std::string& filename);
+	void SortAndGetNames(const std::string& filename);
 	void ShowHighScores() const;
 	int GetAmountHighScores() const;
 

@@ -26,12 +26,12 @@ void FPSComponent::Render() const
 void FPSComponent::UpdateFPS(float) const
 {
 	static std::chrono::time_point<std::chrono::steady_clock> oldTime = std::chrono::high_resolution_clock::now();
-	static int fps;
+	static int fps{};
 	fps++;
 
-	if (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - oldTime) >= std::chrono::seconds{ 1 }) {
+	if (std::chrono::duration_cast<std::chrono::seconds>(std::chrono::high_resolution_clock::now() - oldTime) >= std::chrono::seconds{ 1 }) 
+	{
 		oldTime = std::chrono::high_resolution_clock::now();
-		//std::cout << "FPS: " << fps << std::endl;
 		m_pTextCp->SetText("FPS: " + std::to_string(fps));
 		fps = 0;
 	}

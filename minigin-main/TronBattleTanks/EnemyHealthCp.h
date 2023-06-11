@@ -15,9 +15,7 @@ namespace dae
 class EnemyHealthCp final : public dae::ComponentBase
 {
 public:
-	EnemyHealthCp(dae::GameObject* owner, int startAmount) :
-		ComponentBase(owner),
-		m_pCounterCp(std::make_unique<dae::CounterCp>(owner, startAmount)) {}
+	EnemyHealthCp(dae::GameObject* owner, int startAmount);
 
 	void ChangeAmount(int difference) const;
 	void SetAmount(int newHealth) const;

@@ -4,6 +4,10 @@
 #include "UICp.h"
 
 
+EnemyHealthCp::EnemyHealthCp(dae::GameObject* owner, int startAmount):
+	ComponentBase(owner),
+	m_pCounterCp(std::make_unique<dae::CounterCp>(owner, startAmount)) {}
+
 void EnemyHealthCp::ChangeAmount(int difference) const
 {
 	m_pCounterCp->ChangeAmount(difference);

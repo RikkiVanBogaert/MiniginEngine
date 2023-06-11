@@ -14,5 +14,4 @@ SpawnPositionCp(owner)
 
 RecognizerSpawnPosCp::RecognizerSpawnPosCp(dae::GameObject* owner):
 SpawnPositionCp(owner)
-{
-}
+{}

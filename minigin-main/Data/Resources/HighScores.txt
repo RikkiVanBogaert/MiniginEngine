@@ -43,3 +43,5 @@
 0,  waaa
 100,  yut
 100,  wow
+0,  sdew
+400,  prettygood

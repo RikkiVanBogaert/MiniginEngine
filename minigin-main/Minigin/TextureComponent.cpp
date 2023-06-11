@@ -11,12 +11,12 @@ ComponentBase(owner)
 
 void TextureComponent::Render() const
 {
-	dae::Renderer::GetInstance().RenderTexture(*m_Texture, GetOwner()->GetWorldTransform().x, GetOwner()->GetWorldTransform().y);
+	Renderer::GetInstance().RenderTexture(*m_pTexture, GetOwner()->GetWorldTransform().x, GetOwner()->GetWorldTransform().y);
 }
 
 void TextureComponent::SetTexture(const std::string& filename)
 {
-	m_Texture = ResourceManager::GetInstance().GetTexture(filename);
-	GetOwner()->SetSize(m_Texture->GetSize());
+	m_pTexture = ResourceManager::GetInstance().GetTexture(filename);
+	GetOwner()->SetSize(m_pTexture->GetSize());
 }
 

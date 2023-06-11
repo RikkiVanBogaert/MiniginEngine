@@ -11,9 +11,7 @@
 AIRecognizerCp::AIRecognizerCp(dae::GameObject* owner) :
 	ComponentBase(owner),
 	m_State(std::make_shared<WanderState>(this))
-{
-	//m_State->SetAiCpState(this);
-}
+{}
 
 
 void AIRecognizerCp::Init()
@@ -34,7 +32,6 @@ void AIRecognizerCp::Update(float deltaTime)
 void AIRecognizerCp::SetState(const std::shared_ptr<RecognizerState>& newState)
 {
 	m_State = newState;
-	//m_State->SetAiCpState(this);
 }
 
 bool RecognizerState::PlayerInSight(dae::GameObject* gameObject, const std::vector<std::shared_ptr<dae::GameObject>>& players)
@@ -42,7 +39,7 @@ bool RecognizerState::PlayerInSight(dae::GameObject* gameObject, const std::vect
 	for (const auto& p : players)
 	{
 		const glm::vec2 playerPos{ p->GetWorldTransform() };
-		glm::vec2 pos{ gameObject->GetWorldTransform() };
+		const glm::vec2 pos{ gameObject->GetWorldTransform() };
 		const float playerSize{ p->GetSize().x / 2 };
 		const glm::vec2 tankMidPos{ playerPos.x + playerSize / 2, playerPos.y + playerSize / 2 };
 
@@ -56,8 +53,6 @@ bool RecognizerState::PlayerInSight(dae::GameObject* gameObject, const std::vect
 	}
 	return false;
 
-	//Still need to check whether there is wall between enemy and player---
-	//if(!m_pLevelCollision->CollisionHit(m_pOwner, playerPos))
 }
 
 void WanderState::Update(dae::GameObject* gameObject, float ,
@@ -112,7 +107,7 @@ void AttackState::UpdateShootTimer(float deltaTime)
 
 	m_ShootTimer += deltaTime;
 
-	if (m_ShootTimer >= m_ShootTime)
+	if (m_ShootTimer >= m_ShootDelay)
 	{
 		m_ShootTimer = 0;
 		m_HasShot = false;

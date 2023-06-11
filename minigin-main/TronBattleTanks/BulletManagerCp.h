@@ -12,8 +12,8 @@ public:
 	void Shoot( const glm::vec2& vel, bool playerBullet = true);
 
 private:
+	const float m_BulletSpeed{};
 	float m_Timer{};
 	bool m_HasShot{};
-	const float m_BulletSpeed;
 };
 

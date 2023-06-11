@@ -159,6 +159,7 @@
     <ClCompile Include="CollisionCp.cpp" />
     <ClCompile Include="EnemyHealthCp.cpp" />
     <ClCompile Include="GameCommands.cpp" />
+    <ClCompile Include="GameObservers.cpp" />
     <ClCompile Include="LevelInfoCp.cpp" />
     <ClCompile Include="MoveCp.cpp" />
     <ClCompile Include="HighScoresCp.cpp" />
@@ -187,7 +188,6 @@
     <ClInclude Include="LevelPrefab.h" />
     <ClInclude Include="EnemyPrefab.h" />
     <ClInclude Include="GameCommands.h" />
-    <ClInclude Include="GameHelpers.h" />
     <ClInclude Include="MainMenuPrefab.h" />
     <ClInclude Include="MoveCp.h" />
     <ClInclude Include="HighScoresCp.h" />

@@ -48,13 +48,20 @@ private:
 class RecognizerState
 {
 public:
-	RecognizerState(AIRecognizerCp* cp = nullptr): m_pAICp(cp){}
+	RecognizerState(AIRecognizerCp* cp = nullptr):
+	m_pAICp(cp){}
 	virtual ~RecognizerState() = default;
-	virtual void Update(dae::GameObject* gameObject, float deltaTime, 
-		std::vector<std::shared_ptr<dae::GameObject>> players, CollisionCp* levelCollision, BulletManagerCp* bulletManager) = 0; //pass everything by argument
 
-	static std::shared_ptr<WanderState> m_WanderState;
-	static std::shared_ptr<AttackState> m_AttackState;
+	RecognizerState(const RecognizerState& other) = delete;
+	RecognizerState(RecognizerState&& other) = delete;
+	RecognizerState& operator=(const RecognizerState& other) = delete;
+	RecognizerState& operator=(RecognizerState&& other) = delete;
+
+	virtual void Update(dae::GameObject* gameObject, float deltaTime, 
+		std::vector<std::shared_ptr<dae::GameObject>> players, CollisionCp* levelCollision, BulletManagerCp* bulletManager) = 0;
+
+	static std::shared_ptr<WanderState> m_pWanderState;
+	static std::shared_ptr<AttackState> m_pAttackState;
 
 protected:
 	bool PlayerInSight(dae::GameObject* gameObject, const std::vector<std::shared_ptr<dae::GameObject>>& players);
@@ -69,27 +76,29 @@ private:
 class WanderState final : public RecognizerState
 {
 public:
-	WanderState(AIRecognizerCp* cp = nullptr) : RecognizerState(cp) {}
+	WanderState(AIRecognizerCp* cp = nullptr) :
+	RecognizerState(cp) {}
 	void Update(dae::GameObject* gameObject, float deltaTime, 
 		std::vector<std::shared_ptr<dae::GameObject>> players, CollisionCp* levelCollision, BulletManagerCp* bulletManager) override;
 
 private:
-	glm::vec2 m_Direction{1,0};
+	glm::vec2 m_Direction{};
 };
 
 class AttackState final : public RecognizerState
 {
 public:
-	AttackState(AIRecognizerCp* cp = nullptr, const glm::vec2& shootDir = {0,0}): RecognizerState(cp), m_ShootDirection(shootDir) {}
+	AttackState(AIRecognizerCp* cp = nullptr, const glm::vec2& shootDir = {0,0}):
+	RecognizerState(cp), m_ShootDirection(shootDir) {}
 
 	void Update(dae::GameObject* gameObject, float deltaTime, 
 		std::vector<std::shared_ptr<dae::GameObject>> players, CollisionCp* levelCollision, BulletManagerCp* bulletManager) override;
 
 private:
-	glm::vec2 m_ShootDirection;
+	const glm::vec2 m_ShootDirection{};
 	bool m_HasShot{};
 	float m_ShootTimer{};
-	const float m_ShootTime{3};
+	const float m_ShootDelay{3};
 
 	void UpdateShootTimer(float deltaTime);
 };

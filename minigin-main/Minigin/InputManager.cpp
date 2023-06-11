@@ -29,45 +29,6 @@ void InputManager::AddController(unsigned int id)
     m_Controllers.emplace_back(std::make_unique<Controller>(id));
 }
 
-void InputManager::RemoveController(unsigned int id)
-{
-	if (id >= m_Controllers.size()) return;
-
-	//m_Controllers.erase(m_Controllers.begin() + id);
-
-	//for(unsigned int i{id}; i < m_Controllers.size(); ++i)
-	//{
-	//	for (const auto& command : m_ControllerButtonCommands)
-	//	{
-	//		const unsigned int controllerId = command.first.first;
-	//		if (m_Controllers[i]->GetControllerIndex() == controllerId)
-	//		{
-	//			ControllerButtonKey newKey = std::make_pair(i, command.first.second);
-	//			// Remove the existing key-value pair
-	//			m_ControllerButtonCommands.erase(command.first);
-	//			// Insert the new key-value pair with the modified key
-	//			m_ControllerButtonCommands[newKey] = command.second;
-	//		}
-	//	}
-
-	//	for (const auto& command : m_ControllerStickCommands)
-	//	{
-	//		const unsigned int controllerId = command.first.first;
-	//		if (m_Controllers[i]->GetControllerIndex() == controllerId)
-	//		{
-	//			ControllerStickKey newKey = std::make_pair(i, command.first.second);
-	//			// Remove the existing key-value pair
-	//			m_ControllerStickCommands.erase(command.first);
-	//			// Insert the new key-value pair with the modified key
-	//			m_ControllerStickCommands[newKey] = command.second;
-	//		}
-	//	}
-
-	//	m_Controllers[i]->SetControllerIndex(i);
-	//}
-
-
-}
 
 void InputManager::BindControllerToCommand(unsigned int id, Controller::ControllerButton& button, const std::shared_ptr<Command>& command)
 {
@@ -148,11 +109,11 @@ void InputManager::ProcessInputControllers()
     }
 }
 
-void InputManager::ProcessInputKeyboard()
+void InputManager::ProcessInputKeyboard() const 
 {
 	const Uint8* pStates = SDL_GetKeyboardState(nullptr);
 
-	for (auto& keyCommand : m_KeyCommands)
+	for (const auto& keyCommand : m_KeyCommands)
 	{
 		if (pStates[keyCommand.first])
 		{
@@ -166,15 +127,15 @@ void InputManager::ProcessInputKeyboard()
 
 }
 
-void InputManager::UpdateControllers()
+void InputManager::UpdateControllers() const
 {
-    for (auto& controller : m_Controllers)
+    for (const auto& controller : m_Controllers)
     {
         controller->Update();
     }
 }
 
-glm::vec2 InputManager::GetControllerStickValues(unsigned controllerId, Controller::ControllerStick stick)
+glm::vec2 InputManager::GetControllerStickValues(unsigned controllerId, Controller::ControllerStick stick) const
 {
 	glm::vec2 dir;
 

@@ -8,30 +8,27 @@
 #include "GameHelpers.h"
 #include "GameObject.h"
 #include "Scene.h"
-#include "TextComponent.h"
 #include "UICp.h"
 #include "GameObserverEvents.h"
 
 BulletCollisionCp::BulletCollisionCp(dae::GameObject* owner, int pointsGivenOnKill):
 ComponentBase(owner),
+m_pCollisionCp(GetOwner()->GetComponent<CollisionCp>()),
 m_PointsGivenOnKill(pointsGivenOnKill)
-{
-	m_pCollisionCp = GetOwner()->GetComponent<CollisionCp>();
-}
+{}
 
 void BulletCollisionCp::Update(float )
 {
 	BulletCp* bulletCp{};
-	for(auto o : GetOwner()->GetScene()->GetGameObjects())
+	for (auto o : GetOwner()->GetScene()->GetGameObjects())
 	{
 		bulletCp = o->GetComponent<BulletCp>();
 		if (!bulletCp) continue;
-		if(o->GetTag() == GetOwner()->GetTag()) continue;
-		
+		if (o->GetTag() == GetOwner()->GetTag()) continue;
 
-		if(m_pCollisionCp->CollisionHit(o.get(), bulletCp->GetVelocity()))
+
+		if (m_pCollisionCp->CollisionHit(o.get(), bulletCp->GetVelocity()))
 		{
-			//bug: recognizer and blueTank can kill eachother - fixed
 			//check if not 2 enemies
 			if (o->GetTag() == "BlueEnemy" && GetOwner()->GetTag() == "Recognizer") return;
 			if (o->GetTag() == "Recognizer" && GetOwner()->GetTag() == "BlueEnemy") return;
@@ -40,10 +37,9 @@ void BulletCollisionCp::Update(float )
 			GetHit(bulletCp->GetShooter());
 		}
 	}
-	//bulletCp = nullptr;
 }
 
-void BulletCollisionCp::GetHit(dae::GameObject* gun) const
+void BulletCollisionCp::GetHit(const dae::GameObject* gun) const
 {
 	//Victim lives
 	if (const auto livesCp = GetOwner()->GetComponent<PlayerLivesCp>())
@@ -63,8 +59,6 @@ void BulletCollisionCp::GetHit(dae::GameObject* gun) const
 		//AI not dead
 		if (healthCp->GetAmount() > 0) return;
 	}
-
-	//bug: killing enemy when getting killed
 
 	//Shooter points
 	if(!gun->GetParent()) return;

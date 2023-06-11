@@ -3,6 +3,10 @@
 #include "GameManager.h"
 #include "GameOverPrefab.h"
 
+PlayerLivesCp::PlayerLivesCp(dae::GameObject* owner, int startAmount):
+	dae::ComponentBase(owner),
+	m_pCounterCp(std::make_unique<dae::CounterCp>(owner, startAmount)) {}
+
 void PlayerLivesCp::ChangeAmount(int difference) const
 {
 	m_pCounterCp->ChangeAmount(difference);

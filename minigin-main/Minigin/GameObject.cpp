@@ -10,20 +10,7 @@ GameObject::GameObject(const std::string& tag):
 	m_Tag{tag}
 {}
 
-
-void GameObject::AddComponent(const std::shared_ptr<ComponentBase>& component)
-{
-	m_pComponents.push_back(component);
-}
-
-
-void GameObject::RemoveComponent(const std::shared_ptr<ComponentBase>& component)
-{
-	m_pComponents.erase(std::remove(m_pComponents.begin(), m_pComponents.end(), component), m_pComponents.end());
-}
-
-
-void GameObject::Update(float deltaTime)
+void GameObject::Update(float deltaTime) const
 {
 	for (const auto& component : m_pComponents)
 	{
@@ -37,7 +24,7 @@ void GameObject::Update(float deltaTime)
 	}
 }
 
-void GameObject::FixedUpdate(float deltaTime)
+void GameObject::FixedUpdate(float deltaTime) const
 {
 	for (const auto& component : m_pComponents)
 	{
@@ -65,6 +52,19 @@ void GameObject::Render() const
 		child->Render();
 	}
 }
+
+
+void GameObject::AddComponent(const std::shared_ptr<ComponentBase>& component)
+{
+	m_pComponents.push_back(component);
+}
+
+
+void GameObject::RemoveComponent(const std::shared_ptr<ComponentBase>& component)
+{
+	m_pComponents.erase(std::remove(m_pComponents.begin(), m_pComponents.end(), component), m_pComponents.end());
+}
+
 
 void GameObject::SetParent(GameObject* parent)
 {
@@ -94,7 +94,7 @@ void GameObject::AddChild(const std::shared_ptr<GameObject>& child)
 	GetScene()->Add(child);
 }
 
-void GameObject::RemoveChild(GameObject* child)
+void GameObject::RemoveChild(const GameObject* child)
 {
 	m_pChildren.erase(std::remove_if(m_pChildren.begin(), m_pChildren.end(),
 		[&](const std::shared_ptr<GameObject>& ptr) {
@@ -110,29 +110,6 @@ void GameObject::RemoveAllChildren()
 std::vector<std::shared_ptr<GameObject>> GameObject::GetChildren() const
 {
 	return m_pChildren;
-}
-
-void GameObject::SetTagIncludingChildren(const std::string& tag)
-{
-	SetTag(tag);
-	for(const auto c : m_pChildren)
-	{
-		c->SetTag(tag);
-	}
-}
-
-void GameObject::SetScene(Scene* scene)
-{
-	m_pScene = scene;
-	for(const auto c : m_pChildren)
-	{
-		c->SetScene(scene);
-	}
-}
-
-dae::Scene* GameObject::GetScene() const 
-{
-	return m_pScene;
 }
 
 void GameObject::MarkForDeletion()
@@ -169,9 +146,9 @@ void GameObject::UpdateWorldPos()
 void GameObject::SetDirtyFlag()
 {
 	m_DirtyFlag = true;
-	for (const auto child : m_pChildren)
+	for (const auto& c : m_pChildren)
 	{
-		child->SetDirtyFlag();
+		c->SetDirtyFlag();
 	}
 }
 
@@ -190,3 +167,25 @@ glm::vec2 GameObject::GetRelativeTransform() const
 	return m_RelativeTransform;
 }
 
+void GameObject::SetTagIncludingChildren(const std::string& tag)
+{
+	SetTag(tag);
+	for (const auto& c : m_pChildren)
+	{
+		c->SetTag(tag);
+	}
+}
+
+void GameObject::SetScene(Scene* scene)
+{
+	m_pScene = scene;
+	for (const auto& c : m_pChildren)
+	{
+		c->SetScene(scene);
+	}
+}
+
+Scene* GameObject::GetScene() const
+{
+	return m_pScene;
+}

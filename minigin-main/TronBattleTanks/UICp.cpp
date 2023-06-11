@@ -48,7 +48,7 @@ PointsCp* counter) :
 	UICounterCp(owner, text, font, color),
 m_pPointsCp(counter)
 {
-	SetText(text + std::to_string(counter->GetCounter()->GetAmount()));
+	SetText(text + std::to_string(counter->GetAmount()));
 
 	counter->SetUIPointsCp(this);
 

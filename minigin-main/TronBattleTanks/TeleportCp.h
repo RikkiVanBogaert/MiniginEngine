@@ -17,6 +17,6 @@ private:
 	CollisionCp* m_pCollisionCp;
 	const std::vector<int> m_TeleportPlaceIdxs{};
 
-	glm::vec2 GetRandomPos();
+	glm::vec2 GetRandomPos() const;
 };
 

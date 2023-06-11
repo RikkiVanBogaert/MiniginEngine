@@ -209,6 +209,7 @@
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="FPSComponent.h" />
+    <ClInclude Include="GameHelpers.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="CounterCp.h" />
     <ClInclude Include="imgui\imconfig.h" />
@@ -252,7 +253,6 @@
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="Minigin.cpp" />
-    <ClCompile Include="Observers.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />

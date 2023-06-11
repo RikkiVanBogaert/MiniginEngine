@@ -28,51 +28,11 @@
 
 using namespace dae;
 
-void LoadDaeScene()
-{
-	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
-
-	const auto gameObj = std::make_shared<GameObject>();
-
-	const auto background = std::make_shared<TextureComponent>(gameObj.get());
-	background->SetTexture("background.tga");
-	gameObj->SetRelativePos({ 0, 0 });
-	gameObj->AddComponent(background);
-	scene.Add(gameObj);
-
-	const auto logoObj = std::make_shared<GameObject>();
-	const auto logo = std::make_shared<TextureComponent>(logoObj.get());
-	logo->SetTexture("logo.tga");
-	logoObj->SetRelativePos({ 216, 180 });
-	logoObj->AddComponent(logo);
-	scene.Add(logoObj);
-	gameObj->AddChild(logoObj);
-
-
-	const auto textObj = std::make_shared<GameObject>();
-	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	const auto to = std::make_shared<TextComponent>(textObj.get(), "Programming 4 Assignment", 
-		font, SDL_Color{ 255, 255, 255, 255 });
-	textObj->SetRelativePos({ 80, 20 });
-	textObj->AddComponent(to);
-	scene.Add(textObj);
-	gameObj->AddChild(textObj);
-
-
-	const auto fpsObj = std::make_shared<GameObject>();
-	auto fontFPS = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 15);
-	const auto fpsCounter = std::make_shared<FPSComponent>(fpsObj.get(), fontFPS);
-	fpsObj->SetRelativePos({ 7, 10 });
-	fpsObj->AddComponent(fpsCounter);
-	scene.Add(fpsObj);
-	gameObj->AddChild(fpsObj);
-}
-
-
 void ExplainControls()
 {
 	std::cout << "-----TRON BATTLETANKS-----\nControls:\n"
-		<< "Moving - WASD\n" << "Shooting(has sound) - Arrow Keys\n";
+		<< "Moving - WASD/Left joystick\n" << "Shooting(has sound) - Arrow Keys/Right joystick\n" <<
+		"Other controls are shown in game\n";
 }
 
 void Test()
@@ -126,20 +86,16 @@ void LoadGameScene()
 	}
 
 	ExplainControls();
-
-
-	InputManager::GetInstance().RemoveController(0);
 }
 
  //Sound statics
  std::unique_ptr<SoundSystem> ServiceLocator::m_pSsInstance{ std::make_unique<NullSoundSystem>() };
  //State statics
- std::shared_ptr<WanderState> RecognizerState::m_WanderState = std::make_shared<WanderState>();
- std::shared_ptr<AttackState> RecognizerState::m_AttackState = std::make_shared<AttackState>();
+ std::shared_ptr<WanderState> RecognizerState::m_pWanderState = std::make_shared<WanderState>();
+ std::shared_ptr<AttackState> RecognizerState::m_pAttackState = std::make_shared<AttackState>();
 
 void load()
 {
-	//LoadDaeScene();
 	LoadGameScene();
 	//Test();
 

@@ -111,6 +111,9 @@
     <ClInclude Include="Texture2D.h">
       <Filter>Game Files</Filter>
     </ClInclude>
+    <ClInclude Include="GameHelpers.h">
+      <Filter>Game Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseComponent.cpp">
@@ -154,9 +157,6 @@
     </ClCompile>
     <ClCompile Include="CounterCp.cpp">
       <Filter>Game Files\Component Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Observers.cpp">
-      <Filter>Game Files</Filter>
     </ClCompile>
     <ClCompile Include="Subject.cpp">
       <Filter>Game Files</Filter>

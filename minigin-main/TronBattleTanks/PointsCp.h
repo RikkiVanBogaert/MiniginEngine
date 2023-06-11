@@ -10,11 +10,11 @@ class UIPointsCp;
 class PointsCp final : public dae::ComponentBase
 {
 public:
-	PointsCp(dae::GameObject* owner, int startAmount) :
-		ComponentBase(owner),
-		m_pCounterCp(std::make_unique<dae::CounterCp>(owner, startAmount)) {}
+	PointsCp(dae::GameObject* owner, int startAmount);
 
-	dae::CounterCp* GetCounter() const { return m_pCounterCp.get(); }
+	void ChangeAmount(int difference) const;
+	void SetAmount(int newAmount) const;
+	int GetAmount() const { return m_pCounterCp->GetAmount(); }
 
 	UIPointsCp* GetUIPoints() const { return m_pUIPointsCp; }
 	void SetUIPointsCp(UIPointsCp* pUILives) { m_pUIPointsCp = pUILives; }

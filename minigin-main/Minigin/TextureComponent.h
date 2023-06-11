@@ -16,11 +16,11 @@ namespace dae
 
 
 		void SetTexture(const std::string& filename);
-		glm::vec2 GetTextureSize() const { return m_Texture->GetSize(); }
+		glm::vec2 GetTextureSize() const { return m_pTexture->GetSize(); }
 
 	
 	private:
-		std::shared_ptr<dae::Texture2D> m_Texture{};
+		std::shared_ptr<Texture2D> m_pTexture{};
 	};
 
 }
