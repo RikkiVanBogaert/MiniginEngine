@@ -4,10 +4,11 @@
 #include "BaseComponent.h"
 #include "CounterCp.h"
 
+class UILivesCp;
+
 namespace dae
 {
 	class GameObject;
-	class UILivesCp;
 }
 
 class PlayerLivesCp final : public dae::ComponentBase
@@ -22,10 +23,10 @@ public:
 	int GetAmount() const { return m_pCounterCp->GetAmount(); }
 	dae::CounterCp* GetCounter() const { return m_pCounterCp.get(); }
 
-	dae::UILivesCp* GetUILives() const { return m_pUILivesCp; }
-	void SetUILivesCp(dae::UILivesCp* pUILives) { m_pUILivesCp = pUILives; }
+	UILivesCp* GetUILives() const { return m_pUILivesCp; }
+	void SetUILivesCp(UILivesCp* pUILives) { m_pUILivesCp = pUILives; }
 
 private:
 	std::unique_ptr<dae::CounterCp> m_pCounterCp;
-	dae::UILivesCp* m_pUILivesCp{};
+	UILivesCp* m_pUILivesCp{};
 };

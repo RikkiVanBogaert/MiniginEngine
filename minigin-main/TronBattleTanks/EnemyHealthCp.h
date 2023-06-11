@@ -3,10 +3,11 @@
 
 #include "CounterCp.h"
 
+class UIPointsCp;
+class UILivesCp;
+
 namespace dae
 {
-	class UIPointsCp;
-	class UILivesCp;
 	class GameObject;
 	class CounterCp;
 }

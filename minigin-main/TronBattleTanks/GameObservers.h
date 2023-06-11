@@ -13,7 +13,7 @@ namespace dae
 class LivesObserver : public dae::Observer
 {
 public:
-	LivesObserver(PlayerLivesCp* livesCp, dae::UILivesCp* UILivesCp) :
+	LivesObserver(PlayerLivesCp* livesCp, UILivesCp* UILivesCp) :
 		m_pLivesCp(livesCp), m_pUILivesCp(UILivesCp)
 	{}
 
@@ -34,13 +34,13 @@ public:
 
 private:
 	PlayerLivesCp* m_pLivesCp{};
-	dae::UILivesCp* m_pUILivesCp{};
+	UILivesCp* m_pUILivesCp{};
 };
 
 class PointsObserver : public dae::Observer
 {
 public:
-	PointsObserver(PointsCp* livesCp, dae::UIPointsCp* UILivesCp) :
+	PointsObserver(PointsCp* livesCp, UIPointsCp* UILivesCp) :
 		m_pPointsCp(livesCp), m_pUIPointsCp(UILivesCp)
 	{}
 	virtual ~PointsObserver() override = default;
@@ -65,5 +65,5 @@ public:
 
 private:
 	PointsCp* m_pPointsCp{};
-	dae::UIPointsCp* m_pUIPointsCp{};
+	UIPointsCp* m_pUIPointsCp{};
 };
