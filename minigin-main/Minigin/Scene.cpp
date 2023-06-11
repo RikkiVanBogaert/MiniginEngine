@@ -14,27 +14,30 @@ Scene::~Scene() = default;
 void Scene::Add(std::shared_ptr<GameObject> object)
 {
 	object->SetScene(this);
-	m_Objects.emplace_back(std::move(object));
+	m_pObjects.emplace_back(std::move(object));
 }
 
 void Scene::Remove(const std::shared_ptr<GameObject>& object)
 {
-	if(object->GetParent())
+	//remove children
+	for (const auto& c : object->GetChildren())
 	{
-		object->GetParent()->RemoveChild(object.get());
+		m_pObjects.erase(std::remove(m_pObjects.begin(), m_pObjects.end(), c), m_pObjects.end());
 	}
 
-	m_Objects.erase(std::remove(m_Objects.begin(), m_Objects.end(), object), m_Objects.end());
+	//remove object
+	m_pObjects.erase(std::remove(m_pObjects.begin(), m_pObjects.end(), object), m_pObjects.end());
 }
+
 
 void Scene::RemoveAll()
 {
-	m_Objects.clear();
+	m_pObjects.clear();
 }
 
 void Scene::Update(float deltaTime)
 {
-	for(auto& object : m_Objects)
+	for(auto& object : m_pObjects)
 	{
 		if (!object) return;
 
@@ -49,7 +52,7 @@ void Scene::Update(float deltaTime)
 
 void Scene::FixedUpdate(float deltaTime) const
 {
-	for (auto& object : m_Objects)
+	for (auto& object : m_pObjects)
 	{
 		if (!object) return;
 
@@ -64,7 +67,7 @@ void Scene::FixedUpdate(float deltaTime) const
 
 void Scene::Render() const
 {
-	for (const auto& object : m_Objects)
+	for (const auto& object : m_pObjects)
 	{
 		if (!object) return;
 

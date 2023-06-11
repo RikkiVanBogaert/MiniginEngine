@@ -73,6 +73,9 @@ void GameObject::SetParent(GameObject* parent)
 		m_pParent->RemoveChild(this);
 	}
 	m_pParent = parent;
+
+	if (!parent) return;
+
 	UpdateWorldPos();
 }
 
@@ -83,7 +86,7 @@ GameObject* GameObject::GetParent() const
 
 void GameObject::AddChild(const std::shared_ptr<GameObject>& child)
 {
-	m_pChildren.push_back(child.get());
+	m_pChildren.emplace_back(child);
 	child->SetParent(this);
 
 	if (child->GetScene()) return;
@@ -93,11 +96,18 @@ void GameObject::AddChild(const std::shared_ptr<GameObject>& child)
 
 void GameObject::RemoveChild(GameObject* child)
 {
-	m_pChildren.erase(std::remove(m_pChildren.begin(), m_pChildren.end(), child), m_pChildren.end());
-	//don't remove from scene, just from parent
+	m_pChildren.erase(std::remove_if(m_pChildren.begin(), m_pChildren.end(),
+		[&](const std::shared_ptr<GameObject>& ptr) {
+			return ptr.get() == child;
+		}), m_pChildren.end());
 }
 
-std::vector<GameObject*> GameObject::GetChildren() const
+void GameObject::RemoveAllChildren()
+{
+	m_pChildren.clear();
+}
+
+std::vector<std::shared_ptr<GameObject>> GameObject::GetChildren() const
 {
 	return m_pChildren;
 }
@@ -111,7 +121,7 @@ void GameObject::SetTagIncludingChildren(const std::string& tag)
 	}
 }
 
-void GameObject::SetScene(dae::Scene* scene)
+void GameObject::SetScene(Scene* scene)
 {
 	m_pScene = scene;
 	for(const auto c : m_pChildren)

@@ -65,7 +65,8 @@ namespace dae
 		GameObject* GetParent() const;
 		void AddChild(const std::shared_ptr<GameObject>& child);
 		void RemoveChild(GameObject* child);
-		std::vector<GameObject*> GetChildren() const;
+		void RemoveAllChildren();
+		std::vector<std::shared_ptr<GameObject>> GetChildren() const;
 
 		void SetTag(const std::string& tag) { m_Tag = tag; }
 		void SetTagIncludingChildren(const std::string& tag);
@@ -93,7 +94,7 @@ namespace dae
 		std::vector<std::shared_ptr<ComponentBase>> m_pComponents{};
 
 		GameObject* m_pParent{};
-		std::vector<GameObject*> m_pChildren{};
+		std::vector<std::shared_ptr<GameObject>> m_pChildren{};
 
 		bool m_NeedsDeleting{};
 

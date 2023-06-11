@@ -3,7 +3,6 @@
 
 namespace dae
 {
-
 	class CounterCp final : public ComponentBase
 	{
 	public:
@@ -12,7 +11,6 @@ namespace dae
 		void ChangeAmount(int difference);
 		void SetAmount(int newAmount);
 		int GetAmount() const;
-		int GetCounter() const { return m_Counter; }
 
 	private:
 		int m_Counter{};

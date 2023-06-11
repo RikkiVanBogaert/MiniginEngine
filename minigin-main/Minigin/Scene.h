@@ -20,7 +20,7 @@ namespace dae
 		void Render() const;
 
 		std::string GetName() const { return m_Name; }
-		std::vector<std::shared_ptr<GameObject>> GetGameObjects() {	return m_Objects; }
+		std::vector<std::shared_ptr<GameObject>> GetGameObjects() {	return m_pObjects; }
 		
 		void SetActive(bool isActive) { m_IsActive = isActive; }
 		bool IsActive() { return m_IsActive; }
@@ -35,7 +35,7 @@ namespace dae
 		explicit Scene(const std::string& name);
 
 		std::string m_Name;
-		std::vector < std::shared_ptr<GameObject>> m_Objects{};
+		std::vector < std::shared_ptr<GameObject>> m_pObjects{};
 		
 		bool m_IsActive{};
 

@@ -35,3 +35,11 @@
 100,  
 0,   good
 100,  
+0,  eyo
+100,  oknice
+0,  hmmm 
+0,  jok
+0,  y
+0,  waaa
+100,  yut
+100,  wow
