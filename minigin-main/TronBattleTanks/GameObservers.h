@@ -32,7 +32,7 @@ private:
 class PointsObserver : public dae::Observer
 {
 public:
-	PointsObserver(PointsCp* livesCp, UIPointsCp* UILivesCp);
+	PointsObserver(PointsCp* pointsCp, UIPointsCp* UIPointsCp);
 	virtual ~PointsObserver() override = default;
 
 	PointsObserver(const PointsObserver& other) = delete;

@@ -101,10 +101,6 @@ static void CreateTankController(dae::Scene& scene)
 	const auto bulletCollisionCp = std::make_shared<BulletCollisionCp>(pTank.get());
 	pTank->AddComponent(bulletCollisionCp);
 
-	//Points
-	const auto points = std::make_shared<PointsCp>(pTank.get(), 0);
-	pTank->AddComponent(points);
-
 	//Health
 	const auto health = std::make_shared<PlayerLivesCp>(pTank.get(), 3);
 	pTank->AddComponent(health);

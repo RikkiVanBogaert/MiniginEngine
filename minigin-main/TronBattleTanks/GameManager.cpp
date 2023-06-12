@@ -83,7 +83,7 @@ void GameManager::LevelCreate() const
 		scene->Add(pLivesObject2);
 		players[1]->SetTagIncludingChildren("RedPlayer");
 		players[1]->GetComponent<TextureComponent>()->SetTexture("Resources/Sprites/GreenTank.png");
-		//CreateBlueEnemies(*scene, blueEnemySpawn->GetPos());
+		CreateBlueEnemies(*scene, blueEnemySpawn->GetPos());
 		CreateRecognizers(*scene, recognizerSpawn->GetPos());
 
 		
@@ -104,7 +104,7 @@ void GameManager::LevelCreate() const
 		players[1]->SetTagIncludingChildren("BluePlayer");
 		players[1]->GetComponent<TextureComponent>()->SetTexture("Resources/Sprites/BlueTank.png");
 
-		//CreateBlueEnemies(*scene, blueEnemySpawn->GetPos());
+		CreateBlueEnemies(*scene, blueEnemySpawn->GetPos());
 		CreateRecognizers(*scene, recognizerSpawn->GetPos());
 
 		for (int i{}; i < static_cast<int>(players.size()); ++i)
@@ -141,12 +141,7 @@ void GameManager::ResetScene() const
 void GameManager::NextLevel() const
 {
 	auto& sceneManager = SceneManager::GetInstance();
-	const auto oldScene = sceneManager.GetActiveScene();
-	PlayerManager::GetInstance().RemoveAllPlayersFromScene();
-	for(auto g : oldScene->GetGameObjects())
-	{
-		g->MarkForDeletion();
-	}
+	SceneManager::GetInstance().GetActiveScene()->RemoveAll();
 	sceneManager.NextScene();
 	SkipNonLevels();
 

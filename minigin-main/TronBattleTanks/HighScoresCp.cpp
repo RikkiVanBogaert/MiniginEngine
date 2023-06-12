@@ -42,6 +42,7 @@ void HighScoresCp::EnterName(float deltaTime)
     }
 
     bool quit = false;
+    bool exit{};
     while (!quit)
     {
         SDL_Event e;
@@ -49,7 +50,8 @@ void HighScoresCp::EnterName(float deltaTime)
         {
             if (e.type == SDL_QUIT || e.type == SDLK_ESCAPE) 
             {
-                quit = true; 
+                quit = true;
+                exit = true;
             }
             if (e.type == SDL_KEYUP)
             {
@@ -75,11 +77,14 @@ void HighScoresCp::EnterName(float deltaTime)
         Renderer::GetInstance().Render();
     }
 
+
     m_pText->SetText(m_Name);
     m_NameSet = true;
 
     const auto explanationText = GetComponentInScene<TextComponent>(GetOwner()->GetScene(), "Explanation");
     explanationText->SetText("Reset Game (R/Button B)");
+
+	if (exit) return;
 
     WriteToHighScores(m_Name);
     SortAndGetNames("../Data/Resources/HighScores.txt");

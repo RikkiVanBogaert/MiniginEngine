@@ -30,7 +30,6 @@ void MoveCommand::Execute(bool useStickDir)
 {
 	if (!m_pGameObject || m_pGameObject->NeedsDeleting() || !m_pGameObject->GetScene()->IsActive()) return;
 
-	//Collision
 	auto moveDir = m_Direction;
 
 	if(useStickDir)
@@ -58,7 +57,7 @@ bool MoveCommand::CheckAllMoveDirections(glm::vec2& moveDir) const
 {
 	const auto collisionCp = GetComponentInScene<CollisionCp>(m_pGameObject->GetScene(), "Level");
 
-	if (!collisionCp) return true; /// collisionCp so move freely
+	if (!collisionCp) return true; // no collisionCp so move freely
 
 	if(abs(moveDir.x) > abs(moveDir.y))
 	{
@@ -95,7 +94,7 @@ bool MoveCommand::CheckAllMoveDirections(glm::vec2& moveDir) const
 
 }
 
-ShootCommand::ShootCommand(dae::GameObject* gameObj, const glm::vec2& direction, int controllerIdx,
+ShootCommand::ShootCommand(GameObject* gameObj, const glm::vec2& direction, int controllerIdx,
                            Controller::ControllerStick stick):
 m_pGameObject(gameObj),
 m_Direction(direction),

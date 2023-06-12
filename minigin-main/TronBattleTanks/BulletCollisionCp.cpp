@@ -62,10 +62,10 @@ void BulletCollisionCp::GetHit(const dae::GameObject* gun) const
 
 	//Shooter points
 	if(!gun->GetParent()) return;
-	if(!gun->GetParent()->GetComponent<PointsCp>()) return;
+	//if(!gun->GetParent()->GetComponent<PointsCp>()) return;
 
 
-	if (const auto pointsCp = gun->GetParent()->GetComponent<PointsCp>())
+	if (const auto pointsCp = GetComponentInScene<PointsCp>(GetOwner()->GetScene(), "RedPlayer"))
 	{
 		const auto UIPoints = pointsCp->GetUIPoints();
 		if(GetOwner()->GetTag() == "BlueEnemy")

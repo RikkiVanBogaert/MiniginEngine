@@ -12,8 +12,8 @@ void LivesObserver::OnNotify(std::shared_ptr<ObserverEvent> event)
 	m_pUILivesCp->SetValueText(std::to_string(m_pLivesCp->GetAmount()));
 }
 
-PointsObserver::PointsObserver(PointsCp* livesCp, UIPointsCp* UILivesCp) :
-	m_pPointsCp(livesCp), m_pUIPointsCp(UILivesCp)
+PointsObserver::PointsObserver(PointsCp* pointsCp, UIPointsCp* UIPointsCp) :
+	m_pPointsCp(pointsCp), m_pUIPointsCp(UIPointsCp)
 {}
 
 void PointsObserver::OnNotify(std::shared_ptr<ObserverEvent> event)
