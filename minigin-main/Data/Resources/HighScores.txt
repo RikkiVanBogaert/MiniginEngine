@@ -15,26 +15,20 @@
 0,  oke
 0,  oke2
 0,  typename
-100,  
 0,  works
 0,  oke
 0,  asdf
-0,  
 100,  pointsstillwork
-0,  
 0,  ami
 200,  goed
 100,  ded
-0,  
 200,  davidpan
 300,  okekes
 100,  ya
 0,  damn
 100,  hio
 0,  asdf
-100,  
 0,   good
-100,  
 0,  eyo
 100,  oknice
 0,  hmmm 
@@ -48,8 +42,6 @@
 100,  hola
 0,  recog
 0,  ok
-0,  
-0,  
 500,  eyyy
 0,  okpop
 250,  gek
@@ -57,5 +49,7 @@
 0,  t2
 0,  t3
 0,  jaman
-0,  
 0,  damn
+0, jatoch
+0, why
+0, gh

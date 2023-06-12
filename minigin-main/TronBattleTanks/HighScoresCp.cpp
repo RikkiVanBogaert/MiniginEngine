@@ -36,11 +36,12 @@ void HighScoresCp::EnterName(float deltaTime)
     
 	if(m_Timer < 1)
     {
-		m_Name = " ";
+		//m_Name = " ";
         m_Timer += deltaTime;
         return;
     }
 
+    m_Name = "";
     bool quit = false;
     bool exit{};
     while (!quit)
@@ -72,9 +73,12 @@ void HighScoresCp::EnterName(float deltaTime)
             if(!m_Name.empty())
             	m_pText->SetText(m_Name);
         }
-        m_pText->Update(deltaTime);
-        m_pText->Render();
-        Renderer::GetInstance().Render();
+        if (!m_Name.empty())
+        {
+            m_pText->Update(deltaTime);
+            m_pText->Render();
+            Renderer::GetInstance().Render();
+        }
     }
 
 
